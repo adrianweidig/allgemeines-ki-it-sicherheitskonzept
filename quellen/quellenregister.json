@@ -1,0 +1,1385 @@
+{
+  "$schema": "../schemata/quellenregister.schema.json",
+  "schema_version": "1.0.0",
+  "projektversion": "0.1.0",
+  "dokumentstatus": "ÖFFENTLICH – organisationsneutrale Referenzvorlage",
+  "stichtag": "2026-09-02",
+  "zitierregel": "Herausgeber: Titel, Fassung/Stand, Veröffentlichungsdatum, konkrete Seite oder Abschnitt, öffentliche URL, abgerufen am TT.MM.JJJJ.",
+  "quellen": [
+    {
+      "id": "Q-BMI-001",
+      "oscal_uuid": "6292a64c-f4d5-5364-b3ac-1b3ecb42ae2f",
+      "titel": "Leitlinien für den Einsatz Künstlicher Intelligenz in der Bundesverwaltung",
+      "herausgeber": "Bundesministerium des Innern und für Heimat / Beratungszentrum für Künstliche Intelligenz",
+      "dokumentart": "Behördliche Leitlinie",
+      "fassung": "Erstfassung",
+      "stand": "PDF-Stand 07.04.2025",
+      "veröffentlichungsdatum": "2025-04-07",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.bmi.bund.de/SharedDocs/downloads/DE/publikationen/themen/moderne-verwaltung/ki/BMI25020-leitlinien-ki-bundesverwaltung.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": {
+        "pfad": "quellen/lokale-eingaben/BMI25020-leitlinien-ki-bundesverwaltung.pdf",
+        "dateigröße_bytes": 1022950,
+        "sha256": "ab01cfbbc6beb216fa6cc84774aab927efd192168e254e29a6202d8df229a325",
+        "offizielle_pdf_url": "https://www.bmi.bund.de/SharedDocs/downloads/DE/publikationen/themen/moderne-verwaltung/ki/BMI25020-leitlinien-ki-bundesverwaltung.pdf?__blob=publicationFile&v=4",
+        "offizielle_sha256_am_prüftag": "ab01cfbbc6beb216fa6cc84774aab927efd192168e254e29a6202d8df229a325",
+        "vergleich": "binär-identisch"
+      },
+      "seitenzahl": 32,
+      "geltungsbereich": "Bundesverwaltung; verantwortbarer Einsatz generativer KI",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Amtliches Werk beziehungsweise behördliche Veröffentlichung; Nachnutzung vor Weiterveröffentlichung prüfen.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "S. 25–29",
+          "aussage": "Datensparsamkeit, Schutzbedarf, Rollen, zulässige Infrastruktur, Datenschutz, Nutzungsvorgaben und Ergebnisprüfung."
+        },
+        {
+          "fundstelle": "S. 30",
+          "aussage": "Bewusste Eingabeformulierung und Umgang mit unzutreffenden KI-Ausgaben."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-arc-002",
+        "ki-ext-001",
+        "ki-gel-002",
+        "ki-gov-002",
+        "ki-iam-001",
+        "ki-out-001",
+        "ki-rag-004",
+        "ki-rec-002"
+      ]
+    },
+    {
+      "id": "Q-BSI-001",
+      "oscal_uuid": "2d875bf4-6d55-554f-a746-b2613297ea71",
+      "titel": "Kriterienkatalog des BSI zur Integration von extern bereitgestellten generativen KI-Modellen in eigene Anwendungen",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "dokumentart": "Behördlicher Kriterienkatalog",
+      "fassung": "Version 1.0",
+      "stand": "06.06.2025",
+      "veröffentlichungsdatum": "2025-06-06",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf?__blob=publicationFile&v=3",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": {
+        "pfad": "quellen/lokale-eingaben/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf",
+        "dateigröße_bytes": 353317,
+        "sha256": "f7fcc0e47d9d7891b398dc91aef78c4f3b72cf14c41ac19df0eef580d82a07c3",
+        "offizielle_pdf_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf?__blob=publicationFile&v=3",
+        "offizielle_sha256_am_prüftag": "f7fcc0e47d9d7891b398dc91aef78c4f3b72cf14c41ac19df0eef580d82a07c3",
+        "vergleich": "binär-identisch"
+      },
+      "seitenzahl": 16,
+      "geltungsbereich": "Bundesverwaltung; Integration generativer KI-Modelle in Anwendungen",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Behördliche Veröffentlichung; nur kurze sinngemäße Ableitungen und bibliografische Angaben genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "S. 4–7",
+          "aussage": "Geltungsbereich sowie Bedeutung von MUSS-, SOLLTE- und KANN-Anforderungen."
+        },
+        {
+          "fundstelle": "S. 8–10",
+          "aussage": "KI-Verantwortung, Inventar, Nutzungsregeln, Risikobewertung, Modellwahl und vertrauenswürdige Quellen."
+        },
+        {
+          "fundstelle": "S. 11–13",
+          "aussage": "Lokaler Betrieb, Systemanweisungen, Prompt Injection, Integration in das ISMS, Rollen, Protokollierung und Außerbetriebnahme."
+        },
+        {
+          "fundstelle": "S. 14–16",
+          "aussage": "Robustheit, Fehlverhalten, indirekte Prompt Injection, Poisoning, Datenabfluss, Datenschutz und Verfügbarkeit."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-agt-001",
+        "ki-api-001",
+        "ki-api-002",
+        "ki-arc-001",
+        "ki-arc-002",
+        "ki-ass-001",
+        "ki-con-001",
+        "ki-dec-001",
+        "ki-ext-001",
+        "ki-ext-002",
+        "ki-gel-001",
+        "ki-gov-001",
+        "ki-gov-002",
+        "ki-gov-003",
+        "ki-iam-001",
+        "ki-mod-001",
+        "ki-mod-002",
+        "ki-ops-001",
+        "ki-ops-002",
+        "ki-ops-003",
+        "ki-out-001",
+        "ki-pmt-001",
+        "ki-rag-002",
+        "ki-thr-001",
+        "ki-thr-002",
+        "ki-tol-001",
+        "ki-tol-002",
+        "ki-trn-001",
+        "ki-val-001",
+        "ki-val-002"
+      ]
+    },
+    {
+      "id": "Q-BMVG-001",
+      "oscal_uuid": "037c17df-a3e6-50b6-abc2-fa50a12703e7",
+      "titel": "Künstliche Intelligenz, K-9000/102, Öffentliche Fassung",
+      "herausgeber": "Bundesministerium der Verteidigung",
+      "dokumentart": "Konzeption",
+      "fassung": "K-9000/102, Öffentliche Fassung",
+      "stand": "Gültigkeitsbeginn 09.04.2026",
+      "veröffentlichungsdatum": "2026-08-04",
+      "gültigkeitsdatum": "2026-04-09",
+      "öffentliche_url": "https://www.bmvg.de/resource/blob/6143700/9954e2b6b993b17cd3d09ca31c506774/dl-ki-konzeption-data.pdf",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": {
+        "pfad": "quellen/lokale-eingaben/dl-ki-konzeption-data.pdf",
+        "dateigröße_bytes": 882053,
+        "sha256": "c41a993a3a4278818cd58f48f6987ccacfd6bd5f3884e39b0485dfe8ae9e999f",
+        "offizielle_dateigröße_bytes_am_prüftag": 903644,
+        "offizielle_sha256_am_prüftag": "e1860e6988ccbb298b5e65473880719b6a3fe90caf4c589c16395b43c9e35c63",
+        "normalisierter_text_sha256_beider_fassungen": "74f335c963ff32bfd15f771f9e754b74e5eee4e4f11e428e2dd8961fc0f72ac2",
+        "vergleich": "binär-abweichend; 54 Seiten und normalisierter Text identisch"
+      },
+      "seitenzahl": 54,
+      "geltungsbereich": "Geschäftsbereich des Bundesministeriums der Verteidigung; strategische KI-Governance",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Öffentliche amtliche Fassung; nur kurze sinngemäße Ableitungen und bibliografische Angaben genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "S. 23–26",
+          "aussage": "Architektur, Daten, Protokollierung, Lebenszyklus-Risikomanagement, Transparenz und Nachvollziehbarkeit."
+        },
+        {
+          "fundstelle": "S. 28–34",
+          "aussage": "Rollen, Verifikation und Validierung, Freigabe, menschliche Kontrolle, Monitoring, Datenschutz und Governance."
+        },
+        {
+          "fundstelle": "S. 45–50",
+          "aussage": "Lebenszyklus, Audits sowie Risiken aus Daten, Prompt Injection, Drift, Fehlantworten und Lieferketten."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-arc-001",
+        "ki-ass-001",
+        "ki-dec-001",
+        "ki-gov-001",
+        "ki-gov-003",
+        "ki-mod-002",
+        "ki-ops-001",
+        "ki-ops-002",
+        "ki-ops-003",
+        "ki-out-001",
+        "ki-trn-001",
+        "ki-val-001",
+        "ki-val-002"
+      ]
+    },
+    {
+      "id": "Q-BSI-SDT-001",
+      "oscal_uuid": "16f5b85a-bc90-56b4-a934-8515feed7294",
+      "titel": "Stand-der-Technik-Bibliothek",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "dokumentart": "OSCAL-Repository",
+      "fassung": "Commit 8a97764ff4f23c2b7945c64344eecbf5a2053db2",
+      "stand": "Commit vom 27.08.2026",
+      "veröffentlichungsdatum": "2026-08-27",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://github.com/BSI-Bund/Stand-der-Technik-Bibliothek/commit/8a97764ff4f23c2b7945c64344eecbf5a2053db2",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Technische OSCAL-Strukturen und öffentliche BSI-Zuordnungen",
+      "autoritätsstufe": "4-veröffentlichte-bsi-struktur",
+      "lizenz_und_wiederverwendung": "CC BY-SA 4.0 laut Repository-Lizenz.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Repository-Inhalt und OSCAL-Katalog am fixierten Commit",
+          "aussage": "Öffentliche BSI-Struktur, Kontrollkennungen und OSCAL-Zuordnungen als technische Referenz."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-NIST-OSCAL-001",
+      "oscal_uuid": "a03a5102-f34a-5dde-992c-3b6ecd618a04",
+      "titel": "OSCAL Version 1.1.3 – Catalog JSON Schema",
+      "herausgeber": "National Institute of Standards and Technology",
+      "dokumentart": "Technischer Standard und JSON-Schema",
+      "fassung": "OSCAL 1.1.3",
+      "stand": "Release vom 26.11.2024",
+      "veröffentlichungsdatum": "2024-11-26",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://github.com/usnistgov/OSCAL/releases/download/v1.1.3/oscal_catalog_schema.json",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Maschinenlesbares OSCAL-Katalogformat",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "Werk der US-Bundesverwaltung; NIST-Lizenz- und Nutzungshinweise gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Gesamtes Catalog-JSON-Schema",
+          "aussage": "Verbindliches technisches Austauschformat des Katalogs."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-EU-001",
+      "oscal_uuid": "6094501b-03f0-58b0-a662-f2ea0f96ea97",
+      "titel": "Verordnung (EU) 2024/1689 über künstliche Intelligenz",
+      "herausgeber": "Europäische Union",
+      "dokumentart": "Rechtsakt",
+      "fassung": "ABl. L 2024/1689",
+      "stand": "Konsolidierter Stand am 02.09.2026 geprüft",
+      "veröffentlichungsdatum": "2024-07-12",
+      "gültigkeitsdatum": "2024-08-01",
+      "öffentliche_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Rechtliche Anwendbarkeit von KI-Systemen in der Europäischen Union",
+      "autoritätsstufe": "1-recht",
+      "lizenz_und_wiederverwendung": "Amtlicher EU-Rechtsakt; EUR-Lex-Nachnutzungsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Art. 2–4",
+          "aussage": "Anwendungsbereich, Begriffe und KI-Kompetenz."
+        },
+        {
+          "fundstelle": "Art. 9–15",
+          "aussage": "Risikomanagement, Daten, Dokumentation, Protokollierung, Transparenz, menschliche Aufsicht, Genauigkeit, Robustheit und Cybersicherheit."
+        },
+        {
+          "fundstelle": "Art. 26 und 27",
+          "aussage": "Pflichten von Betreibern und Grundrechte-Folgenabschätzung in anwendbaren Fällen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-ext-001",
+        "ki-gov-001",
+        "ki-gov-002",
+        "ki-rec-001"
+      ]
+    },
+    {
+      "id": "Q-BFDI-001",
+      "oscal_uuid": "3395fea4-03ed-58a1-b1c0-7df6325cba84",
+      "titel": "KI in Behörden – Datenschutz von Anfang an mitdenken",
+      "herausgeber": "Die Bundesbeauftragte für den Datenschutz und die Informationsfreiheit",
+      "dokumentart": "Behördliche Handreichung",
+      "fassung": "Handreichung für die Bundesverwaltung",
+      "stand": "22.12.2025",
+      "veröffentlichungsdatum": "2025-12-22",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.bfdi.bund.de/SharedDocs/Downloads/DE/DokumenteBfDI/Dokumente-allg/2025/Handreichung-KI.pdf?__blob=publicationFile&v=3",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": 46,
+      "geltungsbereich": "Bundesverwaltung; Datenschutz bei LLM-basierten KI-Systemen",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Behördliche Veröffentlichung; Nachnutzungsbedingungen der BfDI beachten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Kap. 1–3",
+          "aussage": "Anwendbarkeit, Verantwortlichkeiten, Rechtsgrundlage und Datenschutz-Folgenabschätzung."
+        },
+        {
+          "fundstelle": "Kap. 4–7",
+          "aussage": "Datenschutz durch Technikgestaltung, Betroffenenrechte, Transparenz und Aufsicht."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-ext-001",
+        "ki-rag-002",
+        "ki-rag-003",
+        "ki-rec-001"
+      ]
+    },
+    {
+      "id": "Q-DSK-001",
+      "oscal_uuid": "bd2170d1-b060-561a-b55c-b0b1887ecf14",
+      "titel": "Künstliche Intelligenz und Datenschutz",
+      "herausgeber": "Konferenz der unabhängigen Datenschutzaufsichtsbehörden des Bundes und der Länder",
+      "dokumentart": "Orientierungshilfe",
+      "fassung": "Version 1.0",
+      "stand": "06.05.2024",
+      "veröffentlichungsdatum": "2024-05-06",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.datenschutzkonferenz-online.de/media/oh/20240506_DSK_Orientierungshilfe_KI_und_Datenschutz.pdf",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": 15,
+      "geltungsbereich": "Datenschutzkonformer Einsatz von KI-Anwendungen",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Behördliche Orientierungshilfe; nur kurze sinngemäße Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Gesamtdokument, insbesondere Auswahl, Einführung, Nutzung und Beendigung",
+          "aussage": "Datenschutzrechtliche Kriterien über den KI-Lebenszyklus."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-dec-001",
+        "ki-rec-001"
+      ]
+    },
+    {
+      "id": "Q-DSK-002",
+      "oscal_uuid": "a9a98cae-d308-5a7f-8ceb-aa2423fb5b9f",
+      "titel": "Orientierungshilfe zu empfohlenen technischen und organisatorischen Maßnahmen bei der Entwicklung und beim Betrieb von KI-Systemen",
+      "herausgeber": "Konferenz der unabhängigen Datenschutzaufsichtsbehörden des Bundes und der Länder",
+      "dokumentart": "Orientierungshilfe",
+      "fassung": "Version 1.0",
+      "stand": "Juni 2025",
+      "veröffentlichungsdatum": "2025-06-17",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.datenschutzkonferenz-online.de/media/oh/DSK-OH_KI-Systeme.pdf",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": 28,
+      "geltungsbereich": "Technische und organisatorische Datenschutzmaßnahmen für KI-Systeme",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Behördliche Orientierungshilfe; nur kurze sinngemäße Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Kap. 2–6",
+          "aussage": "Schutzziele, Rollen, Daten-, Modell-, Eingabe-, Ausgabe-, Protokollierungs- und Betriebsmaßnahmen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-iam-001",
+        "ki-ops-001",
+        "ki-rag-001",
+        "ki-rag-003"
+      ]
+    },
+    {
+      "id": "Q-DSK-003",
+      "oscal_uuid": "69a206c9-4dc8-57e3-8562-2c023b56ef86",
+      "titel": "Orientierungshilfe zu datenschutzrechtlichen Besonderheiten generativer KI-Systeme mit RAG-Methode",
+      "herausgeber": "Konferenz der unabhängigen Datenschutzaufsichtsbehörden des Bundes und der Länder",
+      "dokumentart": "Orientierungshilfe",
+      "fassung": "Version 1.0",
+      "stand": "Oktober 2025",
+      "veröffentlichungsdatum": "2025-10-17",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.datenschutzkonferenz-online.de/media/oh/DSK_OH_RAG.pdf",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": 18,
+      "geltungsbereich": "Datenschutzrechtliche Besonderheiten lokaler RAG-Verfahren",
+      "autoritätsstufe": "3-offizielle-empfehlung",
+      "lizenz_und_wiederverwendung": "Behördliche Orientierungshilfe; nur kurze sinngemäße Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Kap. 2–5",
+          "aussage": "Verantwortlichkeiten, Rechtsgrundlagen, Datenminimierung, Zugriffssteuerung, Transparenz, Löschung und Risiken von RAG."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-rag-001",
+        "ki-rag-002",
+        "ki-rag-003",
+        "ki-rag-004",
+        "ki-rec-002"
+      ]
+    },
+    {
+      "id": "Q-NIST-001",
+      "oscal_uuid": "4c121736-dc1b-5c2d-a2ed-fc383a756d9f",
+      "titel": "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+      "herausgeber": "National Institute of Standards and Technology",
+      "dokumentart": "Behördliches Risikomanagementprofil",
+      "fassung": "NIST AI 600-1",
+      "stand": "26.07.2024",
+      "veröffentlichungsdatum": "2024-07-26",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Generative-KI-Risikomanagement",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "Werk der US-Bundesverwaltung; NIST-Nutzungshinweise gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Profile actions for Govern, Map, Measure and Manage",
+          "aussage": "Generative-KI-spezifische Risikosteuerung, Evaluation und Nachweise."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-ass-001",
+        "ki-gov-003",
+        "ki-ops-002",
+        "ki-thr-002",
+        "ki-tol-001",
+        "ki-val-001"
+      ]
+    },
+    {
+      "id": "Q-NIST-002",
+      "oscal_uuid": "a8954ebc-01dc-5177-ba62-2b80a2b367e7",
+      "titel": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations",
+      "herausgeber": "National Institute of Standards and Technology",
+      "dokumentart": "Behördliche Taxonomie",
+      "fassung": "NIST AI 100-2 E2025",
+      "stand": "Finalfassung 2025",
+      "veröffentlichungsdatum": "2025-03-24",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://csrc.nist.gov/pubs/ai/100/2/e2025/final",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Adversariale Angriffe auf KI-Systeme",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "Werk der US-Bundesverwaltung; NIST-Nutzungshinweise gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Taxonomie der Angriffe und Abhilfen",
+          "aussage": "Adversariale Angriffe, Poisoning, Evasion, Datenschutzangriffe und Gegenmaßnahmen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-pmt-001",
+        "ki-thr-001"
+      ]
+    },
+    {
+      "id": "Q-ENISA-001",
+      "oscal_uuid": "8c3c1947-8724-5c40-88db-d5fffc6ab5b8",
+      "titel": "Multilayer Framework for Good Cybersecurity Practices for AI",
+      "herausgeber": "European Union Agency for Cybersecurity",
+      "dokumentart": "Behördliches Rahmenwerk",
+      "fassung": "Erstveröffentlichung",
+      "stand": "2023",
+      "veröffentlichungsdatum": "2023-11-15",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.enisa.europa.eu/publications/multilayer-framework-for-good-cybersecurity-practices-for-ai",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheit und verantwortbarer KI-Einsatz",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "EU-Veröffentlichung; ENISA-Nachnutzungsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Multilayer framework und good practices",
+          "aussage": "Mehrschichtige Absicherung von KI-Komponenten, Infrastruktur und Organisation."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-arc-001",
+        "ki-con-002"
+      ]
+    },
+    {
+      "id": "Q-NCSC-001",
+      "oscal_uuid": "764cba6d-0034-521d-89dd-13b2075337e7",
+      "titel": "Guidelines for Secure AI System Development",
+      "herausgeber": "UK National Cyber Security Centre und internationale Partner",
+      "dokumentart": "Gemeinsame Behördenleitlinie",
+      "fassung": "Version 1.0",
+      "stand": "November 2023",
+      "veröffentlichungsdatum": "2023-11-26",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development/about-this-document",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheit und verantwortbarer KI-Einsatz",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "Offizielle Behördenveröffentlichung; NCSC-Nachnutzungsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Secure design, development, deployment, operation and maintenance",
+          "aussage": "Sicherheitsmaßnahmen über den KI-Systemlebenszyklus."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-arc-002",
+        "ki-con-002",
+        "ki-mod-001",
+        "ki-ops-003",
+        "ki-tol-002"
+      ]
+    },
+    {
+      "id": "Q-OWASP-001",
+      "oscal_uuid": "4192eba8-a0f1-5b6a-8f1d-9be1d6d84f34",
+      "titel": "OWASP Top 10 for Large Language Model Applications",
+      "herausgeber": "OWASP Foundation",
+      "dokumentart": "Informative Bedrohungssammlung",
+      "fassung": "Ausgabe 2025",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheit und verantwortbarer KI-Einsatz",
+      "autoritätsstufe": "6-informativer-bedrohungskatalog",
+      "lizenz_und_wiederverwendung": "CC BY-SA 4.0 laut Projektangaben; nur Kennungen und sinngemäße Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "LLM Top 10 2025",
+          "aussage": "Prompt Injection, Datenabfluss, Lieferkette, unsichere Ausgabe, übermäßige Handlungsfreiheit und Ressourcenverbrauch."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-api-002",
+        "ki-mod-001",
+        "ki-pmt-001",
+        "ki-rag-001",
+        "ki-thr-001",
+        "ki-thr-002",
+        "ki-tol-001",
+        "ki-tol-002"
+      ]
+    },
+    {
+      "id": "Q-MITRE-001",
+      "oscal_uuid": "9fa838d1-8a2e-53e2-9fb4-ae6cc30937e0",
+      "titel": "MITRE ATLAS",
+      "herausgeber": "The MITRE Corporation",
+      "dokumentart": "Informative Wissensbasis",
+      "fassung": "Laufend gepflegte Wissensbasis",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://atlas.mitre.org/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheit und verantwortbarer KI-Einsatz",
+      "autoritätsstufe": "6-informativer-bedrohungskatalog",
+      "lizenz_und_wiederverwendung": "MITRE-Nutzungsbedingungen gelten; nur Kennungen und sinngemäße Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Tactics and techniques",
+          "aussage": "Angriffswege gegen KI-Systeme und zugehörige Abwehrperspektiven."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-thr-001"
+      ]
+    },
+    {
+      "id": "Q-K8S-001",
+      "oscal_uuid": "65771ba4-d22a-5a6b-baa4-6a1db8ca4e9b",
+      "titel": "Kubernetes API Reference: NetworkPolicy v1",
+      "herausgeber": "The Kubernetes Authors",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://kubernetes.io/docs/reference/kubernetes-api/networking/network-policy-v1/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Kubernetes-Netzwerksegmentierung",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "CC BY 4.0 laut Kubernetes-Dokumentation.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "NetworkPolicySpec, ingress und egress",
+          "aussage": "Selektive Begrenzung ein- und ausgehender Pod-Kommunikation."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-con-001"
+      ]
+    },
+    {
+      "id": "Q-DOCKER-001",
+      "oscal_uuid": "efaa1041-1371-50fe-8540-4d3d89a7b1b7",
+      "titel": "Rootless mode",
+      "herausgeber": "Docker, Inc.",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.docker.com/engine/security/rootless/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Containerhärtung mit Docker",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Docker-Dokumentationsbedingungen gelten; nur technische Tatsachen sinngemäß genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Rootless mode",
+          "aussage": "Betrieb von Docker-Daemon und Containern ohne Root-Rechte."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-con-002"
+      ]
+    },
+    {
+      "id": "Q-PODMAN-001",
+      "oscal_uuid": "6c2a56d0-6d53-56e4-a7ac-f6a7212a56a6",
+      "titel": "podman-network",
+      "herausgeber": "Podman Project",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.podman.io/en/latest/markdown/podman-network.1.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Container-Netzwerke mit Podman",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Apache License 2.0 für das Projekt; Dokumentationsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Network management und network create",
+          "aussage": "Explizite lokale Container-Netze und Netzwerkkonfiguration."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-con-001"
+      ]
+    },
+    {
+      "id": "Q-OLLAMA-001",
+      "oscal_uuid": "876fd78b-463c-50d8-b127-489942f293f9",
+      "titel": "Authentication",
+      "herausgeber": "Ollama",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.ollama.com/api/authentication",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Authentisierungsgrenze lokaler Ollama-Schnittstellen",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Ollama-Dokumentationsbedingungen gelten; nur technische Tatsachen sinngemäß genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Local access",
+          "aussage": "Die lokale Ollama-API auf localhost verlangt nach Herstellerangabe keine Authentisierung."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-api-001"
+      ]
+    },
+    {
+      "id": "Q-VLLM-001",
+      "oscal_uuid": "7696332b-1d1e-5a77-a0a6-228d71527327",
+      "titel": "Security",
+      "herausgeber": "vLLM Project",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.vllm.ai/en/stable/usage/security/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Sicherheitsgrenzen des vLLM-API-Servers",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Apache License 2.0 für das Projekt; Dokumentationsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Security und API server",
+          "aussage": "API-Schlüssel decken nicht automatisch jede sensible Schnittstelle ab; interne Kommunikationsschnittstellen benötigen eigene Grenzen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-api-001",
+        "ki-api-002"
+      ]
+    },
+    {
+      "id": "Q-OPENWEBUI-001",
+      "oscal_uuid": "0f2fc3cd-d407-598e-b954-2818eace4361",
+      "titel": "Starting with OpenAI-compatible providers",
+      "herausgeber": "Open WebUI",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.openwebui.com/getting-started/quick-start/connect-a-provider/starting-with-openai-compatible/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Lokale Chat-Oberfläche und kompatible Inferenzschnittstellen",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Open-WebUI-Dokumentationsbedingungen gelten; nur technische Tatsachen sinngemäß genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Connection to OpenAI-compatible providers",
+          "aussage": "Lokale Anbindung kompatibler Inferenzschnittstellen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-agt-002"
+      ]
+    },
+    {
+      "id": "Q-OPENWEBUI-002",
+      "oscal_uuid": "7353551e-25ec-5bc5-8aa2-dd855684c407",
+      "titel": "API Endpoints",
+      "herausgeber": "Open WebUI",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://docs.openwebui.com/reference/api-endpoints/",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Authentisierung der lokalen Chat-Oberfläche",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Open-WebUI-Dokumentationsbedingungen gelten; nur technische Tatsachen sinngemäß genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Authentication und API endpoints",
+          "aussage": "Authentisierte Nutzung lokaler Open-WebUI-Schnittstellen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-api-001"
+      ]
+    },
+    {
+      "id": "Q-CLINE-001",
+      "oscal_uuid": "a02efd0e-c1e3-54fb-a5c5-ee056b82f1bc",
+      "titel": "Cline Model Providers",
+      "herausgeber": "Cline Bot Inc.",
+      "dokumentart": "Offizielle Produktdokumentation im Quellrepository",
+      "fassung": "Commit 0b0ca9b1fa95ed9f3e0891a34f1f9b3904309710",
+      "stand": "Commit vom 12.05.2026",
+      "veröffentlichungsdatum": "2026-05-12",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://github.com/cline/cline/blob/0b0ca9b1fa95ed9f3e0891a34f1f9b3904309710/docs/sdk/model-providers.mdx",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Agentischer Client und kompatible lokale Modellprovider",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Apache License 2.0 laut Repository; nur kurze technische Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "OpenAI-Compatible Providers",
+          "aussage": "Konfigurierbare kompatible Endpunkte und Providerparameter für agentische Clients."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-agt-001",
+        "ki-agt-002",
+        "ki-ext-002"
+      ]
+    },
+    {
+      "id": "Q-OPENCODE-001",
+      "oscal_uuid": "bf49b0a8-ac88-5e0a-9237-d92c3f9af287",
+      "titel": "OpenCode Models",
+      "herausgeber": "Anomaly Innovations Inc.",
+      "dokumentart": "Offizielle Produktdokumentation",
+      "fassung": "Version 2, Online-Dokumentation",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://opencode.ai/v2/docs/models",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Agentischer Client und lokale Modellprovider",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "Dokumentationsbedingungen des Herausgebers gelten; nur technische Tatsachen sinngemäß genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Local models und provider configuration",
+          "aussage": "Konfiguration lokaler beziehungsweise OpenAI-kompatibler Modellendpunkte."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-agt-001",
+        "ki-agt-002",
+        "ki-ext-002"
+      ]
+    },
+    {
+      "id": "Q-LLAMACPP-001",
+      "oscal_uuid": "210e3c74-2fe6-5a42-afa6-82ae1233fb33",
+      "titel": "llama.cpp",
+      "herausgeber": "ggml-org",
+      "dokumentart": "Offizielles Quellrepository und Dokumentation",
+      "fassung": "Commit ccc8fd2baa64ab26c7210b02765d3604069ec7ee",
+      "stand": "README-Stand 23.08.2026",
+      "veröffentlichungsdatum": "2026-08-23",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://github.com/ggml-org/llama.cpp/tree/ccc8fd2baa64ab26c7210b02765d3604069ec7ee",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Lokaler Inferenzserver",
+      "autoritätsstufe": "7-offizielle-produktdokumentation",
+      "lizenz_und_wiederverwendung": "MIT License laut Repository; nur kurze technische Ableitungen genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "README und llama-server-Verweise",
+          "aussage": "Lokale Inferenz und lokale API-Server-Funktion als Produktbeispiel."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-agt-002"
+      ]
+    },
+    {
+      "id": "Q-DAKKS-001",
+      "oscal_uuid": "9bbdc1e3-2ec8-5efe-869f-66c591a2f264",
+      "titel": "Was ist Akkreditierung?",
+      "herausgeber": "Deutsche Akkreditierungsstelle GmbH",
+      "dokumentart": "Offizielle Informationsseite",
+      "fassung": "Online-Information",
+      "stand": "Abrufstand 02.09.2026",
+      "veröffentlichungsdatum": null,
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.dakks.de/de/was-ist-akkreditierung.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Abgrenzung von Akkreditierung und Zertifizierung",
+      "autoritätsstufe": "5-internationale-behördenquelle",
+      "lizenz_und_wiederverwendung": "Informationsseite; DAkkS-Nutzungsbedingungen gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Begriffsdefinition Akkreditierung",
+          "aussage": "Akkreditierung bestätigt die Kompetenz von Konformitätsbewertungsstellen und ist kein Zertifikat dieses Projekts."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-BSIG-001",
+      "oscal_uuid": "aa6dd2c3-bb56-5244-adc6-11c8e2a469fe",
+      "titel": "Gesetz über das Bundesamt für Sicherheit in der Informationstechnik und über die Sicherheit in der Informationstechnik von Einrichtungen",
+      "herausgeber": "Bundesrepublik Deutschland",
+      "dokumentart": "Rechtsquelle",
+      "fassung": "BSIG 2025",
+      "stand": "Konsolidierter Stand am 02.09.2026 geprüft",
+      "veröffentlichungsdatum": "2025-12-02",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.gesetze-im-internet.de/bsig_2025/BJNR12D0B0025.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheitsrecht; organisationsspezifische Anwendbarkeitsprüfung",
+      "autoritätsstufe": "1-recht",
+      "lizenz_und_wiederverwendung": "Amtlicher Gesetzestext; Nutzung nach den Bedingungen von Gesetze im Internet.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Anwendungsbezogen zu prüfende Vorschriften",
+          "aussage": "Adressatenbezogene gesetzliche Anforderungen sind organisationsspezifisch festzustellen."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-SUEG-001",
+      "oscal_uuid": "edc4fb53-c873-525a-bded-f296741aebdf",
+      "titel": "Sicherheitsüberprüfungsgesetz, § 4 Verschlusssachen",
+      "herausgeber": "Bundesrepublik Deutschland",
+      "dokumentart": "Rechtsquelle",
+      "fassung": "SÜG",
+      "stand": "Konsolidierter Stand am 02.09.2026 geprüft",
+      "veröffentlichungsdatum": "1994-04-20",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.gesetze-im-internet.de/s_g/__4.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Geheimschutz und Verschlusssachen",
+      "autoritätsstufe": "1-recht",
+      "lizenz_und_wiederverwendung": "Amtlicher Gesetzestext; Nutzung nach den Bedingungen von Gesetze im Internet.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "§ 4",
+          "aussage": "Begriffliche Grundlage für Verschlusssachen und organisationsspezifische Geheimschutzprüfung."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-gel-002",
+        "ki-rec-002"
+      ]
+    },
+    {
+      "id": "Q-VSA-001",
+      "oscal_uuid": "fd2fc1a9-5559-58f5-83b4-48f38c960951",
+      "titel": "Allgemeine Verwaltungsvorschrift zum materiellen Geheimschutz",
+      "herausgeber": "Bundesministerium des Innern und für Heimat",
+      "dokumentart": "Verwaltungsvorschrift",
+      "fassung": "Verschlusssachenanweisung",
+      "stand": "Konsolidierter Stand am 02.09.2026 geprüft",
+      "veröffentlichungsdatum": "2023-03-13",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.verwaltungsvorschriften-im-internet.de/bsvwvbund_13032023_SII554001405.htm",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Materieller Geheimschutz",
+      "autoritätsstufe": "1-recht",
+      "lizenz_und_wiederverwendung": "Amtliche Verwaltungsvorschrift; Nachnutzungsbedingungen der Veröffentlichungsstelle gelten.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Allgemeine Einstufungs- und Handhabungsregeln",
+          "aussage": "Formale Einstufung und Handhabung erfolgen ausschließlich durch befugte Organisationsstellen."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-gel-002",
+        "ki-rec-002"
+      ]
+    },
+    {
+      "id": "Q-ISO-27001",
+      "oscal_uuid": "b7e623cf-8892-5f2c-838f-e3b0c6475296",
+      "titel": "Information security, cybersecurity and privacy protection — Information security management systems — Requirements",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 27001:2022",
+      "stand": "ISO-Metadaten, Ausgabe 2022-10",
+      "veröffentlichungsdatum": "2022-10-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/27001",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "ISMS-Anforderungen und Risikomanagement",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu ISMS-Anforderungen und Risikomanagement."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-gel-001"
+      ]
+    },
+    {
+      "id": "Q-ISO-27002",
+      "oscal_uuid": "549ad943-8ed1-55ba-8093-9f6e7dc8b8bf",
+      "titel": "Information security, cybersecurity and privacy protection — Information security controls",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 27002:2022",
+      "stand": "ISO-Metadaten, Ausgabe 2022-02",
+      "veröffentlichungsdatum": "2022-02-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/75652.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Informationssicherheitsmaßnahmen",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu Informationssicherheitsmaßnahmen."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-ISO-42001",
+      "oscal_uuid": "6ec935e0-2835-5899-a4b0-94d37801469b",
+      "titel": "Information technology — Artificial intelligence — Management system",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 42001:2023",
+      "stand": "ISO-Metadaten, Ausgabe 2023-12",
+      "veröffentlichungsdatum": "2023-12-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/42001",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "KI-Managementsystem",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu KI-Managementsystem."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-ISO-23894",
+      "oscal_uuid": "d1609575-0269-50d4-a0c2-bf6f4f0ef1a0",
+      "titel": "Information technology — Artificial intelligence — Guidance on risk management",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 23894:2023",
+      "stand": "ISO-Metadaten, Ausgabe 2023-02",
+      "veröffentlichungsdatum": "2023-02-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/77304.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "KI-Risikomanagement",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu KI-Risikomanagement."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-ISO-42005",
+      "oscal_uuid": "6b58b847-6bdc-5cd9-b7ac-726ca9e4c9bf",
+      "titel": "Information technology — Artificial intelligence (AI) — AI system impact assessment",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 42005:2025",
+      "stand": "ISO-Metadaten, Ausgabe 2025-05",
+      "veröffentlichungsdatum": "2025-05-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/42005",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "KI-Folgenabschätzung",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu KI-Folgenabschätzung."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-ISO-5338",
+      "oscal_uuid": "40deb0ae-c473-5762-b677-0cb075dfebf9",
+      "titel": "Information technology — Artificial intelligence — AI system life cycle processes",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 5338:2023",
+      "stand": "ISO-Metadaten, Ausgabe 2023-12",
+      "veröffentlichungsdatum": "2023-12-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/81118.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "KI-Systemlebenszyklus",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu KI-Systemlebenszyklus."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-mod-002",
+        "ki-trn-001",
+        "ki-val-002"
+      ]
+    },
+    {
+      "id": "Q-ISO-5259",
+      "oscal_uuid": "7eb63003-e492-584f-b06e-8e63001f8e82",
+      "titel": "Artificial intelligence — Data quality for analytics and machine learning (ML) — Part 1",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 5259-1:2024",
+      "stand": "ISO-Metadaten, Ausgabe 2024-07",
+      "veröffentlichungsdatum": "2024-07-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/81088.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Datenqualität",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu Datenqualität."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    },
+    {
+      "id": "Q-ISO-25059",
+      "oscal_uuid": "ea735b83-473d-5194-b186-9aa8acf20397",
+      "titel": "Software engineering — SQuaRE — Quality model for AI systems",
+      "herausgeber": "International Organization for Standardization / International Electrotechnical Commission",
+      "dokumentart": "Öffentliche Normmetadaten",
+      "fassung": "ISO/IEC 25059:2023",
+      "stand": "ISO-Metadaten, Ausgabe 2023-06",
+      "veröffentlichungsdatum": "2023-06-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.iso.org/standard/80655.html",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Qualitätsmodell für KI-Systeme",
+      "autoritätsstufe": "5-internationale-standardisierungsquelle",
+      "lizenz_und_wiederverwendung": "Proprietärer Normtext; ausschließlich öffentliche Metadaten und Normkennungen genutzt. Lizenzierte Normfassung für Konformitätsprüfung erforderlich.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2026-12-01",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "Öffentliche Titelseite, Abstract und Metadaten",
+          "aussage": "Zulässige Kennungen und Metadaten für eine orientierende Zuordnung zu Qualitätsmodell für KI-Systeme."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-val-001"
+      ]
+    },
+    {
+      "id": "Q-BSI-GSK-001",
+      "oscal_uuid": "551720bf-d510-5d0f-b880-02fd062b9421",
+      "titel": "IT-Grundschutz-Kompendium – öffentliche Baustein- und Anforderungskennungen",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "dokumentart": "Öffentliche Strukturreferenz",
+      "fassung": "Über die Stand-der-Technik-Bibliothek fixierte Referenz",
+      "stand": "Commitstand 27.08.2026",
+      "veröffentlichungsdatum": "2026-08-27",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://github.com/BSI-Bund/Stand-der-Technik-Bibliothek/tree/8a97764ff4f23c2b7945c64344eecbf5a2053db2",
+      "abrufdatum": "2026-09-02",
+      "letzte_inhaltsprüfung": "2026-09-02",
+      "lokale_fassung": null,
+      "seitenzahl": null,
+      "geltungsbereich": "Orientierende IT-Grundschutz-Zuordnung",
+      "autoritätsstufe": "4-veröffentlichte-bsi-struktur",
+      "lizenz_und_wiederverwendung": "CC BY-SA 4.0 laut Repository-Lizenz.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": null,
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-02",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "OSCAL-Katalog am fixierten Commit",
+          "aussage": "Orientierende Zuordnung zu veröffentlichten IT-Grundschutz-Kennungen ohne Übernahme vollständiger Anforderungstexte."
+        }
+      ],
+      "abgeleitete_kontrollen": []
+    }
+  ]
+}

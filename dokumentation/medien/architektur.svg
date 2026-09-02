@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="titel beschreibung">
+  <title id="titel">Lokale KI-Referenzarchitektur</title>
+  <desc id="beschreibung">Verwaltete Clients greifen über HTTPS und einen lokalen kontrollierten KI-Zugang auf eine getrennte KI-Serverzone ohne Internet-Egress zu.</desc>
+  <rect width="1200" height="520" fill="#f7f9fc"/>
+  <text x="600" y="52" text-anchor="middle" font-family="Calibri,Arial,sans-serif" font-size="30" fill="#17365d">Vollständig lokale KI-Referenzarchitektur</text>
+  <g font-family="Calibri,Arial,sans-serif" fill="#17365d" stroke="#2e74b5" stroke-width="2">
+    <rect x="55" y="115" width="260" height="270" rx="12" fill="#ffffff"/>
+    <rect x="470" y="145" width="260" height="210" rx="12" fill="#e8eef5"/>
+    <rect x="885" y="85" width="260" height="330" rx="12" fill="#ffffff"/>
+    <text x="185" y="155" text-anchor="middle" font-size="22">Verwaltete Clients</text>
+    <text x="185" y="205" text-anchor="middle" font-size="18">Browser und Chat</text>
+    <text x="185" y="240" text-anchor="middle" font-size="18">agentische Werkzeuge</text>
+    <text x="185" y="275" text-anchor="middle" font-size="18">lokales Git</text>
+    <text x="185" y="335" text-anchor="middle" font-size="16">Fernzugriff nur über</text>
+    <text x="185" y="360" text-anchor="middle" font-size="16">Organisations-VPN + MFA</text>
+    <text x="600" y="185" text-anchor="middle" font-size="22">Kontrollierter KI-Zugang</text>
+    <text x="600" y="225" text-anchor="middle" font-size="17">lokaler IdP · Rollen · TLS</text>
+    <text x="600" y="255" text-anchor="middle" font-size="17">Modellfreigaben · Begrenzung</text>
+    <text x="600" y="285" text-anchor="middle" font-size="17">Protokollierung · Reverse Proxy</text>
+    <text x="1015" y="125" text-anchor="middle" font-size="22">Getrennte KI-Serverzone</text>
+    <text x="1015" y="175" text-anchor="middle" font-size="17">Chat-Oberfläche</text>
+    <text x="1015" y="210" text-anchor="middle" font-size="17">lokale Inferenz</text>
+    <text x="1015" y="245" text-anchor="middle" font-size="17">RAG · Parser · Embeddings</text>
+    <text x="1015" y="280" text-anchor="middle" font-size="17">lokale Vektor-/Datenbank</text>
+    <text x="1015" y="315" text-anchor="middle" font-size="17">lokale Überwachung</text>
+    <text x="1015" y="370" text-anchor="middle" font-size="18" font-weight="bold">kein Internet-Egress</text>
+    <line x1="315" y1="250" x2="470" y2="250"/>
+    <polygon points="460,242 476,250 460,258" fill="#2e74b5"/>
+    <line x1="730" y1="250" x2="885" y2="250"/>
+    <polygon points="875,242 891,250 875,258" fill="#2e74b5"/>
+    <text x="392" y="230" text-anchor="middle" font-size="16" stroke="none">HTTPS</text>
+    <text x="807" y="230" text-anchor="middle" font-size="16" stroke="none">erlaubte Flüsse</text>
+  </g>
+  <text x="600" y="480" text-anchor="middle" font-family="Calibri,Arial,sans-serif" font-size="16" fill="#4f5b66">Organisationsneutrale Referenz · Status ÖFFENTLICH</text>
+</svg>

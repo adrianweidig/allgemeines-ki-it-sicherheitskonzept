@@ -1,0 +1,100 @@
+name: Veröffentlichungsartefakt erstellen
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: veröffentlichungsartefakt-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  paket:
+    name: Commit-genaues Prüfpaket erzeugen
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Repository vollständig auschecken
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Öffentliche Veröffentlichungsgrenzen prüfen
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          status = json.loads(Path("projektstatus.json").read_text(encoding="utf-8"))
+          erwartet = {
+              "dokumentstatus": "ÖFFENTLICH",
+              "organisationsspezifisch": False,
+              "betriebsmodell": "vollständig-lokal",
+              "externe-inferenz": False,
+              "modelltraining": False,
+              "feinabstimmung": False,
+          }
+          if status != erwartet:
+              raise SystemExit("Die Veröffentlichungsgrenzen in projektstatus.json sind verletzt.")
+          PY
+          test -z "$(git ls-files 'quellen/lokale-eingaben/**' '.arbeitsdaten/**')"
+
+      - name: ZIP und Veröffentlichungsnotizen erzeugen
+        id: paket
+        shell: bash
+        run: |
+          PROJEKT="allgemeines-ki-it-sicherheitskonzept"
+          ZWEIG="${GITHUB_REF_NAME//\//-}"
+          KURZ="$(git rev-parse --short=8 HEAD)"
+          KERN="${PROJEKT}-${ZWEIG}-${KURZ}"
+          ARCHIV="${KERN}.zip"
+          NOTIZEN="veröffentlichungsnotizen-${KERN}.md"
+          git archive --format=zip --prefix="${KERN}/" --output="${ARCHIV}" HEAD
+          if unzip -Z1 "${ARCHIV}" | grep -Eq '/(quellen/lokale-eingaben|\.arbeitsdaten)/'; then
+            printf '%s\n' "Unzulässige lokale Inhalte wurden im Veröffentlichungsarchiv gefunden." >&2
+            exit 1
+          fi
+          ZEITPUNKT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          VORHERIGER_TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          {
+            printf '# Veröffentlichungsnotizen\n\n'
+            printf -- '- Repository: `%s`\n' "${GITHUB_REPOSITORY}"
+            printf -- '- Zweig: `%s`\n' "${GITHUB_REF_NAME}"
+            printf -- '- Commit: `%s`\n' "${GITHUB_SHA}"
+            printf -- '- Kurzer Commit: `%s`\n' "${KURZ}"
+            printf -- '- Ereignis: `%s`\n' "${GITHUB_EVENT_NAME}"
+            printf -- '- Ausgeführt durch: `%s`\n' "${GITHUB_ACTOR}"
+            printf -- '- UTC-Zeitpunkt: `%s`\n' "${ZEITPUNKT}"
+            printf -- '- Enthaltene ZIP-Datei: `%s`\n\n' "${ARCHIV}"
+            if [ -n "${VORHERIGER_TAG}" ]; then
+              printf '## Änderungen seit %s\n\n' "${VORHERIGER_TAG}"
+              git log --pretty='- %h %s' "${VORHERIGER_TAG}..HEAD"
+            else
+              printf '## Letzte Commits\n\n'
+              git log -n 20 --pretty='- %h %s'
+            fi
+            printf '\n## Laufzeitkomponenten\n\nDieses Repository veröffentlicht kein Containerabbild und besitzt keinen Docker-/GHCR-Workflow.\n'
+          } > "${NOTIZEN}"
+          sha256sum "${ARCHIV}" > "${ARCHIV}.sha256"
+          printf 'archiv=%s\n' "${ARCHIV}" >> "${GITHUB_OUTPUT}"
+          printf 'notizen=%s\n' "${NOTIZEN}" >> "${GITHUB_OUTPUT}"
+          printf 'artefaktname=%s\n' "${KERN}" >> "${GITHUB_OUTPUT}"
+
+      - name: Prüfpaket hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.paket.outputs.artefaktname }}
+          path: |
+            ${{ steps.paket.outputs.archiv }}
+            ${{ steps.paket.outputs.archiv }}.sha256
+            ${{ steps.paket.outputs.notizen }}
+          if-no-files-found: error
+          retention-days: 30

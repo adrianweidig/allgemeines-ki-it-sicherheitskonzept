@@ -1,0 +1,51 @@
+name: Fehlerbericht
+description: Reproduzierbaren Fehler in Katalog, Dokument, Quellenregister oder Validierung melden
+title: "[Fehler] "
+labels:
+  - fehler
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keine organisationsspezifischen, personenbezogenen, vertraulichen oder eingestuften Informationen eintragen. Sicherheitsrelevante Schwachstellen sind gemäß SECURITY.md vertraulich zu melden.
+  - type: dropdown
+    id: bereich
+    attributes:
+      label: Betroffener Bereich
+      options:
+        - OSCAL-Katalog
+        - Sicherheitskonzept DOCX/PDF
+        - Quellenregister
+        - Validierung und Tests
+        - Dokumentation
+        - GitHub-Automatisierung
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Geprüfte Revision oder Version
+      description: Commit-Kennung oder fachliche Version ohne interne Systemangaben
+    validations:
+      required: true
+  - type: textarea
+    id: beobachtung
+    attributes:
+      label: Beobachtetes Verhalten
+      description: Beschreiben Sie den Fehler und seine fachliche Auswirkung.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduktion
+    attributes:
+      label: Reproduktionsschritte
+      description: Nennen Sie datensparsame Schritte, Befehle und erwartete Ergebnisse.
+    validations:
+      required: true
+  - type: checkboxes
+    id: schutz
+    attributes:
+      label: Schutzprüfung
+      options:
+        - label: Die Meldung enthält keine Organisationsdaten, Geheimnisse oder eingestuften Informationen.
+          required: true

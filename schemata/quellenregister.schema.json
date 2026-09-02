@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/raw/main/schemata/quellenregister.schema.json",
+  "title": "Quellenregister des allgemeinen KI-IT-Sicherheitskonzepts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "projektversion",
+    "dokumentstatus",
+    "stichtag",
+    "zitierregel",
+    "quellen"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "projektversion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "dokumentstatus": { "const": "ÖFFENTLICH – organisationsneutrale Referenzvorlage" },
+    "stichtag": { "type": "string", "format": "date" },
+    "zitierregel": { "type": "string", "minLength": 30 },
+    "quellen": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/quelle" }
+    }
+  },
+  "$defs": {
+    "fundstelle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fundstelle", "aussage"],
+      "properties": {
+        "fundstelle": { "type": "string", "minLength": 2 },
+        "aussage": { "type": "string", "minLength": 10 }
+      }
+    },
+    "lokale_fassung": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "required": ["pfad", "dateigröße_bytes", "sha256", "vergleich"],
+      "properties": {
+        "pfad": { "type": "string", "pattern": "^quellen/lokale-eingaben/" },
+        "dateigröße_bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "vergleich": { "type": "string", "minLength": 5 }
+      }
+    },
+    "quelle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "oscal_uuid",
+        "titel",
+        "herausgeber",
+        "dokumentart",
+        "fassung",
+        "stand",
+        "veröffentlichungsdatum",
+        "gültigkeitsdatum",
+        "öffentliche_url",
+        "abrufdatum",
+        "letzte_inhaltsprüfung",
+        "lokale_fassung",
+        "seitenzahl",
+        "geltungsbereich",
+        "autoritätsstufe",
+        "lizenz_und_wiederverwendung",
+        "aktualitätsstatus",
+        "vorgänger",
+        "nachfolger",
+        "wiedervorlage_am",
+        "verwendete_fundstellen",
+        "abgeleitete_kontrollen"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^Q-[A-Z0-9-]+$" },
+        "oscal_uuid": { "type": "string", "format": "uuid" },
+        "titel": { "type": "string", "minLength": 3 },
+        "herausgeber": { "type": "string", "minLength": 3 },
+        "dokumentart": { "type": "string", "minLength": 3 },
+        "fassung": { "type": "string", "minLength": 2 },
+        "stand": { "type": "string", "minLength": 4 },
+        "veröffentlichungsdatum": { "type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "gültigkeitsdatum": { "type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "öffentliche_url": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "abrufdatum": { "type": "string", "format": "date" },
+        "letzte_inhaltsprüfung": { "type": "string", "format": "date" },
+        "lokale_fassung": { "$ref": "#/$defs/lokale_fassung" },
+        "seitenzahl": { "type": ["integer", "null"], "minimum": 1 },
+        "geltungsbereich": { "type": "string", "minLength": 5 },
+        "autoritätsstufe": { "type": "string", "pattern": "^[1-7]-" },
+        "lizenz_und_wiederverwendung": { "type": "string", "minLength": 10 },
+        "aktualitätsstatus": { "enum": ["geprüft", "Warnung", "überfällig", "nicht erreichbar"] },
+        "vorgänger": { "type": ["string", "null"] },
+        "nachfolger": { "type": ["string", "null"] },
+        "wiedervorlage_am": { "type": "string", "format": "date" },
+        "verwendete_fundstellen": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/fundstelle" }
+        },
+        "abgeleitete_kontrollen": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^ki-[a-z]{3}-[0-9]{3}$" }
+        }
+      }
+    }
+  }
+}

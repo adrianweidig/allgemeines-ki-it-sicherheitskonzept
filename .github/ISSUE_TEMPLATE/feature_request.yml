@@ -1,0 +1,49 @@
+name: Fachliche Erweiterung
+description: Neue KI-spezifische Kontrolle, Architekturvariante oder Nachweisform vorschlagen
+title: "[Erweiterung] "
+labels:
+  - erweiterung
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vorschläge müssen organisationsneutral bleiben und durch öffentlich erreichbare, belastbare Quellen gestützt werden.
+  - type: textarea
+    id: bedarf
+    attributes:
+      label: Fachlicher Bedarf
+      description: Erläutern Sie Risiko, Geltungsbereich und erwarteten Sicherheitsnutzen.
+    validations:
+      required: true
+  - type: textarea
+    id: anforderung
+    attributes:
+      label: Vorgeschlagene Anforderung
+      description: Formulieren Sie die beabsichtigte normative Aussage und ihre Anwendbarkeit.
+    validations:
+      required: true
+  - type: textarea
+    id: quellen
+    attributes:
+      label: Öffentliche Quellen und Fundstellen
+      description: Nennen Sie Herausgeber, Titel, Stand, genaue Fundstelle und kanonische URL.
+    validations:
+      required: true
+  - type: textarea
+    id: prüfung
+    attributes:
+      label: Prüfziel und Nachweise
+      description: Beschreiben Sie, wie die Umsetzung objektiv geprüft und belegt werden kann.
+    validations:
+      required: true
+  - type: checkboxes
+    id: grenzen
+    attributes:
+      label: Projektgrenzen
+      options:
+        - label: Der Vorschlag bleibt vollständig lokal oder kennzeichnet externe Inferenz ausdrücklich als bedingt.
+          required: true
+        - label: Der Vorschlag führt kein Training und keine Feinabstimmung ein.
+          required: true
+        - label: Der Vorschlag enthält keine organisationsspezifischen Angaben.
+          required: true

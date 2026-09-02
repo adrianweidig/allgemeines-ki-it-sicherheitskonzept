@@ -1,0 +1,17 @@
+# Organisationsneutrale lokale Eingaben dürfen niemals veröffentlicht werden.
+/quellen/lokale-eingaben/
+
+# Temporäre Arbeits- und Prüfdaten
+/.arbeitsdaten/
+/validierung/ausgabe/
+/validierung/__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+
+# Betriebssystem- und Editorartefakte
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+~$*.docx

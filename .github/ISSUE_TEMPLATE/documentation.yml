@@ -1,0 +1,47 @@
+name: Dokumentationshinweis
+description: Unklare, widersprüchliche oder nicht barrierearme Dokumentation melden
+title: "[Dokumentation] "
+labels:
+  - dokumentation
+body:
+  - type: dropdown
+    id: artefakt
+    attributes:
+      label: Betroffenes Artefakt
+      options:
+        - README und Projektdokumentation
+        - Sicherheitskonzept DOCX
+        - Sicherheitskonzept PDF
+        - OSCAL-Katalog
+        - Quellenregister
+        - Kollaborationsdokumente
+    validations:
+      required: true
+  - type: input
+    id: stelle
+    attributes:
+      label: Genaue Stelle
+      description: Kapitel, Überschrift, Kontroll-ID oder Seitenzahl
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem und Verbesserung
+      description: Erläutern Sie die Unklarheit und eine sachlich prüfbare Verbesserung.
+    validations:
+      required: true
+  - type: textarea
+    id: beleg
+    attributes:
+      label: Beleg
+      description: Fügen Sie bei fachlichen Änderungen eine öffentliche Quelle mit genauer Fundstelle hinzu.
+    validations:
+      required: false
+  - type: checkboxes
+    id: schutz
+    attributes:
+      label: Schutzprüfung
+      options:
+        - label: Die Meldung enthält keine organisationsspezifischen oder schutzbedürftigen Informationen.
+          required: true

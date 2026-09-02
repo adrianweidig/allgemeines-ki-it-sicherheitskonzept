@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Vertrauliche Sicherheitsmeldung
+    url: https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/security/policy
+    about: Sicherheitsrelevante Schwachstellen nicht in einem öffentlichen Fehlerbericht beschreiben.
