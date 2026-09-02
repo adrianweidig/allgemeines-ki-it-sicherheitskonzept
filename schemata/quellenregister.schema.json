@@ -44,6 +44,8 @@
         "pfad": { "type": "string", "pattern": "^quellen/lokale-eingaben/" },
         "dateigröße_bytes": { "type": "integer", "minimum": 1 },
         "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "normalisierter_text_sha256_beider_fassungen": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "normalisierungsverfahren": { "type": "string", "minLength": 20 },
         "vergleich": { "type": "string", "minLength": 5 }
       }
     },

@@ -29,7 +29,7 @@ from xml.etree import ElementTree
 import regex
 from docx import Document
 from jsonschema import Draft7Validator, Draft202012Validator, FormatChecker, ValidationError, validators
-from pypdf import PdfReader
+from pypdf import PdfReader, __version__ as PYPDF_VERSION
 
 
 WURZEL = Path(__file__).resolve().parents[1]
@@ -542,12 +542,15 @@ def prüfe_onlinequellen(register: dict[str, Any]) -> tuple[list[str], list[str]
         if remote_hash != lokal["sha256"]:
             text_hash = hashlib.sha256(_normalisierter_pdf_text(daten).encode("utf-8")).hexdigest()
             registriert = lokal.get("normalisierter_text_sha256_beider_fassungen")
+            verfahren = lokal.get("normalisierungsverfahren", "")
             lokaler_pfad = WURZEL / lokal["pfad"]
             lokal_text_hash = registriert
             if lokaler_pfad.is_file():
                 lokal_daten = lokaler_pfad.read_bytes()
                 lokal_text_hash = hashlib.sha256(_normalisierter_pdf_text(lokal_daten).encode("utf-8")).hexdigest()
-            if not registriert or text_hash != lokal_text_hash or text_hash != registriert:
+            if f"pypdf {PYPDF_VERSION}" not in verfahren:
+                fehler.append(f"{q['id']}: Normalisierungsverfahren passt nicht zur installierten pypdf-Version.")
+            elif not registriert or text_hash != lokal_text_hash or text_hash != registriert:
                 fehler.append(f"{q['id']}: binär abweichende offizielle PDF ist nicht mehr textidentisch zur lokalen Fassung.")
     return fehler, warnungen
 

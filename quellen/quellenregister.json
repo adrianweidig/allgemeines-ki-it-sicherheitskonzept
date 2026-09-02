@@ -155,7 +155,8 @@
         "sha256": "c41a993a3a4278818cd58f48f6987ccacfd6bd5f3884e39b0485dfe8ae9e999f",
         "offizielle_dateigröße_bytes_am_prüftag": 903644,
         "offizielle_sha256_am_prüftag": "e1860e6988ccbb298b5e65473880719b6a3fe90caf4c589c16395b43c9e35c63",
-        "normalisierter_text_sha256_beider_fassungen": "74f335c963ff32bfd15f771f9e754b74e5eee4e4f11e428e2dd8961fc0f72ac2",
+        "normalisierter_text_sha256_beider_fassungen": "364904361622859a13cb4c4692202db80f80f001efad13cc25030713f75a6af9",
+        "normalisierungsverfahren": "pypdf 6.16.2; Unicode NFKC; zusammenhängender Leerraum auf ein Leerzeichen reduziert",
         "vergleich": "binär-abweichend; 54 Seiten und normalisierter Text identisch"
       },
       "seitenzahl": 54,
