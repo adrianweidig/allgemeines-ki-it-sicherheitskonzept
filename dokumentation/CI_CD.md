@@ -13,6 +13,8 @@ Der Workflow `Projekt validieren` läuft bei Pull Requests, bei Pushes auf `main
 - öffentliche Quellenlinks mit differenzierter Behandlung temporärer Sperren;
 - Ausschluss lokaler Eingaben aus Git und Veröffentlichungsarchiv.
 
+Da `quellen/lokale-eingaben/` absichtlich nicht im Repository liegt, verwendet der CI-Lauf `--ohne-lokale-eingaben`. Er prüft die registrierten Metadaten und lädt die amtlichen Online-PDFs für den Prüfsummenvergleich; die Existenz und Prüfsumme der lokalen Fassungen wird ausschließlich im vollständigen lokalen Lauf ohne diese Option geprüft.
+
 ## Veröffentlichungsartefakt
 
 Der Workflow `Veröffentlichungsartefakt erstellen` läuft bei jedem Push auf `main` und manuell. Er erzeugt mit `git archive` ein ZIP des konkreten Commits mit einem eindeutigen Stammverzeichnis sowie maschinenlesbare Prüfsummen und deutsche Veröffentlichungsnotizen. Es werden keine Tags und keine GitHub Releases erzeugt.

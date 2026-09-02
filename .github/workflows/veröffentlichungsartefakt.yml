@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Repository vollständig auschecken
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -89,7 +89,7 @@ jobs:
           printf 'artefaktname=%s\n' "${KERN}" >> "${GITHUB_OUTPUT}"
 
       - name: Prüfpaket hochladen
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.paket.outputs.artefaktname }}
           path: |

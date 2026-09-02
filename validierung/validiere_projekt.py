@@ -138,7 +138,9 @@ def prüfe_projektstatus(
     return fehler
 
 
-def prüfe_quellenregister(register: dict[str, Any], katalog: dict[str, Any]) -> list[str]:
+def prüfe_quellenregister(
+    register: dict[str, Any], katalog: dict[str, Any], *, lokale_dateien_erforderlich: bool = True
+) -> list[str]:
     fehler: list[str] = []
     quellen = register.get("quellen", [])
     ids = [q.get("id") for q in quellen]
@@ -163,9 +165,9 @@ def prüfe_quellenregister(register: dict[str, Any], katalog: dict[str, Any]) ->
             fehler.append(f"{qid}: lokale Fassung besitzt keine öffentliche Internetfundstelle.")
         if q.get("lokale_fassung"):
             lokal = WURZEL / q["lokale_fassung"]["pfad"]
-            if not lokal.is_file():
+            if not lokal.is_file() and lokale_dateien_erforderlich:
                 fehler.append(f"{qid}: registrierte lokale Fassung fehlt.")
-            else:
+            elif lokal.is_file():
                 digest = hashlib.sha256(lokal.read_bytes()).hexdigest()
                 if digest != q["lokale_fassung"]["sha256"]:
                     fehler.append(f"{qid}: SHA-256 der lokalen Fassung weicht ab.")
@@ -550,7 +552,9 @@ def prüfe_onlinequellen(register: dict[str, Any]) -> tuple[list[str], list[str]
     return fehler, warnungen
 
 
-def führe_prüfungen_aus(*, streng: bool, online: bool, repository_modus: bool) -> int:
+def führe_prüfungen_aus(
+    *, streng: bool, online: bool, repository_modus: bool, lokale_dateien_erforderlich: bool
+) -> int:
     fehler: list[str] = []
     warnungen: list[str] = []
     status = lade_json(STATUS_PFAD)
@@ -567,6 +571,8 @@ def führe_prüfungen_aus(*, streng: bool, online: bool, repository_modus: bool)
     ]:
         if funktion is prüfe_projektstatus:
             ergebnis = funktion(*argumente, repository_modus=repository_modus)
+        elif funktion is prüfe_quellenregister:
+            ergebnis = funktion(*argumente, lokale_dateien_erforderlich=lokale_dateien_erforderlich)
         else:
             ergebnis = funktion(*argumente)
         if isinstance(ergebnis, tuple):
@@ -600,6 +606,10 @@ def parser() -> argparse.ArgumentParser:
     befehle.add_argument("--streng", action="store_true", help="Verbindlicher Prüfmodus für Veröffentlichungen.")
     befehle.add_argument("--online", action="store_true", help="Öffentliche Quellen und offizielle PDF-Fassungen online prüfen.")
     befehle.add_argument(
+        "--ohne-lokale-eingaben", action="store_true",
+        help="Nur für CI-Checkouts: registrierte Metadaten und amtliche Online-Fassungen ohne ignorierte lokale PDFs prüfen.",
+    )
+    befehle.add_argument(
         "--offline-anpassung", action="store_true",
         help="Organisationsspezifischen Offline-Modus erlauben; niemals im öffentlichen Repository verwenden.",
     )
@@ -612,4 +622,5 @@ if __name__ == "__main__":
         streng=argumente.streng,
         online=argumente.online,
         repository_modus=not argumente.offline_anpassung,
+        lokale_dateien_erforderlich=not argumente.ohne_lokale_eingaben,
     ))

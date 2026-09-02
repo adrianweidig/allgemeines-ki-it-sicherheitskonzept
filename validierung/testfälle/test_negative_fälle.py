@@ -49,6 +49,15 @@ class NegativeFälle(unittest.TestCase):
         lokale["öffentliche_url"] = ""
         self.assertTrue(any("öffentliche" in f for f in vp.prüfe_quellenregister(register, self.katalog)))
 
+    def test_ci_darf_ignorierte_lokale_pdf_auslassen(self):
+        register = copy.deepcopy(self.register)
+        lokale = next(q for q in register["quellen"] if q["lokale_fassung"])
+        lokale["lokale_fassung"]["pfad"] = "quellen/lokale-eingaben/nicht-vorhanden.pdf"
+        fehler = vp.prüfe_quellenregister(
+            register, self.katalog, lokale_dateien_erforderlich=False
+        )
+        self.assertFalse(any("registrierte lokale Fassung fehlt" in f for f in fehler))
+
     def test_unbegründete_verschärfung_wird_abgewiesen(self):
         katalog = copy.deepcopy(self.katalog)
         control = next(vp.katalogkontrollen(katalog))

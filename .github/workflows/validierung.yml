@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Repository auschecken
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Python einrichten
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -48,4 +48,4 @@ jobs:
           test -z "$(git ls-files 'quellen/lokale-eingaben/**')"
 
       - name: Projekt und öffentliche Quellen streng validieren
-        run: python validierung/validiere_projekt.py --streng --online
+        run: python validierung/validiere_projekt.py --streng --online --ohne-lokale-eingaben
