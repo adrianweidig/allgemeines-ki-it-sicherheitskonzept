@@ -10,10 +10,10 @@ Der Bootstrap initialisiert das private Repository auf `main`, enthält keine Ta
 2. Normative Änderungen im OSCAL-Katalog bearbeiten.
 3. Quellenregister und Zuordnungen aktualisieren.
 4. Dokumente aus dem abgestimmten Bestand erzeugen.
-5. automatisierte und manuelle Prüfungen vollständig durchführen;
-6. Versionsgleichheit und Prüfsummen festhalten;
-7. Änderungen in `CHANGELOG.md` dokumentieren;
-8. über Pull Request und fachliches Review nach `main` übernehmen.
+5. Automatisierte und manuelle Prüfungen vollständig durchführen.
+6. Versionsgleichheit und Prüfsummen festhalten.
+7. Änderungen in `CHANGELOG.md` dokumentieren.
+8. Über Pull Request und fachliches Review nach `main` übernehmen.
 
 ## Actions-Artefakt
 

@@ -44,6 +44,12 @@ PDF_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.pdf"
 ÖFFENTLICH = "ÖFFENTLICH – organisationsneutrale Referenzvorlage"
 NICHT_ÖFFENTLICH = "NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH"
 PFLICHTTEILE = {"statement", "rationale", "guidance", "assessment-objective", "evidence", "source"}
+WORD_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+W = f"{{{WORD_NS}}}"
+LAYOUT_TABELLENBREITE_DXA = 8922
+LAYOUT_TABELLENEINZUG_DXA = 150
+LAYOUT_ZELLENRAND_VERTIKAL_DXA = 120
+LAYOUT_ZELLENRAND_HORIZONTAL_DXA = 150
 
 
 def lade_json(pfad: Path) -> dict[str, Any]:
@@ -291,6 +297,177 @@ def _pdf_text(pfad: Path) -> tuple[str, int]:
     return "\n".join(seite.extract_text() or "" for seite in leser.pages), len(leser.pages)
 
 
+def prüfe_aufzählungsinterpunktion(texte: Iterable[str]) -> list[str]:
+    fehler = []
+    for index, text in enumerate(texte, start=1):
+        bereinigt = text.rstrip()
+        if bereinigt.endswith(";"):
+            fehler.append(f"Aufzählungspunkt {index} endet mit einem Strichpunkt.")
+    return fehler
+
+
+def _xml_wert(element, name="val") -> str | None:
+    if element is None:
+        return None
+    return element.get(W + name)
+
+
+def prüfe_docx_layout(pfad: Path) -> list[str]:
+    """Prüft die verbindlichen maschinenlesbaren Layoutregeln des Masterdokuments."""
+    fehler: list[str] = []
+    dokument = Document(pfad)
+
+    normal = dokument.styles["Normal"]
+    if normal.font.name != "Calibri" or not normal.font.size or abs(normal.font.size.pt - 11) > 0.01:
+        fehler.append("Layout: Normal muss Calibri 11 pt verwenden.")
+    if normal.paragraph_format.line_spacing is None or abs(float(normal.paragraph_format.line_spacing) - 1.15) > 0.01:
+        fehler.append("Layout: Normal muss einen Zeilenabstand von 1,15 verwenden.")
+    if not normal.paragraph_format.space_after or abs(normal.paragraph_format.space_after.pt - 6) > 0.01:
+        fehler.append("Layout: Normal muss 6 pt Absatzabstand danach verwenden.")
+
+    abschnitt = dokument.sections[0]
+    soll_cm = (21.0, 29.7, 2.5, 2.5, 2.5, 2.5, 1.25, 1.25)
+    ist_cm = (
+        abschnitt.page_width.cm,
+        abschnitt.page_height.cm,
+        abschnitt.top_margin.cm,
+        abschnitt.right_margin.cm,
+        abschnitt.bottom_margin.cm,
+        abschnitt.left_margin.cm,
+        abschnitt.header_distance.cm,
+        abschnitt.footer_distance.cm,
+    )
+    if any(abs(soll - ist) > 0.02 for soll, ist in zip(soll_cm, ist_cm)):
+        fehler.append("Layout: A4-Seite, 25-mm-Ränder oder Kopf-/Fußzeilenabstand weichen ab.")
+
+    listen = [
+        p.text for p in dokument.paragraphs
+        if p.style and p.style.name in {"List Bullet", "List Number"}
+    ]
+    fehler.extend(prüfe_aufzählungsinterpunktion(listen))
+    if any(p.text.lstrip().startswith("•") for p in dokument.paragraphs):
+        fehler.append("Layout: Aufzählungen dürfen nicht als manuell gesetzte Aufzählungszeichen vorliegen.")
+
+    with zipfile.ZipFile(pfad) as paket:
+        settings = ElementTree.fromstring(paket.read("word/settings.xml"))
+        auto = settings.find(W + "autoHyphenation")
+        folge = settings.find(W + "consecutiveHyphenLimit")
+        zone = settings.find(W + "hyphenationZone")
+        if _xml_wert(auto) not in {"true", "1", "on"}:
+            fehler.append("Layout: automatische Silbentrennung ist nicht aktiviert.")
+        if _xml_wert(folge) != "2":
+            fehler.append("Layout: höchstens zwei aufeinanderfolgende Trennzeilen müssen eingestellt sein.")
+        if _xml_wert(zone) != "360":
+            fehler.append("Layout: die Silbentrennzone muss 360 DXA betragen.")
+
+        styles = ElementTree.fromstring(paket.read("word/styles.xml"))
+        normal_xml = styles.find(f"{W}style[@{W}styleId='Normal']")
+        sprache = normal_xml.find(f"{W}rPr/{W}lang") if normal_xml is not None else None
+        if _xml_wert(sprache) != "de-DE":
+            fehler.append("Layout: die Korrektur- und Trennsprache des Grundstils muss de-DE sein.")
+        for stil_id in ("ListBullet", "ListNumber"):
+            stil = styles.find(f"{W}style[@{W}styleId='{stil_id}']")
+            if stil is None or stil.find(f"{W}pPr/{W}numPr") is None:
+                fehler.append(f"Layout: {stil_id} muss eine echte Word-Nummerierungsdefinition verwenden.")
+
+        dokument_xml = ElementTree.fromstring(paket.read("word/document.xml"))
+        tabellen = dokument_xml.findall(f".//{W}tbl")
+        if not tabellen:
+            fehler.append("Layout: erwartete Datentabellen fehlen.")
+        for tabellenindex, tabelle in enumerate(tabellen, start=1):
+            tbl_pr = tabelle.find(W + "tblPr")
+            tbl_w = tbl_pr.find(W + "tblW") if tbl_pr is not None else None
+            tbl_ind = tbl_pr.find(W + "tblInd") if tbl_pr is not None else None
+            layout = tbl_pr.find(W + "tblLayout") if tbl_pr is not None else None
+            ausrichtung = tbl_pr.find(W + "jc") if tbl_pr is not None else None
+            if _xml_wert(tbl_w, "type") != "dxa" or _xml_wert(tbl_w, "w") != str(LAYOUT_TABELLENBREITE_DXA):
+                fehler.append(f"Layout: Tabelle {tabellenindex} besitzt keine feste Breite von {LAYOUT_TABELLENBREITE_DXA} DXA.")
+            if _xml_wert(tbl_ind, "type") != "dxa" or _xml_wert(tbl_ind, "w") != str(LAYOUT_TABELLENEINZUG_DXA):
+                fehler.append(f"Layout: Tabelle {tabellenindex} besitzt nicht den festgelegten Einzug.")
+            if _xml_wert(layout, "type") != "fixed":
+                fehler.append(f"Layout: Tabelle {tabellenindex} verwendet keine feste Geometrie.")
+            if _xml_wert(ausrichtung) != "left":
+                fehler.append(f"Layout: Tabelle {tabellenindex} ist nicht linksbündig ausgerichtet.")
+
+            grid = tabelle.find(W + "tblGrid")
+            spalten = [int(_xml_wert(e, "w") or 0) for e in (list(grid) if grid is not None else [])]
+            if not spalten or sum(spalten) != LAYOUT_TABELLENBREITE_DXA:
+                fehler.append(f"Layout: Spaltenraster der Tabelle {tabellenindex} ist nicht breitenkonsistent.")
+            zeilen = tabelle.findall(W + "tr")
+            if not zeilen or zeilen[0].find(f"{W}trPr/{W}tblHeader") is None:
+                fehler.append(f"Layout: Kopfzeile der Tabelle {tabellenindex} ist nicht als Wiederholungszeile markiert.")
+            if any(_xml_wert(h, "hRule") == "exact" for h in tabelle.findall(f".//{W}trHeight")):
+                fehler.append(f"Layout: Tabelle {tabellenindex} verwendet eine unzulässige exakte Zeilenhöhe.")
+
+            for zeilenindex, zeile in enumerate(zeilen, start=1):
+                zellen = zeile.findall(W + "tc")
+                for spaltenindex, zelle in enumerate(zellen):
+                    tc_pr = zelle.find(W + "tcPr")
+                    tc_w = tc_pr.find(W + "tcW") if tc_pr is not None else None
+                    if spaltenindex >= len(spalten) or _xml_wert(tc_w, "w") != str(spalten[spaltenindex]):
+                        fehler.append(
+                            f"Layout: Zellenbreite in Tabelle {tabellenindex}, Zeile {zeilenindex}, "
+                            f"Spalte {spaltenindex + 1} weicht vom Raster ab."
+                        )
+                    v_align = tc_pr.find(W + "vAlign") if tc_pr is not None else None
+                    if _xml_wert(v_align) != "center":
+                        fehler.append(
+                            f"Layout: Zelle in Tabelle {tabellenindex}, Zeile {zeilenindex}, "
+                            f"Spalte {spaltenindex + 1} ist vertikal nicht zentriert."
+                        )
+                    ränder = tc_pr.find(W + "tcMar") if tc_pr is not None else None
+                    mindestwerte = {
+                        "top": LAYOUT_ZELLENRAND_VERTIKAL_DXA,
+                        "bottom": LAYOUT_ZELLENRAND_VERTIKAL_DXA,
+                        "start": LAYOUT_ZELLENRAND_HORIZONTAL_DXA,
+                        "end": LAYOUT_ZELLENRAND_HORIZONTAL_DXA,
+                    }
+                    for name, minimum in mindestwerte.items():
+                        rand = ränder.find(W + name) if ränder is not None else None
+                        if _xml_wert(rand, "type") != "dxa" or int(_xml_wert(rand, "w") or 0) < minimum:
+                            fehler.append(
+                                f"Layout: Zellrand {name} in Tabelle {tabellenindex}, Zeile {zeilenindex}, "
+                                f"Spalte {spaltenindex + 1} ist zu klein."
+                            )
+
+        footer_namen = [name for name in paket.namelist() if re.fullmatch(r"word/footer\d+\.xml", name)]
+        footer_text = ""
+        footer_felder: list[str] = []
+        rechtsstopp = False
+        obere_linie = False
+        for name in footer_namen:
+            wurzel = ElementTree.fromstring(paket.read(name))
+            footer_text += " ".join(k.text or "" for k in wurzel.iter(W + "t"))
+            footer_felder.extend((k.get(W + "instr") or "").strip() for k in wurzel.iter(W + "fldSimple"))
+            rechtsstopp = rechtsstopp or any(
+                _xml_wert(k) == "right"
+                and abs(int(_xml_wert(k, "pos") or 0) - 9072) <= 2
+                for k in wurzel.iter(W + "tab")
+            )
+            obere_linie = obere_linie or any(_xml_wert(k) == "single" for k in wurzel.iter(W + "top"))
+        if not {"PAGE", "NUMPAGES"}.issubset(set(footer_felder)):
+            fehler.append("Layout: Fußzeile muss PAGE und NUMPAGES als Felder enthalten.")
+        if "organisationsneutrale Referenzvorlage" in footer_text:
+            fehler.append("Layout: die lange Schutzkennzeichnung darf die Fußzeile nicht überladen.")
+        if not rechtsstopp or not obere_linie:
+            fehler.append("Layout: rechte Seitenführung oder dezente obere Fußzeilenlinie fehlt.")
+
+    return fehler
+
+
+def prüfe_pdf_seitenführung(pfad: Path) -> list[str]:
+    fehler: list[str] = []
+    leser = PdfReader(pfad)
+    seitenzahl = len(leser.pages)
+    for nummer, seite in enumerate(leser.pages, start=1):
+        if nummer == 1:
+            continue
+        text = re.sub(r"\s+", " ", seite.extract_text() or "")
+        if f"Seite {nummer} von {seitenzahl}" not in text:
+            fehler.append(f"Layout: PDF-Seite {nummer} besitzt keine korrekte Seitenführung.")
+    return fehler
+
+
 def normalisiere_text(text: str) -> str:
     text = unicodedata.normalize("NFKC", text).replace("\u00ad", "")
     text = re.sub(r"(?<=\w)-\s+(?=\w)", "", text)
@@ -331,6 +508,8 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
         return fehler, warnungen
     if seiten < 10:
         fehler.append("Die PDF-Fassung ist für den festgelegten Fachinhalt unerwartet kurz.")
+    fehler.extend(prüfe_docx_layout(DOCX_PFAD))
+    fehler.extend(prüfe_pdf_seitenführung(PDF_PFAD))
     version = katalog["catalog"]["metadata"]["version"]
     fehler.extend(prüfe_versionsgleichheit(version, docx_text, pdf_text))
     kennzeichnung = wirksame_kennzeichnung(status)

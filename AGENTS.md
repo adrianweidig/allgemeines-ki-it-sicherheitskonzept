@@ -34,6 +34,12 @@ python validierung/erzeuge_dokumente.py
 ## Dokumente und Darstellung
 
 - DOCX ist das redaktionelle Masterdokument; PDF wird ausschließlich daraus erzeugt.
+- `dokumentation/LAYOUTREGELN.md` ist für Typografie, Absatzrhythmus, Listen, Tabellen, Silbentrennung sowie Kopf- und Fußzeilen verbindlich.
+- Dokumente werden ausschließlich über `validierung/erzeuge_dokumente.py` geändert. Manuelle Abweichungen der Binärdateien vom Generator sind unzulässig.
+- Aufzählungen verwenden echte Word-Listen. Listenpunkte enden nicht mit einem Strichpunkt.
+- Tabellen verwenden feste DXA-Geometrie, ausreichende Zellränder, wiederholte Kopfzeilen und keine exakten Zeilenhöhen.
+- Deutsche Silbentrennung und die Korrektursprache `de-DE` müssen aktiviert bleiben.
+- Die Seitenführung verwendet ab Seite 2 links den kurzen Schutzstatus und rechts `Seite X von Y`.
 - Nach einer Dokumentänderung DOCX und jede PDF-Seite rendern und visuell prüfen.
 - Keine Behördenlogos, Wappen oder Gestaltungselemente verwenden, die amtliche Herausgeberschaft vortäuschen.
 - Barrierearmut, beschreibende Links, Tabellenüberschriften, ausreichenden Kontrast und sinnvolle Lesereihenfolge prüfen.

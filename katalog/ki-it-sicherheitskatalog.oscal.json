@@ -1038,7 +1038,7 @@
               },
               {
                 "name": "rationale",
-                "prose": "Kompromittierte Parser, UIs oder Agentendienste könnten sich sonst lateral zu Inferenz-, Datenbank-, Verwaltungs- oder Nachweisschnittstellen bewegen."
+                "prose": "Kompromittierte Parser, UIs oder Agentendienste könnten sich sonst lateral zu Inferenzdiensten, Datenbanken, Verwaltungs- oder Nachweisschnittstellen bewegen."
               },
               {
                 "name": "guidance",

@@ -12,6 +12,8 @@
 - [ ] Kontroll-IDs, Querverweise und Zuordnungen sind vollständig.
 - [ ] OSCAL-Katalog besteht die offizielle 1.1.3-Schemaprüfung.
 - [ ] DOCX und PDF tragen dieselbe Version und denselben Status wie der Katalog.
+- [ ] Die maschinellen Regeln aus `dokumentation/LAYOUTREGELN.md` sind vollständig erfüllt.
+- [ ] Aufzählungen, Tabellen, Silbentrennung, Kopfzeilen, Fußzeilen und Seitenzahlen entsprechen dem verbindlichen Gestaltungsprofil.
 - [ ] Jede PDF-Seite wurde gerendert und visuell geprüft.
 - [ ] DOCX wurde auf Barrierearmut und personenbezogene Metadaten geprüft.
 - [ ] `quellen/lokale-eingaben/` ist ignoriert und nicht im Git-Index oder Veröffentlichungsarchiv.

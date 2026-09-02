@@ -9,9 +9,9 @@ Dieses Repository entwickelt eine audit- und zertifizierungsvorbereitende Refere
 
 ## Kernergebnisse
 
-- [`katalog/ki-it-sicherheitskatalog.oscal.json`](katalog/ki-it-sicherheitskatalog.oscal.json): normativer OSCAL-Katalog nach OSCAL 1.1.3;
-- `konzept/ki-it-sicherheitskonzept.docx`: redaktionelles Masterdokument;
-- `konzept/ki-it-sicherheitskonzept.pdf`: ausschließlich aus derselben DOCX-Fassung erzeugte Lesefassung;
+- [`katalog/ki-it-sicherheitskatalog.oscal.json`](katalog/ki-it-sicherheitskatalog.oscal.json): normativer OSCAL-Katalog nach OSCAL 1.1.3.
+- `konzept/ki-it-sicherheitskonzept.docx`: redaktionelles Masterdokument.
+- `konzept/ki-it-sicherheitskonzept.pdf`: ausschließlich aus derselben DOCX-Fassung erzeugte Lesefassung.
 - [`quellen/quellenregister.json`](quellen/quellenregister.json): nachvollziehbare öffentliche Fundstellen, Prüfsummen und konkrete Belegstellen.
 
 Die erste gemeinsame fachliche Fassung trägt die Version `0.1.0`. Der OSCAL-Katalog ist für normative Anforderungen maßgeblich. Das Konzept erläutert Architektur, Anwendung und Zusammenwirken; es führt keine zusätzlichen, nur dort vorhandenen Muss-Anforderungen ein.
@@ -83,7 +83,7 @@ python -m unittest discover -s validierung/testfälle -p "test_*.py"
 python validierung/erzeuge_dokumente.py
 ```
 
-Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Nach jeder Erzeugung sind DOCX und PDF zu öffnen, vollständig zu rendern und redaktionell zu prüfen.
+Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Die verbindlichen Typografie-, Tabellen-, Silbentrennungs- und Seitenführungswerte stehen in [`dokumentation/LAYOUTREGELN.md`](dokumentation/LAYOUTREGELN.md). Nach jeder Erzeugung sind DOCX und PDF zu öffnen, vollständig zu rendern und auf jeder Seite redaktionell sowie visuell zu prüfen.
 
 ## Projektstruktur
 

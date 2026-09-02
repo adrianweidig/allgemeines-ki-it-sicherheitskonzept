@@ -6,13 +6,13 @@ Eine fachliche Ableitung darf nur verwendet werden, wenn eine öffentliche kanon
 
 ## Hierarchie
 
-1. anwendbare Gesetze, Verordnungen und Verwaltungsvorschriften;
-2. BSI-Mindeststandards und adressatenbezogen verbindliche Behördenvorgaben;
-3. offizielle Empfehlungen von BSI, BMI/BeKI, BfDI, DSK und BMVg;
-4. veröffentlichte BSI-Strukturen und Zuordnungen;
-5. internationale Behörden- und Standardisierungsquellen;
-6. informative Bedrohungskataloge;
-7. offizielle Produktdokumentation für komponentenspezifische Risiken.
+1. Anwendbare Gesetze, Verordnungen und Verwaltungsvorschriften.
+2. BSI-Mindeststandards und adressatenbezogen verbindliche Behördenvorgaben.
+3. Offizielle Empfehlungen von BSI, BMI/BeKI, BfDI, DSK und BMVg.
+4. Veröffentlichte BSI-Strukturen und Zuordnungen.
+5. Internationale Behörden- und Standardisierungsquellen.
+6. Informative Bedrohungskataloge.
+7. Offizielle Produktdokumentation für komponentenspezifische Risiken.
 
 ## Nachweiskette
 

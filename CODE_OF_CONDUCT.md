@@ -6,10 +6,10 @@ Wir arbeiten respektvoll, sachbezogen und nachvollziehbar. Unterschiedliche fach
 
 Erwartet werden insbesondere:
 
-- respektvolle und präzise Kommunikation;
-- konstruktive Kritik an Inhalten statt an Personen;
-- Rücksicht auf Datenschutz, Geheimschutz und Barrierearmut;
-- transparente Kennzeichnung von Unsicherheit und Interessenkonflikten;
+- Respektvolle und präzise Kommunikation.
+- Konstruktive Kritik an Inhalten statt an Personen.
+- Rücksicht auf Datenschutz, Geheimschutz und Barrierearmut.
+- Transparente Kennzeichnung von Unsicherheit und Interessenkonflikten.
 - Bereitschaft, fehlerhafte Aussagen anhand besserer Belege zu korrigieren.
 
 Nicht akzeptiert werden Belästigung, Diskriminierung, Drohungen, Veröffentlichung personenbezogener oder vertraulicher Informationen sowie absichtliche Täuschung über Quellen, Prüfungen oder Konformität.

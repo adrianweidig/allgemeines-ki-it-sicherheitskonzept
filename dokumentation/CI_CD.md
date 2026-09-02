@@ -4,13 +4,16 @@
 
 Der Workflow `Projekt validieren` läuft bei Pull Requests, bei Pushes auf `main` und manuell. Er verwendet minimale Leseberechtigungen und prüft:
 
-- Python-Tests einschließlich negativer Fehlerfälle;
-- Projektstatus und Ausschlussgrenzen;
-- JSON-Syntax, Quellenregister und OSCAL-1.1.3-Schema;
-- Kontroll-IDs, Pflichtteile, Quellenverweise und bedingte Kontrollen;
-- DOCX-/PDF-Öffnung, Version, Status, Kontrollbestand und Textähnlichkeit;
-- unerwünschte Ersatzschreibweisen, Platzhalter, Geheimnismuster und unzulässige Konformitätsbehauptungen;
-- öffentliche Quellenlinks mit differenzierter Behandlung temporärer Sperren;
+- Python-Tests einschließlich negativer Fehlerfälle.
+- Projektstatus und Ausschlussgrenzen.
+- JSON-Syntax, Quellenregister und OSCAL-1.1.3-Schema.
+- Kontroll-IDs, Pflichtteile, Quellenverweise und bedingte Kontrollen.
+- DOCX-/PDF-Öffnung, Version, Status, Kontrollbestand und Textähnlichkeit.
+- Typografie, Absatzabstände, echte Listen, Listeninterpunktion und deutsche Silbentrennung.
+- Feste Tabellengeometrie, ausreichende Zellränder, wiederholte Tabellenköpfe und fehlende exakte Zeilenhöhen.
+- PAGE- und NUMPAGES-Felder sowie eine korrekte Seitenführung auf jeder PDF-Seite.
+- Unerwünschte Ersatzschreibweisen, Platzhalter, Geheimnismuster und unzulässige Konformitätsbehauptungen.
+- Öffentliche Quellenlinks mit differenzierter Behandlung temporärer Sperren.
 - Ausschluss lokaler Eingaben aus Git und Veröffentlichungsarchiv.
 
 Da `quellen/lokale-eingaben/` absichtlich nicht im Repository liegt, verwendet der CI-Lauf `--ohne-lokale-eingaben`. Er prüft die registrierten Metadaten und lädt die amtlichen Online-PDFs für den Prüfsummenvergleich; die Existenz und Prüfsumme der lokalen Fassungen wird ausschließlich im vollständigen lokalen Lauf ohne diese Option geprüft.

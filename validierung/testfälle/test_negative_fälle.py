@@ -113,6 +113,13 @@ class NegativeFälle(unittest.TestCase):
         fehler = vp.prüfe_veröffentlichungsliste(["README.md", "quellen/lokale-eingaben/eingang.pdf"])
         self.assertTrue(any("lokale Eingangsdatei" in f for f in fehler))
 
+    def test_strichpunkt_am_ende_eines_aufzählungspunkts_wird_abgewiesen(self):
+        fehler = vp.prüfe_aufzählungsinterpunktion(["Erster vollständiger Punkt.", "Unzulässiger Punkt;"])
+        self.assertTrue(any("Strichpunkt" in f for f in fehler))
+
+    def test_masterdokument_erfüllt_layoutregeln(self):
+        self.assertEqual([], vp.prüfe_docx_layout(vp.DOCX_PFAD))
+
 
 if __name__ == "__main__":
     unittest.main()

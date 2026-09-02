@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import tempfile
 import zipfile
@@ -17,8 +18,8 @@ from pathlib import Path
 from docx import Document
 from docx.enum.section import WD_SECTION
 from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Inches, Pt, RGBColor
@@ -34,16 +35,20 @@ ZIEL = WURZEL / "konzept" / "ki-it-sicherheitskonzept.docx"
 ÖFFENTLICH = "ÖFFENTLICH – organisationsneutrale Referenzvorlage"
 NICHT_ÖFFENTLICH = "NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH"
 
-# compact_reference_guide mit benannter A4-Behördenpapier-Übersteuerung:
+# standard_business_brief mit benannter A4-Behördenpapier-Übersteuerung:
 # A4 210 × 297 mm, Ränder 25 mm, nutzbare Breite 160 mm (9.072 DXA).
 SEITENBREITE_DXA = 11906
 INHALTSBREITE_DXA = 9072
-TABELLENBREITE_DXA = 8952
+TABELLENEINZUG_DXA = 150
+TABELLENBREITE_DXA = INHALTSBREITE_DXA - TABELLENEINZUG_DXA
 BLAU = "2E74B5"
 DUNKELBLAU = "1F4D78"
 HELLBLAU = "E8EEF5"
 HELLGRAU = "F5F7FA"
 DUNKELGRAU = "3F4A54"
+MITTELGRAU = "77838F"
+RAHMENGRAU = "AAB4BF"
+INNENRAHMEN = "D5DBE1"
 
 FOOTNOTES: list[str] = []
 
@@ -71,7 +76,7 @@ def setze_zellenbreite(zelle, breite):
     tc_w.set(qn("w:type"), "dxa")
 
 
-def setze_zellenränder(zelle, oben=80, unten=80, start=120, ende=120):
+def setze_zellenränder(zelle, oben=120, unten=120, start=150, ende=150):
     tc = zelle._tc
     tc_pr = tc.get_or_add_tcPr()
     tc_mar = tc_pr.first_child_found_in("w:tcMar")
@@ -108,7 +113,45 @@ def verhindere_zeilentrennung(zeile):
     tr_pr.append(OxmlElement("w:cantSplit"))
 
 
-def formatiere_tabelle(tabelle, breiten, *, kopf=True, einzug=120):
+def setze_tabellenrahmen(tabelle):
+    tbl_pr = tabelle._tbl.tblPr
+    rahmen = tbl_pr.find(qn("w:tblBorders"))
+    if rahmen is None:
+        rahmen = OxmlElement("w:tblBorders")
+        tbl_pr.append(rahmen)
+    for name, farbe, stärke in (
+        ("top", RAHMENGRAU, 6),
+        ("left", RAHMENGRAU, 6),
+        ("bottom", RAHMENGRAU, 6),
+        ("right", RAHMENGRAU, 6),
+        ("insideH", INNENRAHMEN, 4),
+        ("insideV", INNENRAHMEN, 4),
+    ):
+        element = rahmen.find(qn(f"w:{name}"))
+        if element is None:
+            element = OxmlElement(f"w:{name}")
+            rahmen.append(element)
+        element.set(qn("w:val"), "single")
+        element.set(qn("w:sz"), str(stärke))
+        element.set(qn("w:space"), "0")
+        element.set(qn("w:color"), farbe)
+
+
+def formatiere_tabelle(
+    tabelle,
+    breiten,
+    *,
+    kopf=True,
+    einzug=TABELLENEINZUG_DXA,
+    zentrierte_spalten=frozenset(),
+):
+    if len(breiten) != len(tabelle.columns):
+        raise ValueError("Für jede Tabellenspalte muss genau eine Breite festgelegt sein.")
+    if sum(breiten) != TABELLENBREITE_DXA:
+        raise ValueError(
+            f"Tabellenbreiten müssen zusammen {TABELLENBREITE_DXA} DXA ergeben, "
+            f"erhalten: {sum(breiten)} DXA."
+        )
     tabelle.alignment = WD_TABLE_ALIGNMENT.LEFT
     tabelle.autofit = False
     tbl_pr = tabelle._tbl.tblPr
@@ -129,6 +172,16 @@ def formatiere_tabelle(tabelle, breiten, *, kopf=True, einzug=120):
         tbl_pr.append(tbl_ind)
     tbl_ind.set(qn("w:w"), str(einzug))
     tbl_ind.set(qn("w:type"), "dxa")
+
+    tbl_grid = tabelle._tbl.tblGrid
+    for spalte in list(tbl_grid):
+        tbl_grid.remove(spalte)
+    for breite in breiten:
+        spalte = OxmlElement("w:gridCol")
+        spalte.set(qn("w:w"), str(breite))
+        tbl_grid.append(spalte)
+
+    setze_tabellenrahmen(tabelle)
     for zeilenindex, zeile in enumerate(tabelle.rows):
         verhindere_zeilentrennung(zeile)
         if kopf and zeilenindex == 0:
@@ -137,14 +190,28 @@ def formatiere_tabelle(tabelle, breiten, *, kopf=True, einzug=120):
             setze_zellenbreite(zelle, Pt(breiten[index] / 20))
             setze_zellenränder(zelle)
             zelle.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
-            if kopf and zeilenindex == 0:
+            ist_kopf = kopf and zeilenindex == 0
+            if ist_kopf:
                 schattiere(zelle, HELLBLAU)
-                for absatz in zelle.paragraphs:
-                    for run in absatz.runs:
-                        run.bold = True
+            for absatz in zelle.paragraphs:
+                absatz.style = "Tabellenkopf" if ist_kopf else "Tabellentext"
+                absatz.alignment = (
+                    WD_ALIGN_PARAGRAPH.CENTER
+                    if ist_kopf or index in zentrierte_spalten
+                    else WD_ALIGN_PARAGRAPH.LEFT
+                )
 
 
-def setze_absatzformat(absatz, *, danach=6, davor=0, zeilen=1.25, zusammenhalten=False):
+def normalisiere_listenpunkt(text):
+    punkt = text.strip()
+    if punkt.endswith((";", ",")):
+        punkt = punkt[:-1].rstrip()
+    if not re.search(r"[.!?]$", punkt):
+        punkt += "."
+    return punkt
+
+
+def setze_absatzformat(absatz, *, danach=6, davor=0, zeilen=1.15, zusammenhalten=False):
     fmt = absatz.paragraph_format
     fmt.space_after = Pt(danach)
     fmt.space_before = Pt(davor)
@@ -154,27 +221,50 @@ def setze_absatzformat(absatz, *, danach=6, davor=0, zeilen=1.25, zusammenhalten
         fmt.keep_with_next = True
 
 
-def text_absatz(container, text, *, fett_prefix=None, stil=None, danach=6):
+def unterdrücke_silbentrennung(absatz):
+    p_pr = absatz._p.get_or_add_pPr()
+    sperre = p_pr.find(qn("w:suppressAutoHyphens"))
+    if sperre is None:
+        sperre = OxmlElement("w:suppressAutoHyphens")
+        p_pr.append(sperre)
+    sperre.set(qn("w:val"), "true")
+
+
+def text_absatz(container, text, *, fett_prefix=None, stil=None, danach=6, davor=0):
     absatz = container.add_paragraph(style=stil)
-    setze_absatzformat(absatz, danach=danach)
+    setze_absatzformat(absatz, danach=danach, davor=davor)
     if fett_prefix and text.startswith(fett_prefix):
         absatz.add_run(fett_prefix).bold = True
         absatz.add_run(text[len(fett_prefix):])
     else:
         absatz.add_run(text)
+    if "untrusted" in text.casefold():
+        unterdrücke_silbentrennung(absatz)
     return absatz
 
 
 def aufzählung(container, punkte):
     for punkt in punkte:
-        absatz = container.add_paragraph()
+        absatz = container.add_paragraph(style="List Bullet")
         fmt = absatz.paragraph_format
-        fmt.left_indent = Inches(0.375)
-        fmt.first_line_indent = Inches(-0.188)
-        fmt.space_after = Pt(4)
-        fmt.line_spacing = 1.25
-        absatz.add_run("•").bold = True
-        absatz.add_run("  " + punkt)
+        fmt.left_indent = Inches(0.5)
+        fmt.first_line_indent = Inches(-0.25)
+        fmt.space_after = Pt(5)
+        fmt.line_spacing = 1.15
+        fmt.widow_control = True
+        absatz.add_run(normalisiere_listenpunkt(punkt))
+
+
+def nummerierte_liste(container, punkte):
+    for punkt in punkte:
+        absatz = container.add_paragraph(style="List Number")
+        fmt = absatz.paragraph_format
+        fmt.left_indent = Inches(0.5)
+        fmt.first_line_indent = Inches(-0.25)
+        fmt.space_after = Pt(5)
+        fmt.line_spacing = 1.15
+        fmt.widow_control = True
+        absatz.add_run(normalisiere_listenpunkt(punkt))
 
 
 def hyperlink(absatz, text, url):
@@ -265,9 +355,14 @@ def ergänze_fußnotenpaket(docx_pfad):
             etree.SubElement(style, f"{{{ns_w}}}name").set(f"{{{ns_w}}}val", "footnote text")
             etree.SubElement(style, f"{{{ns_w}}}basedOn").set(f"{{{ns_w}}}val", "Normal")
             p_pr = etree.SubElement(style, f"{{{ns_w}}}pPr")
-            etree.SubElement(p_pr, f"{{{ns_w}}}spacing").set(f"{{{ns_w}}}after", "0")
+            abstand = etree.SubElement(p_pr, f"{{{ns_w}}}spacing")
+            abstand.set(f"{{{ns_w}}}after", "40")
+            abstand.set(f"{{{ns_w}}}line", "252")
+            abstand.set(f"{{{ns_w}}}lineRule", "auto")
             r_pr = etree.SubElement(style, f"{{{ns_w}}}rPr")
-            etree.SubElement(r_pr, f"{{{ns_w}}}sz").set(f"{{{ns_w}}}val", "18")
+            etree.SubElement(r_pr, f"{{{ns_w}}}rFonts").set(f"{{{ns_w}}}ascii", "Calibri")
+            etree.SubElement(r_pr, f"{{{ns_w}}}sz").set(f"{{{ns_w}}}val", "17")
+            etree.SubElement(r_pr, f"{{{ns_w}}}lang").set(f"{{{ns_w}}}val", "de-DE")
         etree.ElementTree(styles).write(str(styles_pfad), xml_declaration=True, encoding="UTF-8", standalone="yes")
 
         footnotes = etree.Element(f"{{{ns_w}}}footnotes", nsmap={"w": ns_w})
@@ -284,10 +379,11 @@ def ergänze_fußnotenpaket(docx_pfad):
             p = etree.SubElement(note, f"{{{ns_w}}}p")
             p_pr = etree.SubElement(p, f"{{{ns_w}}}pPr")
             etree.SubElement(p_pr, f"{{{ns_w}}}pStyle").set(f"{{{ns_w}}}val", "FootnoteText")
+            etree.SubElement(p_pr, f"{{{ns_w}}}suppressAutoHyphens").set(f"{{{ns_w}}}val", "true")
             abstand = etree.SubElement(p_pr, f"{{{ns_w}}}spacing")
             abstand.set(f"{{{ns_w}}}before", "0")
-            abstand.set(f"{{{ns_w}}}after", "0")
-            abstand.set(f"{{{ns_w}}}line", "200")
+            abstand.set(f"{{{ns_w}}}after", "40")
+            abstand.set(f"{{{ns_w}}}line", "252")
             abstand.set(f"{{{ns_w}}}lineRule", "auto")
             ref_run = etree.SubElement(p, f"{{{ns_w}}}r")
             ref_pr = etree.SubElement(ref_run, f"{{{ns_w}}}rPr")
@@ -295,8 +391,12 @@ def ergänze_fußnotenpaket(docx_pfad):
             etree.SubElement(ref_run, f"{{{ns_w}}}footnoteRef")
             text_run = etree.SubElement(p, f"{{{ns_w}}}r")
             text_pr = etree.SubElement(text_run, f"{{{ns_w}}}rPr")
-            etree.SubElement(text_pr, f"{{{ns_w}}}sz").set(f"{{{ns_w}}}val", "16")
-            etree.SubElement(text_pr, f"{{{ns_w}}}szCs").set(f"{{{ns_w}}}val", "16")
+            text_schrift = etree.SubElement(text_pr, f"{{{ns_w}}}rFonts")
+            text_schrift.set(f"{{{ns_w}}}ascii", "Calibri")
+            text_schrift.set(f"{{{ns_w}}}hAnsi", "Calibri")
+            etree.SubElement(text_pr, f"{{{ns_w}}}sz").set(f"{{{ns_w}}}val", "17")
+            etree.SubElement(text_pr, f"{{{ns_w}}}szCs").set(f"{{{ns_w}}}val", "17")
+            etree.SubElement(text_pr, f"{{{ns_w}}}lang").set(f"{{{ns_w}}}val", "de-DE")
             text_element = etree.SubElement(text_run, f"{{{ns_w}}}t")
             text_element.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
             text_element.text = " " + inhalt
@@ -319,14 +419,22 @@ def richte_stile_ein(doc):
     normal.font.size = Pt(11)
     normal.font.color.rgb = RGBColor.from_string("202830")
     normal.paragraph_format.space_after = Pt(6)
-    normal.paragraph_format.line_spacing = 1.25
+    normal.paragraph_format.line_spacing = 1.15
     normal.paragraph_format.widow_control = True
+    normal._element.rPr.rFonts.set(qn("w:ascii"), "Calibri")
+    normal._element.rPr.rFonts.set(qn("w:hAnsi"), "Calibri")
     normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Calibri")
+    sprache = normal._element.rPr.find(qn("w:lang"))
+    if sprache is None:
+        sprache = OxmlElement("w:lang")
+        normal._element.rPr.append(sprache)
+    sprache.set(qn("w:val"), "de-DE")
+    sprache.set(qn("w:eastAsia"), "de-DE")
 
     vorgaben = {
-        "Heading 1": (16, BLAU, 18, 10, True),
-        "Heading 2": (13, BLAU, 14, 7, False),
-        "Heading 3": (12, DUNKELBLAU, 10, 5, False),
+        "Heading 1": (16, BLAU, 16, 8, True),
+        "Heading 2": (13, BLAU, 12, 6, False),
+        "Heading 3": (12, DUNKELBLAU, 8, 4, False),
     }
     for name, (größe, farbe, davor, danach, seitenwechsel) in vorgaben.items():
         stil = doc.styles[name]
@@ -339,6 +447,66 @@ def richte_stile_ein(doc):
         stil.paragraph_format.keep_with_next = True
         stil.paragraph_format.widow_control = True
         stil.paragraph_format.page_break_before = seitenwechsel
+        stil._element.rPr.rFonts.set(qn("w:ascii"), "Calibri")
+        stil._element.rPr.rFonts.set(qn("w:hAnsi"), "Calibri")
+        stil._element.rPr.rFonts.set(qn("w:eastAsia"), "Calibri")
+        sprache = stil._element.rPr.find(qn("w:lang"))
+        if sprache is None:
+            sprache = OxmlElement("w:lang")
+            stil._element.rPr.append(sprache)
+        sprache.set(qn("w:val"), "de-DE")
+
+    for name in ("List Bullet", "List Number"):
+        stil = doc.styles[name]
+        stil.base_style = normal
+        stil.font.name = "Calibri"
+        stil.font.size = Pt(11)
+        stil.paragraph_format.left_indent = Inches(0.5)
+        stil.paragraph_format.first_line_indent = Inches(-0.25)
+        stil.paragraph_format.space_after = Pt(5)
+        stil.paragraph_format.line_spacing = 1.15
+
+    for name, fett in (("Tabellentext", False), ("Tabellenkopf", True)):
+        if name not in [s.name for s in doc.styles]:
+            stil = doc.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
+        else:
+            stil = doc.styles[name]
+        stil.base_style = normal
+        stil.font.name = "Calibri"
+        stil.font.size = Pt(10.5)
+        stil.font.bold = fett
+        stil.font.color.rgb = RGBColor.from_string(DUNKELBLAU if fett else "202830")
+        stil.paragraph_format.space_before = Pt(0)
+        stil.paragraph_format.space_after = Pt(0)
+        stil.paragraph_format.line_spacing = 1.10
+        stil.paragraph_format.widow_control = True
+
+    if "Tabellenbeschriftung" not in [s.name for s in doc.styles]:
+        stil = doc.styles.add_style("Tabellenbeschriftung", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        stil = doc.styles["Tabellenbeschriftung"]
+    stil.base_style = normal
+    stil.font.name = "Calibri"
+    stil.font.size = Pt(9)
+    stil.font.italic = True
+    stil.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
+    stil.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    stil.paragraph_format.space_before = Pt(5)
+    stil.paragraph_format.space_after = Pt(9)
+    stil.paragraph_format.line_spacing = 1.05
+
+    for name, größe in (("Laufende Kopfzeile", 8), ("Laufende Fußzeile", 8)):
+        if name not in [s.name for s in doc.styles]:
+            stil = doc.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
+        else:
+            stil = doc.styles[name]
+        stil.base_style = normal
+        stil.font.name = "Calibri"
+        stil.font.size = Pt(größe)
+        stil.font.color.rgb = RGBColor.from_string(MITTELGRAU)
+        stil.paragraph_format.space_before = Pt(0)
+        stil.paragraph_format.space_after = Pt(0)
+        stil.paragraph_format.line_spacing = 1.0
 
     if "Dokumentstatus" not in [s.name for s in doc.styles]:
         stil = doc.styles.add_style("Dokumentstatus", WD_STYLE_TYPE.PARAGRAPH)
@@ -352,16 +520,56 @@ def richte_stile_ein(doc):
         stil.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 
-def füge_seitenfeld_hinzu(absatz):
-    absatz.add_run("Seite ")
+def füge_feld_hinzu(absatz, anweisung, ersatz):
     feld = OxmlElement("w:fldSimple")
-    feld.set(qn("w:instr"), "PAGE")
+    feld.set(qn("w:instr"), anweisung)
     run = OxmlElement("w:r")
+    r_pr = OxmlElement("w:rPr")
+    schrift = OxmlElement("w:rFonts")
+    schrift.set(qn("w:ascii"), "Calibri")
+    schrift.set(qn("w:hAnsi"), "Calibri")
+    r_pr.append(schrift)
+    größe = OxmlElement("w:sz")
+    größe.set(qn("w:val"), "16")
+    r_pr.append(größe)
+    farbe = OxmlElement("w:color")
+    farbe.set(qn("w:val"), MITTELGRAU)
+    r_pr.append(farbe)
+    run.append(r_pr)
     text = OxmlElement("w:t")
-    text.text = "1"
+    text.text = ersatz
     run.append(text)
     feld.append(run)
     absatz._p.append(feld)
+
+
+def setze_absatzrahmen(absatz, *, position, farbe, stärke=4, abstand=6):
+    p_pr = absatz._p.get_or_add_pPr()
+    p_bdr = p_pr.find(qn("w:pBdr"))
+    if p_bdr is None:
+        p_bdr = OxmlElement("w:pBdr")
+        p_pr.append(p_bdr)
+    linie = OxmlElement(f"w:{position}")
+    linie.set(qn("w:val"), "single")
+    linie.set(qn("w:sz"), str(stärke))
+    linie.set(qn("w:space"), str(abstand))
+    linie.set(qn("w:color"), farbe)
+    p_bdr.append(linie)
+
+
+def richte_silbentrennung_ein(doc):
+    einstellungen = doc.settings._element
+    werte = {
+        "autoHyphenation": "true",
+        "consecutiveHyphenLimit": "2",
+        "hyphenationZone": "360",
+    }
+    for name, wert in werte.items():
+        element = einstellungen.find(qn(f"w:{name}"))
+        if element is None:
+            element = OxmlElement(f"w:{name}")
+            einstellungen.append(element)
+        element.set(qn("w:val"), wert)
 
 
 def richte_seiten_ein(doc, version, kennzeichnung):
@@ -378,32 +586,60 @@ def richte_seiten_ein(doc, version, kennzeichnung):
 
     kopf = abschnitt.header
     p = kopf.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.add_run(f"Allgemeines KI-IT-Sicherheitskonzept · Version {version}").bold = True
-    p.add_run("\n" + kennzeichnung)
+    p.style = doc.styles["Laufende Kopfzeile"]
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.line_spacing = 1.0
+    p.paragraph_format.tab_stops.add_tab_stop(Cm(16), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.SPACES)
+    p.add_run("Allgemeines KI-IT-Sicherheitskonzept").bold = True
+    p.add_run("\t")
+    p.add_run(f"Version {version}")
     for run in p.runs:
         run.font.name = "Calibri"
         run.font.size = Pt(8)
         run.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
+    status_p = kopf.add_paragraph()
+    status_p.style = doc.styles["Laufende Kopfzeile"]
+    status_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    status_p.paragraph_format.space_after = Pt(2)
+    status_p.paragraph_format.line_spacing = 1.0
+    status_run = status_p.add_run(kennzeichnung)
+    status_run.font.name = "Calibri"
+    status_run.font.size = Pt(7.5)
+    status_run.font.color.rgb = RGBColor.from_string(MITTELGRAU)
+    setze_absatzrahmen(status_p, position="bottom", farbe=RAHMENGRAU, stärke=4, abstand=5)
 
     fuß = abschnitt.footer
     p = fuß.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.add_run(f"{kennzeichnung} · ")
-    füge_seitenfeld_hinzu(p)
+    p.style = doc.styles["Laufende Fußzeile"]
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(0)
+    p.paragraph_format.line_spacing = 1.0
+    p.paragraph_format.tab_stops.add_tab_stop(Cm(16), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.SPACES)
+    status_kurz = "NICHT ÖFFENTLICH" if kennzeichnung.startswith("NICHT ÖFFENTLICH") else "ÖFFENTLICH"
+    p.add_run(status_kurz)
+    p.add_run("\tSeite ")
+    füge_feld_hinzu(p, "PAGE", "1")
+    p.add_run(" von ")
+    füge_feld_hinzu(p, "NUMPAGES", "1")
     for run in p.runs:
         run.font.name = "Calibri"
         run.font.size = Pt(8)
-        run.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
+        run.font.color.rgb = RGBColor.from_string(MITTELGRAU)
+    setze_absatzrahmen(p, position="top", farbe=RAHMENGRAU, stärke=4, abstand=5)
 
     update = OxmlElement("w:updateFields")
     update.set(qn("w:val"), "true")
     doc.settings._element.append(update)
+    richte_silbentrennung_ein(doc)
 
 
 def add_heading(doc, text, ebene):
     p = doc.add_heading(text, level=ebene)
     p.paragraph_format.keep_with_next = True
+    if "untrusted" in text.casefold():
+        unterdrücke_silbentrennung(p)
     return p
 
 
@@ -428,8 +664,8 @@ def dokumentsteuerung(doc, version, kennzeichnung, katalog):
         zellen = tabelle.add_row().cells
         zellen[0].text = merkmal
         zellen[1].text = festlegung
-    formatiere_tabelle(tabelle, [2200, 6752])
-    text_absatz(doc, "Freigabehinweis: Diese Fassung enthält ausschließlich öffentliche, organisationsneutrale Informationen. Eine private Repository-Sichtbarkeit ist keine Freigabe für organisationsspezifische, vertrauliche oder eingestufte Inhalte.", danach=8)
+    formatiere_tabelle(tabelle, [2500, 6422])
+    text_absatz(doc, "Freigabehinweis: Diese Fassung enthält ausschließlich öffentliche, organisationsneutrale Informationen. Eine private Repository-Sichtbarkeit ist keine Freigabe für organisationsspezifische, vertrauliche oder eingestufte Inhalte.", danach=8, davor=8)
 
 
 def inhaltsverzeichnis(doc):
@@ -476,10 +712,10 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
     add_heading(doc, "3 Voraussetzungen des allgemeinen IT-Sicherheitskonzepts", 1)
     text_absatz(doc, "Die Referenz setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus. Die folgenden Fähigkeiten werden nicht vollständig erneut spezifiziert, sondern nur dort verschärft, wo KI-spezifische Daten-, Modell-, Prompt-, RAG- oder Toolrisiken dies verlangen:")
     aufzählung(doc, [
-        "verwaltete Clients und Server, sichere Domäne, lokaler Identitätsprovider, Rollen und MFA;",
-        "interne PKI, vertrauenswürdige Zertifikate, Segmentierung, Firewalls und abgesicherter Fernzugriff;",
-        "Patch-, Schwachstellen-, Konfigurations- und sichere Softwareverteilung;",
-        "lokale Protokollierung, Überwachung, Backup, Wiederherstellung, Notfallmanagement und Schadsoftwareschutz.",
+        "Verwaltete Clients und Server, sichere Domäne, lokaler Identitätsprovider, Rollen und MFA.",
+        "Interne PKI, vertrauenswürdige Zertifikate, Segmentierung, Firewalls und abgesicherter Fernzugriff.",
+        "Patch-, Schwachstellen-, Konfigurations- und sichere Softwareverteilung.",
+        "Lokale Protokollierung, Überwachung, Backup, Wiederherstellung, Notfallmanagement und Schadsoftwareschutz.",
     ])
     text_absatz(doc, "KI-GEL-001 verlangt für jede Übernahme den expliziten Bezug auf diese Basis. Fehlende Basismaßnahmen werden nicht durch den KI-Katalog geheilt und müssen im allgemeinen Sicherheitsprozess behandelt werden.")
 
@@ -502,12 +738,11 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
     for i, wert in enumerate(inhalte):
         arch.rows[1].cells[i].text = wert
         arch.rows[1].cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-    formatiere_tabelle(arch, [2700, 3000, 3252])
-    p = doc.add_paragraph("Abbildung 1: Abstrakte lokale Referenzarchitektur; Produkte sind austauschbare Beispiele.")
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    for run in p.runs:
-        run.italic = True
-        run.font.size = Pt(9)
+    formatiere_tabelle(arch, [2676, 2973, 3273], zentrierte_spalten={0, 1, 2})
+    p = doc.add_paragraph(
+        "Abbildung 1: Abstrakte lokale Referenzarchitektur. Produkte sind austauschbare Beispiele.",
+        style="Tabellenbeschriftung",
+    )
 
     add_heading(doc, "5 Systemgrenzen, Vertrauenszonen und Datenflüsse", 1)
     zonen = [
@@ -525,8 +760,8 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
         z = t.add_row().cells
         z[0].text = a
         z[1].text = b
-    formatiere_tabelle(t, [2400, 6552])
-    text_absatz(doc, "Das interne Container- oder Pod-Netz gilt nicht als hinreichende Sicherheitsgrenze. Kommunikationsbeziehungen werden standardmäßig verweigert und ausdrücklich erlaubt. Inferenz-, Administrations-, Debug-, Metrik-, Cluster- und Cache-Ports bleiben vom normalen Netz getrennt.")
+    formatiere_tabelle(t, [2500, 6422])
+    text_absatz(doc, "Das interne Container- oder Pod-Netz gilt nicht als hinreichende Sicherheitsgrenze. Kommunikationsbeziehungen werden standardmäßig verweigert und ausdrücklich erlaubt. Inferenz-, Administrations-, Debug-, Metrik-, Cluster- und Cache-Ports bleiben vom normalen Netz getrennt.", davor=8)
     text_absatz(doc, "Alle fachlichen Datenflüsse bleiben lokal: Identitäten, Git, Modelle, Dokumente, Embeddings, Indizes, Chats, Protokolle, Telemetrie und Sicherungen. Der Standardbetrieb besitzt keinen Internet-Egress. Artefaktimporte erfolgen über einen kontrollierten separaten Prozess.")
 
     add_heading(doc, "6 Rechts-, Normen- und Anwendbarkeitsmatrix", 1)
@@ -546,8 +781,8 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
         z = t.add_row().cells
         for i, wert in enumerate(zeile):
             z[i].text = wert
-    formatiere_tabelle(t, [1900, 1450, 3950, 1652])
-    text_absatz(doc, "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung. Fachgesetze, Mitbestimmung und behördenspezifische Vorschriften sind je Organisation und Anwendungsfall zu ergänzen.")
+    formatiere_tabelle(t, [1850, 1550, 3872, 1650], zentrierte_spalten={1, 3})
+    text_absatz(doc, "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung. Fachgesetze, Mitbestimmung und behördenspezifische Vorschriften sind je Organisation und Anwendungsfall zu ergänzen.", davor=8)
 
     add_heading(doc, "7 Governance, Rollen und Verantwortlichkeiten", 1)
     rollen = [
@@ -568,8 +803,8 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
         z = t.add_row().cells
         z[0].text = rolle
         z[1].text = aufgabe
-    formatiere_tabelle(t, [2400, 6552])
-    text_absatz(doc, "Eine Person kann mehrere Rollen wahrnehmen, sofern Interessenkonflikte und notwendige unabhängige Prüfungen behandelt werden. Verantwortung darf nicht an das Sprachmodell oder eine automatisierte Agentenkette delegiert werden.")
+    formatiere_tabelle(t, [2600, 6322])
+    text_absatz(doc, "Eine Person kann mehrere Rollen wahrnehmen, sofern Interessenkonflikte und notwendige unabhängige Prüfungen behandelt werden. Verantwortung darf nicht an das Sprachmodell oder eine automatisierte Agentenkette delegiert werden.", davor=8)
 
     add_heading(doc, "8 KI-Risiko- und Bedrohungsmodell", 1)
     text_absatz(doc, "Das Bedrohungsmodell erweitert das allgemeine IT-Modell um probabilistische Ausgaben, untrusted Kontext, Modell- und Wissenslieferketten sowie agentische Wirkungsketten. Es betrachtet Eingabe, Modell, Systemanweisung, RAG, Tool, Client, Schnittstelle, Plattform, Protokoll und Importpfad.")
@@ -590,8 +825,8 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
         z = t.add_row().cells
         for i, wert in enumerate(zeile):
             z[i].text = wert
-    formatiere_tabelle(t, [1900, 3300, 3752])
-    text_absatz(doc, "Bewertungen werden vor Erstnutzung, mindestens jährlich und nach wesentlichen Änderungen wiederholt. Akzeptierte Restrisiken bleiben sichtbar, befristet und einer befugten Rolle zugeordnet.")
+    formatiere_tabelle(t, [1900, 3200, 3822])
+    text_absatz(doc, "Bewertungen werden vor Erstnutzung, mindestens jährlich und nach wesentlichen Änderungen wiederholt. Akzeptierte Restrisiken bleiben sichtbar, befristet und einer befugten Rolle zugeordnet.", davor=8)
 
 
 def kapitel_neun(doc, katalog, quellen_nach_uuid):
@@ -616,6 +851,8 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
                 label.bold = True
                 label.font.color.rgb = RGBColor.from_string(DUNKELBLAU)
                 p.add_run(inhalt)
+                if "untrusted" in inhalt.casefold():
+                    unterdrücke_silbentrennung(p)
                 if feldindex == 0:
                     p_pr = p._p.get_or_add_pPr()
                     shd = OxmlElement("w:shd")
@@ -636,7 +873,7 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
                 z = metadaten.add_row().cells
                 z[0].text = merkmal
                 z[1].text = inhalt
-            formatiere_tabelle(metadaten, [2200, 6752])
+            formatiere_tabelle(metadaten, [2500, 6422])
 
             quelle_p = doc.add_paragraph()
             setze_absatzformat(quelle_p, davor=6, danach=10)
@@ -651,6 +888,7 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
                 kurzangaben.append(link["text"])
                 zitate.append(vollzitat(q, fundstelle))
             quelle_p.add_run("; ".join(kurzangaben))
+            unterdrücke_silbentrennung(quelle_p)
             fußnotenmarke(quelle_p, " | ".join(zitate))
             p_pr = quelle_p._p.get_or_add_pPr()
             p_bdr = OxmlElement("w:pBdr")
@@ -708,7 +946,7 @@ def kapitel_zehn_bis_vierzehn(doc, katalog):
             )
             for i, wert in enumerate(werte):
                 z[i].text = wert
-    formatiere_tabelle(t, [1050, 2850, 1300, 1650, 2102])
+    formatiere_tabelle(t, [1100, 2650, 1350, 1700, 2122], zentrierte_spalten={0, 2})
 
     add_heading(doc, "14 Verfahren zur organisationsspezifischen Übernahme", 1)
     text_absatz(doc, "Eine Übernahme beginnt niemals durch direkte Ergänzung dieses Referenzrepositorys. Vor der ersten Organisationsangabe wird eine getrennte, angemessen geschützte Offline-Fassung erstellt. Der Statusmechanismus setzt Deckblatt, Kopfzeilen und Metadaten auf die Kennzeichnung, dass eine Einstufung durch die Organisation erforderlich ist.")
@@ -721,8 +959,7 @@ def kapitel_zehn_bis_vierzehn(doc, katalog):
         "Unabhängige Fachprüfung, Risikofreigabe und gegebenenfalls formale Einstufung dokumentieren.",
         "Änderungs-, Vorfall-, Wiederanlauf-, Modellwechsel- und Außerbetriebnahmeverfahren betreiben.",
     ]
-    for nummer, schritt in enumerate(schritte, start=1):
-        text_absatz(doc, f"{nummer}. {schritt}", danach=4)
+    nummerierte_liste(doc, schritte)
     text_absatz(doc, "Externe Inferenz ist ein eigener Systemgrenzenwechsel. Sie darf nicht als einfache Konfigurationsvariante übernommen werden, sondern erfordert die vollständige Neubewertung nach KI-EXT-001 und KI-EXT-002.")
 
 
@@ -739,6 +976,7 @@ def kapitel_fünfzehn(doc, register):
         p.add_run(f"{quelle['herausgeber']}: {quelle['titel']}, {quelle['fassung']}, {datum}, {fundstellen}, ")
         hyperlink(p, "öffentliche Fundstelle", quelle["öffentliche_url"])
         p.add_run(f", abgerufen am 02.09.2026. Autoritätsstufe: {quelle['autoritätsstufe']}. Wiedervorlage: {quelle['wiedervorlage_am']}.")
+        unterdrücke_silbentrennung(p)
     add_heading(doc, "15.2 Glossar", 2)
     glossar = [
         ("Agentische Anwendung", "Client oder Dienst, der Modellausgaben in Datei-, Tool-, Befehls- oder Netzwerkaktionen überführen kann."),
@@ -758,7 +996,7 @@ def kapitel_fünfzehn(doc, register):
         z = t.add_row().cells
         z[0].text = begriff
         z[1].text = bedeutung
-    formatiere_tabelle(t, [2200, 6752])
+    formatiere_tabelle(t, [2300, 6622])
 
     add_heading(doc, "15.3 Abkürzungen", 2)
     abkürzungen = [
@@ -781,7 +1019,7 @@ def kapitel_fünfzehn(doc, register):
         z = t.add_row().cells
         z[0].text = kurz
         z[1].text = lang
-    formatiere_tabelle(t, [1800, 7152])
+    formatiere_tabelle(t, [1900, 7022], zentrierte_spalten={0})
 
 
 def erzeuge_docx(ziel):
