@@ -5,7 +5,7 @@
 
 ![Lokale KI-Systemarchitektur mit Vertrauenszonen](dokumentation/medien/architektur.svg)
 
-Dieses Repository entwickelt eine audit- und zertifizierungsvorbereitende Referenz für den sicheren Betrieb vollständig lokaler KI-Infrastrukturen in einer klassischen Domäne. Es enthält keine Anwendung, Workbench, Plattform oder produktive KI-Komponente. Es setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus und ergänzt dieses ausschließlich um KI-spezifische Risiken, Verschärfungen, Prüfziele und Nachweise.
+Dieses Repository entwickelt eine prüf- und zertifizierungsvorbereitende Referenz für den sicheren Betrieb vollständig lokaler KI-Infrastrukturen in einer klassischen Domäne. Es enthält keine Anwendung, Arbeitsoberfläche, Plattform oder produktive KI-Komponente. Es setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus und ergänzt dieses ausschließlich um KI-spezifische Risiken, Verschärfungen, Prüfziele und Nachweise.
 
 ## Kernergebnisse
 
@@ -24,9 +24,9 @@ Die öffentliche Fassung darf nicht direkt mit internen Angaben ergänzt werden.
 
 ## Geltungsbereich
 
-Die organisationsneutrale Standardumgebung umfasst verwaltete Clients, eine sichere Domäne mit lokalem Identitätsprovider, einen internen KI-Zugang über HTTPS und eine getrennte KI-Serverzone. Dort laufen Container auf Kubernetes, Docker oder Podman mit lokaler Chat-Oberfläche, lokalem Inferenzserver, lokaler RAG-Verarbeitung, Embedding- und Reranking-Diensten, Vektor- beziehungsweise Datenbank sowie lokaler Überwachung.
+Die organisationsneutrale Standardumgebung umfasst verwaltete Clients, eine sichere Domäne mit lokalem Identitätsdienst, einen internen KI-Zugang über HTTPS und eine getrennte KI-Serverzone. Dort laufen Container auf Kubernetes, Docker oder Podman mit lokaler Chat-Oberfläche, lokalem Inferenzserver, lokaler Wissenssuche (RAG), Suchvektoren, Treffer-Neusortierung, Vektor- beziehungsweise Datenbank sowie lokaler Überwachung.
 
-Vorausgesetzt werden bereits umgesetzte Basismaßnahmen wie MFA, rollenbasierte Rechte, interne PKI, Segmentierung, Patch- und Schwachstellenmanagement, Protokollierung, Backup und Notfallmanagement. Ein internes Container- oder Pod-Netz ist allein keine hinreichende Sicherheitsgrenze. Nur der kontrollierte KI-Zugang darf aus dem Clientnetz erreichbar sein; interne Verwaltungs-, Metrik-, Debug-, Cluster-, Inferenz- und Cache-Schnittstellen bleiben abgeschottet.
+Vorausgesetzt werden bereits umgesetzte Basismaßnahmen wie Mehrfaktorauthentisierung (MFA), rollenbasierte Rechte, interne Zertifikatsinfrastruktur, Segmentierung, Aktualisierungs- und Schwachstellenmanagement, Protokollierung, Datensicherung und Notfallmanagement. Ein internes Container- oder Pod-Netz ist allein keine hinreichende Sicherheitsgrenze. Nur der kontrollierte KI-Zugang darf aus dem Clientnetz erreichbar sein; interne Verwaltungs-, Messwert-, Diagnose-, Cluster-, Inferenz- und Zwischenspeicher-Schnittstellen bleiben abgeschottet.
 
 Fernzugriff erfolgt ausschließlich über ein organisationskontrolliertes VPN mit MFA. Git, Datenablagen, Verzeichnisse, Registrierungen, Modelle, RAG-Daten, Telemetrie und Sicherungen bleiben lokal.
 
@@ -36,22 +36,22 @@ Fernzugriff erfolgt ausschließlich über ein organisationskontrolliertes VPN mi
 - `externe-inferenz` ist standardmäßig `false`.
 - `modelltraining` und `feinabstimmung` müssen `false` bleiben.
 - Vortraining, Fine-Tuning, LoRA, PEFT, RLHF, kontinuierliches Lernen und Änderungen produktiver Modellgewichte sind ausgeschlossen.
-- Domänenwissen wird ausschließlich über lokales RAG oder kontrollierte, lokale On-Demand-Uploads bereitgestellt.
+- Domänenwissen wird ausschließlich über lokale Wissenssuche (RAG) oder kontrollierte, bedarfsgesteuerte lokale Dateiübernahmen bereitgestellt.
 - Vortrainierte Basismodelle sind austauschbare, versionierte Artefakte; Fachwissen verbleibt außerhalb des Modells.
 
-Embedding-Erzeugung, RAG-Indexierung, Systemanweisungen und temporärer Gesprächskontext sind kein Modelltraining, benötigen jedoch eigene Schutzmaßnahmen.
+Die Erzeugung von Suchvektoren, die RAG-Indexierung, Systemanweisungen und vorübergehender Gesprächskontext sind kein Modelltraining, benötigen jedoch eigene Schutzmaßnahmen.
 
 ## Bedingte externe Inferenz
 
-Externe Inferenz ist technisch möglich, aber nicht Teil der Standardarchitektur. Bei ihrer Aktivierung werden Prompts, Systemanweisungen, Gesprächskontexte, RAG-Ausschnitte, Uploadinhalte, Metadaten und angeforderte Ausgaben außerhalb der lokalen Infrastruktur verarbeitet. Transportverschlüsselung verhindert diese Verarbeitung durch den externen Betreiber nicht.
+Externe Inferenz ist technisch möglich, aber nicht Teil der Standardarchitektur. Bei ihrer Aktivierung werden Eingaben, Systemanweisungen, Gesprächskontexte, RAG-Ausschnitte, übertragene Dateien, Metadaten und angeforderte Ausgaben außerhalb der lokalen Infrastruktur verarbeitet. Transportverschlüsselung verhindert diese Verarbeitung durch den externen Betreiber nicht.
 
-Eine Aktivierung verändert Systemgrenze, Verantwortlichkeiten, Datenflüsse, Rechtslage, Bedrohungsmodell und Nachweispflichten. Zuvor müssen mindestens Datenschutz, Datenklassifikation, Verträge und Auftragsverarbeitung, Drittlandbezug, Anbieter- und Lieferkettenprüfung, Protokollierung, Löschung, Aufbewahrung, Verschlüsselung, Schlüsselverwaltung, Verfügbarkeit, Vorfallprozesse und Ausstiegsszenario neu bewertet und freigegeben werden. Fallbacks, automatische Provider-Erkennung und Cloud-Modelle dürfen externe Inferenz nicht unbeabsichtigt einschalten.
+Eine Aktivierung verändert Systemgrenze, Verantwortlichkeiten, Datenflüsse, Rechtslage, Bedrohungsmodell und Nachweispflichten. Zuvor müssen mindestens Datenschutz, Datenklassifikation, Verträge und Auftragsverarbeitung, Drittlandbezug, Anbieter- und Lieferkettenprüfung, Protokollierung, Löschung, Aufbewahrung, Verschlüsselung, Schlüsselverwaltung, Verfügbarkeit, Vorfallprozesse und Ausstiegsszenario neu bewertet und freigegeben werden. Automatische Ausweichverbindungen, die automatische Erkennung externer Anbieter und Cloud-Modelle dürfen externe Inferenz nicht unbeabsichtigt einschalten.
 
 Die Kontrollgruppe `Bedingte externe Inferenz` bleibt deshalb sichtbar, ist im Standardstatus jedoch nicht anwendbar. Das Setzen von `externe-inferenz` auf `true` ohne eine organisationsspezifische, getrennte Fassung und ohne aktivierte Zusatzkontrollen schlägt in der Validierung fehl.
 
 ## Statusmechanismus
 
-`projektstatus.json` ist das maschinenlesbare Gate. Im öffentlichen Referenzrepository ist ausschließlich folgende Kombination zulässig:
+`projektstatus.json` ist die maschinenlesbare Prüfschranke. Im öffentlichen Referenzrepository ist ausschließlich folgende Kombination zulässig:
 
 ```json
 {
@@ -70,7 +70,7 @@ Eine automatische Erkennung beliebiger Organisationsdaten ist technisch nicht vo
 
 Jede normative Kontrolle besitzt mindestens eine öffentliche, nachvollziehbare Fundstelle oder ist ausdrücklich als organisationsneutrale Projektfestlegung gekennzeichnet. Lokale Dateien allein gelten nicht als Beleg. Das Quellenregister dokumentiert Herausgeber, Titel, Fassung, Datum, URL, Abruf- und Prüfdatum, Seitenzahl, Prüfsumme, Autoritätsstufe, Nachnutzungsstatus, konkrete Fundstellen, Wiedervorlage und abgeleitete Kontrollen.
 
-Die drei lokal vorhandenen Ausgangsdokumente liegen ausschließlich unter `quellen/lokale-eingaben/`; dieses Verzeichnis wird von Git ausgeschlossen. Ihre offiziellen Fundstellen sind im Quellenregister verzeichnet. Die abweichende Binärfassung des BMVg-PDF wurde nicht ersetzt: Die lokal vorliegende und die am 02.09.2026 erneut geladene offizielle Fassung besitzen unterschiedliche PDF-Prüfsummen, aber dieselbe Seitenzahl und nach normalisierter Extraktion denselben Textinhalt. Beide Prüfergebnisse sind transparent registriert.
+Die lokal vorhandenen Ausgangs- und Referenzdokumente liegen ausschließlich unter `quellen/lokale-eingaben/`; dieses Verzeichnis wird von Git ausgeschlossen. Ihre offiziellen Fundstellen sind im Quellenregister verzeichnet. Die abweichende Binärfassung des BMVg-PDF wurde nicht ersetzt: Die lokal vorliegende und die am 02.09.2026 erneut geladene offizielle Fassung besitzen unterschiedliche PDF-Prüfsummen, aber dieselbe Seitenzahl und nach normalisierter Extraktion denselben Textinhalt. Beide Prüfergebnisse sind transparent registriert.
 
 Die Zitierform lautet:
 
@@ -80,17 +80,18 @@ Im Fließtext werden Quellenkennungen wie `[Q-BSI-001]` verwendet. Rechtsquellen
 
 ## Nutzung und Validierung
 
-Voraussetzungen sind Python 3.11 oder neuer, die in [`validierung/anforderungen.txt`](validierung/anforderungen.txt) fixierten Pakete, Java 17 oder neuer für PlantUML, LibreOffice für die reproduzierbare PDF-Erzeugung sowie Poppler für die visuelle PDF-Prüfung.
+Voraussetzungen sind Python 3.11 oder neuer, die in [`validierung/anforderungen.txt`](validierung/anforderungen.txt) fixierten Pakete, Java 17 oder neuer für PlantUML, Microsoft Word für die Aktualisierung des Inhaltsverzeichnisses und die PDF-Ausgabe sowie Poppler für die visuelle PDF-Prüfung.
 
 ```powershell
 python -m pip install -r validierung/anforderungen.txt
 python validierung/erzeuge_diagramme.py --werkzeug-herunterladen
 python validierung/erzeuge_dokumente.py
+powershell -NoProfile -ExecutionPolicy Bypass -File validierung/aktualisiere_word_felder.ps1
 python validierung/validiere_projekt.py --streng --online
 python -m unittest discover -s validierung/testfälle -p "test_*.py"
 ```
 
-Die vier Diagramme werden als leicht bearbeitbare PlantUML-Quellen unter [`diagramme/`](diagramme/) gepflegt und lokal in SVG und PNG umgewandelt. Das PNG wird anschließend als feste Inline-Abbildung in das DOCX übernommen. Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Die verbindlichen Typografie-, Tabellen-, Diagramm-, Silbentrennungs- und Seitenführungswerte stehen in [`dokumentation/LAYOUTREGELN.md`](dokumentation/LAYOUTREGELN.md). Nach jeder Erzeugung sind DOCX und PDF zu öffnen, vollständig zu rendern und auf jeder Seite redaktionell sowie visuell zu prüfen.
+Die sechs Diagramme werden als leicht bearbeitbare PlantUML-Quellen unter [`diagramme/`](diagramme/) gepflegt und lokal in SVG und PNG umgewandelt. Das PNG wird anschließend als feste Inline-Abbildung in das DOCX übernommen. Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Das PowerShell-Skript aktualisiert danach das echte Word-Inhaltsverzeichnis, speichert das DOCX und erzeugt unmittelbar daraus das PDF. Die verbindlichen Typografie-, Tabellen-, Diagramm-, Risikodarstellungs-, Silbentrennungs-, Inhaltsverzeichnis- und Seitenführungswerte stehen in [`dokumentation/LAYOUTREGELN.md`](dokumentation/LAYOUTREGELN.md). Nach jeder Erzeugung sind DOCX und PDF vollständig zu rendern und auf jeder Seite redaktionell sowie visuell zu prüfen.
 
 ## Projektstruktur
 

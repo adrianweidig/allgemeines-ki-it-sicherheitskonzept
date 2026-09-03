@@ -1,6 +1,6 @@
 # Bearbeitbare Diagramme
 
-Die vier Fachdiagramme werden als textbasierte PlantUML-Dateien gepflegt. PlantUML ist für diese Vorlage zweckmäßig, weil die Quellen mit einem Texteditor bearbeitet, versionsgenau verglichen und ohne Cloud-Dienst lokal in SVG und PNG umgewandelt werden können. Das PNG wird als feste Inline-Abbildung in das DOCX übernommen; das PDF entsteht anschließend ausschließlich aus dem DOCX.
+Die sechs Fachdiagramme werden als textbasierte PlantUML-Dateien gepflegt. PlantUML ist für diese Vorlage zweckmäßig, weil die Quellen mit einem Texteditor bearbeitet, versionsgenau verglichen und ohne Cloud-Dienst lokal in SVG und PNG umgewandelt werden können. Das unmittelbar gerenderte PNG wird als feste Inline-Abbildung in das DOCX übernommen; ein Bildschirmfoto mit Browserrahmen oder Skalierungsartefakten ist nicht erforderlich. Das PDF entsteht anschließend ausschließlich aus dem gespeicherten DOCX.
 
 ## Dateien und Verwendung
 
@@ -8,8 +8,23 @@ Die vier Fachdiagramme werden als textbasierte PlantUML-Dateien gepflegt. PlantU
 |---|---|---|
 | `architektur.puml` | Zonen, Zugang und Vertrauensgrenzen | Abbildung 1 |
 | `artefaktimport.puml` | Prüfung, Freigabe und Rückgriff auf eine freigegebene Vorversion | Abbildung 2 |
-| `rag-datenfluss.puml` | Aufnahme, ACL-Prüfung, Inferenz und Löschung | Abbildung 3 |
-| `agentische-werkzeugnutzung.puml` | Richtlinienprüfung, Bestätigung und Auditspur | Abbildung 4 |
+| `risikobewertung.puml` | Ablauf von Szenario, Bewertung, Behandlung und Restrisiko | Abbildung 3 |
+| `risikomatrix.puml` | Eintrittshäufigkeit, Schadenshöhe sowie Ausgangs- und Restrisiken | Abbildung 4 |
+| `rag-datenfluss.puml` | Aufnahme, Zugriffsprüfung, Inferenz und Löschung | Abbildung 5 |
+| `agentische-werkzeugnutzung.puml` | Richtlinienprüfung, Bestätigung und Prüfprotokoll | Abbildung 6 |
+
+## Fachlicher Darstellungsauftrag
+
+| Abbildung | Aussageauftrag | Datenform und Kodierung | Barrierefreiheit und Qualitätsprüfung |
+|---|---|---|---|
+| 1 | Erlaubter Zugang und gesperrte Internetverbindung | Zonen und gerichtete Kommunikationsbeziehungen | Zonen sind benannt; Sperre trägt Text und gestrichelte rote Verbindung |
+| 2 | Nur geprüfte Artefakte erreichen die Produktion | Entscheidungs- und Freigabeprozess | Ja-/Nein-Pfade sind beschriftet; Rückkehrpfad bleibt ohne Farbe verständlich |
+| 3 | Kein Risiko wird ohne Behandlung oder Entscheidung freigegeben | Prozess mit Rückschleife | Schritte sind nummeriert; Entscheidungspfade tragen Text |
+| 4 | Maßnahmen senken hohe Ausgangsrisiken auf höchstens mittel | Qualitative Vier-mal-vier-Matrix | Jede Zelle nennt Kategorie und Risikokennungen; Farbe ist nur ergänzend |
+| 5 | Wissensaufnahme, berechtigte Abfrage und Löschung sind getrennt | Datenfluss mit Zugriffsentscheidung | Ablehnung und Löschpfad sind beschriftet; Alternativtext nennt alle Stationen |
+| 6 | Erhöhte Werkzeugwirkung benötigt konkrete Bestätigung | Entscheidungs- und Wirkungskette | Lesen, erhöhte Wirkung, Freigabe und Abweisung sind als Textpfade erkennbar |
+
+Vor der Übernahme in das DOCX durchläuft jede Abbildung einen lokalen Fachpass: Stimmen Aussage und Leserichtung, sind alle Kennungen auf Text im Konzept zurückführbar, bleiben Beschriftungen bei 100 Prozent lesbar und ist Farbe nicht der einzige Bedeutungsträger? Erst danach werden PNG, SVG und Manifest gemeinsam übernommen.
 
 Die abgeleiteten Dateien liegen unter `dokumentation/medien/`. SVG dient der Darstellung in Markdown. PNG ist die mit 180 dpi erzeugte Word-Eingabe. `diagramm-manifest.json` bindet jede Quelle und beide Ableitungen über SHA-256 aneinander.
 
@@ -20,6 +35,7 @@ Voraussetzungen sind Java 17 oder neuer sowie eine geprüfte PlantUML-JAR. Der H
 ```powershell
 python validierung/erzeuge_diagramme.py --werkzeug-herunterladen
 python validierung/erzeuge_dokumente.py
+powershell -NoProfile -ExecutionPolicy Bypass -File validierung/aktualisiere_word_felder.ps1
 ```
 
 Ist eine geprüfte JAR bereits vorhanden, kann sie ohne Download verwendet werden:

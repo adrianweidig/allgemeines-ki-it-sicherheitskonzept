@@ -17,3 +17,16 @@ Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vo
 - Maschinelle Layoutprüfung und vollständiger visueller Seitenprüfprozess ergänzt.
 - Schutzstatus-, Quellen-, Katalog-, Dokument- und Negativprüfungen eingerichtet.
 - Training und Feinabstimmung ausgeschlossen, externe Inferenz als bedingte Variante gekennzeichnet.
+
+### Überarbeitung vom 03.09.2026
+
+- Manuelle Kapitelauflistung durch ein aktualisierbares Word-Inhaltsverzeichnis mit Ebenen 1 und 2, Punkt-Füllzeichen und rechtsbündigen Seitenzahlen ersetzt.
+- Redaktionshinweise, pauschale Beratungsausschlüsse und Erklärungen zur Dokumentmechanik aus dem Sicherheitskonzept entfernt.
+- Zentrale Fachbegriffe vor ihrer ersten Verwendung erklärt und vermeidbaren englischen Fachjargon durch verständliche deutsche Begriffe ersetzt.
+- Risikoverfahren, Risikomatrix und Risikoregister nach BSI-Standard 200-3 ergänzt.
+- BSI-Standard 200-2 und BSI-Standard 200-3 mit offiziellen Fundstellen, Prüfsummen und konkreten Seitenbelegen registriert.
+- Bearbeitbare PlantUML-Diagramme für Risikoablauf und Risikomatrix ergänzt und die Abbildungsfolge auf sechs Fachdiagramme erweitert.
+- Lokalen Word-Schritt zum Aktualisieren der Felder, Speichern des DOCX und Erzeugen der PDF-Lesefassung eingeführt.
+- Layoutvalidierung um Inhaltsverzeichnis, Risikokennungen, Redaktionssprache und vermeidbaren Fachjargon erweitert.
+- Selbst formulierte Anforderungen, Rollen und Überschriften konsequent auf verständliche deutsche Begriffe umgestellt; unvermeidbare Abkürzungen werden vor ihrer ersten Verwendung erklärt.
+- Das Abkürzungsverzeichnis auf zwei Begriffspaare je Zeile umgestellt und eine Prüfung gegen schwach gefüllte Schlussseiten ergänzt.

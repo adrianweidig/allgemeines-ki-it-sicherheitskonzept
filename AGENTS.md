@@ -30,6 +30,7 @@ python -m pip install -r validierung/anforderungen.txt
 python validierung/validiere_projekt.py --streng --online
 python -m unittest discover -s validierung/testfälle -p "test_*.py"
 python validierung/erzeuge_dokumente.py
+powershell -NoProfile -ExecutionPolicy Bypass -File validierung/aktualisiere_word_felder.ps1
 ```
 
 ## Dokumente und Darstellung
@@ -43,6 +44,10 @@ python validierung/erzeuge_dokumente.py
 - Architektur, Datenflüsse und Entscheidungswege werden als versionierte PlantUML-Diagramme unter `diagramme/` gepflegt. Tabellen dienen nicht als Ersatz für Diagramme.
 - Diagramme werden als SVG für Markdown und als hochauflösendes PNG für das DOCX erzeugt. Sie stehen inline, besitzen eine unmittelbare Beschriftung und einen vollständigen Alternativtext.
 - Nach einer Änderung an einer `.puml`-Quelle ist zuerst `validierung/erzeuge_diagramme.py` und danach `validierung/erzeuge_dokumente.py` auszuführen. Quelle und Ableitungen müssen dem Diagrammmanifest entsprechen.
+- Das Inhaltsverzeichnis ist ein echtes Word-Feld für die Überschriftsebenen 1 und 2. Vor dem PDF-Export werden Feld und Seitenzahlen aktualisiert und das DOCX gespeichert.
+- Redaktionsanleitungen, Erklärungen zur Dokumentmechanik und pauschale Beratungsausschlüsse bleiben außerhalb des Fachkonzepts.
+- Vermeidbarer Fachjargon wird durch verständliche deutsche Begriffe ersetzt; unvermeidbare Begriffe werden vor ihrer ersten Verwendung erklärt.
+- Risiken werden nach BSI-Standard 200-3 als Szenarien mit Eintrittshäufigkeit, Schadenshöhe, Ausgangsrisiko, Behandlung und erneut bewertetem Restrisiko geführt.
 - Deutsche Silbentrennung und die Korrektursprache `de-DE` müssen aktiviert bleiben.
 - Die Seitenführung verwendet ab Seite 2 links den kurzen Schutzstatus und rechts `Seite X von Y`.
 - Nach einer Dokumentänderung DOCX und jede PDF-Seite rendern und visuell prüfen.

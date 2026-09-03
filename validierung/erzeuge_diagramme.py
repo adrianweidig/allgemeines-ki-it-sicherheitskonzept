@@ -29,6 +29,8 @@ PLANTUML_SHA256 = "89948f14c93756c7a3fb7b69078ff37e8489fd79dd430c582b931e2f65358
 DIAGRAMME = (
     "architektur",
     "artefaktimport",
+    "risikobewertung",
+    "risikomatrix",
     "rag-datenfluss",
     "agentische-werkzeugnutzung",
 )
@@ -149,7 +151,7 @@ def main() -> int:
     erzeuge_format(java, jar, "svg")
     erzeuge_format(java, jar, "png")
     schreibe_manifest()
-    print(f"Vier PlantUML-Diagramme wurden mit PlantUML {PLANTUML_VERSION} erzeugt.")
+    print(f"Sechs PlantUML-Diagramme wurden mit PlantUML {PLANTUML_VERSION} erzeugt.")
     return 0
 
 

@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "projektversion": "0.1.0",
   "dokumentstatus": "ÖFFENTLICH – organisationsneutrale Referenzvorlage",
-  "stichtag": "2026-09-02",
+  "stichtag": "2026-09-03",
   "zitierregel": "Herausgeber: Titel, Fassung/Stand, Veröffentlichungsdatum, konkrete Seite oder Abschnitt, öffentliche URL, abgerufen am TT.MM.JJJJ.",
   "quellen": [
     {
@@ -100,7 +100,7 @@
         },
         {
           "fundstelle": "S. 14–16",
-          "aussage": "Robustheit, Fehlverhalten, indirekte Prompt Injection, Poisoning, Datenabfluss, Datenschutz und Verfügbarkeit."
+          "aussage": "Robustheit, Fehlverhalten, eingeschleuste Anweisungen, gezielte Manipulation von Modellen oder Wissensquellen, Datenabfluss, Datenschutz und Verfügbarkeit."
         }
       ],
       "abgeleitete_kontrollen": [
@@ -134,6 +134,97 @@
         "ki-trn-001",
         "ki-val-001",
         "ki-val-002"
+      ]
+    },
+    {
+      "id": "Q-BSI-2002-001",
+      "oscal_uuid": "8baf4137-32c2-4a3b-b285-084cb6113cb4",
+      "titel": "BSI-Standard 200-2: IT-Grundschutz-Methodik",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "dokumentart": "Behördlicher Standard",
+      "fassung": "Version 1.0",
+      "stand": "Oktober 2017",
+      "veröffentlichungsdatum": "2017-10-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_2.pdf?__blob=publicationFile&v=2",
+      "abrufdatum": "2026-09-03",
+      "letzte_inhaltsprüfung": "2026-09-03",
+      "lokale_fassung": {
+        "pfad": "quellen/lokale-eingaben/standard_200_2.pdf",
+        "dateigröße_bytes": 4211031,
+        "sha256": "af0962c5b3f6763f8aa7927ee5da749ee0fed1fcadbf26b22c0ab26f6b9f6a1a",
+        "offizielle_pdf_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_2.pdf?__blob=publicationFile&v=2",
+        "offizielle_sha256_am_prüftag": "af0962c5b3f6763f8aa7927ee5da749ee0fed1fcadbf26b22c0ab26f6b9f6a1a",
+        "vergleich": "binär-identisch"
+      },
+      "seitenzahl": 180,
+      "geltungsbereich": "IT-Grundschutz-Methodik und Aufbau eines Informationssicherheitsmanagementsystems",
+      "autoritätsstufe": "2-bsi-standard",
+      "lizenz_und_wiederverwendung": "Behördliche Veröffentlichung; nur kurze sinngemäße Ableitungen und bibliografische Angaben genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": "BSI-Standard 100-2",
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-03",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "S. 11 und S. 69–74",
+          "aussage": "Ganzheitlicher Sicherheitsprozess, Festlegung des Geltungsbereichs, Strukturanalyse, Schutzbedarfsfeststellung, Modellierung und Sicherheitsprüfung."
+        },
+        {
+          "fundstelle": "S. 154–156",
+          "aussage": "Risikoanalyse, Vergleich der Risikolage vor und nach zusätzlichen Maßnahmen sowie Zusammenführung in das Sicherheitskonzept."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-gel-001"
+      ]
+    },
+    {
+      "id": "Q-BSI-2003-001",
+      "oscal_uuid": "4b0577d2-73dc-4156-8131-6eac7fb22003",
+      "titel": "BSI-Standard 200-3: Risikomanagement",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "dokumentart": "Behördlicher Standard",
+      "fassung": "Version 1.0",
+      "stand": "Oktober 2017",
+      "veröffentlichungsdatum": "2017-10-01",
+      "gültigkeitsdatum": null,
+      "öffentliche_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_3.pdf?__blob=publicationFile&v=2",
+      "abrufdatum": "2026-09-03",
+      "letzte_inhaltsprüfung": "2026-09-03",
+      "lokale_fassung": {
+        "pfad": "quellen/lokale-eingaben/standard_200_3.pdf",
+        "dateigröße_bytes": 2236578,
+        "sha256": "639a089dd74b9f7c6ec70a9b37443c97bd15cdf65a707d769bc1ff1ec017c86a",
+        "offizielle_pdf_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_3.pdf?__blob=publicationFile&v=2",
+        "offizielle_sha256_am_prüftag": "639a089dd74b9f7c6ec70a9b37443c97bd15cdf65a707d769bc1ff1ec017c86a",
+        "vergleich": "binär-identisch"
+      },
+      "seitenzahl": 54,
+      "geltungsbereich": "Risikoanalyse und Risikobehandlung nach IT-Grundschutz",
+      "autoritätsstufe": "2-bsi-standard",
+      "lizenz_und_wiederverwendung": "Behördliche Veröffentlichung; nur kurze sinngemäße Ableitungen und bibliografische Angaben genutzt.",
+      "aktualitätsstatus": "geprüft",
+      "vorgänger": "BSI-Standard 100-3",
+      "nachfolger": null,
+      "wiedervorlage_am": "2027-09-03",
+      "verwendete_fundstellen": [
+        {
+          "fundstelle": "S. 5–7",
+          "aussage": "Ablauf von Gefährdungsübersicht, Risikoeinschätzung, Risikobewertung, Risikobehandlung und Zusammenführung der Ergebnisse."
+        },
+        {
+          "fundstelle": "S. 26–28",
+          "aussage": "Qualitative Kategorien für Eintrittshäufigkeit und Schadenshöhe sowie Zuordnung zu Risikokategorien in einer Matrix."
+        },
+        {
+          "fundstelle": "S. 33–35",
+          "aussage": "Behandlungsoptionen, verantwortete Risikoakzeptanz, verbleibendes Risiko, Dokumentation und regelmäßige Überwachung."
+        }
+      ],
+      "abgeleitete_kontrollen": [
+        "ki-gov-003",
+        "ki-thr-001"
       ]
     },
     {
@@ -178,7 +269,7 @@
         },
         {
           "fundstelle": "S. 45–50",
-          "aussage": "Lebenszyklus, Audits sowie Risiken aus Daten, Prompt Injection, Drift, Fehlantworten und Lieferketten."
+          "aussage": "Lebenszyklus, Prüfungen sowie Risiken aus Daten, eingeschleusten Anweisungen, schleichenden Verhaltensänderungen, Fehlantworten und Lieferketten."
         }
       ],
       "abgeleitete_kontrollen": [
@@ -505,7 +596,7 @@
       "verwendete_fundstellen": [
         {
           "fundstelle": "Taxonomie der Angriffe und Abhilfen",
-          "aussage": "Adversariale Angriffe, Poisoning, Evasion, Datenschutzangriffe und Gegenmaßnahmen."
+          "aussage": "Gezielte Angriffe, Manipulation von Modellen oder Daten, Umgehung von Schutzmechanismen, Datenschutzangriffe und Gegenmaßnahmen."
         }
       ],
       "abgeleitete_kontrollen": [

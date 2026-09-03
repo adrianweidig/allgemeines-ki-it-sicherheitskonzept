@@ -5,7 +5,7 @@
     "metadata": {
       "title": "Allgemeiner KI-IT-Sicherheitskatalog – organisationsneutrale Referenzvorlage",
       "published": "2026-09-02T00:00:00+02:00",
-      "last-modified": "2026-09-02T00:00:00+02:00",
+      "last-modified": "2026-09-03T00:00:00+02:00",
       "version": "0.1.0",
       "oscal-version": "1.1.3",
       "props": [
@@ -107,6 +107,11 @@
                 "text": "[Q-BSI-001] S. 4–5 und S. 11–12"
               },
               {
+                "href": "#8baf4137-32c2-4a3b-b285-084cb6113cb4",
+                "rel": "reference",
+                "text": "[Q-BSI-2002-001] S. 11, S. 69–74 und S. 154–156"
+              },
+              {
                 "href": "#b7e623cf-8892-5f2c-838f-e3b0c6475296",
                 "rel": "reference",
                 "text": "[Q-ISO-27001] öffentliche Metadaten; Zuordnung zu ISMS und Risikomanagement"
@@ -135,7 +140,7 @@
               },
               {
                 "name": "source",
-                "prose": "[Q-BSI-001], S. 4–5 und S. 11–12; [Q-ISO-27001], öffentliche Metadaten; Zuordnung zu ISMS und Risikomanagement."
+                "prose": "[Q-BSI-001], S. 4–5 und S. 11–12; [Q-BSI-2002-001], S. 11, S. 69–74 und S. 154–156; [Q-ISO-27001], öffentliche Metadaten und Zuordnung zu ISMS und Risikomanagement."
               }
             ]
           },
@@ -221,7 +226,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Ein maschinenlesbarer Dokumentenstatus steuert Deckblatt, Kopfzeilen und Freigabeprüfungen. Heuristiken suchen ergänzend nach Infrastruktur- und Geheimnismustern, ersetzen aber keine manuelle Prüfung."
+                "prose": "Ein maschinenlesbarer Dokumentenstatus steuert Deckblatt, Kopfzeilen und Freigabeprüfungen. Automatisierte Suchregeln suchen ergänzend nach Infrastruktur- und Geheimnismustern, ersetzen aber keine manuelle Prüfung."
               },
               {
                 "name": "assessment-objective",
@@ -229,7 +234,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Dokumentenstatus; negative Statustests; Freigabeprotokoll; Ergebnis der heuristischen Inhaltsprüfung; dokumentierte Zuständigkeit für Einstufungen."
+                "prose": "Dokumentenstatus; negative Statustests; Freigabeprotokoll; Ergebnis der automatisierten Inhaltssuche; dokumentierte Zuständigkeit für Einstufungen."
               },
               {
                 "name": "source",
@@ -242,7 +247,7 @@
       {
         "id": "ki-governance",
         "class": "ki-kontrollgruppe",
-        "title": "KI-Governance, Inventar, Rollen und Nutzungsgenehmigung",
+        "title": "KI-Steuerung, Inventar, Rollen und Nutzungsgenehmigung",
         "controls": [
           {
             "id": "ki-gov-001",
@@ -334,7 +339,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "KI-Inventar; Rollenmatrix; Komponentenabgleich; Reviewprotokolle; Freigabestatus."
+                "prose": "KI-Inventar; Rollenmatrix; Komponentenabgleich; Prüfprotokolle; Freigabestatus."
               },
               {
                 "name": "source",
@@ -424,7 +429,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Nutzungsbedingungen werden am Zugang sichtbar bereitgestellt. Rollenbezogene Schulungen behandeln Datenklassifikation, Prompt Injection, Ergebnisprüfung, Kennzeichnung, Meldewege und Grenzen agentischer Aktionen."
+                "prose": "Nutzungsbedingungen werden am Zugang sichtbar bereitgestellt. Rollenbezogene Schulungen behandeln Datenklassifikation, eingeschleuste Anweisungen, Ergebnisprüfung, Kennzeichnung, Meldewege und Grenzen agentischer Aktionen."
               },
               {
                 "name": "assessment-objective",
@@ -443,7 +448,7 @@
           {
             "id": "ki-gov-003",
             "class": "ki-sicherheitsanforderung",
-            "title": "Lebenszyklus-Risikosteuerung, Ausnahmen und Reviews",
+            "title": "Lebenszyklus-Risikosteuerung, Ausnahmen und Überprüfungen",
             "props": [
               {
                 "name": "alt-identifier",
@@ -505,6 +510,11 @@
                 "text": "[Q-BSI-001] S. 8, 10 und 12"
               },
               {
+                "href": "#4b0577d2-73dc-4156-8131-6eac7fb22003",
+                "rel": "reference",
+                "text": "[Q-BSI-2003-001] S. 5–7, S. 26–28 und S. 33–35"
+              },
+              {
                 "href": "#037c17df-a3e6-50b6-abc2-fa50a12703e7",
                 "rel": "reference",
                 "text": "[Q-BMVG-001] S. 24–25 und S. 45–47"
@@ -518,7 +528,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "KI-spezifische Risiken MÜSSEN vor Erstnutzung, regelmäßig mindestens jährlich und anlassbezogen nach Modell-, Daten-, Tool-, Schnittstellen- oder Architekturänderungen bewertet werden. Ausnahmen und Restrisiken MÜSSEN befristet, verantwortet und ausdrücklich akzeptiert werden."
+                "prose": "KI-spezifische Risiken MÜSSEN vor Erstnutzung, regelmäßig mindestens jährlich und anlassbezogen nach Modell-, Daten-, Werkzeug-, Schnittstellen- oder Architekturänderungen nach einem festgelegten Verfahren bewertet werden. Geringe Risiken DÜRFEN überwacht akzeptiert werden. Mittlere Risiken DÜRFEN nur befristet, verantwortlich und mit Maßnahmenplan akzeptiert werden. Hohe und sehr hohe Risiken MÜSSEN eine Erstfreigabe oder den Weiterbetrieb bis zur wirksamen Behandlung sperren."
               },
               {
                 "name": "rationale",
@@ -526,19 +536,19 @@
               },
               {
                 "name": "guidance",
-                "prose": "Ein Risikozyklus verbindet Inventar, Bedrohungsmodell, Tests, Freigaben, Betriebsbeobachtung, Vorfälle und Außerbetriebnahme. Ereignisauslöser werden technisch oder organisatorisch überwacht."
+                "prose": "Der Risikozyklus legt Geltungsbereich und Schutzziele fest, beschreibt Gefährdungen als konkrete Szenarien, schätzt Eintrittshäufigkeit und Schadenshöhe ein, ordnet die Risikokategorie anhand der festgelegten Matrix zu und bestimmt die Behandlung. Nach der Behandlung wird das verbleibende Risiko erneut eingestuft. Risikoregister, Freigaben, Betriebsbeobachtung, Vorfälle und Außerbetriebnahme bleiben miteinander verknüpft."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Prüfen, ob aktuelle Risikobewertungen alle wesentlichen Änderungen und Ausnahmen abdecken und Akzeptanzen befugt sowie befristet sind."
+                "prose": "Prüfen, ob aktuelle Risikobewertungen alle wesentlichen Änderungen abdecken, die festgelegte Matrix nachvollziehbar anwenden, hohe und sehr hohe Risiken sperren und jede Akzeptanz befugt sowie befristet dokumentieren."
               },
               {
                 "name": "evidence",
-                "prose": "Risikoregister; Änderungsereignisse; Reviewkalender; Ausnahmegenehmigungen; Restrisikoakzeptanzen; Maßnahmenverfolgung."
+                "prose": "Risikoregister; Bewertungsmatrix; Änderungsereignisse; Prüfkalender; Ausnahmegenehmigungen; Restrisikoakzeptanzen; Maßnahmenverfolgung; Freigabe- und Sperrnachweise."
               },
               {
                 "name": "source",
-                "prose": "[Q-BSI-001], S. 8, 10 und 12; [Q-BMVG-001], S. 24–25 und S. 45–47; [Q-NIST-001], Govern-, Map-, Measure- und Manage-Aktionen."
+                "prose": "[Q-BSI-001], S. 8, 10 und 12; [Q-BSI-2003-001], S. 5–7, S. 26–28 und S. 33–35; [Q-BMVG-001], S. 24–25 und S. 45–47; [Q-NIST-001], Govern-, Map-, Measure- und Manage-Aktionen."
               }
             ]
           }
@@ -547,7 +557,7 @@
       {
         "id": "ki-recht",
         "class": "ki-kontrollgruppe",
-        "title": "Recht, Datenschutz, Mitbestimmung, Schutzbedarf und Geheimschutzgates",
+        "title": "Recht, Datenschutz, Mitbestimmung, Schutzbedarf und Geheimschutzfreigaben",
         "controls": [
           {
             "id": "ki-rec-001",
@@ -650,7 +660,7 @@
           {
             "id": "ki-rec-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Schutzbedarf und Geheimschutzgate",
+            "title": "Schutzbedarf und Geheimschutzfreigabe",
             "props": [
               {
                 "name": "alt-identifier",
@@ -726,15 +736,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Daten, Prompts, Ausgaben, Embeddings, Indizes, Protokolle und Modelle MÜSSEN einem Schutzbedarf zugeordnet werden. Für Verschlusssachen oder andere besonders geschützte Inhalte MUSS vor jeder Verarbeitung eine ausdrückliche Zulässigkeits- und Systemfreigabe vorliegen; ohne diese Freigabe ist die Verarbeitung unzulässig."
+                "prose": "Eingaben, Ausgaben, Suchvektoren, Indizes, Protokolle und Modelle MÜSSEN einem Schutzbedarf zugeordnet werden. Für Verschlusssachen oder andere besonders geschützte Inhalte MUSS vor jeder Verarbeitung eine ausdrückliche Zulässigkeits- und Systemfreigabe vorliegen; ohne diese Freigabe ist die Verarbeitung unzulässig."
               },
               {
                 "name": "rationale",
-                "prose": "Abgeleitete Repräsentationen können schutzbedürftige Inhalte bewahren oder rekonstruierbar machen. Ein generischer KI-Zugang darf keine Geheimschutzentscheidung treffen."
+                "prose": "Aus Quelldaten abgeleitete Darstellungen können schutzbedürftige Inhalte bewahren oder eine Rekonstruktion ermöglichen. Ein allgemeiner KI-Zugang darf keine Geheimschutzentscheidung treffen."
               },
               {
                 "name": "guidance",
-                "prose": "Schutzbedarf und zulässige Verarbeitung werden als technische Richtlinien am Gateway, im RAG-Index, in Uploadregeln und in Toolberechtigungen durchgesetzt. Nicht eindeutig zulässige Inhalte werden abgewiesen."
+                "prose": "Schutzbedarf und zulässige Verarbeitung werden als technische Richtlinien am kontrollierten KI-Zugang, im Index der lokalen Wissenssuche, in Regeln für Dateiübernahmen und in Werkzeugberechtigungen durchgesetzt. Nicht eindeutig zulässige Inhalte werden abgewiesen."
               },
               {
                 "name": "assessment-objective",
@@ -839,7 +849,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Firewall-, Routing-, Proxy- und Dienstkonfigurationen veröffentlichen nur den Gateway-Endpunkt. Interne Inferenz-, Verwaltungs-, Metrik-, Debug-, Cluster- und Cache-Ports werden nicht in das normale Netz gebunden."
+                "prose": "Firewall-, Routing-, Proxy- und Dienstkonfigurationen veröffentlichen nur den Endpunkt des kontrollierten KI-Zugangs. Interne Inferenz-, Verwaltungs-, Messwert-, Diagnose-, Cluster- und Zwischenspeicher-Schnittstellen werden nicht in das normale Netz gebunden."
               },
               {
                 "name": "assessment-objective",
@@ -858,7 +868,7 @@
           {
             "id": "ki-arc-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Vollständig lokale Datenhaltung und unterbundener Internet-Egress",
+            "title": "Vollständig lokale Datenhaltung ohne ausgehende Internetverbindung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -890,7 +900,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Das Egress-Verbot bildet eine klare Systemgrenze, damit Cloud-Verarbeitung oder Telemetrie nicht stillschweigend Teil des Risikomodells werden."
+                "value": "Das Verbot ausgehender Internetverbindungen bildet eine klare Systemgrenze, damit Cloud-Verarbeitung oder Telemetrie nicht stillschweigend Teil des Risikomodells werden."
               },
               {
                 "name": "mapping-bsi-it-grundschutz",
@@ -929,15 +939,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Inferenz, Identitäten, Git, Ablagen, Registrierungen, Modelle, RAG-Daten, Embeddings, Chatverläufe, Protokolle, Telemetrie und Sicherungen MÜSSEN lokal betrieben werden. KI-Komponenten DÜRFEN im Standardbetrieb keinen Internet-Egress besitzen."
+                "prose": "Inferenz, Identitäten, Git, Ablagen, Registrierungen, Modelle, RAG-Daten, Suchvektoren, Chatverläufe, Protokolle, Telemetrie und Sicherungen MÜSSEN lokal betrieben werden. KI-Komponenten DÜRFEN im Standardbetrieb keine ausgehende Internetverbindung besitzen."
               },
               {
                 "name": "rationale",
-                "prose": "Unkontrollierter Egress ermöglicht Datenabfluss, Telemetrie, Lieferkettenzugriffe und unbeabsichtigte Cloud-Fallbacks außerhalb der festgelegten Systemgrenze."
+                "prose": "Unkontrollierter ausgehender Netzwerkverkehr ermöglicht Datenabfluss, Telemetrie, Lieferkettenzugriffe und unbeabsichtigte Ausweichverbindungen zu Cloud-Diensten außerhalb der festgelegten Systemgrenze."
               },
               {
                 "name": "guidance",
-                "prose": "Egress wird technisch standardmäßig verweigert. Aktualisierungen und Artefakte passieren einen getrennten Import-, Malware-, Signatur-, Hash- und Freigabeprozess mit lokalen Spiegeln."
+                "prose": "Ausgehender Netzwerkverkehr wird technisch standardmäßig verweigert. Aktualisierungen und Artefakte durchlaufen einen getrennten Import-, Schadsoftware-, Signatur-, Prüfsummen- und Freigabeprozess mit lokalen Spiegeln."
               },
               {
                 "name": "assessment-objective",
@@ -945,7 +955,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Datenhaltungsregister; Egress-Regeln; DNS-/Proxyprotokolle; Telemetrieeinstellungen; Importnachweise; negative Verbindungstests."
+                "prose": "Datenhaltungsregister; Regeln für ausgehenden Netzwerkverkehr; DNS-/Proxyprotokolle; Telemetrieeinstellungen; Importnachweise; negative Verbindungstests."
               },
               {
                 "name": "source",
@@ -1038,11 +1048,11 @@
               },
               {
                 "name": "rationale",
-                "prose": "Kompromittierte Parser, UIs oder Agentendienste könnten sich sonst lateral zu Inferenzdiensten, Datenbanken, Verwaltungs- oder Nachweisschnittstellen bewegen."
+                "prose": "Kompromittierte Dateiauswerter, Benutzungsoberflächen oder Agentendienste könnten sonst unerlaubt Inferenzdienste, Datenbanken, Verwaltungs- oder Nachweisschnittstellen erreichen."
               },
               {
                 "name": "guidance",
-                "prose": "Kubernetes NetworkPolicies oder funktional gleichwertige Docker-/Podman-Regeln begrenzen Ingress und Egress je Dienstidentität. Plattformgrenzen werden durch Host-Firewalls ergänzt."
+                "prose": "Kubernetes-Netzwerkrichtlinien (NetworkPolicies) oder funktional gleichwertige Docker- beziehungsweise Podman-Regeln begrenzen ein- und ausgehenden Netzwerkverkehr je Dienstidentität. Plattformgrenzen werden durch Firewalls des Serverbetriebssystems ergänzt."
               },
               {
                 "name": "assessment-objective",
@@ -1050,7 +1060,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Kommunikationsmatrix; NetworkPolicies beziehungsweise gleichwertige Regeln; Host-Firewallregeln; automatisierte Netztests; Abweichungsliste."
+                "prose": "Kommunikationsmatrix; Netzwerkrichtlinien beziehungsweise gleichwertige Regeln; Firewallregeln des Serverbetriebssystems; automatisierte Netztests; Abweichungsliste."
               },
               {
                 "name": "source",
@@ -1132,23 +1142,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "KI-Workloads MÜSSEN ohne unnötige Privilegien, ohne privilegierten Modus, mit minimalen Linux-Fähigkeiten und nach Möglichkeit rootless betrieben werden. Schreibgeschützte Dateisystemanteile und getrennte, eng begrenzte persistente Volumes MÜSSEN eingesetzt werden, soweit die Funktion dies zulässt."
+                "prose": "KI-Dienste MÜSSEN ohne unnötige Privilegien, ohne privilegierten Modus, mit minimalen Linux-Fähigkeiten und nach Möglichkeit ohne privilegierten Systemnutzer (rootless) betrieben werden. Schreibgeschützte Dateisystemanteile und getrennte, eng begrenzte dauerhafte Datenträger MÜSSEN eingesetzt werden, soweit die Funktion dies zulässt."
               },
               {
                 "name": "rationale",
-                "prose": "Parser und KI-nahe Dienste verarbeiten potenziell feindliche Inhalte. Übermäßige Rechte erhöhen die Auswirkung einer Kompromittierung auf Host, Modelle und Daten."
+                "prose": "Dateiauswerter und KI-nahe Dienste verarbeiten potenziell schädliche Inhalte. Übermäßige Rechte erhöhen die Auswirkung einer Kompromittierung auf Serverbetriebssystem, Modelle und Daten."
               },
               {
                 "name": "guidance",
-                "prose": "Sicherheitskontexte, Nutzerkennungen, Capability-Drops, Seccomp- beziehungsweise gleichwertige Profile, Mounts und Volumes werden als freigegebene Baseline geprüft und gegen Drift überwacht."
+                "prose": "Sicherheitskontexte, Nutzerkennungen, entzogene Linux-Fähigkeiten, Systemaufruf-Filter (Seccomp) oder gleichwertige Profile, Einbindungen und Datenträger werden als freigegebener Ausgangsstand geprüft. Abweichungen von diesem Stand werden überwacht."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Prüfen, ob kein produktiver Workload unbegründete Host-, Geräte-, Kernel- oder Dateisystemrechte besitzt."
+                "prose": "Prüfen, ob kein produktiver KI-Dienst unbegründete Rechte auf das Serverbetriebssystem, Geräte, den Betriebssystemkern oder Dateisysteme besitzt."
               },
               {
                 "name": "evidence",
-                "prose": "Freigegebene Laufzeitbaseline; Deployment-Manifeste; effektive Laufzeitkonfiguration; Abweichungsgenehmigungen; Driftberichte."
+                "prose": "Freigegebener Laufzeitausgangsstand; Bereitstellungsmanifeste; effektive Laufzeitkonfiguration; Abweichungsgenehmigungen; Abweichungsberichte."
               },
               {
                 "name": "source",
@@ -1175,7 +1185,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Identitätsverantwortliche;Gateway-Verantwortliche;Plattformverantwortliche"
+                "value": "Identitätsverantwortliche;Verantwortliche für den KI-Zugang;Plattformverantwortliche"
               },
               {
                 "name": "anwendbarkeit",
@@ -1251,7 +1261,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Ein lokaler Reverse Proxy oder API-Gateway terminiert TLS, bindet den IdP über OIDC, SAML, LDAP oder gleichwertig an, setzt Rollen und Dienstkonten durch und blockiert direkte Backendzugriffe."
+                "prose": "Ein lokaler vorgeschalteter Zugang (Reverse Proxy oder API-Gateway) beendet die Transportverschlüsselung, bindet den lokalen Identitätsdienst über ein freigegebenes Authentisierungsprotokoll an, setzt Rollen und Dienstkonten durch und blockiert direkte Zugriffe auf nachgelagerte Dienste."
               },
               {
                 "name": "assessment-objective",
@@ -1259,7 +1269,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Gateway- und IdP-Konfiguration; Zertifikatsnachweise; Rollenmatrix; Widerrufstest; Zugriffsprotokolle; direkte Backend-Blocktests."
+                "prose": "Konfiguration des KI-Zugangs und Identitätsdienstes; Zertifikatsnachweise; Rollenmatrix; Widerrufstest; Zugriffsprotokolle; Tests zur Sperre direkter Dienstzugriffe."
               },
               {
                 "name": "source",
@@ -1270,7 +1280,7 @@
           {
             "id": "ki-api-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Serverseitige Modell-, Kontext-, Raten- und Toolgrenzen",
+            "title": "Serverseitige Modell-, Kontext-, Anfrage- und Werkzeuggrenzen",
             "props": [
               {
                 "name": "alt-identifier",
@@ -1286,7 +1296,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Gateway-Verantwortliche;KI-Verantwortliche;Fachverantwortliche"
+                "value": "Verantwortliche für den KI-Zugang;KI-Verantwortliche;Fachverantwortliche"
               },
               {
                 "name": "anwendbarkeit",
@@ -1341,7 +1351,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Der kontrollierte KI-Zugang MUSS pro Rolle und Anwendungsfall freigegebene Modelle, maximale Kontext- und Ausgabegrößen, Raten- und Parallelitätsgrenzen sowie zulässige Tool-Fähigkeiten serverseitig erzwingen. Clientseitige Einstellungen allein sind unzureichend."
+                "prose": "Der kontrollierte KI-Zugang MUSS pro Rolle und Anwendungsfall freigegebene Modelle, maximale Kontext- und Ausgabegrößen, Grenzen der Anfragehäufigkeit und gleichzeitiger Anfragen sowie zulässige Werkzeugfunktionen serverseitig erzwingen. Clientseitige Einstellungen allein sind unzureichend."
               },
               {
                 "name": "rationale",
@@ -1357,7 +1367,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Gateway-Richtlinien; Modellfreigabeliste; Grenzwertkatalog; negative Umgehungstests; Ratenbegrenzungs- und Alarmnachweise."
+                "prose": "Richtlinien des KI-Zugangs; Modellfreigabeliste; Grenzwertkatalog; negative Umgehungstests; Nachweise zur Anfragebegrenzung und Alarmierung."
               },
               {
                 "name": "source",
@@ -1370,12 +1380,12 @@
       {
         "id": "ki-modell",
         "class": "ki-kontrollgruppe",
-        "title": "Modellbeschaffung, Provenienz, Integrität und Austausch",
+        "title": "Modellbeschaffung, Herkunftsnachweis, Integrität und Austausch",
         "controls": [
           {
             "id": "ki-mod-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Kontrollierter Modellimport und Provenienz",
+            "title": "Kontrollierter Modellimport und Herkunftsnachweis",
             "props": [
               {
                 "name": "alt-identifier",
@@ -1446,7 +1456,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Jedes Modell MUSS aus einer freigegebenen Quelle über einen kontrollierten Offline-Import übernommen werden. Herkunft, Lizenz, Modellkarte, Format, Version, kryptografischer Hash, verfügbare Signatur, Scannergebnisse und Freigabeentscheidung MÜSSEN dokumentiert werden; unsichere serialisierte Formate DÜRFEN nicht ungeprüft geladen werden."
+                "prose": "Jedes Modell MUSS aus einer freigegebenen Quelle über einen kontrollierten Offline-Import übernommen werden. Herkunft, Lizenz, Modellkarte, Format, Version, kryptografische Prüfsumme, verfügbare Signatur, Prüfergebnisse und Freigabeentscheidung MÜSSEN dokumentiert werden; unsichere serialisierte Formate DÜRFEN nicht ungeprüft geladen werden."
               },
               {
                 "name": "rationale",
@@ -1454,15 +1464,15 @@
               },
               {
                 "name": "guidance",
-                "prose": "Ein Vier-Augen-Importprozess lädt außerhalb der KI-Zone, prüft Hashes, Signaturen, Dateiformat, Malware und Herkunft und veröffentlicht nur freigegebene, unveränderbare Artefakte in einer lokalen Modellregistrierung."
+                "prose": "Ein Vier-Augen-Importprozess lädt außerhalb der KI-Zone, prüft kryptografische Prüfsummen, Signaturen, Dateiformat, Schadsoftware und Herkunft und veröffentlicht nur freigegebene, unveränderbare Artefakte in einer lokalen Modellregistrierung."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Für jedes aktive Modell die vollständige Kette von öffentlicher Herkunft bis zum tatsächlich geladenen Hash nachvollziehen und manipulierte Testartefakte abweisen."
+                "prose": "Für jedes aktive Modell die vollständige Kette von der öffentlichen Herkunft bis zur tatsächlich geladenen kryptografischen Prüfsumme nachvollziehen und manipulierte Testartefakte abweisen."
               },
               {
                 "name": "evidence",
-                "prose": "Modellakte; Hash- und Signaturnachweise; Lizenzprüfung; Importprotokoll; Scannergebnis; lokale Registrierungsdaten; negativer Manipulationstest."
+                "prose": "Modellakte; Prüfsummen- und Signaturnachweise; Lizenzprüfung; Importprotokoll; Prüfergebnis; lokale Registrierungsdaten; negativer Manipulationstest."
               },
               {
                 "name": "source",
@@ -1473,7 +1483,7 @@
           {
             "id": "ki-mod-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Versionierte Modellfreigabe und Rückrollbarkeit",
+            "title": "Versionierte Modellfreigabe und Rückkehr zur Vorversion",
             "props": [
               {
                 "name": "alt-identifier",
@@ -1544,7 +1554,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Modellfreigaben MÜSSEN einen unveränderbaren Modellhash, Laufzeitversion, Quantisierung, Systemanweisungen, Sicherheitsparameter, Evaluationsstand und genehmigte Anwendungsfälle binden. Austausch, Rücknahme und Rollback MÜSSEN ohne Veränderung von Fachwissen im Modell möglich und erprobt sein."
+                "prose": "Modellfreigaben MÜSSEN eine unveränderbare Modellprüfsumme, Laufzeitversion, Komprimierungsstufe (Quantisierung), Systemanweisungen, Sicherheitsparameter, Bewertungsstand und genehmigte Anwendungsfälle binden. Austausch, Rücknahme und Rückkehr zur freigegebenen Vorversion MÜSSEN ohne Veränderung von Fachwissen im Modell möglich und erprobt sein."
               },
               {
                 "name": "rationale",
@@ -1556,11 +1566,11 @@
               },
               {
                 "name": "assessment-objective",
-                "prose": "Eine freigegebene Version eindeutig reproduzieren, einen Modellwechsel mit Regression prüfen und auf eine vorherige Kombination zurückrollen."
+                "prose": "Eine freigegebene Version eindeutig reproduzieren, einen Modellwechsel durch Wiederholungsprüfungen bewerten und auf eine vorherige freigegebene Kombination zurückkehren."
               },
               {
                 "name": "evidence",
-                "prose": "Freigabemanifest; Modell- und Laufzeithashes; Evaluationsbericht; Änderungsfreigabe; dokumentierter Rollbacktest; RAG-Kompatibilitätsnachweis."
+                "prose": "Freigabemanifest; Modell- und Laufzeitprüfsummen; Bewertungsbericht; Änderungsfreigabe; dokumentierter Rückkehrtest; RAG-Kompatibilitätsnachweis."
               },
               {
                 "name": "source",
@@ -1649,7 +1659,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Vortraining, Fine-Tuning, LoRA, PEFT, RLHF, kontinuierliches oder selbsttätiges Lernen sowie Training aus Chats, Uploads, RAG-Dokumenten oder Nutzereingaben DÜRFEN innerhalb dieses Geltungsbereichs nicht stattfinden. Produktive Modellgewichte MÜSSEN unveränderbar sein."
+                "prose": "Vortraining und Verfahren zur Anpassung vortrainierter Modellgewichte wie Fine-Tuning, LoRA, PEFT oder RLHF, kontinuierliches oder selbsttätiges Lernen sowie Training aus Chats, Dateiübernahmen, RAG-Dokumenten oder Nutzereingaben DÜRFEN innerhalb dieses Geltungsbereichs nicht stattfinden. Produktive Modellgewichte MÜSSEN unveränderbar sein."
               },
               {
                 "name": "rationale",
@@ -1657,7 +1667,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Trainingsframeworks, Schreibpfade auf Modellgewichte und lernende Rückkopplungen werden nicht bereitgestellt. Embedding-Erzeugung, RAG-Indexierung, Systemanweisungen und temporärer Kontext werden technisch und dokumentarisch klar abgegrenzt."
+                "prose": "Trainingssoftware, Schreibpfade auf Modellgewichte und lernende Rückkopplungen werden nicht bereitgestellt. Die Erzeugung von Suchvektoren, die RAG-Indexierung, Systemanweisungen und vorübergehender Gesprächskontext werden technisch und dokumentarisch klar abgegrenzt."
               },
               {
                 "name": "assessment-objective",
@@ -1678,7 +1688,7 @@
       {
         "id": "ki-rag",
         "class": "ki-kontrollgruppe",
-        "title": "Lokale RAG-, Embedding- und Upload-Sicherheit",
+        "title": "Sicherheit der lokalen Wissenssuche, Suchvektoren und Dateiübernahmen",
         "controls": [
           {
             "id": "ki-rag-001",
@@ -1754,23 +1764,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "RAG-Dokumente und Uploads MÜSSEN vor Verarbeitung auf zulässigen Dateityp, Größe, Schadsoftware und aktive Inhalte geprüft werden. Parser, Konverter und Extraktoren MÜSSEN isoliert mit minimalen Rechten, ohne Internet-Egress und mit begrenzten Ressourcen arbeiten."
+                "prose": "RAG-Dokumente und Dateiübernahmen MÜSSEN vor Verarbeitung auf zulässigen Dateityp, Größe, Schadsoftware und aktive Inhalte geprüft werden. Dateiauswertung, Konvertierung und Textextraktion MÜSSEN isoliert mit minimalen Rechten, ohne ausgehende Internetverbindung und mit begrenzten Ressourcen arbeiten."
               },
               {
                 "name": "rationale",
-                "prose": "Dokumente sind eine untrusted Eingabe und können Parserlücken, aktive Inhalte, Ressourcenangriffe oder indirekte Prompt Injection enthalten."
+                "prose": "Dokumente sind nicht als Steueranweisung vertrauenswürdig. Sie können Schwachstellen der Dateiauswertung, aktive Inhalte, Ressourcenangriffe oder eingeschleuste Anweisungen enthalten."
               },
               {
                 "name": "guidance",
-                "prose": "Eine Quarantäne nimmt Dateien entgegen, validiert Signatur und tatsächlichen Typ, scannt sie und übergibt nur zulässige Inhalte an kurzlebige isolierte Parser. Fehlerhafte oder mehrdeutige Dateien werden abgewiesen."
+                "prose": "Eine Quarantäne nimmt Dateien entgegen, prüft Signatur und tatsächlichen Typ, untersucht sie auf Schadsoftware und übergibt nur zulässige Inhalte an kurzlebige isolierte Dateiauswerter. Fehlerhafte oder mehrdeutige Dateien werden abgewiesen."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Mit präparierten Dateien prüfen, ob Typumgehung, aktive Inhalte, Malware, Parserabstürze und Ressourcenüberschreitungen sicher behandelt werden."
+                "prose": "Mit präparierten Dateien prüfen, ob Typumgehung, aktive Inhalte, Schadsoftware, Abstürze der Dateiauswertung und Ressourcenüberschreitungen sicher behandelt werden."
               },
               {
                 "name": "evidence",
-                "prose": "Uploadrichtlinie; Parser-Sicherheitsprofil; Malware- und Typprüfprotokolle; Ressourcenlimits; negative Testkorpora; Quarantäne- und Löschprotokolle."
+                "prose": "Richtlinie für Dateiübernahmen; Sicherheitsprofil der Dateiauswerter; Schadsoftware- und Typprüfprotokolle; Ressourcengrenzen; negative Testdateisammlungen; Quarantäne- und Löschprotokolle."
               },
               {
                 "name": "source",
@@ -1852,23 +1862,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Vor Aufnahme eines Dokuments und bei jeder Abfrage MUSS die Berechtigung anhand einer autoritativen lokalen Quelle geprüft werden. Zugriffsentscheidungen DÜRFEN weder Systemanweisungen noch dem Sprachmodell überlassen werden. Index, Metadaten, Suche, Cache und Ausgabe MÜSSEN dieselbe Berechtigungstrennung wahren."
+                "prose": "Vor Aufnahme eines Dokuments und bei jeder Abfrage MUSS die Berechtigung anhand einer maßgeblichen lokalen Quelle geprüft werden. Zugriffsentscheidungen DÜRFEN weder Systemanweisungen noch dem Sprachmodell überlassen werden. Index, Metadaten, Suche, Zwischenspeicher und Ausgabe MÜSSEN dieselbe Berechtigungstrennung wahren."
               },
               {
                 "name": "rationale",
-                "prose": "Ein globaler Vektorindex oder nur promptbasierte Filter kann geschützte Textausschnitte über semantische Suche, Cache oder Modellausgabe offenlegen."
+                "prose": "Ein gemeinsamer Suchindex oder nur durch Anweisungen gesteuerte Filter können geschützte Textausschnitte über die inhaltliche Ähnlichkeitssuche, Zwischenspeicher oder Modellausgaben offenlegen."
               },
               {
                 "name": "guidance",
-                "prose": "Dokumente tragen Herkunft, Eigentümer, Schutzbedarf und ACL-Metadaten. Die Suchschicht filtert vor Retrieval serverseitig mit aktueller Nutzeridentität; Änderungen und Widerrufe werden zeitnah propagiert."
+                "prose": "Dokumente tragen Herkunft, Eigentümer, Schutzbedarf und Metadaten zu Zugriffsrechten. Die Suchschicht filtert vor der Suche serverseitig mit der aktuellen Nutzeridentität; Änderungen und Widerrufe werden zeitnah übernommen."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Mit berechtigten und unberechtigten Testidentitäten belegen, dass Aufnahme, Suche, direkte Objektabfrage, Cache und generierte Antwort keine ACL-Grenze überschreiten."
+                "prose": "Mit berechtigten und unberechtigten Testidentitäten belegen, dass Aufnahme, Suche, direkte Objektabfrage, Zwischenspeicher und generierte Antwort keine Grenze der Zugriffsregeln überschreiten."
               },
               {
                 "name": "evidence",
-                "prose": "ACL- und Identitätsmapping; Indexschema; Filterkonfiguration; Widerrufslatenz; positive und negative Berechtigungstests; Cachetests."
+                "prose": "Zugriffsregeln und Zuordnung der Identitäten; Indexschema; Filterkonfiguration; nachgewiesene Übernahmezeit von Berechtigungswiderrufen; positive und negative Berechtigungstests; Tests der Zwischenspeicher."
               },
               {
                 "name": "source",
@@ -1954,15 +1964,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Embeddings, Chunks, Indizes, Reranking-Daten und Caches MÜSSEN mindestens wie die Quelldaten geschützt werden. Herkunft und konkrete Fundstellen MÜSSEN bis zur Ausgabe nachvollziehbar bleiben. Löschung MUSS Quelldatei, Extrakte, Index, Embeddings, Cache und den geregelten Ablauf in Sicherungsketten erfassen."
+                "prose": "Suchvektoren, Textabschnitte, Indizes, Daten zur Neusortierung von Suchtreffern und Zwischenspeicher MÜSSEN mindestens wie die Quelldaten geschützt werden. Herkunft und konkrete Fundstellen MÜSSEN bis zur Ausgabe nachvollziehbar bleiben. Löschung MUSS Quelldatei, Extrakte, Index, Suchvektoren, Zwischenspeicher und den geregelten Ablauf in Sicherungsketten erfassen."
               },
               {
                 "name": "rationale",
-                "prose": "Abgeleitete Repräsentationen können Inhalte, Personenbezug und Schutzbedarf bewahren. Unvollständige Löschung oder fehlende Provenienz verhindert Betroffenenrechte und fachliche Prüfung."
+                "prose": "Abgeleitete Daten können Inhalte, Personenbezug und Schutzbedarf der Quelle bewahren. Unvollständige Löschung oder ein fehlender Herkunftsnachweis verhindert Betroffenenrechte und fachliche Prüfung."
               },
               {
                 "name": "guidance",
-                "prose": "Stabile Dokument- und Chunk-IDs verbinden Quelle, Version, ACL und Aufbewahrung. Ein Löschauftrag erzeugt überprüfbare Tombstones, entfernt Onlinekopien und steuert das Auslaufen aus Sicherungen."
+                "prose": "Stabile Kennungen für Dokumente und Textabschnitte verbinden Quelle, Version, Zugriffsregel und Aufbewahrung. Ein Löschauftrag erzeugt überprüfbare Löschmarkierungen, entfernt Onlinekopien und steuert das Auslaufen aus Sicherungen."
               },
               {
                 "name": "assessment-objective",
@@ -1970,7 +1980,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Datenkatalog; Provenienzmetadaten; Quellennachweise in Ausgaben; Aufbewahrungsplan; Löschprotokoll; Such- und Cache-Nachtest; Sicherungskonzept."
+                "prose": "Datenkatalog; Herkunftsmetadaten; Quellennachweise in Ausgaben; Aufbewahrungsplan; Löschprotokoll; Nachtest von Suche und Zwischenspeichern; Sicherungskonzept."
               },
               {
                 "name": "source",
@@ -1981,7 +1991,7 @@
           {
             "id": "ki-rag-004",
             "class": "ki-sicherheitsanforderung",
-            "title": "Sitzungsbezogene On-Demand-Uploads",
+            "title": "Sitzungsbezogene bedarfsgesteuerte Dateiübernahmen",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2047,23 +2057,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "On-Demand-Uploads MÜSSEN standardmäßig sitzungsbezogen, zweckgebunden und zeitlich begrenzt verarbeitet werden. Eine persistente Ablage oder Aufnahme in einen dauerhaften RAG-Bestand DARF nur nach ausdrücklicher Genehmigung, Metadatenvergabe und Berechtigungsprüfung erfolgen."
+                "prose": "Bedarfsgesteuerte Dateiübernahmen MÜSSEN standardmäßig sitzungsbezogen, zweckgebunden und zeitlich begrenzt verarbeitet werden. Eine dauerhafte Ablage oder Aufnahme in einen dauerhaften RAG-Bestand DARF nur nach ausdrücklicher Genehmigung, Metadatenvergabe und Berechtigungsprüfung erfolgen."
               },
               {
                 "name": "rationale",
-                "prose": "Beiläufige Uploads können unbemerkt zu dauerhaften Wissens- oder Protokollbeständen werden und Zweckbindung, Löschung sowie Zugriffsschutz unterlaufen."
+                "prose": "Beiläufige Dateiübernahmen können unbemerkt zu dauerhaften Wissens- oder Protokollbeständen werden und Zweckbindung, Löschung sowie Zugriffsschutz unterlaufen."
               },
               {
                 "name": "guidance",
-                "prose": "Temporäre Speicher verwenden eindeutige Sitzungs- und Nutzerbindung, kurze Aufbewahrung, keine globale Suche und einen verifizierten Abschlusslöschlauf. UI und API zeigen die Speicherwirkung vor Upload an."
+                "prose": "Vorübergehende Speicher verwenden eindeutige Sitzungs- und Nutzerbindung, kurze Aufbewahrung, keine globale Suche und einen nachweislich vollständigen Löschlauf. Benutzungsoberfläche und Programmierschnittstelle zeigen die Speicherwirkung vor der Dateiübernahme an."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Nach Sitzungsende prüfen, dass Upload, Extrakte, Embeddings und Caches nicht mehr zugreifbar sind und keine Aufnahme in dauerhafte Indizes erfolgte."
+                "prose": "Nach Sitzungsende prüfen, dass übertragene Datei, Auszüge, Suchvektoren und Zwischenspeicher nicht mehr zugreifbar sind und keine Aufnahme in dauerhafte Indizes erfolgte."
               },
               {
                 "name": "evidence",
-                "prose": "Uploadanzeige; Aufbewahrungskonfiguration; Sitzungsbindung; Löschjobprotokolle; negative Suchtests; Genehmigung für persistente Ausnahmen."
+                "prose": "Anzeige der Speicherwirkung; Aufbewahrungskonfiguration; Sitzungsbindung; Protokolle automatisierter Löschaufträge; negative Suchtests; Genehmigung für dauerhafte Ausnahmen."
               },
               {
                 "name": "source",
@@ -2081,7 +2091,7 @@
           {
             "id": "ki-iam-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Least Privilege und Geheimnisbehandlung für KI-Dienste",
+            "title": "Minimalrechte und Umgang mit Zugangsdaten und Geheimnissen für KI-Dienste",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2156,7 +2166,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Nutzer-, Dienst- und Administrationsidentitäten MÜSSEN getrennt, minimal berechtigt, einzeln widerrufbar und einer verantwortlichen Stelle zugeordnet sein. Geheimnisse DÜRFEN nicht in Prompts, Projektdateien, Images, Modellartefakten, Chatverläufen oder Protokollen gespeichert werden."
+                "prose": "Nutzer-, Dienst- und Administrationsidentitäten MÜSSEN getrennt, minimal berechtigt, einzeln widerrufbar und einer verantwortlichen Stelle zugeordnet sein. Geheimnisse DÜRFEN nicht in Eingaben, Projektdateien, Containerabbildern, Modelldateien, Chatverläufen oder Protokollen gespeichert werden."
               },
               {
                 "name": "rationale",
@@ -2164,7 +2174,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Lokaler IdP, kurzlebige Anmeldedaten, verwalteter Secret Store, dienstbezogene Rollen, MFA für privilegierte Zugriffe und regelmäßige Rezertifizierung werden eingesetzt. Protokollfilter maskieren Geheimnismuster."
+                "prose": "Lokaler Identitätsdienst, kurzlebige Anmeldedaten, verwaltete lokale Geheimnisablage, dienstbezogene Rollen, Mehrfaktorauthentisierung für privilegierte Zugriffe und regelmäßige erneute Berechtigungsprüfungen werden eingesetzt. Protokollfilter verdecken Geheimnismuster."
               },
               {
                 "name": "assessment-objective",
@@ -2172,7 +2182,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Rollen- und Kontenregister; Rezertifizierung; Secret-Store-Konfiguration; Widerrufstest; Suchlauf in Repositories und Protokollen; Administrationsnachweise."
+                "prose": "Rollen- und Kontenregister; erneute Berechtigungsprüfung; Konfiguration der Geheimnisablage; Widerrufstest; Suchlauf in Codeablagen und Protokollen; Administrationsnachweise."
               },
               {
                 "name": "source",
@@ -2261,15 +2271,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Chat-Oberflächen und agentische Clients MÜSSEN auf genehmigte lokale Arbeitsbereiche und die minimal erforderlichen Lese- beziehungsweise Schreibrechte begrenzt werden. Pauschale Administrator-, Benutzerprofil-, Laufwerks- oder Repository-Rechte DÜRFEN nicht erteilt werden."
+                "prose": "Chat-Oberflächen und agentische Clients MÜSSEN auf genehmigte lokale Arbeitsbereiche und die minimal erforderlichen Lese- beziehungsweise Schreibrechte begrenzt werden. Pauschale Administrator-, Benutzerprofil-, Laufwerks- oder Rechte auf Codeablagen DÜRFEN nicht erteilt werden."
               },
               {
                 "name": "rationale",
-                "prose": "Agentische Anwendungen können Modellentscheidungen in reale Datei- und Entwicklungsoperationen übersetzen. Breite Rechte verwandeln Fehlanweisungen oder Prompt Injection in unmittelbare Schäden."
+                "prose": "Agentische Anwendungen können Modellentscheidungen in reale Datei- und Quellcodeänderungen übersetzen. Breite Rechte verwandeln Fehlanweisungen oder eingeschleuste Anweisungen in unmittelbare Schäden."
               },
               {
                 "name": "guidance",
-                "prose": "Arbeitsbereichsprofile trennen Lesen, Schreiben, Ausführen und Netz. Betriebssystemrechte, Sandbox oder gleichwertige Kontrollen verhindern Zugriffe außerhalb des ausgewählten Projekts."
+                "prose": "Arbeitsbereichsprofile trennen Lesen, Schreiben, Ausführen und Netz. Betriebssystemrechte, eine abgeschottete Ausführungsumgebung oder gleichwertige Kontrollen verhindern Zugriffe außerhalb des ausgewählten Projekts."
               },
               {
                 "name": "assessment-objective",
@@ -2277,7 +2287,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Clientrichtlinie; effektive Dateirechte; Sandboxprofil; Rollenfreigabe; negative Pfad- und Privilegientests."
+                "prose": "Clientrichtlinie; wirksame Dateirechte; Profil der abgeschotteten Ausführungsumgebung; Rollenfreigabe; negative Pfad- und Privilegientests."
               },
               {
                 "name": "source",
@@ -2364,7 +2374,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Chat- und Agentenclients MÜSSEN ausschließlich auf freigegebene lokale HTTPS-Endpunkte festgelegt werden. Nutzende DÜRFEN keine beliebigen Provider, Basen-URLs oder Modelle hinzufügen; Telemetrie, automatische Anmeldung und Cloud-Fallbacks MÜSSEN deaktiviert sein."
+                "prose": "Chat- und Agentenclients MÜSSEN ausschließlich auf freigegebene lokale HTTPS-Endpunkte festgelegt werden. Nutzende DÜRFEN keine beliebigen Anbieter, Basisadressen oder Modelle hinzufügen; Telemetrie, automatische Anmeldung und automatische Ausweichverbindungen zu Cloud-Diensten MÜSSEN deaktiviert sein."
               },
               {
                 "name": "rationale",
@@ -2372,15 +2382,15 @@
               },
               {
                 "name": "guidance",
-                "prose": "Clientkonfigurationen werden verwaltet, signiert oder gegen eine Baseline geprüft. Namensauflösung und Egress-Regeln bilden eine zweite technische Sperre."
+                "prose": "Clientkonfigurationen werden verwaltet, signiert oder gegen einen freigegebenen Ausgangsstand geprüft. Namensauflösung und Regeln für ausgehenden Netzwerkverkehr bilden eine zweite technische Sperre."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Manipulierte Clientkonfigurationen und alternative Provider müssen blockiert oder erkannt werden; der wirksame Endpunkt ist serverseitig und im Netzprotokoll nachweisbar."
+                "prose": "Manipulierte Clientkonfigurationen und alternative Anbieter müssen blockiert oder erkannt werden; der wirksame Endpunkt ist serverseitig und im Netzprotokoll nachweisbar."
               },
               {
                 "name": "evidence",
-                "prose": "Clientbaseline; Providerfreigabeliste; Konfigurationsschutz; Egress- und DNS-Protokolle; negative Provider- und Fallbacktests."
+                "prose": "Freigegebener Clientausgangsstand; Anbieterfreigabeliste; Konfigurationsschutz; Protokolle zu ausgehendem Netzwerkverkehr und DNS; negative Anbieter- und Ausweichverbindungstests."
               },
               {
                 "name": "source",
@@ -2393,12 +2403,12 @@
       {
         "id": "ki-prompt-ausgabe",
         "class": "ki-kontrollgruppe",
-        "title": "Prompt Injection, Datenabfluss und unsichere Modellausgaben",
+        "title": "Eingeschleuste Anweisungen, Datenabfluss und unsichere Modellausgaben",
         "controls": [
           {
             "id": "ki-pmt-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Untrusted Inhalte und indirekte Prompt Injection",
+            "title": "Nicht vertrauenswürdige Inhalte und eingeschleuste Anweisungen",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2469,23 +2479,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Inhalte aus Dokumenten, Quellcode, Webseiten, Tool-Ausgaben und RAG-Treffern MÜSSEN als untrusted Daten behandelt und von Systemanweisungen getrennt werden. Sie DÜRFEN keine Berechtigungen erweitern, Sicherheitsrichtlinien verändern oder selbstständig Tool-Aktionen auslösen."
+                "prose": "Inhalte aus Dokumenten, Quellcode, Webseiten, Werkzeugausgaben und RAG-Treffern MÜSSEN als nicht vertrauenswürdige Daten behandelt und von Systemanweisungen getrennt werden. Sie DÜRFEN keine Berechtigungen erweitern, Sicherheitsrichtlinien verändern oder selbstständig Werkzeugaktionen auslösen."
               },
               {
                 "name": "rationale",
-                "prose": "Sprachmodelle unterscheiden Anweisungen und Daten nicht zuverlässig. Indirekte Prompt Injection kann über vertrauenswürdig erscheinende Quellen Aktionen oder Datenabfluss anstoßen."
+                "prose": "Sprachmodelle unterscheiden Anweisungen und Daten nicht zuverlässig. Indirekt eingeschleuste Anweisungen können über vertrauenswürdig erscheinende Quellen Aktionen oder Datenabfluss anstoßen."
               },
               {
                 "name": "guidance",
-                "prose": "Vertrauensmarkierungen, Kontexttrennung, Instruktionshierarchie, Tool-Policy, Ausgabevalidierung und Bestätigungsgates wirken gemeinsam. Quellen mit erkannten Manipulationsmustern werden isoliert oder verworfen."
+                "prose": "Vertrauensmarkierungen, Kontexttrennung, Rangfolge von Anweisungen, Werkzeugrichtlinie, Ausgabeprüfung und Bestätigungssperren wirken gemeinsam. Quellen mit erkannten Manipulationsmustern werden isoliert oder verworfen."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Mit dokumentierten direkten und indirekten Angriffsprompts prüfen, dass Richtlinien, Berechtigungen, Geheimnisse und Toolgrenzen nicht umgangen werden."
+                "prose": "Mit dokumentierten direkten und indirekten Angriffseingaben prüfen, dass Richtlinien, Berechtigungen, Geheimnisse und Werkzeuggrenzen nicht umgangen werden."
               },
               {
                 "name": "evidence",
-                "prose": "Bedrohungskorpus; Prompt-Injection-Tests; Richtlinienkonfiguration; Angriffsergebnisse; Block- und Alarmprotokolle; akzeptierte Restgrenzen."
+                "prose": "Sammlung von Angriffsfällen; Tests mit eingeschleusten Anweisungen; Richtlinienkonfiguration; Angriffsergebnisse; Block- und Alarmprotokolle; akzeptierte Restgrenzen."
               },
               {
                 "name": "source",
@@ -2496,7 +2506,7 @@
           {
             "id": "ki-out-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Validierung, Kennzeichnung und menschliche Prüfung von Ausgaben",
+            "title": "Prüfung, Kennzeichnung und menschliche Freigabe von Ausgaben",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2567,7 +2577,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "KI-Ausgaben MÜSSEN als potenziell unzutreffend und untrusted behandelt, anwendungsbezogen validiert und vor sicherheitsrelevanter, rechtlicher oder fachlich wesentlicher Wirkung durch eine befugte Person geprüft werden. KI-Nutzung und Quellen MÜSSEN entsprechend Zweck und Rechtslage nachvollziehbar gekennzeichnet werden."
+                "prose": "KI-Ausgaben MÜSSEN als potenziell unzutreffend und nicht vertrauenswürdig behandelt, anwendungsbezogen geprüft und vor sicherheitsrelevanter, rechtlicher oder fachlich wesentlicher Wirkung durch eine befugte Person bestätigt werden. KI-Nutzung und Quellen MÜSSEN entsprechend Zweck und Rechtslage nachvollziehbar gekennzeichnet werden."
               },
               {
                 "name": "rationale",
@@ -2575,7 +2585,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Struktur-, Typ-, Policy- und Sicherheitsprüfungen begrenzen maschinelle Weiterverarbeitung. Hochwirksame Entscheidungen und Änderungen besitzen ein echtes menschliches Stopprecht und nachvollziehbare Freigabe."
+                "prose": "Struktur-, Typ-, Richtlinien- und Sicherheitsprüfungen begrenzen maschinelle Weiterverarbeitung. Hochwirksame Entscheidungen und Änderungen besitzen ein echtes menschliches Stopprecht und eine nachvollziehbare Freigabe."
               },
               {
                 "name": "assessment-objective",
@@ -2583,7 +2593,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Validierungsregeln; Review- und Freigabeprotokolle; Kennzeichnungsvorgaben; Fehlerkorpus; negative Weiterverarbeitungstests."
+                "prose": "Prüfregeln; Prüf- und Freigabeprotokolle; Kennzeichnungsvorgaben; Sammlung fehlerhafter Testausgaben; negative Weiterverarbeitungstests."
               },
               {
                 "name": "source",
@@ -2596,12 +2606,12 @@
       {
         "id": "ki-tools",
         "class": "ki-kontrollgruppe",
-        "title": "Tool-Nutzung, Dateizugriff und Befehlsausführung",
+        "title": "Werkzeugnutzung, Dateizugriff und Befehlsausführung",
         "controls": [
           {
             "id": "ki-tol-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Getrennte Tool-Fähigkeiten und Bestätigung kritischer Aktionen",
+            "title": "Getrennte Werkzeugfunktionen und Bestätigung kritischer Aktionen",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2617,7 +2627,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Tool-Verantwortliche;Clientverantwortliche;Nutzende"
+                "value": "Werkzeugverantwortliche;Clientverantwortliche;Nutzende"
               },
               {
                 "name": "anwendbarkeit",
@@ -2680,7 +2690,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Eine server- oder clientseitig erzwungene Tool-Policy bindet Fähigkeiten an Rolle, Arbeitsbereich und Anwendungsfall. Bestätigungsdialoge zeigen exakten Befehl, Ziel, Auswirkung und Datenziel; Sammelfreigaben sind unzulässig."
+                "prose": "Eine server- oder clientseitig erzwungene Werkzeugrichtlinie bindet Fähigkeiten an Rolle, Arbeitsbereich und Anwendungsfall. Bestätigungsdialoge zeigen den genauen Befehl, das Ziel, die Auswirkung und das Datenziel; Sammelfreigaben sind unzulässig."
               },
               {
                 "name": "assessment-objective",
@@ -2688,7 +2698,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Tool-Policy; Rollenmatrix; Bestätigungsprotokolle; Testbefehle; negative Rechte- und Umgehungstests."
+                "prose": "Werkzeugrichtlinie; Rollenmatrix; Bestätigungsprotokolle; Testbefehle; negative Rechte- und Umgehungstests."
               },
               {
                 "name": "source",
@@ -2699,7 +2709,7 @@
           {
             "id": "ki-tol-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Kontrollierte Erweiterungen, MCP-Server und Tool-Protokollierung",
+            "title": "Kontrollierte Erweiterungen, MCP-Server und Werkzeugprotokollierung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -2715,7 +2725,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Tool-Verantwortliche;Informationssicherheitsbeauftragte;Protokollierungsverantwortliche"
+                "value": "Werkzeugverantwortliche;Informationssicherheitsbeauftragte;Protokollierungsverantwortliche"
               },
               {
                 "name": "anwendbarkeit",
@@ -2770,15 +2780,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Plug-ins, Erweiterungen, MCP-Server, Tools und Paketquellen MÜSSEN inventarisiert, lokal bezogen, versionsfixiert, geprüft und ausdrücklich freigegeben werden. Tool-Aufrufe MÜSSEN mit Identität, Zweck, Parametern, Ziel, Ergebnisstatus und Bestätigungsentscheidung lokal nachvollziehbar protokolliert werden, ohne unnötige Inhalts- oder Geheimnisdaten zu speichern."
+                "prose": "Erweiterungen, MCP-Server, Werkzeuge und Paketquellen MÜSSEN inventarisiert, lokal bezogen, versionsfixiert, geprüft und ausdrücklich freigegeben werden. Werkzeugaufrufe MÜSSEN mit Identität, Zweck, Parametern, Ziel, Ergebnisstatus und Bestätigungsentscheidung lokal nachvollziehbar protokolliert werden, ohne unnötige Inhalts- oder Geheimnisdaten zu speichern."
               },
               {
                 "name": "rationale",
-                "prose": "Erweiterungen bilden eine dynamische Lieferkette und können zusätzliche Rechte oder Egresspfade einführen. Ohne Aufrufprotokolle bleiben reale Agentenwirkungen unklar."
+                "prose": "Erweiterungen bilden eine dynamische Lieferkette und können zusätzliche Rechte oder Wege für ausgehenden Netzwerkverkehr einführen. Ohne Aufrufprotokolle bleiben reale Agentenwirkungen unklar."
               },
               {
                 "name": "guidance",
-                "prose": "Zulässigkeitslisten, lokale Registrierungen, Hashes und Signaturen begrenzen die Lieferkette. Die Protokollierung trennt technische Metadaten von schutzbedürftigen Inhalten und schützt vor nachträglicher Veränderung."
+                "prose": "Zulässigkeitslisten, lokale Registrierungen, kryptografische Prüfsummen und Signaturen begrenzen die Lieferkette. Die Protokollierung trennt technische Metadaten von schutzbedürftigen Inhalten und schützt vor nachträglicher Veränderung."
               },
               {
                 "name": "assessment-objective",
@@ -2786,7 +2796,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Erweiterungsinventar; Freigabe- und Importnachweise; Hashes; lokale Registrierungen; Tool-Auditprotokolle; Manipulationsschutz; negative Installationstests."
+                "prose": "Erweiterungsinventar; Freigabe- und Importnachweise; kryptografische Prüfsummen; lokale Registrierungen; Werkzeugprüfprotokolle; Manipulationsschutz; negative Installationstests."
               },
               {
                 "name": "source",
@@ -2799,7 +2809,7 @@
       {
         "id": "ki-bedrohungen",
         "class": "ki-kontrollgruppe",
-        "title": "Adversariale Angriffe, Modellmissbrauch und Ressourcenerschöpfung",
+        "title": "Gezielte Angriffe, Modellmissbrauch und Ressourcenerschöpfung",
         "controls": [
           {
             "id": "ki-thr-001",
@@ -2862,6 +2872,11 @@
                 "text": "[Q-BSI-001] S. 12–16"
               },
               {
+                "href": "#4b0577d2-73dc-4156-8131-6eac7fb22003",
+                "rel": "reference",
+                "text": "[Q-BSI-2003-001] S. 5–7, S. 26–28 und S. 33–35"
+              },
+              {
                 "href": "#a8954ebc-01dc-5177-ba62-2b80a2b367e7",
                 "rel": "reference",
                 "text": "[Q-NIST-002] Taxonomie der Angriffe und Abhilfen"
@@ -2880,11 +2895,11 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Für jeden Anwendungsfall MUSS ein aktuelles Bedrohungsmodell Eingabe-, Modell-, Daten-, RAG-, Tool-, Client-, Schnittstellen- und Lieferkettenpfade betrachten. Mindestens Prompt Injection, Poisoning, Evasion, Datenrekonstruktion, Modellmissbrauch, unsichere Ausgaben, Privilegienausweitung und Datenabfluss MÜSSEN bewertet werden."
+                "prose": "Für jeden Anwendungsfall MUSS ein aktuelles Bedrohungsmodell Eingabe-, Modell-, Daten-, RAG-, Werkzeug-, Client-, Schnittstellen- und Lieferkettenpfade betrachten. Mindestens eingeschleuste Anweisungen, gezielte Manipulation von Modellen, Daten oder Wissensquellen, Umgehung von Schutzmechanismen, Datenrekonstruktion, Modellmissbrauch, unsichere Ausgaben, Rechteausweitung und Datenabfluss MÜSSEN bewertet werden."
               },
               {
                 "name": "rationale",
-                "prose": "Klassische Systemmodelle erfassen die probabilistische Verarbeitung untrusted Inhalte und die Handlungsketten agentischer Systeme nicht vollständig."
+                "prose": "Klassische Systemmodelle erfassen die nicht vollständig vorhersagbare Verarbeitung nicht vertrauenswürdiger Inhalte und die Handlungsketten agentischer Systeme nicht vollständig."
               },
               {
                 "name": "guidance",
@@ -2900,7 +2915,7 @@
               },
               {
                 "name": "source",
-                "prose": "[Q-BSI-001], S. 12–16; [Q-NIST-002], Taxonomie der Angriffe und Abhilfen; [Q-MITRE-001], Tactics and techniques; [Q-OWASP-001], LLM Top 10 2025."
+                "prose": "[Q-BSI-001], S. 12–16; [Q-BSI-2003-001], S. 5–7, S. 26–28 und S. 33–35; [Q-NIST-002], Taxonomie der Angriffe und Abhilfen; [Q-MITRE-001], Tactics and techniques; [Q-OWASP-001], LLM Top 10 2025."
               }
             ]
           },
@@ -2978,7 +2993,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Token, Kontext, Ausgabe, Datei- und Batchgröße, Parallelität, Laufzeit, Speicher, Beschleuniger, Retrieval-Treffer und Tool-Aufrufe MÜSSEN je Identität und Dienst begrenzt werden. Missbrauch und Ressourcenerschöpfung MÜSSEN erkannt, gedrosselt und kontrolliert beendet werden."
+                "prose": "Eingabe-, Kontext- und Ausgabemenge, Datei- und Stapelgröße, Anzahl gleichzeitiger Anfragen, Laufzeit, Speicher, Beschleuniger, Suchtreffer und Werkzeugaufrufe MÜSSEN je Identität und Dienst begrenzt werden. Missbrauch und Ressourcenerschöpfung MÜSSEN erkannt, gedrosselt und kontrolliert beendet werden."
               },
               {
                 "name": "rationale",
@@ -2986,7 +3001,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Quoten, Timeouts, Queueing, Circuit Breaker, Prioritäten und Kapazitätsreserven werden zentral konfiguriert. Kritische Basisdienste bleiben von KI-Ressourcen entkoppelt."
+                "prose": "Quoten, Zeitüberschreitungen, Warteschlangensteuerung, automatische Unterbrechung bei Überlastung, Prioritäten und Kapazitätsreserven werden zentral konfiguriert. Kritische Basisdienste bleiben von KI-Ressourcen entkoppelt."
               },
               {
                 "name": "assessment-objective",
@@ -3007,12 +3022,12 @@
       {
         "id": "ki-evaluierung",
         "class": "ki-kontrollgruppe",
-        "title": "Evaluierung, Freigabe, Regression und Rollback",
+        "title": "Bewertung, Freigabe, Wiederholungsprüfung und Rückkehr zur Vorversion",
         "controls": [
           {
             "id": "ki-val-001",
             "class": "ki-sicherheitsanforderung",
-            "title": "Reproduzierbare Qualitäts- und Sicherheitsevaluierung",
+            "title": "Wiederholbare Qualitäts- und Sicherheitsbewertung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -3088,15 +3103,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Vor Erstfreigabe MUSS jede Modell-Laufzeit-Anwendungsfall-Kombination anhand repräsentativer, getrennt verwalteter Testfälle auf fachliche Qualität, Robustheit, Datenschutz und Sicherheit evaluiert werden. Schwellenwerte, Metriken, Datensätze, Zufallsparameter, Umgebung und Ergebnisse MÜSSEN dokumentiert und reproduzierbar sein."
+                "prose": "Vor Erstfreigabe MUSS jede Modell-Laufzeit-Anwendungsfall-Kombination anhand repräsentativer, getrennt verwalteter Testfälle auf fachliche Qualität, Robustheit, Datenschutz und Sicherheit bewertet werden. Schwellenwerte, Messgrößen, Datensätze, Zufallsparameter, Umgebung und Ergebnisse MÜSSEN dokumentiert und wiederholbar sein."
               },
               {
                 "name": "rationale",
-                "prose": "Allgemeine Benchmarks belegen weder Eignung noch Sicherheit im lokalen Anwendungsfall. Modellantworten sind variabel und benötigen wiederholbare Messung."
+                "prose": "Allgemeine Vergleichstests belegen weder Eignung noch Sicherheit im lokalen Anwendungsfall. Modellantworten sind variabel und benötigen wiederholbare Messungen."
               },
               {
                 "name": "guidance",
-                "prose": "Ein fachliches Testset, Missbrauchs- und Red-Team-Fälle sowie klare Abnahmeschwellen werden vor dem Test festgelegt. Unabhängige qualifizierte Personen prüfen wesentliche Ergebnisse."
+                "prose": "Eine fachliche Testfallsammlung, Missbrauchsfälle und unabhängige Angriffstests sowie klare Abnahmeschwellen werden vor dem Test festgelegt. Unabhängige qualifizierte Personen prüfen wesentliche Ergebnisse."
               },
               {
                 "name": "assessment-objective",
@@ -3104,7 +3119,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Testplan; versionierte Testdaten; Metrikdefinitionen; Laufzeit- und Parameterstand; Roh- und Ergebnisdaten; unabhängiges Review; Freigabeentscheidung."
+                "prose": "Testplan; versionierte Testdaten; Definitionen der Messgrößen; Laufzeit- und Parameterstand; Roh- und Ergebnisdaten; unabhängige Prüfung; Freigabeentscheidung."
               },
               {
                 "name": "source",
@@ -3115,7 +3130,7 @@
           {
             "id": "ki-val-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Änderungsabhängige Regression, Wiederfreigabe und Rollback",
+            "title": "Änderungsabhängige Wiederholungsprüfung, Wiederfreigabe und Rückkehr zur Vorversion",
             "props": [
               {
                 "name": "alt-identifier",
@@ -3186,7 +3201,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Änderungen an Modell, Quantisierung, Laufzeit, Systemanweisung, RAG-Daten oder -Logik, Embeddings, Reranker, Gateway, Tooling und Sicherheitsparametern MÜSSEN risikobasiert Regressionstests und eine Wiederfreigabe auslösen. Bei Abweichungen MUSS ein getesteter Rollback verfügbar sein."
+                "prose": "Änderungen an Modell, Modellkomprimierung, Laufzeit, Systemanweisung, RAG-Daten oder -Logik, Suchvektoren, Treffer-Neusortierung, kontrolliertem KI-Zugang, Werkzeugen und Sicherheitsparametern MÜSSEN risikobasierte Wiederholungsprüfungen und eine Wiederfreigabe auslösen. Bei Abweichungen MUSS die getestete Rückkehr zur freigegebenen Vorversion verfügbar sein."
               },
               {
                 "name": "rationale",
@@ -3194,7 +3209,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Eine Änderungsmatrix ordnet Komponenten konkrete Tests zu. Automatisierte Vergleiche erkennen Sicherheits- und Qualitätsregressionen; Freigabemanifeste erlauben atomaren Wechsel und Rückkehr."
+                "prose": "Eine Änderungsmatrix ordnet Komponenten konkrete Tests zu. Automatisierte Vergleiche erkennen Verschlechterungen von Sicherheit und Qualität; Freigabemanifeste erlauben einen vollständigen Wechsel und die Rückkehr zur Vorversion."
               },
               {
                 "name": "assessment-objective",
@@ -3202,7 +3217,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Änderungsantrag; Auswirkungsanalyse; Regressionsergebnisse; neues Freigabemanifest; Rollbackplan und -test; Kommunikationsnachweis."
+                "prose": "Änderungsantrag; Auswirkungsanalyse; Ergebnisse der Wiederholungsprüfungen; neues Freigabemanifest; Rückkehrplan und Rückkehrtest; Kommunikationsnachweis."
               },
               {
                 "name": "source",
@@ -3215,7 +3230,7 @@
       {
         "id": "ki-betrieb",
         "class": "ki-kontrollgruppe",
-        "title": "Protokollierung, Monitoring, Drift, Vorfälle und Wiederanlauf",
+        "title": "Protokollierung, Überwachung, Verhaltensänderungen, Vorfälle und Wiederanlauf",
         "controls": [
           {
             "id": "ki-ops-001",
@@ -3291,23 +3306,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Sicherheitsrelevante KI-Ereignisse MÜSSEN lokal, zeitlich synchronisiert, identitätsbezogen und manipulationsgeschützt protokolliert werden. Erforderlich sind mindestens Modell- und Richtlinienversion, Zugriff, Tool-Aufruf, Freigabe, Blockierung, Grenzwertverletzung, Administrationsänderung und Vorfallbezug; Inhaltsdaten DÜRFEN nur zweckgebunden und minimiert gespeichert werden."
+                "prose": "Sicherheitsrelevante KI-Ereignisse MÜSSEN lokal, zeitlich synchronisiert, identitätsbezogen und manipulationsgeschützt protokolliert werden. Erforderlich sind mindestens Modell- und Richtlinienversion, Zugriff, Werkzeugaufruf, Freigabe, Blockierung, Grenzwertverletzung, Administrationsänderung und Vorfallbezug; Inhaltsdaten DÜRFEN nur zweckgebunden und minimiert gespeichert werden."
               },
               {
                 "name": "rationale",
-                "prose": "Ohne technische Kontextdaten lassen sich Modellverhalten und Agentenwirkungen nicht untersuchen; vollständige Prompts können zugleich sensible Inhalte und Geheimnisse vervielfachen."
+                "prose": "Ohne technische Kontextdaten lassen sich Modellverhalten und Agentenwirkungen nicht untersuchen; vollständige Eingaben können zugleich sensible Inhalte und Geheimnisse vervielfachen."
               },
               {
                 "name": "guidance",
-                "prose": "Ein Protokollierungskonzept trennt Sicherheitsmetadaten, optionale Inhaltsprotokolle und Auditdaten, definiert Zugriff, Aufbewahrung, Integrität, Löschung und lokale SIEM-Korrelation."
+                "prose": "Ein Protokollierungskonzept trennt Sicherheitsmetadaten, optionale Inhaltsprotokolle und Prüfdaten. Es legt Zugriff, Aufbewahrung, Integrität, Löschung und die Verknüpfung in der lokalen Sicherheitsauswertung fest."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Aus einem Testvorfall die verantwortliche Identität, wirksame Modell- und Richtlinienversion sowie Toolkette rekonstruieren, ohne unnötige Inhaltsdaten offenzulegen."
+                "prose": "Aus einem Testvorfall die verantwortliche Identität, wirksame Modell- und Richtlinienversion sowie Werkzeugkette rekonstruieren, ohne unnötige Inhaltsdaten offenzulegen."
               },
               {
                 "name": "evidence",
-                "prose": "Protokollierungskonzept; Beispieldatensätze; Zeit- und Integritätsnachweis; SIEM-Regeln; Zugriffs- und Löschprüfung; Rekonstruktionsübung."
+                "prose": "Protokollierungskonzept; Beispieldatensätze; Zeit- und Integritätsnachweis; Regeln der zentralen Sicherheitsauswertung; Zugriffs- und Löschprüfung; Rekonstruktionsübung."
               },
               {
                 "name": "source",
@@ -3318,7 +3333,7 @@
           {
             "id": "ki-ops-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Monitoring, Drift und KI-Vorfallbehandlung",
+            "title": "Überwachung, schleichende Verhaltensänderungen und KI-Vorfallbehandlung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -3389,15 +3404,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Qualität, Fehlerraten, Ablehnungen, Ressourcenverbrauch, Policy-Verstöße, Prompt-Injection-Indikatoren, RAG-Auffälligkeiten und Modell- beziehungsweise Konfigurationsdrift MÜSSEN risikoorientiert überwacht werden. KI-spezifische Vorfälle MÜSSEN in den allgemeinen Vorfallprozess integriert und mit Abschalt- und Rückrollmöglichkeiten behandelt werden."
+                "prose": "Qualität, Fehlerraten, Ablehnungen, Ressourcenverbrauch, Richtlinienverstöße, Anzeichen eingeschleuster Anweisungen, Auffälligkeiten der lokalen Wissenssuche sowie schleichende Modell- oder Konfigurationsänderungen MÜSSEN risikoorientiert überwacht werden. KI-spezifische Vorfälle MÜSSEN in den allgemeinen Vorfallprozess integriert und mit Abschaltmöglichkeiten sowie der Rückkehr zur freigegebenen Vorversion behandelt werden."
               },
               {
                 "name": "rationale",
-                "prose": "Verschlechterungen und Angriffe zeigen sich häufig zuerst in Ausgabe- oder Nutzungsmetriken und nicht in klassischen Hostalarmen."
+                "prose": "Verschlechterungen und Angriffe zeigen sich häufig zuerst in Messgrößen der Ausgaben oder Nutzung und nicht in klassischen Alarmmeldungen des Serverbetriebssystems."
               },
               {
                 "name": "guidance",
-                "prose": "Baseline, Schwellenwerte, Alarmwege, Triageleitfäden und sichere Degradationsmodi werden festgelegt. Vorfallsübungen umfassen Datenabfluss, vergiftete RAG-Quelle, kompromittiertes Modell und Agentenfehlaktion."
+                "prose": "Freigegebener Ausgangsstand, Schwellenwerte, Alarmwege, Leitfäden zur Ersteinschätzung und sichere Betriebsarten mit vermindertem Funktionsumfang werden festgelegt. Vorfallsübungen umfassen Datenabfluss, manipulierte RAG-Quellen, kompromittierte Modelle und Agentenfehlaktionen."
               },
               {
                 "name": "assessment-objective",
@@ -3405,7 +3420,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Monitoringkonzept; Dashboards; Alarmregeln; Driftbericht; Vorfallleitfäden; Übungsprotokolle; Korrektur- und Rückrollnachweise."
+                "prose": "Überwachungskonzept; Übersichten; Alarmregeln; Bericht zu Verhaltensänderungen; Vorfallleitfäden; Übungsprotokolle; Korrektur- und Rückkehrnachweise."
               },
               {
                 "name": "source",
@@ -3487,7 +3502,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Wiederanlauf- und Sicherungsverfahren MÜSSEN die konsistente Kombination aus Modell, Laufzeit, Gatewayrichtlinien, Systemanweisungen, RAG-Quellen, Index, ACL-Metadaten, Konfiguration und Nachweisen berücksichtigen. Wiederherstellungen MÜSSEN regelmäßig ohne Internetzugang erprobt werden."
+                "prose": "Wiederanlauf- und Sicherungsverfahren MÜSSEN die konsistente Kombination aus Modell, Laufzeit, Richtlinien des kontrollierten KI-Zugangs, Systemanweisungen, RAG-Quellen, Index, Metadaten der Zugriffsregeln, Konfiguration und Nachweisen berücksichtigen. Wiederherstellungen MÜSSEN regelmäßig ohne Internetzugang erprobt werden."
               },
               {
                 "name": "rationale",
@@ -3495,15 +3510,15 @@
               },
               {
                 "name": "guidance",
-                "prose": "Versionierte Sicherungssätze und Wiederanlaufreihenfolge stellen Identitäten und Richtlinien vor Daten- und KI-Funktionen bereit. Nach Wiederherstellung erfolgen Integritäts-, Berechtigungs- und Regressionstests."
+                "prose": "Versionierte Sicherungssätze und Wiederanlaufreihenfolge stellen Identitäten und Richtlinien vor Daten- und KI-Funktionen bereit. Nach Wiederherstellung erfolgen Integritäts-, Berechtigungs- und Wiederholungsprüfungen."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Aus freigegebenen Sicherungen eine konsistente Umgebung wiederherstellen und Hashes, ACLs, Kernfunktionen sowie fehlenden Internetbedarf nachweisen."
+                "prose": "Aus freigegebenen Sicherungen eine konsistente Umgebung wiederherstellen und Prüfsummen, Zugriffsrechte, Kernfunktionen sowie den Betrieb ohne Internetverbindung nachweisen."
               },
               {
                 "name": "evidence",
-                "prose": "Sicherungsmatrix; Wiederanlaufplan; Offline-Wiederherstellungstest; Integritäts- und ACL-Prüfung; Wiederanlaufzeiten; Abweichungsbehandlung."
+                "prose": "Sicherungsmatrix; Wiederanlaufplan; Wiederherstellungstest ohne Internetzugang; Integritäts- und Berechtigungsprüfung; Wiederanlaufzeiten; Abweichungsbehandlung."
               },
               {
                 "name": "source",
@@ -3592,15 +3607,15 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Bei Außerbetriebnahme eines Modells, Dienstes, RAG-Bestands, Tools oder Anwendungsfalls MÜSSEN Zugänge widerrufen, Endpunkte entfernt, Aufgaben beendet, Modelle und Daten nach Aufbewahrungsregeln gelöscht, lokale Registrierungen bereinigt und Nachweise revisionsgeeignet abgeschlossen werden."
+                "prose": "Bei Außerbetriebnahme eines Modells, Dienstes, RAG-Bestands, Werkzeugs oder Anwendungsfalls MÜSSEN Zugänge widerrufen, Endpunkte entfernt, Aufgaben beendet, Modelle und Daten nach Aufbewahrungsregeln gelöscht, lokale Registrierungen bereinigt und Nachweise revisionsgeeignet abgeschlossen werden."
               },
               {
                 "name": "rationale",
-                "prose": "Verwaiste Endpunkte, Konten, Indizes, Caches oder Modellkopien bleiben sonst erreichbar und entziehen sich Patch-, Rechte- und Löschprozessen."
+                "prose": "Verwaiste Endpunkte, Konten, Indizes, Zwischenspeicher oder Modellkopien bleiben sonst erreichbar und entziehen sich Aktualisierungs-, Rechte- und Löschprozessen."
               },
               {
                 "name": "guidance",
-                "prose": "Eine objektbezogene Checkliste umfasst Identitäten, Zertifikate, Geheimnisse, Netze, Jobs, Speicher, Sicherungen, Protokolle, Lizenzen und abhängige Anwendungsfälle. Fachwissen bleibt in kontrollierten Quellen und wird nicht aus Modellgewichten migriert."
+                "prose": "Eine objektbezogene Prüfliste umfasst Identitäten, Zertifikate, Geheimnisse, Netze, automatisierte Aufgaben, Speicher, Sicherungen, Protokolle, Lizenzen und abhängige Anwendungsfälle. Fachwissen bleibt in kontrollierten Quellen und wird nicht aus Modellgewichten übertragen."
               },
               {
                 "name": "assessment-objective",
@@ -3714,7 +3729,7 @@
               },
               {
                 "name": "rationale",
-                "prose": "Prompts, Systemanweisungen, Kontexte, RAG-Ausschnitte, Uploads, Metadaten und Ausgaben werden beim externen Betreiber verarbeitet; TLS beseitigt diese Verarbeitung nicht."
+                "prose": "Eingaben, Systemanweisungen, Kontexte, RAG-Ausschnitte, Dateiübernahmen, Metadaten und Ausgaben werden beim externen Betreiber verarbeitet; Transportverschlüsselung beseitigt diese Verarbeitung nicht."
               },
               {
                 "name": "guidance",
@@ -3722,7 +3737,7 @@
               },
               {
                 "name": "assessment-objective",
-                "prose": "Vor einer kontrollierten Testanfrage prüfen, ob sämtliche Gates erfüllt sind und nicht freigegebene Daten beziehungsweise Endpunkte blockiert werden."
+                "prose": "Vor einer kontrollierten Testanfrage prüfen, ob sämtliche Freigabebedingungen erfüllt sind und nicht freigegebene Daten beziehungsweise Endpunkte blockiert werden."
               },
               {
                 "name": "evidence",
@@ -3737,7 +3752,7 @@
           {
             "id": "ki-ext-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Kein automatischer externer Fallback",
+            "title": "Keine automatische externe Ausweichverbindung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -3753,7 +3768,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Clientverantwortliche;Gateway-Verantwortliche;Netzverantwortliche"
+                "value": "Clientverantwortliche;Verantwortliche für den KI-Zugang;Netzverantwortliche"
               },
               {
                 "name": "anwendbarkeit",
@@ -3812,23 +3827,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Cloud-Modelle, automatische Provider-Erkennung, externe Telemetrie und Fallbacks auf externe Endpunkte MÜSSEN standardmäßig deaktiviert sein. Eine aktivierte externe Variante MUSS jeden zulässigen Betreiber, Endpunkt, Modell- und Datenumfang ausdrücklich festlegen; nicht bekannte Ziele MÜSSEN technisch blockiert werden."
+                "prose": "Cloud-Modelle, automatische Erkennung externer Anbieter, externe Telemetrie und Ausweichverbindungen zu externen Endpunkten MÜSSEN standardmäßig deaktiviert sein. Eine aktivierte externe Variante MUSS jeden zulässigen Betreiber, Endpunkt, Modell- und Datenumfang ausdrücklich festlegen; nicht bekannte Ziele MÜSSEN technisch blockiert werden."
               },
               {
                 "name": "rationale",
-                "prose": "Automatische Fallbacks können bei Fehlern oder Kapazitätsengpässen gerade dann Daten extern übertragen, wenn reguläre Kontrollen nicht aufmerksam beobachtet werden."
+                "prose": "Automatische Ausweichverbindungen können bei Fehlern oder Kapazitätsengpässen gerade dann Daten extern übertragen, wenn reguläre Kontrollen nicht aufmerksam beobachtet werden."
               },
               {
                 "name": "guidance",
-                "prose": "Client- und Gatewaykonfiguration, DNS, Proxy und Firewall verwenden positive Zulässigkeitslisten. Tests erzwingen Ausfall lokaler Modelle und bestätigen, dass keine externe Ersatzverbindung entsteht."
+                "prose": "Clientkonfiguration und kontrollierter KI-Zugang, Namensauflösung, Proxy und Firewall verwenden positive Zulässigkeitslisten. Tests erzwingen den Ausfall lokaler Modelle und bestätigen, dass keine externe Ersatzverbindung entsteht."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Bei Ausfall, Fehlkonfiguration und manipulierten Providerangaben darf kein nicht freigegebener externer Datenfluss entstehen."
+                "prose": "Bei Ausfall, Fehlkonfiguration und manipulierten Anbieterangaben darf kein nicht freigegebener externer Datenfluss entstehen."
               },
               {
                 "name": "evidence",
-                "prose": "Provider- und Endpunktliste; Egress-Regeln; Clientbaseline; Ausfall- und Fallbacktests; DNS-/Proxyprotokolle; Alarmnachweis."
+                "prose": "Anbieter- und Endpunktliste; Regeln für ausgehenden Netzwerkverkehr; freigegebener Clientausgangsstand; Ausfall- und Ausweichverbindungstests; DNS-/Proxyprotokolle; Alarmnachweis."
               },
               {
                 "name": "source",
@@ -3841,7 +3856,7 @@
       {
         "id": "ki-nachweise",
         "class": "ki-kontrollgruppe",
-        "title": "Evidenz, Ausnahmen und akzeptierte Restrisiken",
+        "title": "Nachweise, Ausnahmen und akzeptierte Restrisiken",
         "controls": [
           {
             "id": "ki-ass-001",
@@ -3925,7 +3940,7 @@
               },
               {
                 "name": "rationale",
-                "prose": "Eine dokumentierte Anforderung ist ohne aktuellen Wirksamkeitsnachweis nicht auditierbar. Unklare Ausnahmen können dauerhaft und unsichtbar werden."
+                "prose": "Eine dokumentierte Anforderung ist ohne aktuellen Wirksamkeitsnachweis nicht prüfbar. Unklare Ausnahmen können dauerhaft und unsichtbar werden."
               },
               {
                 "name": "guidance",
@@ -3937,7 +3952,7 @@
               },
               {
                 "name": "evidence",
-                "prose": "Nachweisregister; Prüfprotokolle; Artefakthashes; Ausnahme- und Restrisikoregister; Genehmigungen; Wiedervorlagen; Abschlusskriterien."
+                "prose": "Nachweisregister; Prüfprotokolle; kryptografische Prüfsummen der Nachweise; Ausnahme- und Restrisikoregister; Genehmigungen; Wiedervorlagen; Abschlusskriterien."
               },
               {
                 "name": "source",
@@ -4037,9 +4052,95 @@
           ]
         },
         {
+          "uuid": "8baf4137-32c2-4a3b-b285-084cb6113cb4",
+          "title": "[Q-BSI-2002-001] BSI-Standard 200-2: IT-Grundschutz-Methodik",
+          "description": "IT-Grundschutz-Methodik und Aufbau eines Informationssicherheitsmanagementsystems",
+          "props": [
+            {
+              "name": "quellen-id",
+              "value": "Q-BSI-2002-001"
+            },
+            {
+              "name": "herausgeber",
+              "value": "Bundesamt für Sicherheit in der Informationstechnik"
+            },
+            {
+              "name": "stand",
+              "value": "Oktober 2017"
+            },
+            {
+              "name": "abrufdatum",
+              "value": "2026-09-03"
+            },
+            {
+              "name": "autoritaetsstufe",
+              "value": "2-bsi-standard"
+            },
+            {
+              "name": "wiedervorlage-am",
+              "value": "2027-09-03"
+            },
+            {
+              "name": "lokale-sha256",
+              "value": "af0962c5b3f6763f8aa7927ee5da749ee0fed1fcadbf26b22c0ab26f6b9f6a1a"
+            }
+          ],
+          "citation": {
+            "text": "Bundesamt für Sicherheit in der Informationstechnik: BSI-Standard 200-2: IT-Grundschutz-Methodik, Version 1.0, Oktober 2017, S. 11 und S. 69–74; S. 154–156, https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_2.pdf?__blob=publicationFile&v=2, abgerufen am 03.09.2026."
+          },
+          "rlinks": [
+            {
+              "href": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_2.pdf?__blob=publicationFile&v=2"
+            }
+          ]
+        },
+        {
+          "uuid": "4b0577d2-73dc-4156-8131-6eac7fb22003",
+          "title": "[Q-BSI-2003-001] BSI-Standard 200-3: Risikomanagement",
+          "description": "Risikoanalyse und Risikobehandlung nach IT-Grundschutz",
+          "props": [
+            {
+              "name": "quellen-id",
+              "value": "Q-BSI-2003-001"
+            },
+            {
+              "name": "herausgeber",
+              "value": "Bundesamt für Sicherheit in der Informationstechnik"
+            },
+            {
+              "name": "stand",
+              "value": "Oktober 2017"
+            },
+            {
+              "name": "abrufdatum",
+              "value": "2026-09-03"
+            },
+            {
+              "name": "autoritaetsstufe",
+              "value": "2-bsi-standard"
+            },
+            {
+              "name": "wiedervorlage-am",
+              "value": "2027-09-03"
+            },
+            {
+              "name": "lokale-sha256",
+              "value": "639a089dd74b9f7c6ec70a9b37443c97bd15cdf65a707d769bc1ff1ec017c86a"
+            }
+          ],
+          "citation": {
+            "text": "Bundesamt für Sicherheit in der Informationstechnik: BSI-Standard 200-3: Risikomanagement, Version 1.0, Oktober 2017, S. 5–7; S. 26–28; S. 33–35, https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_3.pdf?__blob=publicationFile&v=2, abgerufen am 03.09.2026."
+          },
+          "rlinks": [
+            {
+              "href": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/BSI_Standards/standard_200_3.pdf?__blob=publicationFile&v=2"
+            }
+          ]
+        },
+        {
           "uuid": "037c17df-a3e6-50b6-abc2-fa50a12703e7",
           "title": "[Q-BMVG-001] Künstliche Intelligenz, K-9000/102, Öffentliche Fassung",
-          "description": "Geschäftsbereich des Bundesministeriums der Verteidigung; strategische KI-Governance",
+          "description": "Geschäftsbereich des Bundesministeriums der Verteidigung; strategische KI-Steuerung",
           "props": [
             {
               "name": "quellen-id",

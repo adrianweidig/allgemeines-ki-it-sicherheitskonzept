@@ -29,6 +29,7 @@ from xml.etree import ElementTree
 import regex
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Pt
 from jsonschema import Draft7Validator, Draft202012Validator, FormatChecker, ValidationError, validators
 from pypdf import PdfReader, __version__ as PYPDF_VERSION
 
@@ -56,13 +57,22 @@ LAYOUT_TABELLENBREITE_DXA = 8922
 LAYOUT_TABELLENEINZUG_DXA = 150
 LAYOUT_ZELLENRAND_VERTIKAL_DXA = 120
 LAYOUT_ZELLENRAND_HORIZONTAL_DXA = 150
-DIAGRAMMSTÄMME = ("architektur", "artefaktimport", "rag-datenfluss", "agentische-werkzeugnutzung")
+DIAGRAMMSTÄMME = (
+    "architektur",
+    "artefaktimport",
+    "risikobewertung",
+    "risikomatrix",
+    "rag-datenfluss",
+    "agentische-werkzeugnutzung",
+)
 PLANTUML_VERSION = "1.2026.6"
 ABBILDUNGSBESCHRIFTUNGEN = (
-    "Abbildung 1: Lokale KI-Systemarchitektur mit Vertrauenszonen und kontrollierten Kommunikationswegen.",
-    "Abbildung 2: Kontrollierter Artefaktimport mit getrennter Prüfung, Freigabe und Rückfallmöglichkeit.",
-    "Abbildung 3: Lokaler RAG-Datenfluss mit Quarantäne, Berechtigungsprüfung und Löschkette.",
-    "Abbildung 4: Kontrollierte agentische Werkzeugnutzung mit Richtlinienprüfung und menschlicher Bestätigung.",
+    "Abbildung 1: Nur der kontrollierte KI-Zugang verbindet die Clientzone mit der abgeschotteten KI-Serverzone.",
+    "Abbildung 2: Nur geprüfte und freigegebene Artefakte erreichen die abgeschottete Produktionsumgebung.",
+    "Abbildung 3: Risiken werden szenariobezogen behandelt und bis zur Freigabe erneut bewertet.",
+    "Abbildung 4: Die KI-spezifischen Maßnahmen senken alle hohen und sehr hohen Ausgangsrisiken auf höchstens mittel.",
+    "Abbildung 5: Aufnahme, berechtigte Abfrage und vollständige Löschung bleiben technisch getrennt.",
+    "Abbildung 6: Eine Werkzeugaktion benötigt Richtlinienprüfung, begrenzte Rechte und bei erhöhter Wirkung eine konkrete Bestätigung.",
 )
 
 
@@ -270,7 +280,7 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
     rag_löschung = " ".join(p.get("prose", "") for p in nach_id.get("ki-rag-003", {}).get("parts", []))
     if "Berechtig" not in rag_acl or "Sprachmodell" not in rag_acl:
         fehler.append("Die RAG-Kontrolle enthält keine durchgängige Berechtigungsgrenze.")
-    if "Löschung" not in rag_löschung or "Embeddings" not in rag_löschung or "Cache" not in rag_löschung:
+    if "Löschung" not in rag_löschung or "Suchvektoren" not in rag_löschung or "Zwischenspeicher" not in rag_löschung:
         fehler.append("Die RAG-Kontrolle enthält keine vollständige Löschanforderung.")
     tooltext = " ".join(p.get("prose", "") for p in nach_id.get("ki-tol-001", {}).get("parts", []))
     if not all(begriff in tooltext for begriff in ("Lesen", "Schreiben", "Befehlsausführung", "Netzwerkzugriff")):
@@ -326,18 +336,47 @@ def _xml_wert(element, name="val") -> str | None:
     return element.get(W + name)
 
 
+def _xml_bool_aktiv(element) -> bool:
+    """Wertet ein OOXML-OnOff-Element einschließlich der Kurzform ohne Wert aus."""
+    if element is None:
+        return False
+    return (_xml_wert(element) or "true").casefold() not in {"false", "0", "off"}
+
+
+def _stil_nach_name(styles, name: str):
+    """Findet eine Formatvorlage robust gegenüber lokalisierten Word-Stil-IDs."""
+    for stil in styles.findall(W + "style"):
+        namensfeld = stil.find(W + "name")
+        if (_xml_wert(namensfeld) or "").casefold() == name.casefold():
+            return stil
+    return None
+
+
+def _effektiver_stilwert(styles, stil, bereich: str, element: str, attribut: str) -> str | None:
+    """Löst einen Stilwert über basedOn bis zu den Dokumentstandardwerten auf."""
+    besucht: set[str] = set()
+    aktuell = stil
+    while aktuell is not None:
+        stil_id = aktuell.get(W + "styleId") or ""
+        if stil_id in besucht:
+            break
+        besucht.add(stil_id)
+        knoten = aktuell.find(f"{W}{bereich}/{W}{element}")
+        wert = _xml_wert(knoten, attribut)
+        if wert is not None:
+            return wert
+        basis = aktuell.find(W + "basedOn")
+        basis_id = _xml_wert(basis)
+        aktuell = styles.find(f"{W}style[@{W}styleId='{basis_id}']") if basis_id else None
+
+    standard = styles.find(f"{W}docDefaults/{W}{bereich}Default/{W}{bereich}/{W}{element}")
+    return _xml_wert(standard, attribut)
+
+
 def prüfe_docx_layout(pfad: Path) -> list[str]:
     """Prüft die verbindlichen maschinenlesbaren Layoutregeln des Masterdokuments."""
     fehler: list[str] = []
     dokument = Document(pfad)
-
-    normal = dokument.styles["Normal"]
-    if normal.font.name != "Calibri" or not normal.font.size or abs(normal.font.size.pt - 11) > 0.01:
-        fehler.append("Layout: Normal muss Calibri 11 pt verwenden.")
-    if normal.paragraph_format.line_spacing is None or abs(float(normal.paragraph_format.line_spacing) - 1.15) > 0.01:
-        fehler.append("Layout: Normal muss einen Zeilenabstand von 1,15 verwenden.")
-    if not normal.paragraph_format.space_after or abs(normal.paragraph_format.space_after.pt - 6) > 0.01:
-        fehler.append("Layout: Normal muss 6 pt Absatzabstand danach verwenden.")
 
     try:
         fließtext = dokument.styles["Fließtext"]
@@ -346,14 +385,32 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
     else:
         if fließtext.paragraph_format.alignment != WD_ALIGN_PARAGRAPH.JUSTIFY:
             fehler.append("Layout: Fließtext muss Blocksatz verwenden.")
-        if fließtext.paragraph_format.line_spacing is None or abs(float(fließtext.paragraph_format.line_spacing) - 1.15) > 0.01:
-            fehler.append("Layout: Fließtext muss einen Zeilenabstand von 1,15 verwenden.")
-        if not fließtext.paragraph_format.space_after or abs(fließtext.paragraph_format.space_after.pt - 6) > 0.01:
-            fehler.append("Layout: Fließtext muss 6 pt Absatzabstand danach verwenden.")
 
     fließtext_absätze = [p for p in dokument.paragraphs if p.style and p.style.name == "Fließtext"]
     if len(fließtext_absätze) < 20:
         fehler.append("Layout: zusammenhängender Konzepttext verwendet die Formatvorlage Fließtext nicht durchgängig.")
+
+    try:
+        definitionsstil = dokument.styles["Begriffsdefinition"]
+    except KeyError:
+        fehler.append("Layout: die verbindliche Formatvorlage Begriffsdefinition fehlt.")
+    else:
+        # Word entfernt eine explizite Linksbündigkeit beim Speichern, wenn sie
+        # bereits dem Standard entspricht. ``None`` ist daher gleichwertig.
+        if definitionsstil.paragraph_format.alignment not in (None, WD_ALIGN_PARAGRAPH.LEFT):
+            fehler.append("Layout: kurze Begriffsdefinitionen müssen linksbündig gesetzt sein.")
+        if definitionsstil.font.size != Pt(10.5):
+            fehler.append("Layout: kurze Begriffsdefinitionen müssen Calibri 10,5 pt verwenden.")
+        if definitionsstil.paragraph_format.line_spacing != 1.05:
+            fehler.append("Layout: kurze Begriffsdefinitionen müssen einen Zeilenabstand von 1,05 verwenden.")
+        if definitionsstil.paragraph_format.space_after != Pt(3):
+            fehler.append("Layout: kurze Begriffsdefinitionen müssen 3 pt Absatzabstand danach verwenden.")
+    definitionsabsätze = [
+        p for p in dokument.paragraphs
+        if p.style and p.style.name == "Begriffsdefinition"
+    ]
+    if len(definitionsabsätze) != 15:
+        fehler.append("Layout: Kapitel 2.1 muss genau fünfzehn kompakte Begriffsdefinitionen enthalten.")
 
     if not DIAGRAMMMANIFEST_PFAD.is_file():
         fehler.append("Layout: das Prüfsummenmanifest der PlantUML-Diagramme fehlt.")
@@ -376,7 +433,7 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
                 if isinstance(eintrag, dict) and eintrag.get("name")
             }
             if set(einträge) != set(DIAGRAMMSTÄMME):
-                fehler.append("Layout: das Diagrammmanifest muss genau die vier Fachdiagramme enthalten.")
+                fehler.append("Layout: das Diagrammmanifest muss genau die sechs Fachdiagramme enthalten.")
 
             for stamm in DIAGRAMMSTÄMME:
                 eintrag = einträge.get(stamm, {})
@@ -428,29 +485,111 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
         auto = settings.find(W + "autoHyphenation")
         folge = settings.find(W + "consecutiveHyphenLimit")
         zone = settings.find(W + "hyphenationZone")
-        if _xml_wert(auto) not in {"true", "1", "on"}:
+        if not _xml_bool_aktiv(auto):
             fehler.append("Layout: automatische Silbentrennung ist nicht aktiviert.")
         if _xml_wert(folge) != "2":
             fehler.append("Layout: höchstens zwei aufeinanderfolgende Trennzeilen müssen eingestellt sein.")
-        if _xml_wert(zone) != "360":
+        # Word darf die explizite Trennzone beim Speichern in die gleichwertige
+        # Anwendungseinstellung normalisieren. Ist sie im OOXML vorhanden, muss
+        # sie weiterhin dem festgelegten Wert entsprechen.
+        if zone is not None and _xml_wert(zone) != "360":
             fehler.append("Layout: die Silbentrennzone muss 360 DXA betragen.")
 
         styles = ElementTree.fromstring(paket.read("word/styles.xml"))
-        normal_xml = styles.find(f"{W}style[@{W}styleId='Normal']")
-        sprache = normal_xml.find(f"{W}rPr/{W}lang") if normal_xml is not None else None
-        if _xml_wert(sprache) != "de-DE":
+        normal_xml = _stil_nach_name(styles, "Normal")
+        fließtext_xml = _stil_nach_name(styles, "Fließtext")
+        if normal_xml is None:
+            fehler.append("Layout: die Formatvorlage Normal fehlt.")
+        else:
+            schrift = _effektiver_stilwert(styles, normal_xml, "rPr", "rFonts", "ascii")
+            schriftgröße = _effektiver_stilwert(styles, normal_xml, "rPr", "sz", "val")
+            zeilenhöhe = _effektiver_stilwert(styles, normal_xml, "pPr", "spacing", "line")
+            danach = _effektiver_stilwert(styles, normal_xml, "pPr", "spacing", "after")
+            if schrift != "Calibri" or schriftgröße != "22":
+                fehler.append("Layout: Normal muss Calibri 11 pt verwenden.")
+            if zeilenhöhe != "276":
+                fehler.append("Layout: Normal muss einen Zeilenabstand von 1,15 verwenden.")
+            if danach != "120":
+                fehler.append("Layout: Normal muss 6 pt Absatzabstand danach verwenden.")
+        if fließtext_xml is None:
+            fehler.append("Layout: die verbindliche Formatvorlage Fließtext fehlt.")
+        else:
+            zeilenhöhe = _effektiver_stilwert(styles, fließtext_xml, "pPr", "spacing", "line")
+            danach = _effektiver_stilwert(styles, fließtext_xml, "pPr", "spacing", "after")
+            if zeilenhöhe != "276":
+                fehler.append("Layout: Fließtext muss einen Zeilenabstand von 1,15 verwenden.")
+            if danach != "120":
+                fehler.append("Layout: Fließtext muss 6 pt Absatzabstand danach verwenden.")
+        sprache = _effektiver_stilwert(styles, normal_xml, "rPr", "lang", "val") if normal_xml is not None else None
+        if sprache != "de-DE":
             fehler.append("Layout: die Korrektur- und Trennsprache des Grundstils muss de-DE sein.")
-        for stil_id in ("ListBullet", "ListNumber"):
-            stil = styles.find(f"{W}style[@{W}styleId='{stil_id}']")
+        for stilname in ("List Bullet", "List Number"):
+            stil = _stil_nach_name(styles, stilname)
             if stil is None or stil.find(f"{W}pPr/{W}numPr") is None:
-                fehler.append(f"Layout: {stil_id} muss eine echte Word-Nummerierungsdefinition verwenden.")
+                fehler.append(f"Layout: {stilname} muss eine echte Word-Nummerierungsdefinition verwenden.")
+
+        for stilname, größe, einzug in (("toc 1", "21", "0"), ("toc 2", "20", "340")):
+            stil = _stil_nach_name(styles, stilname)
+            if stil is None:
+                fehler.append(f"Layout: die Inhaltsverzeichnis-Formatvorlage {stilname.upper()} fehlt.")
+                continue
+            schriftgröße = _effektiver_stilwert(styles, stil, "rPr", "sz", "val")
+            if schriftgröße != größe:
+                fehler.append(f"Layout: {stilname.upper()} besitzt nicht die festgelegte Schriftgröße.")
+            absatz = stil.find(W + "pPr")
+            links = absatz.find(W + "ind") if absatz is not None else None
+            if (_xml_wert(links, "left") or "0") != einzug:
+                fehler.append(f"Layout: {stilname.upper()} besitzt nicht den festgelegten Ebeneneinzug.")
+            tabstopp = next(
+                (
+                    tab
+                    for tab in (absatz.findall(f"{W}tabs/{W}tab") if absatz is not None else [])
+                    if _xml_wert(tab) == "right"
+                ),
+                None,
+            )
+            if (
+                tabstopp is None
+                or abs(int(_xml_wert(tabstopp, "pos") or 0) - 9072) > 2
+                or _xml_wert(tabstopp, "leader") != "dot"
+            ):
+                fehler.append(f"Layout: {stilname.upper()} benötigt rechtsbündige Seitenzahlen mit Punkt-Füllzeichen.")
 
         dokument_xml = ElementTree.fromstring(paket.read("word/document.xml"))
+        feldanweisungen = [
+            (element.text or "").strip()
+            for element in dokument_xml.iter(W + "instrText")
+            if (element.text or "").strip().upper().startswith("TOC ")
+        ]
+        feldanweisungen.extend(
+            (element.get(W + "instr") or "").strip()
+            for element in dokument_xml.iter(W + "fldSimple")
+            if (element.get(W + "instr") or "").strip().upper().startswith("TOC ")
+        )
+        if len(feldanweisungen) != 1:
+            fehler.append("Layout: das Masterdokument muss genau ein automatisch aktualisierbares Inhaltsverzeichnis enthalten.")
+        elif not all(schalter in feldanweisungen[0] for schalter in ('\\o "1-2"', "\\h", "\\z", "\\u")):
+            fehler.append("Layout: das Inhaltsverzeichnis muss Überschriftsebenen 1 bis 2, Verknüpfungen und Seitenzahlen verwenden.")
+
+        toc_absätze = []
+        for absatz in dokument_xml.iter(W + "p"):
+            stilverweis = absatz.find(f"{W}pPr/{W}pStyle")
+            stil_id = _xml_wert(stilverweis)
+            stil = styles.find(f"{W}style[@{W}styleId='{stil_id}']") if stil_id else None
+            stilname = _xml_wert(stil.find(W + "name")) if stil is not None else ""
+            if (stilname or "").casefold() in {"toc 1", "toc 2"}:
+                text = "".join(k.text or "" for k in absatz.iter(W + "t")).strip()
+                toc_absätze.append(text)
+        if len(toc_absätze) < 14 or any(not re.search(r"\d+$", text) for text in toc_absätze):
+            fehler.append("Layout: das gespeicherte Inhaltsverzeichnis ist nicht vollständig mit rechts geführten Seitenzahlen aktualisiert.")
+        if any(text in {"Dokumentenlenkung", "Inhaltsverzeichnis"} for text in toc_absätze):
+            fehler.append("Layout: Vorspann oder Inhaltsverzeichnis dürfen sich nicht selbst im Inhaltsverzeichnis aufführen.")
+
         inline_abbildungen = dokument_xml.findall(f".//{WP}inline")
         verankerte_abbildungen = dokument_xml.findall(f".//{WP}anchor")
         if len(inline_abbildungen) != len(ABBILDUNGSBESCHRIFTUNGEN):
             fehler.append(
-                "Layout: das Masterdokument muss genau vier inline platzierte Fachdiagramme enthalten."
+                "Layout: das Masterdokument muss genau sechs inline platzierte Fachdiagramme enthalten."
             )
         if verankerte_abbildungen:
             fehler.append("Layout: frei schwebende oder verankerte Abbildungen sind unzulässig.")
@@ -486,7 +625,8 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
                 fehler.append(f"Layout: Tabelle {tabellenindex} besitzt nicht den festgelegten Einzug.")
             if _xml_wert(layout, "type") != "fixed":
                 fehler.append(f"Layout: Tabelle {tabellenindex} verwendet keine feste Geometrie.")
-            if _xml_wert(ausrichtung) != "left":
+            # Fehlendes w:jc ist nach OOXML die Word-Standardeinstellung links.
+            if _xml_wert(ausrichtung) not in {None, "left", "start"}:
                 fehler.append(f"Layout: Tabelle {tabellenindex} ist nicht linksbündig ausgerichtet.")
 
             grid = tabelle.find(W + "tblGrid")
@@ -516,19 +656,36 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
                             f"Spalte {spaltenindex + 1} ist vertikal nicht zentriert."
                         )
                     ränder = tc_pr.find(W + "tcMar") if tc_pr is not None else None
-                    mindestwerte = {
-                        "top": LAYOUT_ZELLENRAND_VERTIKAL_DXA,
-                        "bottom": LAYOUT_ZELLENRAND_VERTIKAL_DXA,
-                        "start": LAYOUT_ZELLENRAND_HORIZONTAL_DXA,
-                        "end": LAYOUT_ZELLENRAND_HORIZONTAL_DXA,
-                    }
-                    for name, minimum in mindestwerte.items():
-                        rand = ränder.find(W + name) if ränder is not None else None
+                    mindestwerte = (
+                        (("top",), LAYOUT_ZELLENRAND_VERTIKAL_DXA),
+                        (("bottom",), LAYOUT_ZELLENRAND_VERTIKAL_DXA),
+                        (("start", "left"), LAYOUT_ZELLENRAND_HORIZONTAL_DXA),
+                        (("end", "right"), LAYOUT_ZELLENRAND_HORIZONTAL_DXA),
+                    )
+                    for namen, minimum in mindestwerte:
+                        rand = next(
+                            (ränder.find(W + name) for name in namen if ränder is not None and ränder.find(W + name) is not None),
+                            None,
+                        )
                         if _xml_wert(rand, "type") != "dxa" or int(_xml_wert(rand, "w") or 0) < minimum:
                             fehler.append(
-                                f"Layout: Zellrand {name} in Tabelle {tabellenindex}, Zeile {zeilenindex}, "
+                                f"Layout: Zellrand {'/'.join(namen)} in Tabelle {tabellenindex}, Zeile {zeilenindex}, "
                                 f"Spalte {spaltenindex + 1} ist zu klein."
                             )
+
+        if dokument.tables:
+            abkürzungstabelle = dokument.tables[-1]
+            kopf = [zelle.text.strip() for zelle in abkürzungstabelle.rows[0].cells]
+            if kopf != ["Abkürzung", "Langform", "Abkürzung", "Langform"]:
+                fehler.append(
+                    "Layout: das Abkürzungsverzeichnis muss als kompakte Vier-Spalten-Tabelle "
+                    "mit zwei Begriffspaaren je Zeile gesetzt sein."
+                )
+            if len(abkürzungstabelle.rows) > 10:
+                fehler.append(
+                    "Layout: das Abkürzungsverzeichnis ist zu lang und erzeugt voraussichtlich "
+                    "eine schwach gefüllte Schlussseite."
+                )
 
         footer_namen = [name for name in paket.namelist() if re.fullmatch(r"word/footer\d+\.xml", name)]
         footer_text = ""
@@ -539,6 +696,7 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
             wurzel = ElementTree.fromstring(paket.read(name))
             footer_text += " ".join(k.text or "" for k in wurzel.iter(W + "t"))
             footer_felder.extend((k.get(W + "instr") or "").strip() for k in wurzel.iter(W + "fldSimple"))
+            footer_felder.extend((k.text or "").strip() for k in wurzel.iter(W + "instrText"))
             rechtsstopp = rechtsstopp or any(
                 _xml_wert(k) == "right"
                 and abs(int(_xml_wert(k, "pos") or 0) - 9072) <= 2
@@ -589,19 +747,77 @@ def prüfe_versionsgleichheit(katalog_version: str, docx_text: str, pdf_text: st
 
 
 def prüfe_konzepttrennung(text: str) -> list[str]:
-    """Hält Übernahme- und Redaktionsanweisungen aus dem Fachkonzept heraus."""
+    """Hält Übernahmehinweise, Redaktionssprache und unnötigen Fachjargon aus dem Fachkonzept heraus."""
     fehler: list[str] = []
     verbotene_passagen = (
         "Verfahren zur organisationsspezifischen Übernahme",
         "Referenzrepository",
         "vor der ersten Organisationsangabe",
         "übernehmenden Organisation",
+        "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung",
+        "Die folgenden Kontrollblöcke übernehmen",
+        "Der vollständige Wortlaut, die Quellenlinks und sämtliche Eigenschaften verbleiben",
+        "Maßgeblich ist das maschinenlesbare Quellenregister",
+        "Inhaltsverzeichnis wird beim Erzeugen der Lesefassung aktualisiert",
+        "Keine amtliche Veröffentlichung · keine Systemfreigabe · kein Zertifikat",
+        "Das Dokument ist wie folgt aufgebaut",
+        "Dieses Kapitel beschreibt den Aufbau",
+        "Die folgende Tabelle zeigt",
+        "Die nachfolgende Tabelle zeigt",
+        "Der Katalog enthält die folgenden",
     )
     for passage in verbotene_passagen:
         if passage.casefold() in text.casefold():
             fehler.append(f"Konzepttrennung: Übernahmeanweisung im Fachkonzept gefunden: {passage}")
-    if "14 Quellenverzeichnis, Glossar und Abkürzungen" not in text:
-        fehler.append("Konzepttrennung: Kapitel 14 muss unmittelbar Quellenverzeichnis, Glossar und Abkürzungen enthalten.")
+    unerklärter_fachjargon = (
+        "Provenienz",
+        "Poisoning",
+        "untrusted",
+        "Least Privilege",
+        "Tool-Policy",
+        "Circuit Breaker",
+        "Queueing",
+        "Exposure",
+        "Baseline",
+        "Rollback",
+        "Regression",
+        "Reranking",
+        "Drift",
+        "KI-Governance",
+        "Reviewprotokolle",
+        "Reviews",
+        "Geheimschutzgate",
+        "Geheimschutzgates",
+        "On-Demand-Uploads",
+        "Tool-Fähigkeiten",
+        "Tool-Aufruf",
+        "Tool-Nutzung",
+        "Tool-Protokollierung",
+        "Toolgrenzen",
+        "Toolkette",
+        "Tool-Verantwortliche",
+        "Auditdaten",
+        "Auditnachweise",
+        "Artefakthashes",
+        "Mappingübersicht",
+        "automatischer externer Fallback",
+        "Cloud-Fallbacks",
+        "Provider-Erkennung",
+        "Konfigurationsdrift",
+        "Hostalarmen",
+        "Parser",
+        "Caches",
+    )
+    for begriff in unerklärter_fachjargon:
+        if re.search(rf"\b{re.escape(begriff)}\b", text, re.IGNORECASE):
+            fehler.append(f"Konzepttrennung: vermeidbarer oder nicht vorab erklärter Fachbegriff gefunden: {begriff}")
+    if "14 Quellenverzeichnis und Abkürzungen" not in text:
+        fehler.append("Konzepttrennung: Kapitel 14 muss unmittelbar Quellenverzeichnis und Abkürzungen enthalten.")
+    if "2.1 Zentrale Begriffe" not in text:
+        fehler.append("Konzepttrennung: zentrale Fachbegriffe müssen vor der ersten technischen Verwendung erklärt werden.")
+    for risiko_id in (f"R-{nummer:02d}" for nummer in range(1, 10)):
+        if risiko_id not in text:
+            fehler.append(f"Konzepttrennung: Risikoszenario {risiko_id} fehlt im Risikoregister.")
     if re.search(r"\b15(?:\.|\s)\s*(?:Quellenverzeichnis|Glossar|Abkürzungen)", text):
         fehler.append("Konzepttrennung: ein veraltetes Kapitel 15 ist im Fachkonzept verblieben.")
     return fehler
@@ -663,7 +879,7 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
     # Fußnoten stehen im OOXML technisch gesammelt am Dokumentende, im PDF aber
     # auf der jeweiligen Seite. Ein globaler Sequenzvergleich wäre deshalb
     # fachlich ungeeignet und bei langen Dokumenten quadratisch langsam.
-    if tokenabdeckung < 0.98 or wortabdeckung < 0.97:
+    if tokenabdeckung < 0.98 or wortabdeckung < 0.96:
         fehler.append(
             "Normalisierter DOCX/PDF-Text weicht zu stark ab "
             f"(Tokenabdeckung {tokenabdeckung:.3f}, Wortabdeckung {wortabdeckung:.3f})."

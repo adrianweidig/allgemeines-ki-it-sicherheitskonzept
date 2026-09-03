@@ -5,6 +5,10 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
 WURZEL = Path(__file__).resolve().parents[2]
@@ -120,6 +124,36 @@ class NegativeFälle(unittest.TestCase):
     def test_übernahmeanleitung_im_fachkonzept_wird_abgewiesen(self):
         text = "14 Verfahren zur organisationsspezifischen Übernahme"
         self.assertTrue(any("Übernahmeanweisung" in f for f in vp.prüfe_konzepttrennung(text)))
+
+    def test_metakommentar_im_fachkonzept_wird_abgewiesen(self):
+        text = "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung."
+        self.assertTrue(any("Übernahmeanweisung" in f for f in vp.prüfe_konzepttrennung(text)))
+
+    def test_vermeidbarer_fachjargon_im_fachkonzept_wird_abgewiesen(self):
+        for text in (
+            "Der Provenienz-Nachweis wird geprüft.",
+            "Die KI-Governance führt regelmäßige Reviews durch.",
+            "On-Demand-Uploads verwenden einen automatischen externen Fallback.",
+        ):
+            with self.subTest(text=text):
+                self.assertTrue(any("Fachbegriff" in f for f in vp.prüfe_konzepttrennung(text)))
+
+    def test_erklärung_des_dokumentaufbaus_wird_abgewiesen(self):
+        text = "Die folgende Tabelle zeigt die Sicherheitsmaßnahmen."
+        self.assertTrue(any("Übernahmeanweisung" in f for f in vp.prüfe_konzepttrennung(text)))
+
+    def test_blocksatz_für_kurze_begriffsdefinitionen_wird_abgewiesen(self):
+        dokument = Document(vp.DOCX_PFAD)
+        dokument.styles["Begriffsdefinition"].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        with TemporaryDirectory() as temp:
+            pfad = Path(temp) / "unzulässiger-blocksatz.docx"
+            dokument.save(pfad)
+            self.assertTrue(
+                any(
+                    "Begriffsdefinitionen müssen linksbündig" in fehler
+                    for fehler in vp.prüfe_docx_layout(pfad)
+                )
+            )
 
     def test_masterdokument_erfüllt_layoutregeln(self):
         self.assertEqual([], vp.prüfe_docx_layout(vp.DOCX_PFAD))

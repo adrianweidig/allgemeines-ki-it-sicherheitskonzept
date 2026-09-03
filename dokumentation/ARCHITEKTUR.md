@@ -8,29 +8,29 @@ Die editierbare Quelle liegt unter [`diagramme/architektur.puml`](../diagramme/a
 
 ![Lokale KI-Systemarchitektur mit Vertrauenszonen](medien/architektur.svg)
 
-Die Clientzone erreicht ausschließlich den kontrollierten KI-Zugang. Rohschnittstellen der Inferenz, Verwaltungszugänge und interne Containerkommunikation bleiben außerhalb des normalen Anfragepfads. Identität, Richtliniendurchsetzung, Registrierungen und Auditdaten bilden eigene Sicherheitsfunktionen.
+Die Clientzone erreicht ausschließlich den kontrollierten KI-Zugang. Rohschnittstellen der Inferenz, Verwaltungszugänge und interne Containerkommunikation bleiben außerhalb des normalen Anfragepfads. Identität, Richtliniendurchsetzung, Registrierungen und Prüfdaten bilden eigene Sicherheitsfunktionen.
 
 ## Vertrauenszonen
 
 1. **Verwaltete Clientzone:** Benutzerinteraktion, lokale Entwicklungswerkzeuge und agentische Anwendungen mit minimalen Arbeitsbereichsrechten.
 2. **Kontrollierter KI-Zugang:** einzige aus der Clientzone erreichbare KI-Schnittstelle; setzt Identität, Rollen, Richtlinien, Modellfreigabe, Raten- und Kontextgrenzen sowie Protokollierung durch.
-3. **KI-Serverzone:** Inferenz, Chat, RAG, Datenhaltung und Überwachung. Interne Schnittstellen werden nicht in das allgemeine Netz veröffentlicht.
-4. **Importzone:** kontrollierter Transfer und Prüfung von Modellen, Images, Paketen und Erweiterungen vor Übernahme in lokale Registrierungen.
+3. **KI-Serverzone:** Inferenz, Chat, lokale Wissenssuche (RAG), Datenhaltung und Überwachung. Interne Schnittstellen werden nicht in das allgemeine Netz veröffentlicht.
+4. **Importzone:** kontrollierter Transfer und Prüfung von Modellen, Containerabbildern, Paketen und Erweiterungen vor Übernahme in lokale Registrierungen.
 5. **Betriebs- und Nachweiszone:** lokale, besonders geschützte Protokolle, Sicherheitsnachweise, Sicherungen und Wiederherstellungsdaten.
 
 ## Sicherheitsgrenzen
 
-Container- oder Pod-Netze sind keine eigenständige Vertrauensentscheidung. Verkehrsbeziehungen folgen dem Prinzip `standardmäßig verweigern, ausdrücklich erlauben`. Workloads erhalten keine unnötigen Privilegien, laufen möglichst rootless, nutzen schreibgeschützte Dateisystemanteile und beziehen Artefakte nur aus kontrollierten lokalen Quellen.
+Container- oder Pod-Netze sind keine eigenständige Vertrauensentscheidung. Verkehrsbeziehungen folgen dem Prinzip `standardmäßig verweigern, ausdrücklich erlauben`. KI-Dienste erhalten keine unnötigen Privilegien, laufen möglichst ohne privilegierten Systemnutzer (`rootless`), nutzen schreibgeschützte Dateisystemanteile und beziehen Artefakte nur aus kontrollierten lokalen Quellen.
 
 Der Inferenzserver besitzt keinen Internetzugang und keine direkt veröffentlichte Rohschnittstelle. Nutzer- und Dienstzugriffe sind einzeln zuordenbar und widerrufbar; gemeinsame statische API-Schlüssel sind kein Standardverfahren.
 
 ## Datenflüsse
 
 - Clientanfragen passieren den kontrollierten KI-Zugang und werden erst danach an freigegebene Modelle oder lokale Werkzeuge vermittelt.
-- RAG-Dokumente werden vor Verarbeitung auf Dateityp, Größe und Schadsoftware geprüft und in isolierten Parserprozessen aufbereitet.
+- Dokumente für die lokale Wissenssuche werden vor der Verarbeitung auf Dateityp, Größe und Schadsoftware geprüft und in isolierten Prozessen ausgewertet.
 - Eine Berechtigungsprüfung erfolgt vor Indexaufnahme und erneut bei jeder Abfrage; das Sprachmodell entscheidet keine Zugriffsrechte.
-- Uploads bleiben sitzungsbezogen, sofern keine ausdrücklich genehmigte lokale Ablage besteht.
-- Löschung erfasst Quelldatei, extrahierten Text, Index, Embeddings, Cache, Protokollbezug und den geregelten Ablauf in Sicherungsketten.
+- Bedarfsgesteuerte Dateiübernahmen bleiben sitzungsbezogen, sofern keine ausdrücklich genehmigte lokale Ablage besteht.
+- Löschung erfasst Quelldatei, extrahierten Text, Index, Suchvektoren, Zwischenspeicher, Protokollbezug und den geregelten Ablauf in Sicherungsketten.
 
 ### Kontrollierter Artefaktimport
 
@@ -38,11 +38,21 @@ Der Inferenzserver besitzt keinen Internetzugang und keine direkt veröffentlich
 
 Externe Artefakte werden nicht direkt in die Produktionszone übertragen. Ein getrennter Prüfweg verbindet Herkunfts- und Versionsnachweis, Integritätsprüfung, Schwachstellen- und Lizenzanalyse, dokumentierte Freigabe, lokalen Test und kontrollierten Rückgriff.
 
+### Risikobewertung
+
+![Ablauf der Risikobewertung](medien/risikobewertung.svg)
+
+Gefährdungen werden als konkrete Szenarien beschrieben. Eintrittshäufigkeit und Schadenshöhe bestimmen die Risikokategorie. Nach der Behandlung wird das Restrisiko erneut eingestuft und verantwortlich entschieden.
+
+![Risikomatrix mit Ausgangs- und Restrisiken](medien/risikomatrix.svg)
+
+Die qualitative Matrix verwendet die Kategorien des BSI-Standards 200-3. Text, Zellenposition und stabile Risikokennungen tragen die Aussage; Farbe unterstützt nur die Orientierung.
+
 ### Lokaler RAG-Datenfluss
 
 ![RAG-Datenfluss mit Berechtigungsprüfung und Löschkette](medien/rag-datenfluss.svg)
 
-Aufnahme und Abfrage sind getrennte Kontrollpunkte. Schutzbedarf, Herkunft und ACLs begleiten jede Ableitung. Nur Treffer, die bei der konkreten Anfrage erneut freigegeben wurden, gelangen zur lokalen Inferenz.
+Aufnahme und Abfrage sind getrennte Kontrollpunkte. Schutzbedarf, Herkunft und Zugriffsregeln begleiten jede Ableitung. Nur Treffer, die bei der konkreten Anfrage erneut freigegeben wurden, gelangen zur lokalen Inferenz.
 
 ### Agentische Werkzeugnutzung
 

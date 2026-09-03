@@ -16,14 +16,14 @@ skinparam rectangle {
   FontColor #203040
 }
 
-rectangle "**1 · KONTROLLIERTE AUFNAHME**\nFreigegebene Quelle oder lokaler Upload\nQuarantäne · Dateityp · Größe · Schadsoftware" as aufnahme
-rectangle "**2 · ISOLIERTE AUFBEREITUNG UND INDEXIERUNG**\nParser / OCR · Herkunft · Eigentümer · Klassifikation · ACL\nSegmentierung · lokale Embeddings · geschützter Index" as index #E8EEF5
+rectangle "**1 · KONTROLLIERTE AUFNAHME**\nFreigegebene Quelle oder lokale Dateiübernahme\nQuarantäne · Dateityp · Größe · Schadsoftware" as aufnahme
+rectangle "**2 · ISOLIERTE AUFBEREITUNG UND INDEXIERUNG**\nDateiauswertung / Texterkennung · Herkunft · Eigentümer · Klassifikation · Zugriffsrechte\nTextabschnitte · lokale Suchvektoren · geschützter Index" as index #E8EEF5
 rectangle "**3 · IDENTIFIZIERTE LOKALE ANFRAGE**" as anfrage
-rectangle "**ENTSCHEIDUNG**\nACL bei Abfrage erfüllt?" as acl #E8EEF5
-rectangle "**4 · RETRIEVAL UND RERANKING**\nnur freigegebene Inhalte" as retrieval
+rectangle "**ENTSCHEIDUNG**\nZugriffsrecht bei Abfrage erfüllt?" as acl #E8EEF5
+rectangle "**4 · SUCHE UND NEUSORTIERUNG**\nnur freigegebene Treffer" as retrieval
 rectangle "**5 · LOKALE INFERENZ**\nbegrenzter Kontext\nAusgabe mit nachvollziehbaren Quellenangaben" as inferenz #EAF2EA
 rectangle "**ABWEISUNG**\nKein Zugriff" as abweisung #FBEEEE
-rectangle "**GEREGELTE LÖSCHUNG**\nQuelle · Extrakt · Index · Cache\nAblauf in Sicherungsketten" as loeschung #F5F1F3
+rectangle "**GEREGELTE LÖSCHUNG**\nQuelle · Extrakt · Index · Zwischenspeicher\nAblauf in Sicherungsketten" as loeschung #F5F1F3
 
 aufnahme -down-> index
 index -down-> acl : Index und Metadaten

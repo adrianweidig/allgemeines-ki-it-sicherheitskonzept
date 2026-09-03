@@ -11,12 +11,17 @@ Der Workflow `Projekt validieren` läuft bei Pull Requests, bei Pushes auf `main
 - DOCX-/PDF-Öffnung, Version, Status, Kontrollbestand und Textähnlichkeit.
 - Typografie, Absatzabstände, echte Listen, Listeninterpunktion und deutsche Silbentrennung.
 - Feste Tabellengeometrie, ausreichende Zellränder, wiederholte Tabellenköpfe und fehlende exakte Zeilenhöhen.
+- Echtes, gespeichertes Word-Inhaltsverzeichnis mit Ebenen 1 und 2, Punkt-Füllzeichen und aktuellen Seitenzahlen.
 - PAGE- und NUMPAGES-Felder sowie eine korrekte Seitenführung auf jeder PDF-Seite.
+- Sechs prüfsummengebundene Fachdiagramme einschließlich Risikoprozess und Risikomatrix.
+- Ausschluss von Redaktionshinweisen, pauschalen Beratungsausschlüssen und vermeidbarem Fachjargon aus dem Sicherheitskonzept.
 - Unerwünschte Ersatzschreibweisen, Platzhalter, Geheimnismuster und unzulässige Konformitätsbehauptungen.
 - Öffentliche Quellenlinks mit differenzierter Behandlung temporärer Sperren.
 - Ausschluss lokaler Eingaben aus Git und Veröffentlichungsarchiv.
 
 Da `quellen/lokale-eingaben/` absichtlich nicht im Repository liegt, verwendet der CI-Lauf `--ohne-lokale-eingaben`. Er prüft die registrierten Metadaten und lädt die amtlichen Online-PDFs für den Prüfsummenvergleich; die Existenz und Prüfsumme der lokalen Fassungen wird ausschließlich im vollständigen lokalen Lauf ohne diese Option geprüft.
+
+Die Binärdokumente werden vor dem Commit lokal erzeugt. `validierung/aktualisiere_word_felder.ps1` öffnet das generierte DOCX in Microsoft Word, aktualisiert Inhaltsverzeichnis und Seitenfelder, speichert das Masterdokument und erzeugt daraus die PDF-Lesefassung. Der Linux-CI-Lauf verändert diese Artefakte nicht, sondern prüft den gespeicherten Endstand.
 
 ## Veröffentlichungsartefakt
 
@@ -28,4 +33,4 @@ Dependabot prüft GitHub Actions und die fixierten Python-Abhängigkeiten monatl
 
 ## Schutz des öffentlichen Referenzbestands
 
-Auf GitHub schlägt jede Fassung mit `organisationsspezifisch: true`, aktivem Training, aktiver Feinabstimmung oder externer Inferenz fehl. Die Heuristik ist ein zusätzliches Warnnetz und keine vollständige Klassifizierungsautomatik.
+Auf GitHub schlägt jede Fassung mit `organisationsspezifisch: true`, aktivem Training, aktiver Feinabstimmung oder externer Inferenz fehl. Die automatisierte Inhaltssuche ist ein zusätzliches Warnnetz und keine vollständige Klassifizierungsautomatik.

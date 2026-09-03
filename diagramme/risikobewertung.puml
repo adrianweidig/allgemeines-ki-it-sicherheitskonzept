@@ -1,0 +1,38 @@
+@startuml
+top to bottom direction
+
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #446B8C
+skinparam ArrowFontColor #334A5E
+skinparam ArrowFontSize 11
+skinparam rectangle {
+  BorderColor #7890A5
+  BackgroundColor #F7F9FB
+  FontColor #203040
+}
+
+rectangle "**1 · GELTUNGSBEREICH UND SCHUTZZIELE**\nZielobjekte · Daten · Kommunikationswege\nVertraulichkeit · Integrität · Verfügbarkeit" as rahmen #E8EEF5
+rectangle "**2 · GEFÄHRDUNGSÜBERSICHT**\nElementare und KI-spezifische Szenarien\nUrsache · betroffener Wert · mögliche Folge" as gefaehrdung
+rectangle "**3 · RISIKOEINSCHÄTZUNG**\nEintrittshäufigkeit und Schadenshöhe\nunter Berücksichtigung vorhandener Maßnahmen" as einschaetzung
+rectangle "**4 · RISIKOBEWERTUNG**\nRisikokategorie anhand der festgelegten Matrix" as bewertung #E8EEF5
+rectangle "**ENTSCHEIDUNG**\nAkzeptanzkriterium erfüllt?" as akzeptabel #E8EEF5
+rectangle "**5 · RISIKOBEHANDLUNG**\nVermeiden · reduzieren · übertragen\nzusätzliche Sicherheitsmaßnahmen festlegen" as behandlung #F7F9FB
+rectangle "**6 · RESTRISIKO UND FREIGABE**\nErneut einstufen · verantwortlich entscheiden\nbefristet dokumentieren und überwachen" as restrisiko #EAF2EA
+rectangle "**RISIKOREGISTER UND SICHERHEITSKONZEPT**\nSzenario · Bewertung · Maßnahmen · Nachweise\nPrüffrist und Änderungsanlässe" as dokumentation #F5F1F3
+
+rahmen -down-> gefaehrdung
+gefaehrdung -down-> einschaetzung
+einschaetzung -down-> bewertung
+bewertung -down-> akzeptabel
+akzeptabel -right-> restrisiko : ja
+akzeptabel -[#9B3D3D]down-> behandlung : nein
+behandlung -left-> einschaetzung : nach Maßnahmen\nerneut einstufen
+restrisiko -down-> dokumentation
+dokumentation -[#9A8791,dashed]left-> rahmen : Änderung oder Prüffrist
+
+@enduml

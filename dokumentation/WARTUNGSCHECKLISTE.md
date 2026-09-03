@@ -14,7 +14,10 @@
 - [ ] DOCX und PDF tragen dieselbe Version und denselben Status wie der Katalog.
 - [ ] Die maschinellen Regeln aus `dokumentation/LAYOUTREGELN.md` sind vollständig erfüllt.
 - [ ] Fließtext, Aufzählungen, Tabellen, Diagramme, Silbentrennung, Kopfzeilen, Fußzeilen und Seitenzahlen entsprechen dem verbindlichen Gestaltungsprofil.
-- [ ] Konzepttext enthält keine Übernahme- oder Redaktionsanleitung; diese steht ausschließlich im separaten Leitfaden.
+- [ ] Das automatische Inhaltsverzeichnis enthält Ebenen 1 und 2, rechtsbündige aktuelle Seitenzahlen und Punkt-Füllzeichen.
+- [ ] Konzepttext enthält keine Übernahme- oder Redaktionsanleitung, keinen pauschalen Beratungsausschluss und keine Erklärung zur Dokumentmechanik.
+- [ ] Vermeidbarer Fachjargon wurde ersetzt; unvermeidbare Fachbegriffe sind vor ihrer ersten Verwendung erklärt.
+- [ ] Risikoprozess, Risikomatrix und Risikoregister sind widerspruchsfrei; Ausgangs- und Restrisiken besitzen dieselben stabilen Kennungen.
 - [ ] Jede Abbildung besitzt eine PlantUML-Quelle, zum Manifest passende SVG- und PNG-Ableitungen, eine unmittelbare Beschriftung und einen vollständigen Alternativtext.
 - [ ] Diagramme sind bei 100 Prozent lesbar, nicht gedreht und verwenden Farbe nicht als einzigen Bedeutungsträger.
 - [ ] Jede PDF-Seite wurde gerendert und visuell geprüft.
@@ -26,7 +29,7 @@
 - [ ] Passende Lizenz für das Gesamtwerk nach Prüfung der übernommenen und abgeleiteten Inhalte festlegen.
 - [ ] Privaten Sicherheitskontakt beziehungsweise GitHub Private Vulnerability Reporting einrichten.
 - [ ] Branch Protection nach dem ersten stabilen grünen CI-Lauf aktivieren.
-- [ ] Erforderliche Reviews, Statusprüfungen und Administrationsausnahmen für `main` festlegen.
+- [ ] Erforderliche Überprüfungen, Statusprüfungen und Administrationsausnahmen für `main` festlegen.
 - [ ] Strategie für Tags und GitHub Releases vor der ersten echten Veröffentlichung beschließen.
 
 ## Manuelle Fachprüfung

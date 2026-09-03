@@ -9,11 +9,12 @@ Der Bootstrap initialisiert das private Repository auf `main`, enthält keine Ta
 1. Quellen und Wiedervorlagen prüfen.
 2. Normative Änderungen im OSCAL-Katalog bearbeiten.
 3. Quellenregister und Zuordnungen aktualisieren.
-4. Dokumente aus dem abgestimmten Bestand erzeugen.
-5. Automatisierte und manuelle Prüfungen vollständig durchführen.
-6. Versionsgleichheit und Prüfsummen festhalten.
-7. Änderungen in `CHANGELOG.md` dokumentieren.
-8. Über Pull Request und fachliches Review nach `main` übernehmen.
+4. PlantUML-Abbildungen und DOCX aus dem abgestimmten Bestand erzeugen.
+5. Das Word-Inhaltsverzeichnis und alle Seitenfelder aktualisieren, das DOCX speichern und daraus das PDF erzeugen.
+6. Automatisierte und manuelle Prüfungen vollständig durchführen.
+7. Versionsgleichheit und Prüfsummen festhalten.
+8. Änderungen in `CHANGELOG.md` dokumentieren.
+9. Über Pull Request und fachliche Überprüfung nach `main` übernehmen.
 
 ## Actions-Artefakt
 

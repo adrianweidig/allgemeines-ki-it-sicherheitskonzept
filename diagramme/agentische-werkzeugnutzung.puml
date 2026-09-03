@@ -16,13 +16,13 @@ skinparam rectangle {
   FontColor #203040
 }
 
-rectangle "Identifizierte Person · begrenzter Arbeitsbereich\nAgentischer Client über lokalen HTTPS-Zugang\nLokale Inferenz schlägt Tool-Aktion vor" as anfrage #E8EEF5
+rectangle "Identifizierte Person · begrenzter Arbeitsbereich\nAgentischer Client über lokalen HTTPS-Zugang\nLokale Inferenz schlägt Werkzeugaktion vor" as anfrage #E8EEF5
 rectangle "**ENTSCHEIDUNG**\nDurch Richtlinie erlaubt?" as richtlinie #E8EEF5
 rectangle "**ENTSCHEIDUNG**\nSchreiben, Befehl, Netzwerk\noder destruktive Wirkung?" as wirkung #F5F1F3
 rectangle "**ENTSCHEIDUNG**\nKonkrete menschliche\nBestätigung erteilt?" as bestaetigung #F5F1F3
 rectangle "Minimal berechtigtes Werkzeug\nin begrenzter Ausführungsumgebung" as ausfuehrung #EAF2EA
 rectangle "**ABWEISUNG**\nAktion blockiert" as blockiert #FBEEEE
-rectangle "**LOKALE AUDITSPUR**\nIdentität · Zweck · Tool\nEntscheidung · Ergebnis" as audit
+rectangle "**LOKALES PRÜFPROTOKOLL**\nIdentität · Zweck · Werkzeug\nEntscheidung · Ergebnis" as audit
 
 anfrage -right-> richtlinie
 richtlinie -right-> wirkung : ja

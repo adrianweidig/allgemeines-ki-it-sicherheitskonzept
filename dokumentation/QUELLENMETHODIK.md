@@ -32,4 +32,4 @@ Bestätigte HTTP-Status `404` und `410` sind Fehler. Temporäre Netzfehler sowie
 
 ## Normen und Lizenzen
 
-ISO/IEC-Normen werden ausschließlich über öffentliche Metadaten, zulässige Kennungen und veröffentlichte Zuordnungen eingebunden. Proprietäre Normentexte werden nicht reproduziert. Ein Mapping ist eine fachliche Orientierung und keine bestätigte Normkonformität.
+ISO/IEC-Normen werden ausschließlich über öffentliche Metadaten, zulässige Kennungen und veröffentlichte Zuordnungen eingebunden. Proprietäre Normentexte werden nicht reproduziert. Eine Zuordnung dient der fachlichen Orientierung und bestätigt keine Normkonformität.
