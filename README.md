@@ -3,7 +3,7 @@
 > [!CAUTION]
 > **ÖFFENTLICH – organisationsneutrale Referenzvorlage.** Jede Anreicherung mit organisationsspezifischen Informationen beendet diesen Status. Anpassungen dürfen ausschließlich in einer getrennten, angemessen geschützten Offline-Fassung begonnen werden. Dort ist `organisationsspezifisch` in `projektstatus.json` vor der ersten Anpassung auf `true` zu setzen; die Dokumentkennzeichnung wechselt dadurch auf **NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH**. Eine formale Einstufung darf nur die zuständige Organisation durch befugte Stellen vornehmen.
 
-![Abstrakte lokale KI-Referenzarchitektur](dokumentation/medien/architektur.svg)
+![Lokale KI-Systemarchitektur mit Vertrauenszonen](dokumentation/medien/architektur.svg)
 
 Dieses Repository entwickelt eine audit- und zertifizierungsvorbereitende Referenz für den sicheren Betrieb vollständig lokaler KI-Infrastrukturen in einer klassischen Domäne. Es enthält keine Anwendung, Workbench, Plattform oder produktive KI-Komponente. Es setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus und ergänzt dieses ausschließlich um KI-spezifische Risiken, Verschärfungen, Prüfziele und Nachweise.
 
@@ -15,6 +15,12 @@ Dieses Repository entwickelt eine audit- und zertifizierungsvorbereitende Refere
 - [`quellen/quellenregister.json`](quellen/quellenregister.json): nachvollziehbare öffentliche Fundstellen, Prüfsummen und konkrete Belegstellen.
 
 Die erste gemeinsame fachliche Fassung trägt die Version `0.1.0`. Der OSCAL-Katalog ist für normative Anforderungen maßgeblich. Das Konzept erläutert Architektur, Anwendung und Zusammenwirken; es führt keine zusätzlichen, nur dort vorhandenen Muss-Anforderungen ein.
+
+## Konzept und Übernahmeanleitung
+
+Das DOCX/PDF-Paar ist bewusst wie ein tatsächlich geltendes Sicherheitskonzept formuliert. Redaktionshinweise, Platzhalter und Arbeitsanweisungen zur Anpassung stehen nicht im Konzept. Der separate [`Leitfaden zur organisationsspezifischen Übernahme`](dokumentation/ÜBERNAHMELEITFADEN.md) beschreibt Schutzgrenze, Anpassungsreihenfolge, Statuswechsel, Diagrammpflege, Nachweise und Freigaben.
+
+Die öffentliche Fassung darf nicht direkt mit internen Angaben ergänzt werden. Jede organisationsspezifische Bearbeitung beginnt in einer getrennten, angemessen geschützten Offline-Fassung und aktiviert dort vor der ersten realen Angabe das Statusgate.
 
 ## Geltungsbereich
 
@@ -74,22 +80,24 @@ Im Fließtext werden Quellenkennungen wie `[Q-BSI-001]` verwendet. Rechtsquellen
 
 ## Nutzung und Validierung
 
-Voraussetzungen sind Python 3.11 oder neuer, die in [`validierung/anforderungen.txt`](validierung/anforderungen.txt) fixierten Pakete, LibreOffice für die reproduzierbare PDF-Erzeugung sowie Poppler für die visuelle PDF-Prüfung.
+Voraussetzungen sind Python 3.11 oder neuer, die in [`validierung/anforderungen.txt`](validierung/anforderungen.txt) fixierten Pakete, Java 17 oder neuer für PlantUML, LibreOffice für die reproduzierbare PDF-Erzeugung sowie Poppler für die visuelle PDF-Prüfung.
 
 ```powershell
 python -m pip install -r validierung/anforderungen.txt
+python validierung/erzeuge_diagramme.py --werkzeug-herunterladen
+python validierung/erzeuge_dokumente.py
 python validierung/validiere_projekt.py --streng --online
 python -m unittest discover -s validierung/testfälle -p "test_*.py"
-python validierung/erzeuge_dokumente.py
 ```
 
-Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Die verbindlichen Typografie-, Tabellen-, Silbentrennungs- und Seitenführungswerte stehen in [`dokumentation/LAYOUTREGELN.md`](dokumentation/LAYOUTREGELN.md). Nach jeder Erzeugung sind DOCX und PDF zu öffnen, vollständig zu rendern und auf jeder Seite redaktionell sowie visuell zu prüfen.
+Die vier Diagramme werden als leicht bearbeitbare PlantUML-Quellen unter [`diagramme/`](diagramme/) gepflegt und lokal in SVG und PNG umgewandelt. Das PNG wird anschließend als feste Inline-Abbildung in das DOCX übernommen. Die Dokumenterzeugung liest den OSCAL-Katalog und das Quellenregister. Änderungen an normativen Anforderungen werden zuerst im Katalog vorgenommen. Die verbindlichen Typografie-, Tabellen-, Diagramm-, Silbentrennungs- und Seitenführungswerte stehen in [`dokumentation/LAYOUTREGELN.md`](dokumentation/LAYOUTREGELN.md). Nach jeder Erzeugung sind DOCX und PDF zu öffnen, vollständig zu rendern und auf jeder Seite redaktionell sowie visuell zu prüfen.
 
 ## Projektstruktur
 
 ```text
 katalog/                         Normativer OSCAL-JSON-Katalog
 konzept/                         DOCX-Master und daraus erzeugtes PDF
+diagramme/                       Bearbeitbare PlantUML-Quellen und Prüfsummenmanifest
 quellen/                         Quellenregister
 quellen/lokale-eingaben/         Ignorierte lokale Ausgangsdokumente
 schemata/                        Offizielle und projektspezifische JSON-Schemata

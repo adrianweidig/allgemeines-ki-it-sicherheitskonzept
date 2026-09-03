@@ -31,6 +31,11 @@ KATALOG_PFAD = WURZEL / "katalog" / "ki-it-sicherheitskatalog.oscal.json"
 REGISTER_PFAD = WURZEL / "quellen" / "quellenregister.json"
 STATUS_PFAD = WURZEL / "projektstatus.json"
 ZIEL = WURZEL / "konzept" / "ki-it-sicherheitskonzept.docx"
+MEDIEN_PFAD = WURZEL / "dokumentation" / "medien"
+ARCHITEKTUR_ABBILDUNG = MEDIEN_PFAD / "architektur.png"
+ARTEFAKTIMPORT_ABBILDUNG = MEDIEN_PFAD / "artefaktimport.png"
+RAG_ABBILDUNG = MEDIEN_PFAD / "rag-datenfluss.png"
+AGENTEN_ABBILDUNG = MEDIEN_PFAD / "agentische-werkzeugnutzung.png"
 
 ÖFFENTLICH = "ÖFFENTLICH – organisationsneutrale Referenzvorlage"
 NICHT_ÖFFENTLICH = "NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH"
@@ -231,7 +236,7 @@ def unterdrücke_silbentrennung(absatz):
 
 
 def text_absatz(container, text, *, fett_prefix=None, stil=None, danach=6, davor=0):
-    absatz = container.add_paragraph(style=stil)
+    absatz = container.add_paragraph(style=stil or "Fließtext")
     setze_absatzformat(absatz, danach=danach, davor=davor)
     if fett_prefix and text.startswith(fett_prefix):
         absatz.add_run(fett_prefix).bold = True
@@ -241,6 +246,22 @@ def text_absatz(container, text, *, fett_prefix=None, stil=None, danach=6, davor
     if "untrusted" in text.casefold():
         unterdrücke_silbentrennung(absatz)
     return absatz
+
+
+def füge_abbildung_hinzu(doc, pfad, beschriftung, alternativtext, *, breite_cm=16.0):
+    """Fügt eine ausschließlich inline platzierte, barrierearme Abbildung ein."""
+    if not pfad.is_file():
+        raise FileNotFoundError(f"Abbildung fehlt: {pfad}")
+    absatz = doc.add_paragraph()
+    absatz.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    setze_absatzformat(absatz, danach=0, zusammenhalten=True)
+    run = absatz.add_run()
+    inline = run.add_picture(str(pfad), width=Cm(breite_cm))._inline
+    inline.docPr.set("title", beschriftung.split(":", 1)[0])
+    inline.docPr.set("descr", alternativtext)
+    beschriftungsabsatz = doc.add_paragraph(beschriftung, style="Abbildungsbeschriftung")
+    beschriftungsabsatz.paragraph_format.keep_together = True
+    return beschriftungsabsatz
 
 
 def aufzählung(container, punkte):
@@ -431,6 +452,23 @@ def richte_stile_ein(doc):
     sprache.set(qn("w:val"), "de-DE")
     sprache.set(qn("w:eastAsia"), "de-DE")
 
+    if "Fließtext" not in [s.name for s in doc.styles]:
+        stil = doc.styles.add_style("Fließtext", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        stil = doc.styles["Fließtext"]
+    stil.base_style = normal
+    stil.font.name = "Calibri"
+    stil.font.size = Pt(11)
+    stil.font.color.rgb = RGBColor.from_string("202830")
+    stil.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    stil.paragraph_format.space_before = Pt(0)
+    stil.paragraph_format.space_after = Pt(6)
+    stil.paragraph_format.line_spacing = 1.15
+    stil.paragraph_format.widow_control = True
+    stil._element.rPr.rFonts.set(qn("w:ascii"), "Calibri")
+    stil._element.rPr.rFonts.set(qn("w:hAnsi"), "Calibri")
+    stil._element.rPr.rFonts.set(qn("w:eastAsia"), "Calibri")
+
     vorgaben = {
         "Heading 1": (16, BLAU, 16, 8, True),
         "Heading 2": (13, BLAU, 12, 6, False),
@@ -495,6 +533,37 @@ def richte_stile_ein(doc):
     stil.paragraph_format.space_after = Pt(9)
     stil.paragraph_format.line_spacing = 1.05
 
+    if "Abbildungsbeschriftung" not in [s.name for s in doc.styles]:
+        stil = doc.styles.add_style("Abbildungsbeschriftung", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        stil = doc.styles["Abbildungsbeschriftung"]
+    stil.base_style = normal
+    stil.font.name = "Calibri"
+    stil.font.size = Pt(9)
+    stil.font.italic = True
+    stil.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
+    stil.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    stil.paragraph_format.space_before = Pt(4)
+    stil.paragraph_format.space_after = Pt(9)
+    stil.paragraph_format.line_spacing = 1.05
+    stil.paragraph_format.widow_control = True
+
+    if "Kontrollfeldbezeichnung" not in [s.name for s in doc.styles]:
+        stil = doc.styles.add_style("Kontrollfeldbezeichnung", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        stil = doc.styles["Kontrollfeldbezeichnung"]
+    stil.base_style = normal
+    stil.font.name = "Calibri"
+    stil.font.size = Pt(11)
+    stil.font.bold = True
+    stil.font.color.rgb = RGBColor.from_string(DUNKELBLAU)
+    stil.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    stil.paragraph_format.space_before = Pt(4)
+    stil.paragraph_format.space_after = Pt(1)
+    stil.paragraph_format.line_spacing = 1.0
+    stil.paragraph_format.keep_with_next = True
+    stil.paragraph_format.widow_control = True
+
     for name, größe in (("Laufende Kopfzeile", 8), ("Laufende Fußzeile", 8)):
         if name not in [s.name for s in doc.styles]:
             stil = doc.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
@@ -555,6 +624,15 @@ def setze_absatzrahmen(absatz, *, position, farbe, stärke=4, abstand=6):
     linie.set(qn("w:space"), str(abstand))
     linie.set(qn("w:color"), farbe)
     p_bdr.append(linie)
+
+
+def schattiere_absatz(absatz, farbe):
+    p_pr = absatz._p.get_or_add_pPr()
+    shd = p_pr.find(qn("w:shd"))
+    if shd is None:
+        shd = OxmlElement("w:shd")
+        p_pr.append(shd)
+    shd.set(qn("w:fill"), farbe)
 
 
 def richte_silbentrennung_ein(doc):
@@ -658,14 +736,14 @@ def dokumentsteuerung(doc, version, kennzeichnung, katalog):
         ("OSCAL-Fassung", katalog["catalog"]["metadata"]["oscal-version"]),
         ("Betriebsmodell", "vollständig lokal; externe Inferenz nicht anwendbar"),
         ("Modelländerung", "Training und Feinabstimmung ausgeschlossen"),
-        ("Herausgeberschaft", "Organisationsneutrales Referenzprojekt; keine amtliche Herausgeberschaft"),
+        ("Herausgeberstatus", "Unabhängige organisationsneutrale Fassung; keine amtliche Herausgeberschaft"),
     ]
     for merkmal, festlegung in daten:
         zellen = tabelle.add_row().cells
         zellen[0].text = merkmal
         zellen[1].text = festlegung
     formatiere_tabelle(tabelle, [2500, 6422])
-    text_absatz(doc, "Freigabehinweis: Diese Fassung enthält ausschließlich öffentliche, organisationsneutrale Informationen. Eine private Repository-Sichtbarkeit ist keine Freigabe für organisationsspezifische, vertrauliche oder eingestufte Inhalte.", danach=8, davor=8)
+    text_absatz(doc, "Freigabehinweis: Diese Fassung enthält ausschließlich öffentliche, organisationsneutrale Informationen. Technische Zugriffsbeschränkungen ersetzen weder Schutzkennzeichnung noch informationsschutzrechtliche Freigabe.", danach=8, davor=8)
 
 
 def inhaltsverzeichnis(doc):
@@ -674,7 +752,7 @@ def inhaltsverzeichnis(doc):
         "1 Dokumentenlenkung und Status ÖFFENTLICH",
         "2 Zweck, Zielgruppe und Abgrenzung",
         "3 Voraussetzungen des allgemeinen IT-Sicherheitskonzepts",
-        "4 Lokale KI-Referenzarchitektur",
+        "4 Lokale KI-Systemarchitektur",
         "5 Systemgrenzen, Vertrauenszonen und Datenflüsse",
         "6 Rechts-, Normen- und Anwendbarkeitsmatrix",
         "7 Governance, Rollen und Verantwortlichkeiten",
@@ -684,8 +762,7 @@ def inhaltsverzeichnis(doc):
         "11 Agentische Anwendungen und lokale Entwicklungsumgebungen",
         "12 Betrieb, Änderung, Modellwechsel, Vorfälle und Außerbetriebnahme",
         "13 Nachweis-, Prüf- und Mappingübersicht",
-        "14 Verfahren zur organisationsspezifischen Übernahme",
-        "15 Quellenverzeichnis, Glossar und Abkürzungen",
+        "14 Quellenverzeichnis, Glossar und Abkürzungen",
     ]
     for eintrag in kapitel:
         p = doc.add_paragraph()
@@ -696,8 +773,8 @@ def inhaltsverzeichnis(doc):
 
 def kapitel_eins_bis_acht(doc, version, kennzeichnung):
     add_heading(doc, "1 Dokumentenlenkung und Status ÖFFENTLICH", 1)
-    text_absatz(doc, f"Dieses Dokument trägt den Status {kennzeichnung}. Es ist eine organisationsneutrale Referenz und keine amtliche Veröffentlichung einer genannten Behörde. Version {version} bildet denselben Kontrollbestand wie der zugehörige OSCAL-Katalog ab.")
-    text_absatz(doc, "Sobald reale Organisations-, Infrastruktur-, Schutzbedarfs-, Konto- oder Schwachstelleninformationen ergänzt werden, endet der öffentliche Status. Die Anpassung erfolgt nur in einer getrennten Offline-Fassung; Einstufung und Freigabe bleiben befugten Stellen der übernehmenden Organisation vorbehalten.")
+    text_absatz(doc, f"Dieses Dokument trägt den Status {kennzeichnung}. Es beschreibt ein organisationsneutrales Sicherheitskonzept und ist keine amtliche Veröffentlichung einer genannten Behörde. Version {version} bildet denselben Kontrollbestand wie der zugehörige OSCAL-Katalog ab.")
+    text_absatz(doc, "Diese Fassung enthält keine realen Organisations-, Infrastruktur-, Schutzbedarfs-, Konto- oder Schwachstelleninformationen. Die Einstufung und Freigabe einer konkreten Systemfassung liegen ausschließlich bei den dafür befugten Stellen.")
     aufzählung(doc, [
         "Redaktionelles Master: DOCX; die PDF-Lesefassung wird ausschließlich daraus erzeugt.",
         "Normative Anforderungen: OSCAL-Katalog; dieses Dokument erläutert Anwendung und Zusammenwirken.",
@@ -706,42 +783,28 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
     ])
 
     add_heading(doc, "2 Zweck, Zielgruppe und Abgrenzung", 1)
-    text_absatz(doc, "Zweck ist eine prüfbare Referenz für Planung, Freigabe, Betrieb, Änderung und Außerbetriebnahme lokaler generativer KI-Dienste. Adressiert werden Leitung, Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung, Fachverantwortung, Architektur, Plattform-, Netz-, Identitäts-, RAG-, Modell-, Test- und Betriebsrollen.")
+    text_absatz(doc, "Dieses Sicherheitskonzept regelt Planung, Freigabe, Betrieb, Änderung und Außerbetriebnahme lokaler generativer KI-Dienste. Es richtet sich an Leitung, Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung und Fachverantwortung sowie an Rollen für Architektur, Plattform, Netzwerk, Identität, RAG, Modelle, Tests und Betrieb.")
     text_absatz(doc, "Nicht Gegenstand sind eine produktive Plattform, Beschaffungsempfehlungen, Training, Feinabstimmung, kontinuierliches Lernen oder die pauschale Freigabe eines konkreten Anwendungsfalls. Domänenwissen wird über lokale RAG-Bestände oder kontrollierte lokale On-Demand-Uploads bereitgestellt.")
 
     add_heading(doc, "3 Voraussetzungen des allgemeinen IT-Sicherheitskonzepts", 1)
-    text_absatz(doc, "Die Referenz setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus. Die folgenden Fähigkeiten werden nicht vollständig erneut spezifiziert, sondern nur dort verschärft, wo KI-spezifische Daten-, Modell-, Prompt-, RAG- oder Toolrisiken dies verlangen:")
+    text_absatz(doc, "Der sichere KI-Betrieb setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus. Die folgenden Fähigkeiten werden nicht vollständig erneut spezifiziert, sondern nur dort verschärft, wo KI-spezifische Daten-, Modell-, Prompt-, RAG- oder Toolrisiken dies verlangen:")
     aufzählung(doc, [
         "Verwaltete Clients und Server, sichere Domäne, lokaler Identitätsprovider, Rollen und MFA.",
         "Interne PKI, vertrauenswürdige Zertifikate, Segmentierung, Firewalls und abgesicherter Fernzugriff.",
         "Patch-, Schwachstellen-, Konfigurations- und sichere Softwareverteilung.",
         "Lokale Protokollierung, Überwachung, Backup, Wiederherstellung, Notfallmanagement und Schadsoftwareschutz.",
     ])
-    text_absatz(doc, "KI-GEL-001 verlangt für jede Übernahme den expliziten Bezug auf diese Basis. Fehlende Basismaßnahmen werden nicht durch den KI-Katalog geheilt und müssen im allgemeinen Sicherheitsprozess behandelt werden.")
+    text_absatz(doc, "KI-GEL-001 verlangt den nachweisbaren Bezug auf diese Basis. Fehlende Basismaßnahmen werden nicht durch den KI-Katalog kompensiert und müssen im allgemeinen Sicherheitsprozess behandelt werden.")
 
-    add_heading(doc, "4 Lokale KI-Referenzarchitektur", 1)
-    text_absatz(doc, "Die Standardarchitektur ist vollständig lokal. Verwaltete Clients erreichen über HTTPS ausschließlich einen kontrollierten internen KI-Zugang. Dahinter liegt eine getrennte KI-Serverzone mit lokaler Containerplattform, Chat-Oberfläche, Inferenz, RAG, Embeddings, Reranking, Vektor- beziehungsweise Datenbank und technischer Überwachung. Fernzugriff erfolgt nur über ein organisationskontrolliertes VPN mit MFA.")
-    arch = doc.add_table(rows=2, cols=3)
-    arch.style = "Table Grid"
-    titel = ["Clientzone  →", "Kontrollierter KI-Zugang  →", "KI-Serverzone"]
-    inhalte = [
-        "Browser · agentische Clients · lokales Git\nAusgehend ausschließlich HTTPS",
-        "IdP · Rollen · TLS\nModell- und Toolfreigabe\nProtokollierung · Begrenzung",
-        "Chat · Inferenz · RAG\nEmbeddings · Datenbank\nMonitoring · kein Egress",
-    ]
-    for i, wert in enumerate(titel):
-        arch.rows[0].cells[i].text = wert
-        schattiere(arch.rows[0].cells[i], HELLBLAU)
-        for run in arch.rows[0].cells[i].paragraphs[0].runs:
-            run.bold = True
-        arch.rows[0].cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-    for i, wert in enumerate(inhalte):
-        arch.rows[1].cells[i].text = wert
-        arch.rows[1].cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-    formatiere_tabelle(arch, [2676, 2973, 3273], zentrierte_spalten={0, 1, 2})
-    p = doc.add_paragraph(
-        "Abbildung 1: Abstrakte lokale Referenzarchitektur. Produkte sind austauschbare Beispiele.",
-        style="Tabellenbeschriftung",
+    add_heading(doc, "4 Lokale KI-Systemarchitektur", 1)
+    text_absatz(doc, "Die Systemarchitektur ist vollständig lokal. Verwaltete Clients erreichen über HTTPS ausschließlich einen kontrollierten internen KI-Zugang. Dahinter liegt eine getrennte KI-Serverzone mit lokaler Containerplattform, Chat-Oberfläche, Inferenz, RAG, Embeddings, Reranking, Vektor- beziehungsweise Datenbank und technischer Überwachung. Fernzugriff erfolgt nur über ein organisationskontrolliertes VPN mit MFA.")
+    text_absatz(doc, "Die Funktionsklassen sind modular und austauschbar. Der lokale Identitätsprovider, der getrennte Verwaltungszugang und die lokale Auditablage liegen außerhalb des normalen Anfragepfads. Abbildung 1 zeigt die zulässigen Hauptbeziehungen und die gesperrte Internetverbindung der Inferenz.")
+    füge_abbildung_hinzu(
+        doc,
+        ARCHITEKTUR_ABBILDUNG,
+        "Abbildung 1: Lokale KI-Systemarchitektur mit Vertrauenszonen und kontrollierten Kommunikationswegen.",
+        "Ein entfernter oder interner verwalteter Client erreicht über VPN und HTTPS nur den kontrollierten KI-Zugang. Dieser vermittelt identitäts- und rollenbasiert zur getrennten KI-Serverzone mit Chat, Inferenz, RAG, Datenhaltung und Überwachung. Verwaltung, Audit und Registrierungen sind getrennt; die Inferenz besitzt keinen Internet-Egress.",
+        breite_cm=13.5,
     )
 
     add_heading(doc, "5 Systemgrenzen, Vertrauenszonen und Datenflüsse", 1)
@@ -762,7 +825,14 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
         z[1].text = b
     formatiere_tabelle(t, [2500, 6422])
     text_absatz(doc, "Das interne Container- oder Pod-Netz gilt nicht als hinreichende Sicherheitsgrenze. Kommunikationsbeziehungen werden standardmäßig verweigert und ausdrücklich erlaubt. Inferenz-, Administrations-, Debug-, Metrik-, Cluster- und Cache-Ports bleiben vom normalen Netz getrennt.", davor=8)
-    text_absatz(doc, "Alle fachlichen Datenflüsse bleiben lokal: Identitäten, Git, Modelle, Dokumente, Embeddings, Indizes, Chats, Protokolle, Telemetrie und Sicherungen. Der Standardbetrieb besitzt keinen Internet-Egress. Artefaktimporte erfolgen über einen kontrollierten separaten Prozess.")
+    text_absatz(doc, "Alle fachlichen Datenflüsse bleiben lokal: Identitäten, Git, Modelle, Dokumente, Embeddings, Indizes, Chats, Protokolle, Telemetrie und Sicherungen. Der Standardbetrieb besitzt keinen Internet-Egress. Abbildung 2 trennt den externen Bezug eines Artefakts von Prüfung, Transfer, lokaler Registrierung, Test und produktiver Freigabe.")
+    füge_abbildung_hinzu(
+        doc,
+        ARTEFAKTIMPORT_ABBILDUNG,
+        "Abbildung 2: Kontrollierter Artefaktimport mit getrennter Prüfung, Freigabe und Rückfallmöglichkeit.",
+        "Ein versionsfixiertes Artefakt aus einer offiziellen externen Quelle wird in einer getrennten Zone auf Herkunft, Hash, Signatur, Schwachstellen, Lizenz und Schadsoftware geprüft. Nur freigegebene Artefakte gelangen kontrolliert in lokale Registrierungen, eine Testumgebung und nach Regression in die Produktion; Ablehnungen und Rückgriffe werden dokumentiert.",
+        breite_cm=14.0,
+    )
 
     add_heading(doc, "6 Rechts-, Normen- und Anwendbarkeitsmatrix", 1)
     matrix = [
@@ -775,14 +845,14 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
     ]
     t = doc.add_table(rows=1, cols=4)
     t.style = "Table Grid"
-    for i, wert in enumerate(("Grundlage", "Anwendbarkeit", "Erforderliche organisationsspezifische Klärung", "Quellen")):
+    for i, wert in enumerate(("Grundlage", "Anwendbarkeit", "Prüf- und Festlegungsbedarf", "Quellen")):
         t.rows[0].cells[i].text = wert
     for zeile in matrix:
         z = t.add_row().cells
         for i, wert in enumerate(zeile):
             z[i].text = wert
     formatiere_tabelle(t, [1850, 1550, 3872, 1650], zentrierte_spalten={1, 3})
-    text_absatz(doc, "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung. Fachgesetze, Mitbestimmung und behördenspezifische Vorschriften sind je Organisation und Anwendungsfall zu ergänzen.", davor=8)
+    text_absatz(doc, "Die Matrix ist ein Prüfungseinstieg und keine Rechtsberatung. Die zuständigen Funktionen stellen für jeden Anwendungsfall fest, welche Fachgesetze, Beteiligungsrechte und adressatenbezogenen Verwaltungsvorgaben anwendbar sind.", davor=8)
 
     add_heading(doc, "7 Governance, Rollen und Verantwortlichkeiten", 1)
     rollen = [
@@ -831,7 +901,7 @@ def kapitel_eins_bis_acht(doc, version, kennzeichnung):
 
 def kapitel_neun(doc, katalog, quellen_nach_uuid):
     add_heading(doc, "9 Sicherheitsmaßnahmen entsprechend dem OSCAL-Katalog", 1)
-    text_absatz(doc, "Die folgenden Kontrollblöcke übernehmen die normative Anforderung unverändert aus dem OSCAL-Katalog und erläutern Begründung, Referenzumsetzung, Prüfziel und Nachweise. Quellen- und Mappingangaben sind nachvollziehbare Zuordnungen; sie stellen keine Zertifizierung oder behördliche Freigabe dar.")
+    text_absatz(doc, "Die folgenden Kontrollblöcke übernehmen die normative Anforderung unverändert aus dem OSCAL-Katalog und erläutern Begründung, vorgesehene Umsetzung, Prüfziel und Nachweise. Quellen- und Mappingangaben sind nachvollziehbare Zuordnungen; sie stellen keine Zertifizierung oder behördliche Freigabe dar.")
     for gruppenindex, gruppe in enumerate(katalog["catalog"]["groups"], start=1):
         add_heading(doc, f"9.{gruppenindex} {gruppe['title']}", 2)
         for control in gruppe.get("controls", []):
@@ -840,24 +910,23 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
             felder = [
                 ("Normative Anforderung", teil(control, "statement")),
                 ("Begründung", teil(control, "rationale")),
-                ("Umsetzung in der Referenzarchitektur", teil(control, "guidance")),
+                ("Umsetzung im Geltungsbereich", teil(control, "guidance")),
                 ("Prüfziel", teil(control, "assessment-objective")),
                 ("Erwartete Nachweise", teil(control, "evidence")),
             ]
             for feldindex, (merkmal, inhalt) in enumerate(felder):
-                p = doc.add_paragraph()
+                label_p = doc.add_paragraph(merkmal, style="Kontrollfeldbezeichnung")
+                p = doc.add_paragraph(style="Fließtext")
                 setze_absatzformat(p, danach=7)
-                label = p.add_run(merkmal + "\n")
-                label.bold = True
-                label.font.color.rgb = RGBColor.from_string(DUNKELBLAU)
                 p.add_run(inhalt)
                 if "untrusted" in inhalt.casefold():
                     unterdrücke_silbentrennung(p)
                 if feldindex == 0:
-                    p_pr = p._p.get_or_add_pPr()
-                    shd = OxmlElement("w:shd")
-                    shd.set(qn("w:fill"), HELLGRAU)
-                    p_pr.append(shd)
+                    label_p.paragraph_format.space_before = Pt(0)
+                    label_p.paragraph_format.space_after = Pt(0)
+                    p.paragraph_format.space_after = Pt(8)
+                    schattiere_absatz(label_p, HELLGRAU)
+                    schattiere_absatz(p, HELLGRAU)
                     p.paragraph_format.keep_together = True
 
             metadaten = doc.add_table(rows=1, cols=2)
@@ -901,9 +970,17 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
             p_pr.append(p_bdr)
 
 
-def kapitel_zehn_bis_vierzehn(doc, katalog):
+def kapitel_zehn_bis_dreizehn(doc, katalog):
     add_heading(doc, "10 RAG-, Upload- und Datenkonzept", 1)
     text_absatz(doc, "Domänenwissen verbleibt außerhalb der Modellgewichte. Lokale RAG-Bestände und lokale On-Demand-Uploads bilden die einzigen vorgesehenen Zuführungswege. KI-RAG-001 bis KI-RAG-004 fordern eine Quarantäne und isolierte Parser, Herkunfts- und Klassifikationsmetadaten, Berechtigungsprüfung vor Aufnahme und erneut bei jeder Abfrage, durchgängige ACL-Trennung sowie vollständige Aufbewahrungs- und Löschsteuerung.")
+    text_absatz(doc, "Abbildung 3 trennt den Aufnahmeweg vom Abfrageweg. Schutzbedarf und Berechtigung der Quelle bleiben in Metadaten, Chunks, Embeddings und Index erhalten; vor jeder Ausgabe wird die Berechtigung erneut anhand der identifizierten Anfrage geprüft.")
+    füge_abbildung_hinzu(
+        doc,
+        RAG_ABBILDUNG,
+        "Abbildung 3: Lokaler RAG-Datenfluss mit Quarantäne, Berechtigungsprüfung und Löschkette.",
+        "Freigegebene Dokumente oder lokale Uploads durchlaufen Quarantäne, isolierte Aufbereitung, Herkunfts- und ACL-Metadaten, Segmentierung und lokale Embedding-Erzeugung. Bei einer identifizierten Anfrage werden Zugriffsrechte erneut geprüft; nur freigegebene Treffer gelangen über Retrieval und Reranking zur lokalen Inferenz. Die Löschung erfasst Quelle, Ableitungen, Index, Cache und Sicherungskette.",
+        breite_cm=15.0,
+    )
     aufzählung(doc, [
         "Embeddings, Chunks, Indizes, Caches und Reranking-Daten erhalten mindestens den Schutzbedarf der Quelldaten.",
         "Das Sprachmodell und Systemanweisungen treffen keine Zugriffsentscheidung.",
@@ -915,6 +992,14 @@ def kapitel_zehn_bis_vierzehn(doc, katalog):
 
     add_heading(doc, "11 Agentische Anwendungen und lokale Entwicklungsumgebungen", 1)
     text_absatz(doc, "Agentische Clients wie Cline- oder OpenCode-artige Werkzeuge sind Produktbeispiele. Sie greifen ausschließlich über den lokalen HTTPS-Zugang auf freigegebene Modelle zu. Lokale Git-, Paket- und Entwicklungsdienste bleiben in der Organisationsumgebung.")
+    text_absatz(doc, "Abbildung 4 zeigt die Wirkungskette einer Tool-Aktion. Eine Modellausgabe löst keine unmittelbare Aktion aus: Richtlinie, Wirkungsart, konkrete menschliche Bestätigung und minimal berechtigte Ausführungsumgebung bilden voneinander unabhängige Schranken.")
+    füge_abbildung_hinzu(
+        doc,
+        AGENTEN_ABBILDUNG,
+        "Abbildung 4: Kontrollierte agentische Werkzeugnutzung mit Richtlinienprüfung und menschlicher Bestätigung.",
+        "Eine identifizierte Person nutzt einen lokal begrenzten agentischen Client über den lokalen KI-Zugang. Der Vorschlag einer Tool-Aktion wird gegen Richtlinien geprüft. Schreib-, Befehls-, Netzwerk- oder destruktive Aktionen benötigen eine konkrete menschliche Bestätigung und laufen nur in einer minimal berechtigten Ausführungsumgebung; blockierte und ausgeführte Aktionen gelangen in die lokale Auditspur.",
+        breite_cm=15.5,
+    )
     aufzählung(doc, [
         "Arbeitsbereichs- und Dateirechte sind minimal und überschreiten weder Projekt noch genehmigten Zweck.",
         "Lesen, Schreiben, Befehlsausführung und Netzwerkzugriff sind getrennte Fähigkeiten.",
@@ -933,7 +1018,7 @@ def kapitel_zehn_bis_vierzehn(doc, katalog):
     text_absatz(doc, "Die Übersicht dient der Prüfplanung. Der vollständige Wortlaut, die Quellenlinks und sämtliche Eigenschaften verbleiben im OSCAL-Katalog.")
     t = doc.add_table(rows=1, cols=5)
     t.style = "Table Grid"
-    for i, wert in enumerate(("Kontrolle", "Titel", "Anwendbarkeit", "BSI/IT-Grundschutz", "ISO-Kennungen")):
+    for i, wert in enumerate(("ID", "Titel", "Anwendbarkeit", "BSI/IT-Grundschutz", "ISO-Kennungen")):
         t.rows[0].cells[i].text = wert
     for gruppe in katalog["catalog"]["groups"]:
         for control in gruppe.get("controls", []):
@@ -948,24 +1033,10 @@ def kapitel_zehn_bis_vierzehn(doc, katalog):
                 z[i].text = wert
     formatiere_tabelle(t, [1100, 2650, 1350, 1700, 2122], zentrierte_spalten={0, 2})
 
-    add_heading(doc, "14 Verfahren zur organisationsspezifischen Übernahme", 1)
-    text_absatz(doc, "Eine Übernahme beginnt niemals durch direkte Ergänzung dieses Referenzrepositorys. Vor der ersten Organisationsangabe wird eine getrennte, angemessen geschützte Offline-Fassung erstellt. Der Statusmechanismus setzt Deckblatt, Kopfzeilen und Metadaten auf die Kennzeichnung, dass eine Einstufung durch die Organisation erforderlich ist.")
-    schritte = [
-        "Geltungsbereich, Verantwortliche, Schutz- und Informationsklassifikation durch befugte Stellen festlegen.",
-        "Reale Architektur ausschließlich in der geschützten Fassung erfassen und Vertrauenszonen sowie Datenflüsse verifizieren.",
-        "Rechts-, Datenschutz-, Geheimschutz- und Beteiligungsprüfung je Anwendungsfall durchführen.",
-        "Kontrollanwendbarkeit, Basisabhängigkeiten, konkrete Umsetzung, Nachweise und Restrisiken bestimmen.",
-        "Technische Negativ- und Wirksamkeitstests in der tatsächlichen Umgebung durchführen.",
-        "Unabhängige Fachprüfung, Risikofreigabe und gegebenenfalls formale Einstufung dokumentieren.",
-        "Änderungs-, Vorfall-, Wiederanlauf-, Modellwechsel- und Außerbetriebnahmeverfahren betreiben.",
-    ]
-    nummerierte_liste(doc, schritte)
-    text_absatz(doc, "Externe Inferenz ist ein eigener Systemgrenzenwechsel. Sie darf nicht als einfache Konfigurationsvariante übernommen werden, sondern erfordert die vollständige Neubewertung nach KI-EXT-001 und KI-EXT-002.")
 
-
-def kapitel_fünfzehn(doc, register):
-    add_heading(doc, "15 Quellenverzeichnis, Glossar und Abkürzungen", 1)
-    add_heading(doc, "15.1 Quellenverzeichnis", 2)
+def kapitel_vierzehn(doc, register):
+    add_heading(doc, "14 Quellenverzeichnis, Glossar und Abkürzungen", 1)
+    add_heading(doc, "14.1 Quellenverzeichnis", 2)
     text_absatz(doc, "Maßgeblich ist das maschinenlesbare Quellenregister. Die folgenden Angaben verwenden den Prüfstand 02.09.2026. Bei HTML-Dokumentation ohne ausgewiesenes Veröffentlichungsdatum wird ausdrücklich der Abrufstand genannt.")
     for quelle in register["quellen"]:
         datum = quelle["veröffentlichungsdatum"] or quelle["stand"]
@@ -977,7 +1048,7 @@ def kapitel_fünfzehn(doc, register):
         hyperlink(p, "öffentliche Fundstelle", quelle["öffentliche_url"])
         p.add_run(f", abgerufen am 02.09.2026. Autoritätsstufe: {quelle['autoritätsstufe']}. Wiedervorlage: {quelle['wiedervorlage_am']}.")
         unterdrücke_silbentrennung(p)
-    add_heading(doc, "15.2 Glossar", 2)
+    add_heading(doc, "14.2 Glossar", 2)
     glossar = [
         ("Agentische Anwendung", "Client oder Dienst, der Modellausgaben in Datei-, Tool-, Befehls- oder Netzwerkaktionen überführen kann."),
         ("Embedding", "Numerische Repräsentation eines Inhalts für Ähnlichkeitssuche; kann Schutzbedarf und Personenbezug der Quelle bewahren."),
@@ -991,14 +1062,14 @@ def kapitel_fünfzehn(doc, register):
     t = doc.add_table(rows=1, cols=2)
     t.style = "Table Grid"
     t.rows[0].cells[0].text = "Begriff"
-    t.rows[0].cells[1].text = "Bedeutung in dieser Referenz"
+    t.rows[0].cells[1].text = "Bedeutung in diesem Konzept"
     for begriff, bedeutung in glossar:
         z = t.add_row().cells
         z[0].text = begriff
         z[1].text = bedeutung
     formatiere_tabelle(t, [2300, 6622])
 
-    add_heading(doc, "15.3 Abkürzungen", 2)
+    add_heading(doc, "14.3 Abkürzungen", 2)
     abkürzungen = [
         ("ACL", "Access Control List"), ("API", "Application Programming Interface"),
         ("BfDI", "Die Bundesbeauftragte für den Datenschutz und die Informationsfreiheit"),
@@ -1043,7 +1114,7 @@ def erzeuge_docx(ziel):
     eigenschaften.keywords = "KI, Informationssicherheit, OSCAL, RAG, lokale Inferenz"
     eigenschaften.author = ""
     eigenschaften.last_modified_by = ""
-    eigenschaften.comments = "Organisationsneutrale Referenzvorlage"
+    eigenschaften.comments = "Öffentliche organisationsneutrale Konzeptfassung"
 
     # editorial_cover: zurückhaltendes, zentriertes Deckblatt ohne Logos oder Amtsanmutung.
     for _ in range(4):
@@ -1058,7 +1129,7 @@ def erzeuge_docx(ziel):
     setze_absatzformat(p, danach=20)
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run("Audit- und zertifizierungsvorbereitende Referenz für vollständig lokale KI-Infrastrukturen")
+    run = p.add_run("Sicherheitskonzept für vollständig lokale KI-Infrastrukturen")
     run.font.size = Pt(14)
     run.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
     setze_absatzformat(p, danach=26)
@@ -1081,8 +1152,8 @@ def erzeuge_docx(ziel):
     kapitel_eins_bis_acht(doc, version, kennzeichnung)
     quellen_nach_uuid = {q["oscal_uuid"]: q for q in register["quellen"]}
     kapitel_neun(doc, katalog, quellen_nach_uuid)
-    kapitel_zehn_bis_vierzehn(doc, katalog)
-    kapitel_fünfzehn(doc, register)
+    kapitel_zehn_bis_dreizehn(doc, katalog)
+    kapitel_vierzehn(doc, register)
 
     ziel.parent.mkdir(parents=True, exist_ok=True)
     doc.save(ziel)

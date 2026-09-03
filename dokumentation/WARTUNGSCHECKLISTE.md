@@ -13,7 +13,10 @@
 - [ ] OSCAL-Katalog besteht die offizielle 1.1.3-Schemaprüfung.
 - [ ] DOCX und PDF tragen dieselbe Version und denselben Status wie der Katalog.
 - [ ] Die maschinellen Regeln aus `dokumentation/LAYOUTREGELN.md` sind vollständig erfüllt.
-- [ ] Aufzählungen, Tabellen, Silbentrennung, Kopfzeilen, Fußzeilen und Seitenzahlen entsprechen dem verbindlichen Gestaltungsprofil.
+- [ ] Fließtext, Aufzählungen, Tabellen, Diagramme, Silbentrennung, Kopfzeilen, Fußzeilen und Seitenzahlen entsprechen dem verbindlichen Gestaltungsprofil.
+- [ ] Konzepttext enthält keine Übernahme- oder Redaktionsanleitung; diese steht ausschließlich im separaten Leitfaden.
+- [ ] Jede Abbildung besitzt eine PlantUML-Quelle, zum Manifest passende SVG- und PNG-Ableitungen, eine unmittelbare Beschriftung und einen vollständigen Alternativtext.
+- [ ] Diagramme sind bei 100 Prozent lesbar, nicht gedreht und verwenden Farbe nicht als einzigen Bedeutungsträger.
 - [ ] Jede PDF-Seite wurde gerendert und visuell geprüft.
 - [ ] DOCX wurde auf Barrierearmut und personenbezogene Metadaten geprüft.
 - [ ] `quellen/lokale-eingaben/` ist ignoriert und nicht im Git-Index oder Veröffentlichungsarchiv.
@@ -28,4 +31,4 @@
 
 ## Manuelle Fachprüfung
 
-Die Automatisierung ersetzt keine Prüfung durch Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung, Betrieb und fachlich verantwortliche Stellen. Vor organisationsspezifischer Nutzung sind Geltungsbereich, Schutzbedarf, Rechtsgrundlagen, Restrisiken und Nachweise neu festzulegen.
+Die Automatisierung ersetzt keine Prüfung durch Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung, Betrieb und fachlich verantwortliche Stellen. Das Übernahmeverfahren und die dabei neu festzulegenden Inhalte beschreibt `dokumentation/ÜBERNAHMELEITFADEN.md`.

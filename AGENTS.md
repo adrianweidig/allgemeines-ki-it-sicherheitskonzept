@@ -16,6 +16,7 @@ Dieses Repository enthält ausschließlich eine öffentliche, organisationsneutr
 ## Fachliche Bearbeitung
 
 - Der OSCAL-Katalog ist die normative Quelle. Keine zusätzliche Muss-Anforderung ausschließlich im DOCX ergänzen.
+- Das Konzept beschreibt den vorgesehenen Sollzustand wie eine reale Konzeptfassung. Anpassungs-, Redaktions- und Übernahmehinweise gehören ausschließlich in README und `dokumentation/ÜBERNAHMELEITFADEN.md`.
 - Jede Kontrolle benötigt Anforderung, Begründung, Umsetzung, Prüfziel, Nachweis, Anwendbarkeit und konkrete öffentliche Fundstelle.
 - Quellen-IDs und Kontroll-IDs bleiben stabil. Änderungen erfordern Migrationshinweis und Changelog-Eintrag.
 - ISO-Inhalte nur als öffentliche Kennungen und Metadaten referenzieren; keine proprietären Normentexte übernehmen.
@@ -37,7 +38,11 @@ python validierung/erzeuge_dokumente.py
 - `dokumentation/LAYOUTREGELN.md` ist für Typografie, Absatzrhythmus, Listen, Tabellen, Silbentrennung sowie Kopf- und Fußzeilen verbindlich.
 - Dokumente werden ausschließlich über `validierung/erzeuge_dokumente.py` geändert. Manuelle Abweichungen der Binärdateien vom Generator sind unzulässig.
 - Aufzählungen verwenden echte Word-Listen. Listenpunkte enden nicht mit einem Strichpunkt.
+- Zusammenhängender Fließtext verwendet den Stil `Fließtext` mit Blocksatz und deutscher Silbentrennung. Tabellen, Listen, Quellen, Beschriftungen und kurze Hinweise bleiben linksbündig.
 - Tabellen verwenden feste DXA-Geometrie, ausreichende Zellränder, wiederholte Kopfzeilen und keine exakten Zeilenhöhen.
+- Architektur, Datenflüsse und Entscheidungswege werden als versionierte PlantUML-Diagramme unter `diagramme/` gepflegt. Tabellen dienen nicht als Ersatz für Diagramme.
+- Diagramme werden als SVG für Markdown und als hochauflösendes PNG für das DOCX erzeugt. Sie stehen inline, besitzen eine unmittelbare Beschriftung und einen vollständigen Alternativtext.
+- Nach einer Änderung an einer `.puml`-Quelle ist zuerst `validierung/erzeuge_diagramme.py` und danach `validierung/erzeuge_dokumente.py` auszuführen. Quelle und Ableitungen müssen dem Diagrammmanifest entsprechen.
 - Deutsche Silbentrennung und die Korrektursprache `de-DE` müssen aktiviert bleiben.
 - Die Seitenführung verwendet ab Seite 2 links den kurzen Schutzstatus und rechts `Seite X von Y`.
 - Nach einer Dokumentänderung DOCX und jede PDF-Seite rendern und visuell prüfen.

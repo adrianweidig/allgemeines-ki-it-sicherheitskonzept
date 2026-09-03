@@ -1,0 +1,44 @@
+{
+  "format": "PlantUML",
+  "plantuml_version": "1.2026.6",
+  "plantuml_sha256": "89948f14c93756c7a3fb7b69078ff37e8489fd79dd430c582b931e2f65358690",
+  "auflösung_png_dpi": 180,
+  "diagramme": [
+    {
+      "name": "architektur",
+      "quelle": "diagramme/architektur.puml",
+      "quelle_sha256": "b5c8c00bccbeaa2b399e2c4d2b52ee27f44cc72165b3f8ec4c1bc4427125be56",
+      "png": "dokumentation/medien/architektur.png",
+      "png_sha256": "c56a620dccfe18f6204a83c4fef7c76b39ec69951d2308ee25b2972e5f23cde9",
+      "svg": "dokumentation/medien/architektur.svg",
+      "svg_sha256": "ac152ecceb0d44f5b5e30fc6dc8d7b6fc8d2507dd87fc99e7d033c58b597f207"
+    },
+    {
+      "name": "artefaktimport",
+      "quelle": "diagramme/artefaktimport.puml",
+      "quelle_sha256": "adc6f1079db576078ab607faa15384d56588141893272d269a50171bedac81c3",
+      "png": "dokumentation/medien/artefaktimport.png",
+      "png_sha256": "87968599273914ec3974c5ffcd5add9f7e0dcd79f9774f333b79ce461fa1a0be",
+      "svg": "dokumentation/medien/artefaktimport.svg",
+      "svg_sha256": "6753461f57b9df0a98d0c36f1cd8c735fc6b93a65715a01c4c0bf646bb1d10e8"
+    },
+    {
+      "name": "rag-datenfluss",
+      "quelle": "diagramme/rag-datenfluss.puml",
+      "quelle_sha256": "18e6ef0ee297cf7351e63cdb1c9ec9474207cbbec35fc7cf9afa99e4442d3b39",
+      "png": "dokumentation/medien/rag-datenfluss.png",
+      "png_sha256": "0c857dd7ee067408ca7c223c8ca979eb16e8e50f3eae038a7a131ab82ee6fd5a",
+      "svg": "dokumentation/medien/rag-datenfluss.svg",
+      "svg_sha256": "93320c5ec257177a6b555ff01b8722953f2103201e7e2da3be736bebc2269713"
+    },
+    {
+      "name": "agentische-werkzeugnutzung",
+      "quelle": "diagramme/agentische-werkzeugnutzung.puml",
+      "quelle_sha256": "43837ea71fad12769fb242d6b2f92fb5587317bfd5a7d04ee9ad4fe81c17e52b",
+      "png": "dokumentation/medien/agentische-werkzeugnutzung.png",
+      "png_sha256": "d33050eb4e7922089529bf05e522c5473fa27a876fff21f78da003896f9c74be",
+      "svg": "dokumentation/medien/agentische-werkzeugnutzung.svg",
+      "svg_sha256": "05fb63d0d0b7016c678dd25deeabe518f3f2dc47390c7cea3bc5f617be7f90fd"
+    }
+  ]
+}

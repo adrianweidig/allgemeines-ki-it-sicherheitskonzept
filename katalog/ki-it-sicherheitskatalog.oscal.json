@@ -115,7 +115,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Für jede Übernahme dieser Referenz MUSS ein wirksames allgemeines IT-Sicherheitskonzept benannt werden. Die KI-spezifischen Kontrollen dürfen Basismaßnahmen nicht ersetzen; Abhängigkeiten, Verschärfungen und verbleibende Lücken MÜSSEN dokumentiert werden."
+                "prose": "Für den Geltungsbereich MUSS ein wirksames allgemeines IT-Sicherheitskonzept eindeutig benannt werden. Die KI-spezifischen Kontrollen dürfen Basismaßnahmen nicht ersetzen; Abhängigkeiten, Verschärfungen und verbleibende Lücken MÜSSEN dokumentiert werden."
               },
               {
                 "name": "rationale",
@@ -142,7 +142,7 @@
           {
             "id": "ki-gel-002",
             "class": "ki-sicherheitsanforderung",
-            "title": "Öffentlicher Referenzstatus und kontrollierte Übernahme",
+            "title": "Schutzkennzeichnung und kontrollierte Dokumentenführung",
             "props": [
               {
                 "name": "alt-identifier",
@@ -174,7 +174,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Ein technisches Gate verhindert, dass eine lediglich private Repository-Sichtbarkeit irrtümlich als Freigabe organisationsspezifischer Inhalte verstanden wird."
+                "value": "Ein technisches Gate verhindert, dass Speicherort oder Zugriffsbeschränkung irrtümlich als informationsschutzrechtliche Freigabe verstanden werden."
               },
               {
                 "name": "mapping-bsi-it-grundschutz",
@@ -213,23 +213,23 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Das öffentliche Referenzrepository MUSS organisationsneutral bleiben. Vor jeder organisationsspezifischen Anpassung MUSS eine getrennte, angemessen geschützte Offline-Fassung erstellt und der Statusmechanismus auf organisationsspezifisch gesetzt werden; die formale Einstufung MUSS durch befugte Organisationsstellen erfolgen."
+                "prose": "Konzeptfassungen MÜSSEN ihrem Inhalt entsprechend gekennzeichnet, gespeichert und freigegeben werden. Sobald eine Fassung organisations- oder systemspezifische Informationen enthält, MUSS sie von der öffentlichen Fassung getrennt und angemessen geschützt werden; die formale Einstufung MUSS durch befugte Stellen erfolgen."
               },
               {
                 "name": "rationale",
-                "prose": "Architektur-, Schutzbedarfs- und Schwachstellenangaben können den Schutzbedarf unmittelbar erhöhen. Repository-Sichtbarkeit ist keine informationsschutzrechtliche Freigabe."
+                "prose": "Architektur-, Schutzbedarfs- und Schwachstellenangaben können den Schutzbedarf unmittelbar erhöhen. Eine technische Zugriffsbeschränkung ersetzt weder Kennzeichnung noch informationsschutzrechtliche Freigabe."
               },
               {
                 "name": "guidance",
-                "prose": "Der maschinenlesbare Projektstatus steuert Deckblatt, Kopfzeilen und Freigabeprüfungen. Heuristiken suchen ergänzend nach Infrastruktur- und Geheimnismustern, ersetzen aber keine manuelle Prüfung."
+                "prose": "Ein maschinenlesbarer Dokumentenstatus steuert Deckblatt, Kopfzeilen und Freigabeprüfungen. Heuristiken suchen ergänzend nach Infrastruktur- und Geheimnismustern, ersetzen aber keine manuelle Prüfung."
               },
               {
                 "name": "assessment-objective",
-                "prose": "Nachweisen, dass die öffentliche Fassung organisationsneutral ist und der Statuswechsel in einer Prüffassung wirksam ausgelöst wird."
+                "prose": "Nachweisen, dass Kennzeichnung, Ablage und Freigabe dem Inhalt entsprechen und ein Wechsel zu organisations- oder systemspezifischen Informationen den erforderlichen Schutzstatus wirksam auslöst."
               },
               {
                 "name": "evidence",
-                "prose": "Projektstatus; negative Statustests; Freigabeprotokoll; Ergebnis der heuristischen Inhaltsprüfung; dokumentierte Zuständigkeit für Einstufungen."
+                "prose": "Dokumentenstatus; negative Statustests; Freigabeprotokoll; Ergebnis der heuristischen Inhaltsprüfung; dokumentierte Zuständigkeit für Einstufungen."
               },
               {
                 "name": "source",
@@ -726,7 +726,7 @@
             "parts": [
               {
                 "name": "statement",
-                "prose": "Daten, Prompts, Ausgaben, Embeddings, Indizes, Protokolle und Modelle MÜSSEN einem Schutzbedarf zugeordnet werden. Für Verschlusssachen oder andere besonders geschützte Inhalte MUSS vor jeder Verarbeitung eine ausdrückliche organisationsspezifische Zulässigkeits- und Systemfreigabe vorliegen; die öffentliche Referenz erteilt keine solche Freigabe."
+                "prose": "Daten, Prompts, Ausgaben, Embeddings, Indizes, Protokolle und Modelle MÜSSEN einem Schutzbedarf zugeordnet werden. Für Verschlusssachen oder andere besonders geschützte Inhalte MUSS vor jeder Verarbeitung eine ausdrückliche Zulässigkeits- und Systemfreigabe vorliegen; ohne diese Freigabe ist die Verarbeitung unzulässig."
               },
               {
                 "name": "rationale",
@@ -755,7 +755,7 @@
       {
         "id": "ki-architektur",
         "class": "ki-kontrollgruppe",
-        "title": "Lokale Referenzarchitektur und Vertrauensgrenzen",
+        "title": "Lokale Systemarchitektur und Vertrauensgrenzen",
         "controls": [
           {
             "id": "ki-arc-001",
@@ -890,7 +890,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Die lokale Referenz setzt Egress-Verbot als klare Systemgrenze, damit Cloud-Verarbeitung oder Telemetrie nicht stillschweigend Teil des Risikomodells werden."
+                "value": "Das Egress-Verbot bildet eine klare Systemgrenze, damit Cloud-Verarbeitung oder Telemetrie nicht stillschweigend Teil des Risikomodells werden."
               },
               {
                 "name": "mapping-bsi-it-grundschutz",
@@ -1610,7 +1610,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Das Verbot ist eine bewusste Projektgrenze: Training benötigt ein eigenes Sicherheits-, Datenschutz-, Datenqualitäts- und Freigabekonzept und wird durch diese Referenz nicht autorisiert."
+                "value": "Das Verbot ist eine bewusste Systemgrenze: Training benötigt ein eigenes Sicherheits-, Datenschutz-, Datenqualitäts- und Freigabekonzept und ist im Geltungsbereich nicht autorisiert."
               },
               {
                 "name": "mapping-bsi-it-grundschutz",
@@ -1653,7 +1653,7 @@
               },
               {
                 "name": "rationale",
-                "prose": "Training eröffnet eigenständige Risiken für Datenrecht, Datenqualität, Modellintegrität, Reproduzierbarkeit und Freigabe. Die Referenz hält Basismodelle austauschbar und Fachwissen außerhalb der Gewichte."
+                "prose": "Training eröffnet eigenständige Risiken für Datenrecht, Datenqualität, Modellintegrität, Reproduzierbarkeit und Freigabe. Basismodelle bleiben austauschbar; Fachwissen verbleibt außerhalb der Gewichte."
               },
               {
                 "name": "guidance",
@@ -3658,7 +3658,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Die vollständig lokale Referenz behandelt externe Inferenz als Systemgrenzenwechsel und erzwingt deshalb eine neue organisationsspezifische Freigabe statt einer bloßen Endpunktänderung."
+                "value": "Die vollständig lokale Systemarchitektur behandelt externe Inferenz als Systemgrenzenwechsel und verlangt deshalb eine neue Freigabe statt einer bloßen Endpunktänderung."
               },
               {
                 "name": "mapping-bsi-it-grundschutz",
@@ -3718,7 +3718,7 @@
               },
               {
                 "name": "guidance",
-                "prose": "Die Aktivierung setzt den Projektstatus auf organisationsspezifisch, erweitert Systemgrenze und Datenflussmodell und aktiviert einen gesonderten Kontroll- und Vertragsnachweis. Zulässige Daten und Endpunkte werden technisch aufgelistet."
+                "prose": "Vor der Aktivierung werden Dokumentenstatus, Systemgrenze und Datenflussmodell aktualisiert sowie gesonderte Kontroll- und Vertragsnachweise freigegeben. Zulässige Daten und Endpunkte werden technisch aufgelistet."
               },
               {
                 "name": "assessment-objective",

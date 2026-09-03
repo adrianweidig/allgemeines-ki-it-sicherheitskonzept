@@ -1,0 +1,33 @@
+@startuml
+top to bottom direction
+
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #446B8C
+skinparam ArrowFontColor #334A5E
+skinparam ArrowFontSize 11
+skinparam rectangle {
+  BorderColor #7890A5
+  BackgroundColor #F7F9FB
+  FontColor #203040
+}
+
+rectangle "Fernzugriff über Organisations-VPN mit MFA\noder verwalteter Client im internen Netz" as zugang
+rectangle "**VERWALTETE CLIENTZONE**\nBrowser · agentische Anwendung\nlokale Git- und Entwicklungswerkzeuge\nMinimalrechte im freigegebenen Arbeitsbereich" as client
+rectangle "**KONTROLLIERTER KI-ZUGANG**\nHTTPS-Gateway / Reverse Proxy\nTLS · IdP · Rollen · Modell- und Toolfreigaben\nRaten- und Kontextgrenzen · Protokollierung" as gateway #E4EDF5
+rectangle "**GETRENNTE KI-SERVERZONE**\nLokale Containerplattform\nChat-Oberfläche · lokale Inferenz · RAG\nisolierte Aufbereitung · Embeddings · Reranking\nVektor- und Fachdaten · Überwachung" as server #E8EEF5
+rectangle "**SPERRE: KEIN INTERNET-EGRESS**\nim Standardbetrieb" as noegress #FBEEEE
+rectangle "**GETRENNTE BETRIEBS- UND UNTERSTÜTZUNGSDIENSTE**\nLokaler IdP / Domäne · lokale Registrierungen\nVerwaltungszugang · SIEM · Auditnachweise · Sicherungen" as support #F5F1F3
+
+zugang -down-> client : verwaltet
+client -down-> gateway : ausschließlich HTTPS
+gateway -down-> server : freigegebene Anfrage\nund API-Vermittlung
+server -[#9B3D3D,dashed]-> noegress : gesperrt
+server -[#9A8791,dashed]down-> support : Identität · Administration\nfreigegebene Artefakte · Audit
+noegress -[hidden]right-> support
+
+@enduml

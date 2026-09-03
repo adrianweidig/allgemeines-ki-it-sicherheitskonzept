@@ -1,0 +1,37 @@
+@startuml
+top to bottom direction
+
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #446B8C
+skinparam ArrowFontColor #334A5E
+skinparam ArrowFontSize 11
+skinparam rectangle {
+  BorderColor #7890A5
+  BackgroundColor #F7F9FB
+  FontColor #203040
+}
+
+rectangle "Identifizierte Person · begrenzter Arbeitsbereich\nAgentischer Client über lokalen HTTPS-Zugang\nLokale Inferenz schlägt Tool-Aktion vor" as anfrage #E8EEF5
+rectangle "**ENTSCHEIDUNG**\nDurch Richtlinie erlaubt?" as richtlinie #E8EEF5
+rectangle "**ENTSCHEIDUNG**\nSchreiben, Befehl, Netzwerk\noder destruktive Wirkung?" as wirkung #F5F1F3
+rectangle "**ENTSCHEIDUNG**\nKonkrete menschliche\nBestätigung erteilt?" as bestaetigung #F5F1F3
+rectangle "Minimal berechtigtes Werkzeug\nin begrenzter Ausführungsumgebung" as ausfuehrung #EAF2EA
+rectangle "**ABWEISUNG**\nAktion blockiert" as blockiert #FBEEEE
+rectangle "**LOKALE AUDITSPUR**\nIdentität · Zweck · Tool\nEntscheidung · Ergebnis" as audit
+
+anfrage -right-> richtlinie
+richtlinie -right-> wirkung : ja
+richtlinie -down[#9B3D3D]-> blockiert : nein
+wirkung -down-> bestaetigung : weitere Wirkung
+wirkung -down-> ausfuehrung : nur Lesen
+bestaetigung -right-> ausfuehrung : ja
+bestaetigung -down[#9B3D3D]-> blockiert : nein
+ausfuehrung -down-> audit
+blockiert -right-> audit
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+top to bottom direction
+
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #446B8C
+skinparam ArrowFontColor #334A5E
+skinparam ArrowFontSize 11
+skinparam rectangle {
+  BorderColor #7890A5
+  BackgroundColor #F7F9FB
+  FontColor #203040
+}
+
+rectangle "**1 · KONTROLLIERTE AUFNAHME**\nFreigegebene Quelle oder lokaler Upload\nQuarantäne · Dateityp · Größe · Schadsoftware" as aufnahme
+rectangle "**2 · ISOLIERTE AUFBEREITUNG UND INDEXIERUNG**\nParser / OCR · Herkunft · Eigentümer · Klassifikation · ACL\nSegmentierung · lokale Embeddings · geschützter Index" as index #E8EEF5
+rectangle "**3 · IDENTIFIZIERTE LOKALE ANFRAGE**" as anfrage
+rectangle "**ENTSCHEIDUNG**\nACL bei Abfrage erfüllt?" as acl #E8EEF5
+rectangle "**4 · RETRIEVAL UND RERANKING**\nnur freigegebene Inhalte" as retrieval
+rectangle "**5 · LOKALE INFERENZ**\nbegrenzter Kontext\nAusgabe mit nachvollziehbaren Quellenangaben" as inferenz #EAF2EA
+rectangle "**ABWEISUNG**\nKein Zugriff" as abweisung #FBEEEE
+rectangle "**GEREGELTE LÖSCHUNG**\nQuelle · Extrakt · Index · Cache\nAblauf in Sicherungsketten" as loeschung #F5F1F3
+
+aufnahme -down-> index
+index -down-> acl : Index und Metadaten
+anfrage -down-> acl
+acl -down-> retrieval : ja
+acl -[#9B3D3D]-> abweisung : nein
+retrieval -down-> inferenz
+aufnahme -[#9A8791,dashed]right-> loeschung : Frist oder Widerruf
+loeschung -[#9B3D3D,dashed]-> index : vollständig entfernen
+
+@enduml

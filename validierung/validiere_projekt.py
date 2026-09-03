@@ -28,6 +28,7 @@ from xml.etree import ElementTree
 
 import regex
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from jsonschema import Draft7Validator, Draft202012Validator, FormatChecker, ValidationError, validators
 from pypdf import PdfReader, __version__ as PYPDF_VERSION
 
@@ -40,16 +41,29 @@ KATALOG_PFAD = WURZEL / "katalog" / "ki-it-sicherheitskatalog.oscal.json"
 OSCAL_SCHEMA_PFAD = WURZEL / "schemata" / "oscal-1.1.3" / "oscal_catalog_schema.json"
 DOCX_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.docx"
 PDF_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.pdf"
+DIAGRAMMQUELLEN_PFAD = WURZEL / "diagramme"
+DIAGRAMMMANIFEST_PFAD = DIAGRAMMQUELLEN_PFAD / "diagramm-manifest.json"
+DIAGRAMMAUSGABE_PFAD = WURZEL / "dokumentation" / "medien"
 
 ÖFFENTLICH = "ÖFFENTLICH – organisationsneutrale Referenzvorlage"
 NICHT_ÖFFENTLICH = "NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH"
 PFLICHTTEILE = {"statement", "rationale", "guidance", "assessment-objective", "evidence", "source"}
 WORD_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{WORD_NS}}}"
+WP_NS = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+WP = f"{{{WP_NS}}}"
 LAYOUT_TABELLENBREITE_DXA = 8922
 LAYOUT_TABELLENEINZUG_DXA = 150
 LAYOUT_ZELLENRAND_VERTIKAL_DXA = 120
 LAYOUT_ZELLENRAND_HORIZONTAL_DXA = 150
+DIAGRAMMSTÄMME = ("architektur", "artefaktimport", "rag-datenfluss", "agentische-werkzeugnutzung")
+PLANTUML_VERSION = "1.2026.6"
+ABBILDUNGSBESCHRIFTUNGEN = (
+    "Abbildung 1: Lokale KI-Systemarchitektur mit Vertrauenszonen und kontrollierten Kommunikationswegen.",
+    "Abbildung 2: Kontrollierter Artefaktimport mit getrennter Prüfung, Freigabe und Rückfallmöglichkeit.",
+    "Abbildung 3: Lokaler RAG-Datenfluss mit Quarantäne, Berechtigungsprüfung und Löschkette.",
+    "Abbildung 4: Kontrollierte agentische Werkzeugnutzung mit Richtlinienprüfung und menschlicher Bestätigung.",
+)
 
 
 def lade_json(pfad: Path) -> dict[str, Any]:
@@ -325,6 +339,67 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
     if not normal.paragraph_format.space_after or abs(normal.paragraph_format.space_after.pt - 6) > 0.01:
         fehler.append("Layout: Normal muss 6 pt Absatzabstand danach verwenden.")
 
+    try:
+        fließtext = dokument.styles["Fließtext"]
+    except KeyError:
+        fehler.append("Layout: die verbindliche Formatvorlage Fließtext fehlt.")
+    else:
+        if fließtext.paragraph_format.alignment != WD_ALIGN_PARAGRAPH.JUSTIFY:
+            fehler.append("Layout: Fließtext muss Blocksatz verwenden.")
+        if fließtext.paragraph_format.line_spacing is None or abs(float(fließtext.paragraph_format.line_spacing) - 1.15) > 0.01:
+            fehler.append("Layout: Fließtext muss einen Zeilenabstand von 1,15 verwenden.")
+        if not fließtext.paragraph_format.space_after or abs(fließtext.paragraph_format.space_after.pt - 6) > 0.01:
+            fehler.append("Layout: Fließtext muss 6 pt Absatzabstand danach verwenden.")
+
+    fließtext_absätze = [p for p in dokument.paragraphs if p.style and p.style.name == "Fließtext"]
+    if len(fließtext_absätze) < 20:
+        fehler.append("Layout: zusammenhängender Konzepttext verwendet die Formatvorlage Fließtext nicht durchgängig.")
+
+    if not DIAGRAMMMANIFEST_PFAD.is_file():
+        fehler.append("Layout: das Prüfsummenmanifest der PlantUML-Diagramme fehlt.")
+    else:
+        try:
+            manifest = lade_json(DIAGRAMMMANIFEST_PFAD)
+        except (json.JSONDecodeError, OSError) as exc:
+            fehler.append(f"Layout: das Diagrammmanifest ist nicht lesbar: {exc}")
+        else:
+            if manifest.get("format") != "PlantUML":
+                fehler.append("Layout: das Diagrammmanifest muss PlantUML als Quellformat ausweisen.")
+            if manifest.get("plantuml_version") != PLANTUML_VERSION:
+                fehler.append(f"Layout: Diagramme müssen mit PlantUML {PLANTUML_VERSION} erzeugt sein.")
+            if manifest.get("auflösung_png_dpi") != 180:
+                fehler.append("Layout: PNG-Diagramme müssen mit 180 dpi erzeugt sein.")
+
+            einträge = {
+                eintrag.get("name"): eintrag
+                for eintrag in manifest.get("diagramme", [])
+                if isinstance(eintrag, dict) and eintrag.get("name")
+            }
+            if set(einträge) != set(DIAGRAMMSTÄMME):
+                fehler.append("Layout: das Diagrammmanifest muss genau die vier Fachdiagramme enthalten.")
+
+            for stamm in DIAGRAMMSTÄMME:
+                eintrag = einträge.get(stamm, {})
+                erwartete_pfade = {
+                    "quelle": DIAGRAMMQUELLEN_PFAD / f"{stamm}.puml",
+                    "png": DIAGRAMMAUSGABE_PFAD / f"{stamm}.png",
+                    "svg": DIAGRAMMAUSGABE_PFAD / f"{stamm}.svg",
+                }
+                for art, diagramm_pfad in erwartete_pfade.items():
+                    relativ = str(diagramm_pfad.relative_to(WURZEL)).replace("\\", "/")
+                    if eintrag.get(art) != relativ:
+                        fehler.append(f"Layout: Manifestpfad für {stamm}/{art} ist nicht kanonisch.")
+                    if not diagramm_pfad.is_file() or diagramm_pfad.stat().st_size < 100:
+                        fehler.append(f"Layout: Diagrammdatei fehlt oder ist leer: {relativ}")
+                        continue
+                    schlüsselfeld = f"{art}_sha256"
+                    ist_hash = hashlib.sha256(diagramm_pfad.read_bytes()).hexdigest()
+                    if eintrag.get(schlüsselfeld) != ist_hash:
+                        fehler.append(
+                            f"Layout: {relativ} stimmt nicht mit dem Diagrammmanifest überein; "
+                            "Diagramme müssen vor dem Dokument neu erzeugt werden."
+                        )
+
     abschnitt = dokument.sections[0]
     soll_cm = (21.0, 29.7, 2.5, 2.5, 2.5, 2.5, 1.25, 1.25)
     ist_cm = (
@@ -371,6 +446,31 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
                 fehler.append(f"Layout: {stil_id} muss eine echte Word-Nummerierungsdefinition verwenden.")
 
         dokument_xml = ElementTree.fromstring(paket.read("word/document.xml"))
+        inline_abbildungen = dokument_xml.findall(f".//{WP}inline")
+        verankerte_abbildungen = dokument_xml.findall(f".//{WP}anchor")
+        if len(inline_abbildungen) != len(ABBILDUNGSBESCHRIFTUNGEN):
+            fehler.append(
+                "Layout: das Masterdokument muss genau vier inline platzierte Fachdiagramme enthalten."
+            )
+        if verankerte_abbildungen:
+            fehler.append("Layout: frei schwebende oder verankerte Abbildungen sind unzulässig.")
+        alternativtexte = []
+        for inline in inline_abbildungen:
+            doc_pr = inline.find(WP + "docPr")
+            alternativtext = (doc_pr.get("descr") if doc_pr is not None else "") or ""
+            alternativtexte.append(alternativtext.strip())
+        if any(len(text) < 80 for text in alternativtexte):
+            fehler.append("Layout: jede Fachabbildung benötigt einen vollständigen Alternativtext.")
+
+        beschriftungen = {
+            p.text: p.style.name if p.style else ""
+            for p in dokument.paragraphs
+            if p.text.startswith("Abbildung ")
+        }
+        for erwartet in ABBILDUNGSBESCHRIFTUNGEN:
+            if beschriftungen.get(erwartet) != "Abbildungsbeschriftung":
+                fehler.append(f"Layout: Abbildungsbeschriftung fehlt oder verwendet den falschen Stil: {erwartet}")
+
         tabellen = dokument_xml.findall(f".//{W}tbl")
         if not tabellen:
             fehler.append("Layout: erwartete Datentabellen fehlen.")
@@ -470,7 +570,10 @@ def prüfe_pdf_seitenführung(pfad: Path) -> list[str]:
 
 def normalisiere_text(text: str) -> str:
     text = unicodedata.normalize("NFKC", text).replace("\u00ad", "")
-    text = re.sub(r"(?<=\w)-\s+(?=\w)", "", text)
+    # Nur durch den Seitenumbruch erzeugte Trennstellen zusammenführen. Ein
+    # absichtlich gesetzter Bindestrich mit folgendem Leerzeichen, etwa in
+    # „Modell- und Laufzeit“, muss für den Inhaltsvergleich erhalten bleiben.
+    text = re.sub(r"(?<=\w)-[ \t]*\r?\n[ \t]*(?=\w)", "", text)
     text = re.sub(r"\bSeite\s+\d+\b", " ", text, flags=re.IGNORECASE)
     return re.sub(r"\s+", " ", text).strip().casefold()
 
@@ -482,6 +585,25 @@ def prüfe_versionsgleichheit(katalog_version: str, docx_text: str, pdf_text: st
         fehler.append("Die DOCX-Fassung weist nicht dieselbe Version wie der Katalog aus.")
     if marker not in pdf_text:
         fehler.append("Die PDF-Fassung weist nicht dieselbe Version wie der Katalog aus.")
+    return fehler
+
+
+def prüfe_konzepttrennung(text: str) -> list[str]:
+    """Hält Übernahme- und Redaktionsanweisungen aus dem Fachkonzept heraus."""
+    fehler: list[str] = []
+    verbotene_passagen = (
+        "Verfahren zur organisationsspezifischen Übernahme",
+        "Referenzrepository",
+        "vor der ersten Organisationsangabe",
+        "übernehmenden Organisation",
+    )
+    for passage in verbotene_passagen:
+        if passage.casefold() in text.casefold():
+            fehler.append(f"Konzepttrennung: Übernahmeanweisung im Fachkonzept gefunden: {passage}")
+    if "14 Quellenverzeichnis, Glossar und Abkürzungen" not in text:
+        fehler.append("Konzepttrennung: Kapitel 14 muss unmittelbar Quellenverzeichnis, Glossar und Abkürzungen enthalten.")
+    if re.search(r"\b15(?:\.|\s)\s*(?:Quellenverzeichnis|Glossar|Abkürzungen)", text):
+        fehler.append("Konzepttrennung: ein veraltetes Kapitel 15 ist im Fachkonzept verblieben.")
     return fehler
 
 
@@ -512,6 +634,7 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
     fehler.extend(prüfe_pdf_seitenführung(PDF_PFAD))
     version = katalog["catalog"]["metadata"]["version"]
     fehler.extend(prüfe_versionsgleichheit(version, docx_text, pdf_text))
+    fehler.extend(prüfe_konzepttrennung(docx_text))
     kennzeichnung = wirksame_kennzeichnung(status)
     if kennzeichnung not in docx_text or kennzeichnung not in pdf_text:
         fehler.append("Schutzkennzeichnung ist in DOCX und PDF nicht konsistent wirksam.")
@@ -523,8 +646,13 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
             fehler.append(f"PDF enthält die Kontroll-ID {kennung} nicht.")
     norm_docx = normalisiere_text(docx_text)
     norm_pdf = normalisiere_text(pdf_text)
-    docx_token = re.findall(r"\b[\wäöüß-]+\b", norm_docx)
-    pdf_token = re.findall(r"\b[\wäöüß-]+\b", norm_pdf)
+    # Der Prosaabgleich bewertet alphabetische Wörter. Veränderliche URLs,
+    # Hashes, Datumswerte und technische IDs werden separat validiert und
+    # würden wegen unterschiedlicher PDF-Zeilenumbrüche nur Scheindifferenzen
+    # erzeugen.
+    wortmuster = r"(?<![\w-])[a-zäöüß]+(?![\w-])"
+    docx_token = re.findall(wortmuster, norm_docx)
+    pdf_token = re.findall(wortmuster, norm_pdf)
     docx_häufigkeit = Counter(docx_token)
     pdf_häufigkeit = Counter(pdf_token)
     gemeinsame_token = sum((docx_häufigkeit & pdf_häufigkeit).values())

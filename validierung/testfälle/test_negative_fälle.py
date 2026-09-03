@@ -117,6 +117,10 @@ class NegativeFälle(unittest.TestCase):
         fehler = vp.prüfe_aufzählungsinterpunktion(["Erster vollständiger Punkt.", "Unzulässiger Punkt;"])
         self.assertTrue(any("Strichpunkt" in f for f in fehler))
 
+    def test_übernahmeanleitung_im_fachkonzept_wird_abgewiesen(self):
+        text = "14 Verfahren zur organisationsspezifischen Übernahme"
+        self.assertTrue(any("Übernahmeanweisung" in f for f in vp.prüfe_konzepttrennung(text)))
+
     def test_masterdokument_erfüllt_layoutregeln(self):
         self.assertEqual([], vp.prüfe_docx_layout(vp.DOCX_PFAD))
 

@@ -4,38 +4,11 @@
 
 Das Zielbild beschreibt eine vollständig lokale KI-Infrastruktur in einer klassischen, sicher verwalteten Domäne. Es ist produktneutral: Open WebUI, Ollama, vLLM, llama.cpp, Cline und OpenCode dienen nur als Beispiele für typische Funktionsklassen.
 
-```text
-Entfernter verwalteter Client
-        │
-        └── Organisations-VPN mit MFA
-                    │
-Verwaltete Clients im internen Netz
-        ├── Browser
-        ├── agentische Anwendungen
-        └── lokaler Git- und Entwicklungszugriff
-                    │
-             ausschließlich HTTPS
-                    │
-        Interner KI-Zugang / API-Gateway
-        ├── lokaler IdP und Autorisierung
-        ├── Modell- und Tool-Freigaben
-        ├── Protokollierung und Begrenzung
-        └── TLS-Terminierung
-                    │
-          getrennte KI-Serverzone
-                    │
-      lokale Containerplattform
-        ├── Chat-Oberfläche
-        ├── Inferenzserver
-        ├── RAG- und Dokumentenaufbereitung
-        ├── Embedding- und Reranking-Dienste
-        ├── lokale Vektor-/Datenbank
-        └── technische Überwachung
-                    │
-       internes Container- beziehungsweise Pod-Netz
-                    │
-              kein Internet-Egress
-```
+Die editierbare Quelle liegt unter [`diagramme/architektur.puml`](../diagramme/architektur.puml). Alle weiteren PlantUML-Quellen und der lokale Erzeugungsweg sind in [`diagramme/README.md`](../diagramme/README.md) beschrieben.
+
+![Lokale KI-Systemarchitektur mit Vertrauenszonen](medien/architektur.svg)
+
+Die Clientzone erreicht ausschließlich den kontrollierten KI-Zugang. Rohschnittstellen der Inferenz, Verwaltungszugänge und interne Containerkommunikation bleiben außerhalb des normalen Anfragepfads. Identität, Richtliniendurchsetzung, Registrierungen und Auditdaten bilden eigene Sicherheitsfunktionen.
 
 ## Vertrauenszonen
 
@@ -58,6 +31,24 @@ Der Inferenzserver besitzt keinen Internetzugang und keine direkt veröffentlich
 - Eine Berechtigungsprüfung erfolgt vor Indexaufnahme und erneut bei jeder Abfrage; das Sprachmodell entscheidet keine Zugriffsrechte.
 - Uploads bleiben sitzungsbezogen, sofern keine ausdrücklich genehmigte lokale Ablage besteht.
 - Löschung erfasst Quelldatei, extrahierten Text, Index, Embeddings, Cache, Protokollbezug und den geregelten Ablauf in Sicherungsketten.
+
+### Kontrollierter Artefaktimport
+
+![Kontrollierter Import von KI-Artefakten](medien/artefaktimport.svg)
+
+Externe Artefakte werden nicht direkt in die Produktionszone übertragen. Ein getrennter Prüfweg verbindet Herkunfts- und Versionsnachweis, Integritätsprüfung, Schwachstellen- und Lizenzanalyse, dokumentierte Freigabe, lokalen Test und kontrollierten Rückgriff.
+
+### Lokaler RAG-Datenfluss
+
+![RAG-Datenfluss mit Berechtigungsprüfung und Löschkette](medien/rag-datenfluss.svg)
+
+Aufnahme und Abfrage sind getrennte Kontrollpunkte. Schutzbedarf, Herkunft und ACLs begleiten jede Ableitung. Nur Treffer, die bei der konkreten Anfrage erneut freigegeben wurden, gelangen zur lokalen Inferenz.
+
+### Agentische Werkzeugnutzung
+
+![Agentische Werkzeugnutzung mit Richtlinienprüfung](medien/agentische-werkzeugnutzung.svg)
+
+Eine Modellausgabe ist lediglich ein Aktionsvorschlag. Richtlinienprüfung, Wirkungsklassifikation, konkrete menschliche Bestätigung und minimal berechtigte Ausführung verhindern, dass Modelltext unmittelbar Datei-, Befehls- oder Netzwerkaktionen auslöst.
 
 ## Nicht enthalten
 
