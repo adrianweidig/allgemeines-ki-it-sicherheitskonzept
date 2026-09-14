@@ -8,7 +8,7 @@ Stand: 14.09.2026. Geprüft wurden die kommentierte PDF, das vorhandene DOCX/PDF
 
 Die eingereichte PDF enthält genau eine inhaltliche Annotation und deren leeres Anzeigefenster. Auf Seite 1 ist „Sicherheitskonzept für vollständig lokale KI-Infrastrukturen“ markiert. Der Kommentar lautet „Hier ist etwas kommentiert“.
 
-Der Kommentar enthält weder eine gewünschte Änderung noch einen Ersatztext. Deshalb wurde daraus keine inhaltliche Änderung abgeleitet. Der gesamte extrahierte Seitentext ist auf allen 64 Seiten mit der Repository-PDF identisch. Weitere Änderungsanweisungen wurden nicht gefunden. Für die Bearbeitung dieser Markierung ist noch die beabsichtigte Änderung zu benennen, sofern es sich nicht um einen Testkommentar handelt.
+Der Kommentar wurde durch den Auftraggeber als Testkommentar bestätigt; eine Änderung ist nicht gewünscht. Deshalb wurde daraus keine inhaltliche Änderung abgeleitet. Der gesamte extrahierte Seitentext ist auf allen 64 Seiten mit der Repository-PDF identisch. Weitere Änderungsanweisungen wurden nicht gefunden. Die Kommentarbearbeitung ist damit abgeschlossen.
 
 ## Gesamtbewertung
 
