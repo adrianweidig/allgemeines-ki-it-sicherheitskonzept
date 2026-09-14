@@ -1,65 +1,45 @@
 # Organisationsneutrale KI-Referenzarchitektur
 
-## Zielbild
+Die unternehmensintegrierte Umgebung bevorzugt lokale Inferenz auf zentralen Diensten oder verwalteten Endgeräten. Bestehende Anmeldung, Datenablagen, Entwicklungs- und Betriebsdienste bleiben nach dem IT-Sicherheitskonzept nutzbar. Container sind optional. Maßgeblich sind die Kontrollen im [Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), erschlossen über den [Inhaltsindex](INHALTSINDEX.md#kontrollen).
 
-Das Zielbild beschreibt eine vollständig lokale KI-Infrastruktur in einer klassischen, sicher verwalteten Domäne. Es ist produktneutral: Open WebUI, Ollama, vLLM, llama.cpp, Cline und OpenCode dienen nur als Beispiele für typische Funktionsklassen.
+![KI-Zugänge und Unternehmensdienste](medien/architektur.svg)
 
-Die editierbare Quelle liegt unter [`diagramme/architektur.puml`](../diagramme/architektur.puml). Alle weiteren PlantUML-Quellen und der lokale Erzeugungsweg sind in [`diagramme/README.md`](../diagramme/README.md) beschrieben.
+Verwaltete Clients verwenden kontrollierte Anfragepfade. Vorhandene Anmeldung darf ohne zusätzlichen KI-Login genutzt werden, sofern Identität und Rechte vertrauenswürdig übernommen werden. Netzwerkzugehörigkeit allein genügt nicht. Direkte Inferenz-, Verwaltungs- oder Diagnoseschnittstellen dürfen diese Regeln nicht umgehen. Gemeinsame Dienstschlüssel ersetzen keine individuelle Nutzerzuordnung und Sperrbarkeit.
 
-![Lokale KI-Systemarchitektur mit Vertrauenszonen](medien/architektur.svg)
+Externe Inferenz bleibt standardmäßig aus. Allgemeine Internet- und IdP-Freigaben ersetzen die zusätzliche Freigabe für KI, Zweck und Daten nicht. Bereits freigegebene lokale oder externe Modelle können in optionalen Ausweichprofilen verwendet werden. Ein automatischer Wechsel auf andere Ziele bleibt gesperrt.
 
-Die Clientzone erreicht ausschließlich den kontrollierten KI-Zugang. Rohschnittstellen der Inferenz, Verwaltungszugänge und interne Containerkommunikation bleiben außerhalb des normalen Anfragepfads. Identität, Richtliniendurchsetzung, Registrierungen und Prüfdaten bilden eigene Sicherheitsfunktionen.
+## Artefakte und Änderungen
 
-## Vertrauenszonen
+![Softwareprüfung und Freigabe](medien/artefaktimport.svg)
 
-1. **Verwaltete Clientzone:** Benutzerinteraktion, lokale Entwicklungswerkzeuge und agentische Anwendungen mit minimalen Arbeitsbereichsrechten.
-2. **Kontrollierter KI-Zugang:** einzige aus der Clientzone erreichbare KI-Schnittstelle; setzt Identität, Rollen, Richtlinien, Modellfreigabe, Raten- und Kontextgrenzen sowie Protokollierung durch.
-3. **KI-Serverzone:** Inferenz, Chat, lokale Wissenssuche (RAG), Datenhaltung und Überwachung. Interne Schnittstellen werden nicht in das allgemeine Netz veröffentlicht.
-4. **Importzone:** kontrollierter Transfer und Prüfung von Modellen, Containerabbildern, Paketen und Erweiterungen vor Übernahme in lokale Registrierungen.
-5. **Betriebs- und Nachweiszone:** lokale, besonders geschützte Protokolle, Sicherheitsnachweise, Sicherungen und Wiederherstellungsdaten.
+Modelle, Pakete und Erweiterungen verwenden die vorhandenen Beschaffungs-, Software- und Änderungsprozesse. Herkunft und Integrität werden geprüft; verfügbare Signaturen ergänzen diese Prüfung. Routineänderungen laufen innerhalb freigegebener Profile. Wesentliche Modell-, Rechte- oder Datenflussänderungen erhalten eine gezielte Bewertung. Eine Wiederherstellung bewahrt aktuelle Rechte und Löschstände.
 
-## Sicherheitsgrenzen
-
-Container- oder Pod-Netze sind keine eigenständige Vertrauensentscheidung. Verkehrsbeziehungen folgen dem Prinzip `standardmäßig verweigern, ausdrücklich erlauben`. KI-Dienste erhalten keine unnötigen Privilegien, laufen möglichst ohne privilegierten Systemnutzer (`rootless`), nutzen schreibgeschützte Dateisystemanteile und beziehen Artefakte nur aus kontrollierten lokalen Quellen.
-
-Der Inferenzserver besitzt keinen Internetzugang und keine direkt veröffentlichte Rohschnittstelle. Nutzer- und Dienstzugriffe sind einzeln zuordenbar und widerrufbar; gemeinsame statische API-Schlüssel sind kein Standardverfahren.
-
-## Datenflüsse
-
-- Clientanfragen passieren den kontrollierten KI-Zugang und werden erst danach an freigegebene Modelle oder lokale Werkzeuge vermittelt.
-- Dokumente für die lokale Wissenssuche werden vor der Verarbeitung auf Dateityp, Größe und Schadsoftware geprüft und in isolierten Prozessen ausgewertet.
-- Eine Berechtigungsprüfung erfolgt vor Indexaufnahme und erneut bei jeder Abfrage; das Sprachmodell entscheidet keine Zugriffsrechte.
-- Bedarfsgesteuerte Dateiübernahmen bleiben sitzungsbezogen, sofern keine ausdrücklich genehmigte lokale Ablage besteht.
-- Löschung erfasst Quelldatei, extrahierten Text, Index, Suchvektoren, Zwischenspeicher, Protokollbezug und den geregelten Ablauf in Sicherungsketten.
-
-### Kontrollierter Artefaktimport
-
-![Kontrollierter Import von KI-Artefakten](medien/artefaktimport.svg)
-
-Externe Artefakte werden nicht direkt in die Produktionszone übertragen. Ein getrennter Prüfweg verbindet Herkunfts- und Versionsnachweis, Integritätsprüfung, Schwachstellen- und Lizenzanalyse, dokumentierte Freigabe, lokalen Test und kontrollierten Rückgriff.
-
-### Risikobewertung
+## Risiken und Weiterarbeit
 
 ![Ablauf der Risikobewertung](medien/risikobewertung.svg)
 
-Gefährdungen werden als konkrete Szenarien beschrieben. Eintrittshäufigkeit und Schadenshöhe bestimmen die Risikokategorie. Nach der Behandlung wird das Restrisiko erneut eingestuft und verantwortlich entschieden.
+Mittlere Restrisiken können im Unternehmensrahmen begründet akzeptiert werden. Hohe und sehr hohe Risiken sperren betroffene Funktionen, sofern kein ausdrücklich genehmigter befristeter Betrieb mit zusätzlichen Maßnahmen zulässig ist. Akute Gefahren, unzulässige Verarbeitung, fehlende Rechte und unverzichtbare KI-Abhängigkeiten erlauben keine Ausnahme.
 
 ![Risikomatrix mit Ausgangs- und Restrisiken](medien/risikomatrix.svg)
 
-Die qualitative Matrix verwendet die Kategorien des BSI-Standards 200-3. Text, Zellenposition und stabile Risikokennungen tragen die Aussage; Farbe unterstützt nur die Orientierung.
+Die neun Risiken liegen im Katalog unter `ki-gov-003-risk-register`. Die PlantUML-Matrix und die Konzeptdarstellung werden daraus erzeugt. Die Planungsbewertung ersetzt keine Prüfung der tatsächlichen Unternehmensumsetzung.
 
-### Lokaler RAG-Datenfluss
+Jede Tätigkeit bleibt auch bei längerem KI-Ausfall durchführbar. Daten, Zugänge, Anwendungen und Kenntnisse sind unabhängig verfügbar. Ressourcenisolation schützt andere Dienste. Reparatur und Wiederaufnahme erfolgen über den normalen IT-Betrieb; Ersatzserver oder weitere Modelle sind optional.
 
-![RAG-Datenfluss mit Berechtigungsprüfung und Löschkette](medien/rag-datenfluss.svg)
+## Wissensarbeit und Daten
 
-Aufnahme und Abfrage sind getrennte Kontrollpunkte. Schutzbedarf, Herkunft und Zugriffsregeln begleiten jede Ableitung. Nur Treffer, die bei der konkreten Anfrage erneut freigegeben wurden, gelangen zur lokalen Inferenz.
+![Wissensbestände, persönliche Beiträge und Rechte](medien/rag-datenfluss.svg)
 
-### Agentische Werkzeugnutzung
+Freigegebene Datenbereiche können Dokumente für KI-Wissensarbeit abdecken. Die normalen Dokumenten-, Qualitäts- und Konfigurationsprozesse bleiben maßgeblich. Persönliche Speicherung auf verwalteten Endgeräten ist nach den normalen Regeln zulässig.
 
-![Agentische Werkzeugnutzung mit Richtlinienprüfung](medien/agentische-werkzeugnutzung.svg)
+Unternehmenswissen aus persönlicher Agentenarbeit ist standardmäßig ausgeschaltet. Informierte Zustimmung bei Erstnutzung und jedem Agentenprojekt, sichtbarer Zustand und sichere Rechteübernahme sind Voraussetzung. Gewöhnliche Chatdialoge werden nicht automatisch übernommen. Ein Stopp beendet neue Beiträge; bestehende folgen den erläuterten Nutzungs- und Aufbewahrungsregeln. Rechteverlust oder unzulässige Nutzung lösen unabhängig davon Sperrung beziehungsweise Löschung aus.
 
-Eine Modellausgabe ist lediglich ein Aktionsvorschlag. Richtlinienprüfung, Wirkungsklassifikation, konkrete menschliche Bestätigung und minimal berechtigte Ausführung verhindern, dass Modelltext unmittelbar Datei-, Befehls- oder Netzwerkaktionen auslöst.
+Suchvektoren, Zusammenfassungen, Textabschnitte und Antworten dürfen keinen größeren unberechtigten Empfängerkreis erhalten. Die Berechtigungsprüfung erfolgt außerhalb des Modells vor Aufnahme und bei jeder Abfrage. Löschfristen, unmittelbarer Zugriffsschutz und Sicherungsbehandlung sind getrennt zu betrachten. Training und produktive Gewichtsänderungen bleiben ausgeschlossen.
 
-## Nicht enthalten
+## Agentische Aktionen
 
-Nicht Bestandteil sind externe SaaS-Dienste, Training, Feinabstimmung, kontinuierliches Lernen und produktive Änderungen von Modellgewichten. Externe Inferenz benötigt eine neue, organisationsspezifische Bewertung und ist in der Referenz deaktiviert.
+![Werkzeugprofile und Genehmigungsgrenzen](medien/agentische-werkzeugnutzung.svg)
+
+Erlaubte Routinearbeit umfasst Lesen, Analyse, Erzeugen, Codebearbeitung und Tests. Löschungen und destruktive Maßnahmen sind ohne Einzelgenehmigung nur zulässig, wenn der Nutzer Daten und maßgebliche Folgen schnell, einfach und zuverlässig wiederherstellen kann und kein erheblicher Schaden zu erwarten ist. Ohne diese Möglichkeit benötigt jede Löschung und destruktive Tätigkeit konkrete Genehmigung. Kritische, privilegierte und nicht rückgängig zu machende Wirkungen bleiben genehmigungspflichtig. Das Zurücksetzen von Code macht Offenlegung oder Veröffentlichung nicht rückgängig.
+
+Bearbeitbare Quellen und Erzeugungsweg: [Diagrammübersicht](../diagramme/README.md). Änderungen der Sicherheitsanforderungen erfolgen zuerst im Katalog.

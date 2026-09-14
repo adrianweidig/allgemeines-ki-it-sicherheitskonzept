@@ -6,7 +6,7 @@ Dieser Leitfaden beschreibt die kontrollierte Überführung der öffentlichen, o
 
 ## Schutzgrenze vor Beginn
 
-Eine organisationsspezifische Bearbeitung findet nicht im öffentlichen Referenzrepository statt. Vor der ersten realen Angabe wird eine getrennte, angemessen geschützte Offline-Fassung angelegt. In dieser Fassung wird in `projektstatus.json` zuerst `organisationsspezifisch` auf `true` gesetzt. Die Dokumenterzeugung verwendet dann automatisch die Kennzeichnung:
+Eine organisationsspezifische Bearbeitung findet nicht im öffentlichen Referenzrepository statt. Vor der ersten realen Angabe wird eine getrennte, angemessen geschützte geschützte Fassung angelegt. In dieser Fassung wird in `projektstatus.json` zuerst `organisationsspezifisch` auf `true` gesetzt. Die Dokumenterzeugung verwendet dann automatisch die Kennzeichnung:
 
 > **NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH**
 
@@ -19,7 +19,7 @@ Die Kennzeichnung ist noch keine formale Einstufung. Schutzbedarf, Geheimhaltung
 3. Reale Architektur, Vertrauenszonen, Schnittstellen und Datenflüsse in der geschützten Fassung erfassen und gegen die Architekturgrenzen des Katalogs prüfen.
 4. Rechts-, Datenschutz-, Geheimschutz- und Beteiligungsprüfung je Anwendungsfall durchführen und Entscheidungen nachvollziehbar dokumentieren.
 5. Jede OSCAL-Kontrolle auf Anwendbarkeit prüfen, konkrete Umsetzung und Verantwortlichkeit festlegen und erwartete Nachweise benennen.
-6. Abweichungen, kompensierende Maßnahmen und akzeptierte Restrisiken mit Befristung, Eigentümer und Freigabe dokumentieren.
+6. Die neun bewerteten Szenarien und ihre Umsetzungsannahmen mit der tatsächlichen Umgebung abgleichen. Bei Übereinstimmung können Bewertung und Maßnahmen übernommen und Verantwortliche sowie Fundstellen ergänzt werden. Abweichungen werden bewertet; mittlere Restrisiken benötigen keinen pauschalen Zusatzplan. Hohe Ausnahmen sind ausdrücklich zu genehmigen und zu befristen.
 7. Technische Wirksamkeits-, Missbrauchs-, Negativ-, Wiederanlauf- und Wiederholungsprüfungen in der tatsächlichen Umgebung durchführen.
 8. Konzept, Katalog, Nachweise und Testergebnisse unabhängig fachlich prüfen und durch die zuständigen Rollen freigeben lassen.
 9. Änderungen, Modellwechsel, Vorfälle, Ausnahmen, Wiedervorlagen und Außerbetriebnahme in die bestehenden ISMS- und Betriebsprozesse aufnehmen.
@@ -54,11 +54,15 @@ Für jede Abbildung gelten folgende Schritte:
 
 Externe Inferenz ist kein einfacher Produktwechsel. Ihre Aktivierung verändert Systemgrenze, Verantwortlichkeit, Datenflüsse, Rechtslage und Nachweispflichten. Vor einer Freigabe werden mindestens KI-EXT-001 und KI-EXT-002 vollständig bearbeitet. Zusätzlich sind Datenschutz, Datenklassifikation, Verträge, Auftragsverarbeitung, Drittlandbezug, Anbieter- und Lieferkette, Verschlüsselung, Schlüsselverwaltung, Protokollierung, Löschung, Verfügbarkeit, Vorfallbehandlung und Ausstiegsszenario neu zu bewerten.
 
-Automatische Ausweichverbindungen, die automatische Erkennung externer Anbieter und Cloudmodelle bleiben deaktiviert, solange diese Freigabe nicht nachweislich vorliegt.
+Automatische Wechsel bleiben auf bereits freigegebene Ausweichprofile begrenzt. Allgemeine Internet- oder Identitätsdienstfreigaben ersetzen die zusätzliche KI-Freigabe nicht. Eine Profilfreigabe kann gleichartige Anfragen abdecken. Ersatzmodelle sind optional; jede Tätigkeit bleibt ohne KI möglich.
 
 ## Training und Feinabstimmung
 
 Das Konzept erteilt keine Freigabe für Training, Fine-Tuning, LoRA, PEFT, RLHF, kontinuierliches Lernen oder produktive Änderungen von Modellgewichten. Soll eine solche Nutzung später eingeführt werden, ist ein eigenständiges Sicherheits-, Datenschutz-, Datenqualitäts- und Freigabekonzept erforderlich. Das Aktivieren der entsprechenden Statuswerte wird von der Projektvalidierung absichtlich abgewiesen.
+
+## Praktische Übernahme
+
+Bei Übereinstimmung mit den beschriebenen Annahmen ist keine Neuerfindung des Konzepts nötig: Namen, Zuständigkeiten, bestehende IT-Prozesse und Nachweisfundstellen werden zugeordnet. Die tatsächliche Umsetzung und befugte Risikoentscheidung bleiben nachzuweisen; bloßes Umbenennen ist kein Wirksamkeitsbeleg. Agenten erhalten übliche Projektfunktionen im genehmigten Umfang. Löschungen ohne einfache Nutzerwiederherstellung benötigen immer konkrete Genehmigung. Persönliche Wissensbeiträge bleiben standardmäßig aus und benötigen eine informierte Entscheidung je Agentenprojekt.
 
 ## Erzeugung und Prüfung
 

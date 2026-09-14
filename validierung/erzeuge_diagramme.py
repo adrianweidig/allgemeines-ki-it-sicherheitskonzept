@@ -34,6 +34,39 @@ DIAGRAMME = (
     "rag-datenfluss",
     "agentische-werkzeugnutzung",
 )
+HÄUFIGKEITEN = ('selten', 'mittel', 'häufig', 'sehr häufig')
+RISIKOMATRIX = {
+    'existenzbedrohend': ('mittel', 'hoch', 'sehr hoch', 'sehr hoch'),
+    'beträchtlich': ('mittel', 'mittel', 'hoch', 'sehr hoch'),
+    'begrenzt': ('gering', 'gering', 'mittel', 'hoch'),
+    'vernachlässigbar': ('gering', 'gering', 'gering', 'gering'),
+}
+
+
+def risikomatrix_quelle(katalog: dict) -> str:
+    register = next(p for g in katalog['catalog']['groups'] for c in g['controls'] if c['id'] == 'ki-gov-003' for p in c['parts'] if p['name'] == 'risk-register')
+    farben = {'gering': '#E2F0D9', 'mittel': '#FFF2CC', 'hoch': '#FCE4D6', 'sehr hoch': '#F4CCCC'}
+    zeilen = ['@startuml', 'skinparam dpi 180', 'skinparam backgroundColor #FFFFFF',
+              'skinparam shadowing false', 'skinparam defaultFontName Arial', 'skinparam defaultFontSize 12',
+              'legend center', '  |= Schadenshöhe /\\nEintrittshäufigkeit |= selten |= mittel |= häufig |= sehr häufig |']
+    for schaden, kategorien in RISIKOMATRIX.items():
+        zellen = [f'**{schaden}**']
+        for häufigkeit, kategorie in zip(HÄUFIGKEITEN, kategorien):
+            zelle = f'<{farben[kategorie]}> **{kategorie}**'
+            for präfix, label in [('initial', 'A'), ('residual', 'R')]:
+                ids = []
+                for risiko in register['parts']:
+                    werte = {p['name']: p['value'] for p in risiko['props']}
+                    if (werte[f'{präfix}-likelihood'], werte[f'{präfix}-impact']) == (häufigkeit, schaden):
+                        ids.append(risiko['title'])
+                if ids:
+                    zelle += '\\n' + '\\n'.join(f'{label}: {kennung}' for kennung in ids)
+            zellen.append(zelle)
+        zeilen.append('  | ' + ' | '.join(zellen) + ' |')
+    zeilen += ['', '  **A** = Ausgangsrisiko vor zusätzlichen KI-Kontrollen',
+               '  **R** = Restrisiko unter den dokumentierten Umsetzungsannahmen',
+               '  Planungsbewertung; keine allgemeine Wirksamkeitsgarantie.', 'endlegend', '@enduml']
+    return '\n'.join(zeilen) + '\n'
 
 
 def sha256(pfad: Path) -> str:
@@ -139,6 +172,8 @@ def main() -> int:
         help="Festgelegte PlantUML-JAR laden und per SHA-256 prüfen.",
     )
     argumente = parser.parse_args()
+    katalog = json.loads((WURZEL / 'katalog/ki-it-sicherheitskatalog.oscal.json').read_text(encoding='utf-8'))
+    (QUELLEN / 'risikomatrix.puml').write_text(risikomatrix_quelle(katalog), encoding='utf-8')
 
     if argumente.plantuml_jar:
         jar = geprüfte_jar(argumente.plantuml_jar.expanduser().resolve())

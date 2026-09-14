@@ -28,6 +28,53 @@ class NegativeFälle(unittest.TestCase):
     def kontrollen(self, katalog):
         return {c["id"]: c for c in vp.katalogkontrollen(katalog)}
 
+    def test_risiken_und_oscal_erweiterungen(self):
+        self.assertEqual([], vp.prüfe_risikoregister(self.katalog))
+        self.assertEqual([], vp.prüfe_oscal_erweiterungen(self.katalog))
+        for mutation, meldung in (
+            ('kategorie', 'Risikokategorie'), ('begründung', 'Restrisikobegründung'),
+            ('kontrolle', 'verknüpfte Kontrolle'), ('kennung', 'stabile Kennungen'),
+        ):
+            katalog = copy.deepcopy(self.katalog)
+            register = next(p for p in self.kontrollen(katalog)['ki-gov-003']['parts'] if p['name'] == 'risk-register')
+            risiko = register['parts'][0]
+            if mutation == 'kategorie':
+                next(p for p in risiko['props'] if p['name'] == 'residual-risk')['value'] = 'gering'
+            elif mutation == 'begründung': risiko['parts'].pop()
+            elif mutation == 'kontrolle': risiko['links'][0]['href'] = '#ki-fehlt-001'
+            else: risiko['id'] = 'r-99'
+            with self.subTest(mutation=mutation):
+                self.assertTrue(any(meldung in f for f in vp.prüfe_risikoregister(katalog)))
+        katalog = copy.deepcopy(self.katalog)
+        katalog['catalog']['metadata']['props'][0].pop('ns')
+        self.assertTrue(any('Namensraum' in f for f in vp.prüfe_oscal_erweiterungen(katalog)))
+        katalog = copy.deepcopy(self.katalog)
+        teile = next(vp.katalogkontrollen(katalog))['parts']
+        teile[1]['id'] = teile[0]['id']
+        self.assertTrue(any('doppelte dokumentweite ID' in f for f in vp.prüfe_oscal_erweiterungen(katalog)))
+
+    def test_unzulässige_ausweichziele_auch_ohne_externe_inferenz_gesperrt(self):
+        katalog = copy.deepcopy(self.katalog)
+        c = self.kontrollen(katalog)['ki-ext-002']
+        next(p for p in c['props'] if p['name'] == 'anwendbarkeit')['value'] = 'Externe Inferenz'
+        self.assertTrue(any('immer anwendbar' in f for f in vp.prüfe_katalog(katalog)))
+
+    def test_docx_muss_katalogtexte_enthalten(self):
+        text = vp._docx_text(vp.DOCX_PFAD)
+        self.assertEqual([], vp.prüfe_katalogableitung(self.katalog, text))
+        katalog = copy.deepcopy(self.katalog)
+        teil = next(vp.katalogkontrollen(katalog))['parts'][0]
+        teil['prose'] = 'Diese geänderte verbindliche Anforderung fehlt in der bisherigen Dokumentfassung.'
+        self.assertTrue(any('Katalogableitung' in f for f in vp.prüfe_katalogableitung(katalog, text)))
+
+    def test_zu_hohes_diagramm_wird_abgewiesen(self):
+        with TemporaryDirectory() as ordner:
+            doc = Document(vp.DOCX_PFAD)
+            doc.inline_shapes[0].height = 10800000
+            ziel = Path(ordner) / 'zu-hoch.docx'
+            doc.save(ziel)
+            self.assertTrue(any('Diagrammhöhe' in f for f in vp.prüfe_docx_layout(ziel)))
+
     def test_doppelte_kontroll_id_wird_abgewiesen(self):
         katalog = copy.deepcopy(self.katalog)
         katalog["catalog"]["groups"][0]["controls"].append(copy.deepcopy(katalog["catalog"]["groups"][0]["controls"][0]))

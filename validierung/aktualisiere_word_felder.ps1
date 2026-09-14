@@ -1,10 +1,12 @@
 [CmdletBinding()]
 param(
-    [string]$DocxPfad = (Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.docx'),
-    [string]$PdfPfad = (Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.pdf')
+    [string]$DocxPfad,
+    [string]$PdfPfad
 )
 
 $ErrorActionPreference = 'Stop'
+if (-not $DocxPfad) { $DocxPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.docx' }
+if (-not $PdfPfad) { $PdfPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.pdf' }
 $word = $null
 $dokument = $null
 

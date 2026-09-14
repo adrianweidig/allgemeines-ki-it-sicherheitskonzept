@@ -4,21 +4,15 @@ skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
-skinparam legend {
-  BackgroundColor #FFFFFF
-  BorderColor #7890A5
-  FontColor #203040
-}
-
 legend center
   |= Schadenshöhe /\nEintrittshäufigkeit |= selten |= mittel |= häufig |= sehr häufig |
-  | **existenzbedrohend** | <#FFF2CC> **mittel** | <#FCE4D6> **hoch**\nA: R-08 | <#F4CCCC> **sehr hoch** | <#F4CCCC> **sehr hoch** |
-  | **beträchtlich** | <#FFF2CC> **mittel**\nR: R-01, R-02, R-03\nR-04, R-07, R-09 | <#FFF2CC> **mittel**\nA: R-02, R-04 | <#FCE4D6> **hoch**\nA: R-01, R-03, R-06, R-09 | <#F4CCCC> **sehr hoch**\nA: R-07 |
-  | **begrenzt** | <#E2F0D9> **gering**\nR: R-05, R-08 | <#E2F0D9> **gering**\nR: R-06 | <#FFF2CC> **mittel**\nA: R-05 | <#FCE4D6> **hoch** |
+  | **existenzbedrohend** | <#FFF2CC> **mittel**\nR: R-08 | <#FCE4D6> **hoch**\nA: R-08 | <#F4CCCC> **sehr hoch** | <#F4CCCC> **sehr hoch** |
+  | **beträchtlich** | <#FFF2CC> **mittel**\nR: R-01\nR: R-02\nR: R-03\nR: R-04\nR: R-05 | <#FFF2CC> **mittel**\nA: R-02\nA: R-04\nR: R-07\nR: R-09 | <#FCE4D6> **hoch**\nA: R-01\nA: R-03\nA: R-05\nA: R-06\nA: R-07\nA: R-09 | <#F4CCCC> **sehr hoch** |
+  | **begrenzt** | <#E2F0D9> **gering** | <#E2F0D9> **gering**\nR: R-06 | <#FFF2CC> **mittel** | <#FCE4D6> **hoch** |
   | **vernachlässigbar** | <#E2F0D9> **gering** | <#E2F0D9> **gering** | <#E2F0D9> **gering** | <#E2F0D9> **gering** |
 
-  **A** = Ausgangsrisiko vor den KI-spezifischen Kontrollen
-  **R** = Restrisiko nach den Kontrollen
-  Jede Zelle nennt die Risikokategorie zusätzlich als Text; Farbe ist nur eine ergänzende Orientierung.
+  **A** = Ausgangsrisiko vor zusätzlichen KI-Kontrollen
+  **R** = Restrisiko unter den dokumentierten Umsetzungsannahmen
+  Planungsbewertung; keine allgemeine Wirksamkeitsgarantie.
 endlegend
 @enduml

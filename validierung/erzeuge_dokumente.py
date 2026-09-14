@@ -203,6 +203,7 @@ def formatiere_tabelle(
                 schattiere(zelle, HELLBLAU)
             for absatz in zelle.paragraphs:
                 absatz.style = "Tabellenkopf" if ist_kopf else "Tabellentext"
+                absatz.paragraph_format.keep_with_next = ist_kopf
                 absatz.alignment = (
                     WD_ALIGN_PARAGRAPH.CENTER
                     if ist_kopf or index in zentrierte_spalten
@@ -264,8 +265,13 @@ def füge_abbildung_hinzu(doc, pfad, beschriftung, alternativtext, *, breite_cm=
     absatz = doc.add_paragraph()
     absatz.alignment = WD_ALIGN_PARAGRAPH.CENTER
     setze_absatzformat(absatz, danach=0, zusammenhalten=True)
+    absatz.paragraph_format.keep_with_next = True
     run = absatz.add_run()
-    inline = run.add_picture(str(pfad), width=Cm(breite_cm))._inline
+    bild = run.add_picture(str(pfad), width=Cm(breite_cm))
+    if bild.height > Cm(20.5):
+        bild.width = int(bild.width * Cm(20.5) / bild.height)
+        bild.height = Cm(20.5)
+    inline = bild._inline
     inline.docPr.set("title", beschriftung.split(":", 1)[0])
     inline.docPr.set("descr", alternativtext)
     beschriftungsabsatz = doc.add_paragraph(beschriftung, style="Abbildungsbeschriftung")
@@ -795,7 +801,7 @@ def richte_seiten_ein(doc, version, kennzeichnung):
     p.paragraph_format.space_after = Pt(2)
     p.paragraph_format.line_spacing = 1.0
     p.paragraph_format.tab_stops.add_tab_stop(Cm(16), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.SPACES)
-    p.add_run("Allgemeines KI-IT-Sicherheitskonzept").bold = True
+    p.add_run("KI-IT-Sicherheitskonzept" if kennzeichnung == NICHT_ÖFFENTLICH else "Allgemeines KI-IT-Sicherheitskonzept").bold = True
     p.add_run("\t")
     p.add_run(f"Version {version}")
     for run in p.runs:
@@ -852,13 +858,13 @@ def dokumentsteuerung(doc, version, kennzeichnung, katalog, stichtag):
     tabelle.rows[0].cells[0].text = "Merkmal"
     tabelle.rows[0].cells[1].text = "Festlegung"
     daten = [
-        ("Dokumenttitel", "Allgemeines KI-IT-Sicherheitskonzept"),
+        ("Dokumenttitel", "KI-IT-Sicherheitskonzept" if kennzeichnung == NICHT_ÖFFENTLICH else "Allgemeines KI-IT-Sicherheitskonzept"),
         ("Dokumentstatus", kennzeichnung),
         ("Version", version),
         ("Fachlicher Stichtag", deutsches_datum(stichtag)),
         ("Normative Anforderungen", "KI-IT-Sicherheitskatalog nach Open Security Controls Assessment Language (OSCAL) 1.1.3"),
         ("OSCAL-Fassung", katalog["catalog"]["metadata"]["oscal-version"]),
-        ("Betriebsmodell", "Vollständig lokal; externe Inferenz nicht anwendbar"),
+        ("Betriebsmodell", "Unternehmensintegriert; lokale Inferenz bevorzugt; externe KI nur mit zusätzlicher Freigabe"),
         ("Modelländerung", "Training und Feinabstimmung ausgeschlossen"),
     ]
     for merkmal, festlegung in daten:
@@ -875,25 +881,25 @@ def inhaltsverzeichnis(doc):
     füge_inhaltsverzeichnisfeld_hinzu(feldabsatz)
 
 
-def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
+def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id, katalog):
     add_heading(doc, "1 Dokumentenstatus und Geltungsbereich", 1)
-    text_absatz(doc, f"Das Konzept trägt den Status {kennzeichnung}. Es gilt für die organisationsneutrale Standardarchitektur einer vollständig lokalen generativen KI-Umgebung mit verwalteten Clients, kontrolliertem KI-Zugang und getrennter KI-Serverzone.")
+    text_absatz(doc, f"Das Konzept trägt den Status {kennzeichnung}. Es gilt für eine in die Unternehmensumgebung eingebundene generative KI mit verwalteten Clients und kontrollierten Zugängen. Lokale Inferenz wird bevorzugt; bestehende Unternehmensdienste werden nach dem allgemeinen IT-Sicherheitskonzept genutzt. Externe KI benötigt eine zusätzliche ausdrückliche Freigabe.")
     text_absatz(doc, "Der Status ÖFFENTLICH gilt nur für die organisationsneutrale Fassung. Sobald reale Organisations-, Infrastruktur-, Schutzbedarfs-, Konto- oder Schwachstelleninformationen aufgenommen werden, ist die Fassung getrennt zu führen, angemessen zu schützen und durch die zuständigen Stellen einzustufen und freizugeben.")
 
     add_heading(doc, "2 Zweck, Zielgruppe und Abgrenzung", 1)
-    text_absatz(doc, "Dieses Sicherheitskonzept regelt Planung, Freigabe, Betrieb, Änderung und Außerbetriebnahme lokaler generativer KI-Dienste. Es richtet sich an Leitung, Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung und Fachverantwortung sowie an Rollen für Architektur, Plattform, Netzwerk, Identität, lokale Wissenssuche, Modelle, Tests und Betrieb.")
-    text_absatz(doc, "Nicht Gegenstand sind eine produktive Plattform, Beschaffungsempfehlungen, Training, Feinabstimmung, kontinuierliches Lernen oder die pauschale Freigabe eines konkreten Anwendungsfalls. Fachwissen wird ausschließlich aus lokalen Wissensbeständen oder aus kontrollierten, zeitlich begrenzten Dateiübernahmen bereitgestellt.")
+    text_absatz(doc, "Dieses Sicherheitskonzept regelt Planung, Freigabe, Betrieb, Änderung und Außerbetriebnahme generativer KI-Dienste. Es richtet sich an Leitung, Informationssicherheit, Datenschutz, Recht, Geheimschutz, Personalvertretung und Fachverantwortung sowie an Rollen für Architektur, Plattform, Netzwerk, Identität, Wissenssuche, Modelle, Tests und Betrieb.")
+    text_absatz(doc, "Training, Feinabstimmung und selbsttätige Änderungen produktiver Modellgewichte sind ausgeschlossen. Fachwissen bleibt außerhalb der Modellgewichte und kann aus freigegebenen Beständen oder persönlichen Arbeitsunterlagen stammen. Freiwillige Beiträge aus Agentenarbeit können einen Unternehmenswissensbestand ergänzen, sofern Zweck, Zustimmung und Rechte dies erlauben. Jede betriebliche Tätigkeit bleibt auch bei längerem KI-Ausfall ohne KI möglich.")
 
     add_heading(doc, "2.1 Zentrale Begriffe", 2)
     begriffe = [
         ("Lokale Inferenz", "Ausführung eines vortrainierten Modells innerhalb der eigenen Infrastruktur, ohne beabsichtigte Änderung der Modellgewichte."),
-        ("Lokale Wissenssuche (RAG)", "Suche nach freigegebenen Textausschnitten, die der lokalen Inferenz als zusätzlicher Kontext übergeben werden."),
+        ("Wissenssuche (RAG)", "Suche nach berechtigten Textausschnitten, die einem freigegebenen Modell als zusätzlicher Kontext übergeben werden; dies verändert keine Modellgewichte."),
         ("Suchvektor (Embedding)", "Numerische Darstellung eines Inhalts für die Ähnlichkeitssuche. Der Schutzbedarf der Quelldaten kann darin erhalten bleiben."),
-        ("Bedarfsgesteuerte Dateiübernahme", "Zeitlich begrenzte Übergabe einer Datei an die lokale KI-Umgebung. Ohne ausdrückliche Freigabe bleibt die Verarbeitung auf die Sitzung begrenzt."),
+        ("Bedarfsgesteuerte Dateiübernahme", "Übergabe einer Datei für die aktuelle Aufgabe. Persönliche Speicherung folgt den normalen Unternehmensregeln; die Übernahme in Unternehmenswissen ist davon getrennt."),
         ("Programmierschnittstelle (API)", "Technischer Zugang, über den ein Client festgelegte Funktionen eines Dienstes aufruft."),
-        ("Identitätsdienst (IdP)", "Lokaler Dienst, der Personen und technische Konten verlässlich identifiziert und deren Anmeldung unterstützt."),
+        ("Identitätsdienst (IdP)", "Unternehmensdienst, der Personen und technische Konten verlässlich identifiziert und deren Anmeldung unterstützt; er kann lokal oder als freigegebener externer Dienst betrieben werden."),
         ("Transportverschlüsselung (TLS)", "Verschlüsselung einer Netzwerkverbindung zum Schutz vor Mitlesen und Veränderung während der Übertragung."),
-        ("Zentrale Sicherheitsauswertung (SIEM)", "Lokale Sammlung und Auswertung sicherheitsrelevanter Protokollereignisse."),
+        ("Zentrale Sicherheitsauswertung (SIEM)", "Geschützte Sammlung und Auswertung sicherheitsrelevanter Protokollereignisse nach den Unternehmensregeln."),
         ("Model Context Protocol (MCP)", "Technisches Protokoll zur Anbindung zusätzlicher Werkzeuge oder Datenquellen an eine agentische Anwendung."),
         ("Agentische Anwendung", "Client oder Dienst, der einen Modellvorschlag in einen Datei-, Werkzeug-, Befehls- oder Netzwerkzugriff überführen kann."),
         ("Eingeschleuste Anweisung (Prompt Injection)", "Anweisung in einer Eingabe, einem Dokument oder einer Werkzeugausgabe, die festgelegte Regeln oder Berechtigungsgrenzen umgehen soll."),
@@ -912,21 +918,22 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
         vollzitat(quellen_nach_id["Q-BSI-2002-001"], "S. 11, S. 69–74 und S. 154–156"),
     )
     aufzählung(doc, [
-        "Verwaltete Clients und Server, sichere Domäne, lokaler Identitätsdienst, Rollen und Mehrfaktorauthentisierung (MFA).",
-        "Interne Zertifikatsinfrastruktur (PKI), vertrauenswürdige Zertifikate, Segmentierung, Firewalls und abgesicherter Fernzugriff.",
+        "Verwaltete Clients und Server, vorhandene Unternehmensanmeldung, Rollen und Mehrfaktorauthentisierung (MFA) gemäß Unternehmensvorgaben.",
+        "Vertrauenswürdige Zertifikate, Transportverschlüsselung, Segmentierung, Firewalls und abgesicherter Fernzugriff gemäß IT-Sicherheitskonzept.",
         "Patch-, Schwachstellen-, Konfigurations- und sichere Softwareverteilung.",
-        "Lokale Protokollierung, Überwachung, Datensicherung, Wiederherstellung, Notfallmanagement und Schadsoftwareschutz.",
+        "Bestehende Protokollierung, Überwachung, Datensicherung, Reparatur, Vorfallbehandlung und Schadsoftwareschutz.",
+        "Normale Dokumentenfreigabe, Qualitätssicherung und Konfigurationsverwaltung einschließlich freigegebener Bereiche für KI-Wissensarbeit.",
     ])
     text_absatz(doc, "Fehlende Basismaßnahmen sperren die Freigabe der abhängigen KI-Funktion. Sie werden im allgemeinen Sicherheitsprozess behandelt und nicht durch KI-spezifische Einzelmaßnahmen ersetzt.")
 
-    add_heading(doc, "4 Lokale KI-Systemarchitektur", 1)
-    text_absatz(doc, "Die Systemarchitektur ist vollständig lokal. Verwaltete Clients erreichen über HTTPS ausschließlich den kontrollierten internen KI-Zugang. Dahinter liegt eine getrennte KI-Serverzone mit Containerplattform, Chat-Oberfläche, lokaler Inferenz, lokaler Wissenssuche, Suchvektoren, Treffer-Neusortierung, Datenhaltung und technischer Überwachung. Fernzugriff erfolgt nur über ein organisationskontrolliertes virtuelles privates Netz (VPN) mit Mehrfaktorauthentisierung.")
-    text_absatz(doc, "Der kontrollierte KI-Zugang ist der einzige zulässige Anfragepfad aus der Clientzone. Identitätsdienst, Verwaltungszugang, lokale Registrierungen und Prüfprotokolle sind vom normalen Anfragepfad getrennt. Die Inferenz besitzt keine ausgehende Internetverbindung (Abbildung 1).")
+    add_heading(doc, "4 Unternehmensintegrierte KI-Systemarchitektur", 1)
+    text_absatz(doc, "Verwaltete Clients nutzen freigegebene KI-Zugänge mit vertrauenswürdiger Unternehmensanmeldung. Zentrale lokale Inferenz und Wissenssuche laufen in angemessen getrennten Betriebsbereichen. Alternativ ist verwaltete lokale Ausführung auf dem Endgerät mit gleichwertigen Zugriffsregeln möglich. Container sind eine mögliche Betriebsform. Fernzugriff und Transportverschlüsselung folgen dem allgemeinen IT-Sicherheitskonzept.")
+    text_absatz(doc, "Vorhandene Identitätsdienste, Git- und Datenablagen sowie Betriebsdienste dürfen integriert werden. Eine zusätzliche KI-Anmeldung entfällt bei verlässlich übernommenem Identitätskontext; reine Netzwerkzugehörigkeit genügt nicht. Direkte Modell- und Verwaltungsschnittstellen dürfen diese Grenzen nicht umgehen. Externe Inferenz ist standardmäßig aus und nur innerhalb einer zusätzlichen KI-Freigabe zulässig (Abbildung 1).")
     füge_abbildung_hinzu(
         doc,
         ARCHITEKTUR_ABBILDUNG,
-        "Abbildung 1: Nur der kontrollierte KI-Zugang verbindet die Clientzone mit der abgeschotteten KI-Serverzone.",
-        "Ein entfernter oder interner verwalteter Client erreicht über VPN und HTTPS nur den kontrollierten KI-Zugang. Dieser vermittelt identitäts- und rollenbasiert zur getrennten KI-Serverzone mit Chat, Inferenz, lokaler Wissenssuche, Datenhaltung und Überwachung. Verwaltung, Prüfprotokolle und Registrierungen sind getrennt; die Inferenz besitzt keine ausgehende Internetverbindung.",
+        "Abbildung 1: Kontrollierte KI-Zugänge verbinden verwaltete Clients mit freigegebenen Modellen und Unternehmensdiensten.",
+        "Verwaltete Clients verwenden die bestehende Unternehmensanmeldung. Kontrollierte Zugänge vermitteln zu bevorzugter lokaler Inferenz und Wissenssuche. Freigegebene Identitäts-, Daten- und Betriebsdienste werden eingebunden; externe KI ist als zusätzlich freizugebende Option dargestellt. Direkte Umgehungswege bleiben gesperrt. Die übrige Arbeit bleibt ohne KI möglich.",
         breite_cm=13.5,
     )
 
@@ -934,8 +941,8 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
     text_absatz(doc, "Jede Vertrauenszone besitzt eine klar abgegrenzte Aufgabe. Übergänge zwischen den Zonen werden authentisiert, protokolliert und auf die ausdrücklich freigegebenen Kommunikationsbeziehungen begrenzt.")
     zonen = [
         ("Verwaltete Clientzone", "Benutzerinteraktion, lokale Entwicklungswerkzeuge und begrenzte agentische Aktionen."),
-        ("Kontrollierter KI-Zugang", "Einziger Clientpfad; Identität, Rollen, Transportverschlüsselung sowie Modell-, Kontext-, Raten- und Werkzeugregeln."),
-        ("KI-Serverzone", "Interne Inferenz-, Wissens-, Daten- und Überwachungsdienste ohne Erreichbarkeit aus öffentlichen oder allgemeinen Clientnetzen."),
+        ("Kontrollierter KI-Zugang", "Freigegebene Anfragepfade; Identität, Rollen, Transportverschlüsselung sowie Modell-, Kontext-, Raten- und Werkzeugregeln."),
+        ("KI-Betriebsbereich", "Lokale Inferenz-, Wissens- und Datendienste mit begrenzten Schnittstellen; zentrale Server oder gleichwertig geschützte lokale Ausführung."),
         ("Importweg", "Prüfung von Modellen, Containerabbildern, Paketen und Erweiterungen vor der Übernahme in lokale Registrierungen."),
         ("Betriebs- und Nachweisbereich", "Besonders geschützte Protokolle, Sicherheitsauswertungen, Freigaben, Sicherungen und Wiederherstellungsdaten."),
     ]
@@ -950,12 +957,12 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
     formatiere_tabelle(t, [2500, 6422])
     add_heading(doc, "5.1 Kommunikations- und Importregeln", 2)
     text_absatz(doc, "Ein internes Container- oder Pod-Netz ist keine ausreichende Sicherheitsgrenze. Kommunikationsbeziehungen werden standardmäßig verweigert und einzeln erlaubt. Inferenz-, Administrations-, Diagnose-, Metrik-, Cluster- und Zwischenspeicher-Schnittstellen bleiben vom normalen Netz getrennt.")
-    text_absatz(doc, "Identitäten, Git, Modelle, Dokumente, Suchvektoren, Indizes, Chats, Protokolle, Telemetrie und Sicherungen verbleiben lokal. Externe Artefakte gelangen ausschließlich über eine getrennte Prüfzone, kontrollierte Übertragung, lokale Registrierung und Freigabe in die Produktionsumgebung (Abbildung 2).")
+    text_absatz(doc, "Verarbeitungsorte, freigegebene Ziele und Datenarten werden nach dem IT-Sicherheitskonzept festgelegt. Eine Internet- oder IdP-Freigabe erlaubt noch keine externe KI. Lokal eingesetzte Modelle, Pakete und Erweiterungen durchlaufen die vorhandenen Software- und Importprüfungen; ihre Herkunft und Integrität bleiben nachvollziehbar (Abbildung 2).")
     füge_abbildung_hinzu(
         doc,
         ARTEFAKTIMPORT_ABBILDUNG,
-        "Abbildung 2: Nur geprüfte und freigegebene Artefakte erreichen die abgeschottete Produktionsumgebung.",
-        "Ein versionsfixiertes Artefakt aus einer offiziellen externen Quelle wird in einer getrennten Zone auf Herkunft, kryptografische Prüfsumme, Signatur, Schwachstellen, Lizenz und Schadsoftware geprüft. Nur freigegebene Artefakte gelangen kontrolliert in lokale Registrierungen, eine Testumgebung und nach einer Wiederholungsprüfung in die Produktion. Ablehnungen und Rückgriffe werden dokumentiert.",
+        "Abbildung 2: Artefakte durchlaufen bestehende Softwareprüfungen und eine ihrem Änderungsrisiko entsprechende Freigabe.",
+        "Ein Artefakt aus einer freigegebenen Quelle wird auf Herkunft, Version, Integrität und bekannte Risiken geprüft. Verfügbare Signaturen und bestehende Unternehmensprüfungen werden genutzt. Kontrollierte Bereitstellung und risikogerechte Tests führen zum zulässigen Betriebsstand. Eine Rückkehr bewahrt aktuelle Rechte und Löschstände.",
         breite_cm=14.0,
     )
 
@@ -1003,12 +1010,13 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
 
     add_heading(doc, "8 KI-Risiko- und Bedrohungsmodell", 1)
     add_heading(doc, "8.1 Bewertungsverfahren", 2)
-    methodik = text_absatz(doc, "Jedes Risiko wird als nachvollziehbares Szenario aus Ursache, betroffenem Wert und möglicher Auswirkung beschrieben. Danach werden Eintrittshäufigkeit und Schadenshöhe unter Berücksichtigung bereits wirksamer Maßnahmen eingeschätzt. Die Risikokategorie bestimmt die Behandlung. Nach Umsetzung und Prüfung zusätzlicher Maßnahmen wird das Restrisiko erneut eingestuft und einer verantwortlichen Entscheidung zugeführt.")
+    risikoregister = next(p for g in katalog['catalog']['groups'] for c in g['controls'] if c['id'] == 'ki-gov-003' for p in c['parts'] if p['name'] == 'risk-register')
+    methodik = text_absatz(doc, risikoregister['prose'])
     fußnotenmarke(
         methodik,
         vollzitat(quellen_nach_id["Q-BSI-2003-001"], "S. 5–7, S. 26–28 und S. 33–35"),
     )
-    text_absatz(doc, "Die Bewertung erfasst Eingaben, Modelle, Systemanweisungen, lokale Wissenssuche, Werkzeuge, Clients, Schnittstellen, Plattform, Protokolle und Importwege. Änderungen oder abgelaufene Prüffristen führen zurück in die vollständige Bewertung (Abbildung 3).")
+    text_absatz(doc, "Die Bewertung erfasst Eingaben, Modelle, Systemanweisungen, Wissenssuche, Werkzeuge, Clients, Schnittstellen, Plattform, Protokolle und Importwege. Wesentliche Änderungen, Vorfälle, neue Erkenntnisse oder erreichte Prüftermine führen zur erneuten Bewertung der betroffenen Risiken (Abbildung 3).")
     füge_abbildung_hinzu(
         doc,
         RISIKOBEWERTUNG_ABBILDUNG,
@@ -1022,30 +1030,26 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
     füge_abbildung_hinzu(
         doc,
         RISIKOMATRIX_ABBILDUNG,
-        "Abbildung 4: Die KI-spezifischen Maßnahmen senken alle hohen und sehr hohen Ausgangsrisiken auf höchstens mittel.",
+        "Abbildung 4: Ausgangs- und Restrisiken gelten unter den dokumentierten Umsetzungsannahmen.",
         "Vier mal vier Risikomatrix nach BSI-Standard 200-3. Die Spalten bilden die Eintrittshäufigkeit von selten bis sehr häufig ab, die Zeilen die Schadenshöhe von vernachlässigbar bis existenzbedrohend. Die Zellen nennen die Risikokategorie gering, mittel, hoch oder sehr hoch und verorten die Ausgangsrisiken mit A sowie die verbleibenden Risiken mit R.",
         breite_cm=15.8,
     )
     aufzählung(doc, [
         "Geringe Risiken dürfen durch die zuständige Rolle akzeptiert und überwacht werden.",
-        "Mittlere Risiken dürfen nur befristet, mit benannter Verantwortung, Maßnahmenplan und Prüftermin akzeptiert werden.",
-        "Hohe und sehr hohe Risiken sperren die Erstfreigabe oder den Weiterbetrieb, bis zusätzliche Maßnahmen nachweislich wirken.",
-        "Jede Akzeptanz nennt Begründung, Entscheidung, Gültigkeitsfrist und erneuten Bewertungsanlass.",
+        "Mittlere Restrisiken dürfen mit Begründung, Verantwortung und Prüftermin innerhalb der Unternehmensvorgaben akzeptiert werden; die Kategorie allein verlangt keinen zusätzlichen Maßnahmenplan oder pauschale Befristung.",
+        "Hohe und sehr hohe Restrisiken sperren die betroffenen Funktionen, sofern kein ausdrücklich genehmigter, befristeter Betrieb mit zusätzlichen Maßnahmen, Überwachung und Abbruchkriterien zulässig ist.",
+        "Akute Gefahren, unzulässige Verarbeitung, fehlende Berechtigungen und unverzichtbare KI-Abhängigkeiten erlauben keine Ausnahme. Nicht betroffene Arbeit bleibt möglich.",
+        "Jede Akzeptanz nennt Begründung, Verantwortung, Prüftermin und erneuten Bewertungsanlass; Befristungen folgen der Risikostufe, den Unternehmensregeln und der Entscheidung. Existenzbedrohende Folgen werden ausdrücklich auf zuständiger Leitungsebene behandelt.",
     ])
 
     add_heading(doc, "8.3 Risikoregister der Standardarchitektur", 2)
     text_absatz(doc, "Die Risikobewertung wird vor der Erstnutzung, mindestens jährlich sowie nach wesentlichen Änderungen, Sicherheitsvorfällen oder neuen Erkenntnissen wiederholt. Die folgende Bewertung gilt für die in diesem Konzept festgelegte Standardarchitektur und die vollständige Umsetzung der genannten Kontrollen.")
-    risiken = [
-        ("R-01", "Eine eingeschleuste Anweisung löst eine nicht erlaubte Werkzeugaktion aus.", "häufig × beträchtlich = hoch\n→ selten × beträchtlich = mittel", "Kontexttrennung, Werkzeugrichtlinie, konkrete Bestätigung und Negativtests; KI-PMT-001, KI-TOL-001, KI-THR-001."),
-        ("R-02", "Ein manipuliertes Modell, Containerabbild oder Paket wird übernommen.", "mittel × beträchtlich = mittel\n→ selten × beträchtlich = mittel", "Getrennte Importprüfung, Herkunftsnachweis, Signatur, Prüfsumme und Freigabe; KI-MOD-001, KI-TOL-002, KI-VAL-002."),
-        ("R-03", "Die lokale Wissenssuche gibt Inhalte ohne ausreichende Berechtigung aus.", "häufig × beträchtlich = hoch\n→ selten × beträchtlich = mittel", "Zugriffsprüfung bei Aufnahme und Abfrage, getrennte Indizes und Löschtests; KI-RAG-002, KI-RAG-003."),
-        ("R-04", "Eine direkte Inferenzschnittstelle umgeht Identitäts- und Zugriffsregeln.", "mittel × beträchtlich = mittel\n→ selten × beträchtlich = mittel", "Nur der kontrollierte KI-Zugang ist erreichbar; Rohschnittstellen bleiben abgeschottet; KI-API-001, KI-ARC-001."),
-        ("R-05", "Protokolle speichern mehr schutzbedürftige Inhalte als erforderlich.", "häufig × begrenzt = mittel\n→ selten × begrenzt = gering", "Trennung von Sicherheitsmetadaten und Inhaltsdaten, Minimierung, Zugriff und Löschung; KI-OPS-001."),
-        ("R-06", "Lange Kontexte oder Agentenschleifen erschöpfen lokale Rechenressourcen.", "häufig × beträchtlich = hoch\n→ mittel × begrenzt = gering", "Quoten, Zeitgrenzen, Warteschlangen, Prioritäten und sichere Beendigung; KI-THR-002."),
-        ("R-07", "Eine unzutreffende oder unsichere Ausgabe beeinflusst Entscheidungen oder Quellcode.", "sehr häufig × beträchtlich = sehr hoch\n→ selten × beträchtlich = mittel", "Fachliche Prüfung, sichere Weiterverarbeitung, menschliche Freigabe und Wirksamkeitstests; KI-OUT-001, KI-VAL-001."),
-        ("R-08", "Eine Ausweichverbindung überträgt Eingaben unbeabsichtigt an einen externen Dienst.", "mittel × existenzbedrohend = hoch\n→ selten × begrenzt = gering", "Deaktivierte externe Anbieter, gesperrter ausgehender Verkehr und negative Verbindungstests; KI-EXT-002, KI-ARC-002."),
-        ("R-09", "Ein Modell- oder Versionswechsel verschlechtert Sicherheit oder Ergebnisqualität.", "häufig × beträchtlich = hoch\n→ selten × beträchtlich = mittel", "Gebundene Freigabestände, Wiederholungsprüfungen und getestete Rückkehr zur Vorversion; KI-MOD-002, KI-VAL-002."),
-    ]
+    risiken = []
+    for risiko in risikoregister['parts']:
+        vorher = ' × '.join(prop(risiko, n)[0] for n in ('initial-likelihood', 'initial-impact')) + ' = ' + prop(risiko, 'initial-risk')[0]
+        nachher = ' × '.join(prop(risiko, n)[0] for n in ('residual-likelihood', 'residual-impact')) + ' = ' + prop(risiko, 'residual-risk')[0]
+        kontrollen = ', '.join(link['href'][1:].upper() for link in risiko['links'])
+        risiken.append((risiko['title'], risiko['prose'], vorher + '\n→ ' + nachher, teil(risiko, 'treatment') + '\n' + kontrollen))
     t = doc.add_table(rows=1, cols=4)
     t.style = "Table Grid"
     for i, wert in enumerate(("ID", "Risikoszenario", "Ausgangsrisiko → Restrisiko", "Behandlung und Kontrollen")):
@@ -1055,11 +1059,15 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id):
         for i, wert in enumerate(zeile):
             z[i].text = wert
     formatiere_tabelle(t, [700, 2500, 2100, 3622], zentrierte_spalten={0, 2})
+    for risiko in risikoregister['parts']:
+        add_heading(doc, risiko['title'] + ' – Annahmen und verbleibendes Risiko', 3)
+        text_absatz(doc, teil(risiko, 'assumptions'))
+        text_absatz(doc, teil(risiko, 'residual-reasoning'))
 
 
 def kapitel_neun(doc, katalog, quellen_nach_uuid):
     add_heading(doc, "9 KI-spezifische Sicherheitsmaßnahmen", 1)
-    text_absatz(doc, "Eine KI-Funktion darf nur freigegeben oder weiterbetrieben werden, wenn alle anwendbaren Anforderungen umgesetzt, geprüft und durch aktuelle Nachweise belegt sind. Abweichungen benötigen eine dokumentierte Behandlung und eine befristete, befugte Restrisikoentscheidung.")
+    text_absatz(doc, "Die anwendbaren Anforderungen werden im bestehenden Unternehmensprozess umgesetzt, geprüft und mit aktuellen Nachweisen belegt. Fehlende Maßnahmen und Restrisiken sind getrennt zu behandeln; Freigabe, Akzeptanz und ein gegebenenfalls befristeter Ausnahmebetrieb richten sich nach KI-GOV-003. Bedingte Anforderungen gelten nur bei der genannten Funktion oder Betriebsform.")
     for gruppenindex, gruppe in enumerate(katalog["catalog"]["groups"], start=1):
         add_heading(doc, f"9.{gruppenindex} {gruppe['title']}", 2)
         for control in gruppe.get("controls", []):
@@ -1127,47 +1135,50 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
 
 
 def kapitel_zehn_bis_dreizehn(doc, katalog):
-    add_heading(doc, "10 Lokale Wissenssuche, Dateiübernahmen und Daten", 1)
-    text_absatz(doc, "Fachwissen verbleibt außerhalb der Modellgewichte. Die lokale Wissenssuche und zeitlich begrenzte lokale Dateiübernahmen sind die einzigen vorgesehenen Zuführungswege. Dateien durchlaufen Quarantäne, Schadsoftware- und Typprüfung sowie eine isolierte Auswertung. Herkunft, Eigentümer, Schutzbedarf und Zugriffsregeln bleiben an allen abgeleiteten Daten erhalten.")
-    text_absatz(doc, "Aufnahme und Abfrage sind getrennte Wege. Vor der Aufnahme und erneut bei jeder Abfrage wird die Berechtigung anhand der aktuellen Identität geprüft. Nur freigegebene Treffer gelangen in den Kontext der lokalen Inferenz; eine Löschung erfasst Quelle, Ableitungen, Index, Zwischenspeicher und Sicherungskette (Abbildung 5).")
+    add_heading(doc, "10 Wissenssuche, persönliche Speicherung und Beiträge", 1)
+    text_absatz(doc, "Dokumente unterliegen den normalen Qualitäts-, Konfigurations- und Freigabeprozessen. Die Freigabe eines Datenbereichs für KI-Wissensarbeit kann seine Dokumente umfassen; technische Lesbarkeit allein genügt nicht. Freigegebene Inhalte werden unter Wahrung von Zweck, Herkunft und Rechten aufbereitet. Persönliche Dateien, Ergebnisse und Verläufe dürfen auf verwalteten Endgeräten und in persönlichen Arbeitsbereichen nach den normalen Regeln gespeichert werden.")
+    text_absatz(doc, "Unternehmenswissen aus persönlicher Agentenarbeit ist eine optionale, standardmäßig ausgeschaltete Funktion. Bei der ersten Nutzung und bei jedem neuen Agentenprojekt wird nach verständlicher Information über Umfang, Zweck, Ziel, Empfänger und die Behandlung bestehender Beiträge eine ausdrückliche Entscheidung eingeholt. Erstnutzung und erstes Projekt können gemeinsam abgefragt werden. Ablehnung lässt die gewöhnliche KI-Arbeit unverändert möglich; gewöhnliche Chatbot-Dialoge werden nicht automatisch übernommen.")
+    text_absatz(doc, "Bei aktiver Übernahme bleiben Zustand und Umfang sichtbar. Neue Beiträge können jederzeit gestoppt werden. Bestehende Beiträge bleiben nach den vorher erläuterten Nutzungs- und Aufbewahrungsregeln behandelt; ein Stopp löst keine automatische Bestandslöschung aus. Entfällt eine Berechtigung oder zulässige Nutzung, wird der Zugriff unabhängig davon gesperrt. Ohne verlässliche Zustimmung, sichtbaren Status und Rechteübernahme bleibt die optionale Beitragsfunktion aus.")
     füge_abbildung_hinzu(
         doc,
         RAG_ABBILDUNG,
-        "Abbildung 5: Aufnahme, berechtigte Abfrage und vollständige Löschung bleiben technisch getrennt.",
-        "Freigegebene Dokumente oder lokale Dateiübernahmen durchlaufen Quarantäne, isolierte Aufbereitung, Herkunfts- und Zugriffsmetadaten, Aufteilung in Textabschnitte und lokale Erzeugung von Suchvektoren. Bei einer identifizierten Anfrage werden die Zugriffsrechte erneut geprüft. Nur freigegebene und neu sortierte Treffer gelangen zur lokalen Inferenz. Die Löschung erfasst Quelle, Ableitungen, Index, Zwischenspeicher und Sicherungskette.",
+        "Abbildung 5: Freigegebene Bestände und freiwillige Beiträge wahren Zweck, Rechte und geregelte Datenbehandlung.",
+        "Freigegebene Unternehmensbestände können regulär aufgenommen werden. Persönliche Arbeit bleibt zunächst persönlich; nur mit ausdrücklicher Projektentscheidung, sichtbarem Status und zulässigen Rechten führt der optionale Beitragsweg zur Aufnahme. Geprüfte Quellen und Ableitungen werden bei jeder Abfrage berechtigungsbezogen gefiltert. Zugriffssperren, physische Löschfristen und Sicherungsbehandlung sind getrennt; ein Beitragsstopp beendet neue Beiträge.",
         breite_cm=15.0,
     )
     aufzählung(doc, [
         "Suchvektoren, Textabschnitte, Indizes, Zwischenspeicher und Daten zur Neusortierung erhalten mindestens den Schutzbedarf der Quelldaten.",
         "Das Sprachmodell und Systemanweisungen treffen keine Zugriffsentscheidung.",
-        "Bedarfsgesteuerte Dateiübernahmen bleiben ohne ausdrückliche Genehmigung einer dauerhaften Ablage sitzungsbezogen.",
+        "Eine Zustimmung erweitert keine Rechte: geschützte Personal- oder Kundendaten werden auch über Zusammenfassungen keinem größeren Empfängerkreis zugänglich.",
         "Ausgaben weisen verwendete Quellen und konkrete Fundstellen nachvollziehbar aus.",
         "Löschung umfasst Onlinekopien, Ableitungen, Zwischenspeicher und den geregelten Ablauf in Sicherungsketten.",
     ])
-    text_absatz(doc, "Indexierung und die Erzeugung von Suchvektoren ändern keine Modellgewichte. Training, Feinabstimmung und jede lernende Rückkopplung aus Chats, Dateiübernahmen oder Wissensbeständen bleiben technisch und organisatorisch ausgeschlossen.")
+    text_absatz(doc, "RAG-Indexierung und Wissensbeiträge ändern keine Modellgewichte. Training und Feinabstimmung bleiben ausgeschlossen. Das Abrufen vorhandenen Wissens ist keine Erlaubnis, neue Interaktionen in den Bestand zu schreiben. Eine Modellzusammenfassung belegt keine sichere Anonymisierung; unklare Rechte oder Zwecke verhindern automatische Aufnahme.")
 
     add_heading(doc, "11 Agentische Anwendungen und lokale Entwicklungsumgebungen", 1)
-    text_absatz(doc, "Agentische Clients wie Cline- oder OpenCode-artige Werkzeuge sind Produktbeispiele. Sie greifen ausschließlich über den lokalen HTTPS-Zugang auf freigegebene Modelle zu. Lokale Git-, Paket- und Entwicklungsdienste bleiben in der Organisationsumgebung.")
-    text_absatz(doc, "Eine Modellausgabe löst keine unmittelbare Werkzeugaktion aus. Werkzeugrichtlinie, Prüfung der möglichen Wirkung, konkrete menschliche Bestätigung und eine minimal berechtigte Ausführungsumgebung bilden voneinander unabhängige Schranken (Abbildung 6).")
+    text_absatz(doc, "Agentische Clients nutzen freigegebene Modelle, Entwicklungsdienste und Arbeitsbereiche. Codebearbeitung, Analyse, Tests, Lesen und Erzeugen von Dateien können im genehmigten Aufgaben- und Berechtigungsumfang selbstständig erfolgen. Vorhandene Unternehmensanmeldung, Qualitätssicherung und Konfigurationsverwaltung gelten auch hier.")
+    text_absatz(doc, "Werkzeugprofile und wirksame Zugriffsgrenzen prüfen Modellvorschläge unabhängig vom Modell. Löschungen und andere destruktive Aktionen benötigen nur dann keine Einzelgenehmigung, wenn der Nutzer Änderungen und maßgebliche Folgen schnell, einfach und zuverlässig rückgängig machen kann und kein erheblicher Schaden zu erwarten ist. Fehlt diese Möglichkeit, wird jede Löschung und destruktive Tätigkeit konkret genehmigt. Kritische, privilegierte und nicht rückgängig zu machende Wirkungen bleiben genehmigungspflichtig (Abbildung 6).")
     füge_abbildung_hinzu(
         doc,
         AGENTEN_ABBILDUNG,
-        "Abbildung 6: Eine Werkzeugaktion benötigt Richtlinienprüfung, begrenzte Rechte und bei erhöhter Wirkung eine konkrete Bestätigung.",
-        "Eine identifizierte Person nutzt einen lokal begrenzten agentischen Client über den lokalen KI-Zugang. Der Vorschlag einer Werkzeugaktion wird gegen die Werkzeugrichtlinie geprüft. Schreib-, Befehls-, Netzwerk- oder destruktive Aktionen benötigen eine konkrete menschliche Bestätigung und laufen nur in einer minimal berechtigten Ausführungsumgebung. Blockierte und ausgeführte Aktionen gelangen in das lokale Prüfprotokoll.",
+        "Abbildung 6: Routineaktionen folgen dem Arbeitsprofil; nicht beherrschbare Wirkungen benötigen konkrete Genehmigung.",
+        "Eine Modellaktion wird gegen Auftrag, Profil und Berechtigung geprüft. Erlaubte Routineaktionen können selbstständig ausgeführt werden. Kritische, privilegierte oder irreversible Wirkungen sowie Löschungen und destruktive Aktionen ohne schnelle einfache Wiederherstellung benötigen konkrete Genehmigung. Unzulässige Aktionen werden abgewiesen. Ausführung und Entscheidung werden datensparsam zugeordnet.",
         breite_cm=15.5,
     )
     aufzählung(doc, [
         "Arbeitsbereichs- und Dateirechte sind minimal und überschreiten weder Projekt noch genehmigten Zweck.",
         "Lesen, Schreiben, Befehlsausführung und Netzwerkzugriff sind getrennte Fähigkeiten.",
-        "Kritische, destruktive, privilegierte oder externe Aktionen benötigen eine konkrete menschliche Bestätigung.",
+        "Versionierung oder Wiederherstellungspunkte müssen praktisch nutzbar sein und die betroffenen Daten und Folgen abdecken.",
         "Eingeschleuste Anweisungen aus Quellcode, Dokumenten, Webseiten und Werkzeugausgaben dürfen keine Rechte erweitern.",
-        "Plug-ins, MCP-Server, Erweiterungen und Pakete stammen aus kontrollierten lokalen Quellen und sind versionsfixiert.",
-        "Werkzeugaufrufe werden identitätsbezogen, nachvollziehbar und datensparsam lokal protokolliert.",
+        "Übertragungen in freigegebene Codeablagen können zum Routineprofil gehören; das Zurücksetzen von Code macht eine Offenlegung oder bereits ausgelöste Veröffentlichung nicht rückgängig.",
+        "Erweiterungen und Werkzeugprotokolle folgen dem bestehenden Software- und Sicherheitsprozess.",
     ])
 
     add_heading(doc, "12 Betrieb, Änderung, Modellwechsel, Vorfälle und Außerbetriebnahme", 1)
-    text_absatz(doc, "Der Betrieb verbindet den freigegebenen Systemstand, lokale Protokollierung, zentrale Sicherheitsauswertung (SIEM), Qualitäts- und Sicherheitskennzahlen, Beobachtung schleichender Verhaltensänderungen, Kapazitätsgrenzen und den allgemeinen Vorfallprozess. Der reine technische Betrieb belegt weder korrekte Berechtigungen noch Ergebnisqualität, Datenlöschung oder Wiederherstellbarkeit.")
-    text_absatz(doc, "Jede Änderung an Modell, Modellkomprimierung, Laufzeit, Systemanweisung, lokaler Wissenssuche, Suchvektoren, Treffer-Neusortierung, kontrolliertem KI-Zugang, Werkzeugen oder Sicherheitsparametern löst eine risikobasierte Wiederholungsprüfung und Wiederfreigabe aus. Vorherige geprüfte Kombinationen bleiben für eine kontrollierte Rückkehr verfügbar. Wiederanlaufprüfungen erfolgen ohne Internetzugang und umfassen Prüfsummen, Richtlinien, Zugriffsregeln und Kernbewertungen.")
+    text_absatz(doc, "Betrieb, datensparsame Protokollierung, Überwachung, Datensicherung und Vorfallbehandlung folgen dem allgemeinen IT-Sicherheitskonzept. Routineänderungen verwenden vorab freigegebene Änderungsprofile; wesentliche Änderungen an Modellen, Rechten, Datenflüssen oder Sicherheitsfunktionen erhalten eine gezielte Neubewertung. Wiederholte Qualitätsbewertungen berücksichtigen die Streuung von Modellausgaben. Verfügbare Modell- und Anbieterstände sowie Grenzen ihrer Fixierbarkeit werden dokumentiert.")
+    text_absatz(doc, "Alle Tätigkeiten bleiben auch bei längerem KI-Ausfall ohne KI möglich. Benötigte Daten, Zugänge, Anwendungen und Kenntnisse sind unabhängig verfügbar; geringere Geschwindigkeit oder Qualität bleibt innerhalb der geltenden Mindestanforderungen zulässig. Ressourcenisolation verhindert, dass KI-Überlastung die übrige IT blockiert. Reparatur und Wiederaufnahme erfolgen im normalen IT-Betrieb, ohne dass die Weiterarbeit auf einen Reparaturtermin wartet.")
+    text_absatz(doc, "Ein Ersatzschlüssel für einen bereits freigegebenen Dienst kann einen Anmeldefehler beheben, nicht dessen Anbieterausfall. Ein gleich eingerichteter Ersatzserver oder ein freigegebenes Ersatzmodell kann genutzt werden. Ein eigenes KI-Notfallkonzept, verpflichtende Doppelhardware oder eine besondere KI-Wiederanlaufzeit wird nicht verlangt. Wiederherstellung bewahrt aktuelle Rechte, Sperren und Löschstände.")
+    text_absatz(doc, "Automatische Zielwechsel sind nur innerhalb bereits freigegebener Ausweichprofile erlaubt. Weitere lokale Modelle oder ausdrücklich freigegebene externe KI können darin enthalten sein. Allgemeine Internetnutzung ist keine zusätzliche KI-Freigabe. Ohne zulässiges Ziel erfolgt die Weiterarbeit ohne KI; Ausweichmodelle sind optional.")
     text_absatz(doc, "Bei Außerbetriebnahme werden Identitäten, Zertifikate, Geheimnisse, Endpunkte, automatisierte Aufgaben, Modelle, Daten, Indizes und Zwischenspeicher behandelt. Erforderliche Prüfnachweise bleiben entsprechend der Aufbewahrungsfrist erhalten; unzulässige Restkopien und Erreichbarkeit müssen durch Nachtests ausgeschlossen werden.")
 
     add_heading(doc, "13 Nachweis-, Prüf- und Zuordnungsübersicht", 1)
@@ -1243,7 +1254,7 @@ def erzeuge_docx(ziel):
     register = lade_json(REGISTER_PFAD)
     status = lade_json(STATUS_PFAD)
     version = katalog["catalog"]["metadata"]["version"]
-    stichtag = register["stichtag"]
+    stichtag = katalog["catalog"]["metadata"]["last-modified"][:10]
     kennzeichnung = NICHT_ÖFFENTLICH if status["organisationsspezifisch"] else ÖFFENTLICH
     if status["modelltraining"] or status["feinabstimmung"]:
         raise SystemExit("Dokumenterzeugung abgebrochen: Training und Feinabstimmung sind unzulässig.")
@@ -1254,19 +1265,19 @@ def erzeuge_docx(ziel):
     richte_stile_ein(doc)
     richte_seiten_ein(doc, version, kennzeichnung)
     eigenschaften = doc.core_properties
-    eigenschaften.title = "Allgemeines KI-IT-Sicherheitskonzept"
+    eigenschaften.title = "KI-IT-Sicherheitskonzept" if status['organisationsspezifisch'] else "Allgemeines KI-IT-Sicherheitskonzept"
     eigenschaften.subject = kennzeichnung
     eigenschaften.keywords = "KI, Informationssicherheit, OSCAL, RAG, lokale Inferenz"
     eigenschaften.author = ""
     eigenschaften.last_modified_by = ""
-    eigenschaften.comments = "Öffentliche organisationsneutrale Konzeptfassung"
+    eigenschaften.comments = kennzeichnung
 
     # editorial_cover: zurückhaltendes, zentriertes Deckblatt ohne Logos oder Amtsanmutung.
     for _ in range(4):
         doc.add_paragraph()
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run("ALLGEMEINES\nKI-IT-SICHERHEITSKONZEPT")
+    run = p.add_run("KI-IT-SICHERHEITSKONZEPT" if status['organisationsspezifisch'] else "ALLGEMEINES\nKI-IT-SICHERHEITSKONZEPT")
     run.bold = True
     run.font.name = "Calibri"
     run.font.size = Pt(24)
@@ -1274,7 +1285,7 @@ def erzeuge_docx(ziel):
     setze_absatzformat(p, danach=20)
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run("Sicherheitskonzept für vollständig lokale KI-Infrastrukturen")
+    run = p.add_run("Unternehmensintegrierte KI mit bevorzugter lokaler Inferenz")
     run.font.size = Pt(14)
     run.font.color.rgb = RGBColor.from_string(DUNKELGRAU)
     setze_absatzformat(p, danach=26)
@@ -1291,7 +1302,7 @@ def erzeuge_docx(ziel):
     inhaltsverzeichnis(doc)
     quellen_nach_uuid = {q["oscal_uuid"]: q for q in register["quellen"]}
     quellen_nach_id = {q["id"]: q for q in register["quellen"]}
-    kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id)
+    kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id, katalog)
     kapitel_neun(doc, katalog, quellen_nach_uuid)
     kapitel_zehn_bis_dreizehn(doc, katalog)
     kapitel_vierzehn(doc, register)

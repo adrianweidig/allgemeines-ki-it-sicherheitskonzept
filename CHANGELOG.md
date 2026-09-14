@@ -2,6 +2,19 @@
 
 Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vor dem ersten fachlichen Entwurf existiert ausschließlich der Bootstrap des Repositorys.
 
+## 0.2.0 – 14.09.2026
+
+- Layoutgrenzen für Diagramme und Tabellenköpfe abgesichert; Standardpfade des Word-Exports erst im Skriptkörper aufgelöst. 29 Tests und vollständige Seitenprüfung im [Prüfprotokoll](dokumentation/PRÜFPROTOKOLL-0.2.0.md) dokumentiert.
+
+- OSCAL-Dokumentinstanzen erhalten gemäß NIST neue, voneinander getrennte UUIDs und den tatsächlichen Änderungszeitpunkt; die stabilen Kontroll-, Quellen- und Abschnittskennungen bleiben erhalten. [NIST-Dokumentstruktur und Revisionsregeln](https://pages.nist.gov/OSCAL/learn/concepts/layer/overview/)
+
+- A01–A11 und P01–P12 in allen 38 Kontrollen, Konzepttexten und sechs Diagrammen umgesetzt: Unternehmensintegration, reguläre Qualitätssicherung, autonome Routinearbeit mit wirksamer Wiederherstellung, freiwillige Wissensbeiträge und uneingeschränkte Weiterarbeit ohne KI.
+- Neun Ausgangs- und Restrisiken einschließlich Maßnahmen, Annahmen und Begründung im Katalog unter `ki-gov-003-risk-register` geführt. Konzept und Risikomatrix werden daraus abgeleitet.
+- Bedingte Anwendbarkeit konkretisiert; `KI-EXT-002` schützt auch ohne externe Inferenz vor unzulässigen Ausweichzielen. Mittlere Akzeptanz und befristete hohe Ausnahmen getrennt geregelt.
+- Migrationshinweis: Die 38 Kontroll-IDs, Quellen-IDs und 228 bisherigen Abschnitts-IDs bleiben erhalten. Neue Risiko-IDs `r-01` bis `r-09` und untergeordnete Abschnitte ergänzen sie. Das Statusfeld `betriebsmodell` lautet jetzt `unternehmensintegriert`; externe Inferenz bleibt im Standard deaktiviert.
+- Eigene OSCAL-Eigenschaften und Abschnittsnamen verwenden den Namensraum `https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal`. Standardnamen bleiben im OSCAL-Namensraum. Verbraucher müssen `ns` berücksichtigen und unbekannte Erweiterungen erhalten.
+- Index, Übernahmeleitfaden, Arbeitsregeln und Validierung auf den neuen Stand abgestimmt. Der fachliche Stichtag folgt der Katalogfassung; historische Quellenprüfdaten werden nicht vorgetäuscht aktualisiert.
+
 ## Dokumentationsüberarbeitung – 14.09.2026
 
 - A11 festgehalten: Jede betriebliche Tätigkeit bleibt auch bei längerem KI-Ausfall ausführbar; Reparatur und Wiederherstellung erfolgen über reguläre IT-Verfahren. R-06 und die Kontrollzuordnung entsprechend präzisiert; eine Ausnahme nach A10 hebt diese Voraussetzung nicht auf.

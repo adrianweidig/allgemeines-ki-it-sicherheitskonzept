@@ -8,7 +8,7 @@ Dieses Repository enthält ausschließlich eine öffentliche, organisationsneutr
 
 - Der veröffentlichte Status lautet `ÖFFENTLICH – organisationsneutrale Referenzvorlage`.
 - Organisationsdaten, reale Hostnamen, IP-Adressen, Domänen, Konten, interne Schwachstellen, Geheimnisse und eingestufte Inhalte sind verboten.
-- Vor einer organisationsspezifischen Anpassung ist eine getrennte Offline-Fassung anzulegen und `organisationsspezifisch` auf `true` zu setzen.
+- Vor einer organisationsspezifischen Anpassung ist eine getrennte, angemessen geschützte Fassung anzulegen und `organisationsspezifisch` auf `true` zu setzen. Ein privates Repository ist nur bei ausdrücklicher Freigabe des Eigentümers zulässig; kein öffentlicher Fork und keine Rückübertragung privater Inhalte.
 - Training, Feinabstimmung, selbsttätiges Lernen und produktive Änderungen von Modellgewichten bleiben ausgeschlossen.
 - Externe Inferenz ist im Standardmodell deaktiviert.
 - `quellen/lokale-eingaben/` bleibt vollständig von Git ausgeschlossen.
@@ -17,11 +17,12 @@ Dieses Repository enthält ausschließlich eine öffentliche, organisationsneutr
 
 - Einstieg für die Recherche ist `dokumentation/INHALTSINDEX.md`. Von dort über Entscheidungs-, Risiko-, Kontroll- und Quellenkennungen zur maßgeblichen Stelle navigieren; Seiten- und Zeilennummern sind nur ergänzende Orientierung.
 - Kontrollabschnitte besitzen stabile OSCAL-IDs nach dem Muster `ki-gov-003-statement`. Fachliche Texte nur in ihrer maßgeblichen Quelle pflegen; Index und Querverweise bei jeder betroffenen Änderung mitführen und validieren.
-- Beschluss und Umsetzung getrennt kennzeichnen. Die Praxisprüfung enthält bestätigte Vorgaben und offene Empfehlungen; ein Navigationsverweis im Katalog setzt diese nicht als Anforderung in Kraft.
+- Beschluss und Umsetzung getrennt kennzeichnen. Die Praxisprüfung dokumentiert die Entscheidungshistorie; der Inhaltsindex nennt den aktuellen Übernahmestand. Ein Navigationsverweis allein begründet keine neue Anforderung.
 
-- Der OSCAL-Katalog ist die normative Quelle. Keine zusätzliche Muss-Anforderung ausschließlich im DOCX ergänzen.
+- Der OSCAL-Katalog ist die normative Quelle. Keine zusätzliche Muss-Anforderung ausschließlich im DOCX ergänzen. Auch die neun Risikobewertungen liegen dort unter `ki-gov-003-risk-register`; Text und Risikomatrix werden daraus abgeleitet. Eigene OSCAL-Namen verwenden den dokumentierten Projektnamensraum.
 - Das Konzept beschreibt den vorgesehenen Sollzustand wie eine reale Konzeptfassung. Anpassungs-, Redaktions- und Übernahmehinweise gehören ausschließlich in README und `dokumentation/ÜBERNAHMELEITFADEN.md`.
 - Jede Kontrolle benötigt Anforderung, Begründung, Umsetzung, Prüfziel, Nachweis, Anwendbarkeit und konkrete öffentliche Fundstelle.
+- Bei einer inhaltlichen Katalogrevision die Dokument-UUID neu erzeugen und `metadata.last-modified` auf den tatsächlichen Speicherzeitpunkt setzen.
 - Quellen-IDs und Kontroll-IDs bleiben stabil. Änderungen erfordern Migrationshinweis und Changelog-Eintrag.
 - ISO-Inhalte nur als öffentliche Kennungen und Metadaten referenzieren; keine proprietären Normentexte übernehmen.
 - Empfehlungen dürfen nur mit dokumentierter KI-Risikobegründung zu projektinternem `MUSS` verschärft werden.

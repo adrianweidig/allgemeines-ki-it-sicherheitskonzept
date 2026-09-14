@@ -1,37 +1,45 @@
 @startuml
-top to bottom direction
-
 skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
-skinparam roundCorner 14
 skinparam defaultFontName Arial
-skinparam defaultFontSize 13
+skinparam defaultFontSize 14
 skinparam ArrowColor #446B8C
-skinparam ArrowFontColor #334A5E
-skinparam ArrowFontSize 11
-skinparam rectangle {
+skinparam activity {
+  BackgroundColor #E8EEF5
   BorderColor #7890A5
-  BackgroundColor #F7F9FB
   FontColor #203040
 }
-
-rectangle "**1 · KONTROLLIERTE AUFNAHME**\nFreigegebene Quelle oder lokale Dateiübernahme\nQuarantäne · Dateityp · Größe · Schadsoftware" as aufnahme
-rectangle "**2 · ISOLIERTE AUFBEREITUNG UND INDEXIERUNG**\nDateiauswertung / Texterkennung · Herkunft · Eigentümer · Klassifikation · Zugriffsrechte\nTextabschnitte · lokale Suchvektoren · geschützter Index" as index #E8EEF5
-rectangle "**3 · IDENTIFIZIERTE LOKALE ANFRAGE**" as anfrage
-rectangle "**ENTSCHEIDUNG**\nZugriffsrecht bei Abfrage erfüllt?" as acl #E8EEF5
-rectangle "**4 · SUCHE UND NEUSORTIERUNG**\nnur freigegebene Treffer" as retrieval
-rectangle "**5 · LOKALE INFERENZ**\nbegrenzter Kontext\nAusgabe mit nachvollziehbaren Quellenangaben" as inferenz #EAF2EA
-rectangle "**ABWEISUNG**\nKein Zugriff" as abweisung #FBEEEE
-rectangle "**GEREGELTE LÖSCHUNG**\nQuelle · Extrakt · Index · Zwischenspeicher\nAblauf in Sicherungsketten" as loeschung #F5F1F3
-
-aufnahme -down-> index
-index -down-> acl : Index und Metadaten
-anfrage -down-> acl
-acl -down-> retrieval : ja
-acl -[#9B3D3D]-> abweisung : nein
-retrieval -down-> inferenz
-aufnahme -[#9A8791,dashed]right-> loeschung : Frist oder Widerruf
-loeschung -[#9B3D3D,dashed]-> index : vollständig entfernen
-
+skinparam rectangle {
+  BackgroundColor #E8EEF5
+  BorderColor #7890A5
+  FontColor #203040
+}
+start
+:Freigegebener Unternehmensbestand
+oder persönliche Arbeitsunterlagen;
+:Persönliche Speicherung bleibt erlaubt
+Beiträge sind standardmäßig aus;
+if (Persönlicher Beitrag ohne
+Zustimmung bei Erstnutzung und
+je Projekt oder ohne sichtbaren Zustand?) then (ja)
+  :Keine Aufnahme
+Normale KI-Arbeit bleibt möglich;
+  stop
+else (nein)
+endif
+if (Zweck und Quellrechte geklärt?) then (nein)
+  :Keine automatische Aufnahme;
+  stop
+else (ja)
+endif
+:Kontrollierte Aufnahme und Aufbereitung
+Herkunft und Rechte an allen Ableitungen;
+:Berechtigungsprüfung bei jeder Abfrage
+Nur berechtigte Treffer an das Modell;
+:Sperren und Löschung geregelt behandeln
+Auch Ableitungen und Sicherungen;
+:Beitragsstopp beendet neue Beiträge
+Bestehende folgen den erläuterten Regeln;
+stop
 @enduml

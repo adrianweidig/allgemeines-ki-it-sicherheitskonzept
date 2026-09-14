@@ -1,40 +1,35 @@
 @startuml
-top to bottom direction
-
 skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
-skinparam roundCorner 14
 skinparam defaultFontName Arial
-skinparam defaultFontSize 13
+skinparam defaultFontSize 14
 skinparam ArrowColor #446B8C
-skinparam ArrowFontColor #334A5E
-skinparam ArrowFontSize 11
-skinparam rectangle {
+skinparam activity {
+  BackgroundColor #E8EEF5
   BorderColor #7890A5
-  BackgroundColor #F7F9FB
   FontColor #203040
 }
-
-rectangle "Offizielle externe Quelle\nversionsfixiertes Artefakt" as quelle
-rectangle "**GETRENNTE PRÜFZONE**\nHerkunft · Version · Prüfsumme · Signatur\nKomponentenliste · Schwachstellen · Lizenz · Schadsoftware" as pruefung #E8EEF5
-rectangle "**ENTSCHEIDUNG**\nFreigabekriterien erfüllt?" as kriterien #E8EEF5
-rectangle "Kontrollierter Transfer\nund lokale Registrierungen\nÜbertragungsnachweis · freigegebene Artefakte" as transfer
-rectangle "Lokale Test- und Spiegelumgebung\nWiederholungsprüfung · Sicherheits- und Funktionstest" as test
-rectangle "**ENTSCHEIDUNG**\nFreigabe bestanden?" as freigabe #E8EEF5
-rectangle "Abgeschottete\nProduktionsumgebung" as produktion #EAF2EA
-rectangle "Versionierter Rückgriff\nauf letzte Freigabe" as rueckfall #F5F1F3
-rectangle "**ABWEISUNG**\nBefund dokumentieren" as abweisen #FBEEEE
-
-quelle -down-> pruefung
-pruefung -down-> kriterien
-kriterien -right-> transfer : ja
-kriterien -[#9B3D3D]down-> abweisen : nein
-transfer -down-> test
-test -down-> freigabe
-freigabe -right-> produktion : ja
-freigabe -[#9B3D3D]left-> abweisen : nein
-produktion -[#9A8791,dashed]down-> rueckfall : Rückfall
-rueckfall -[#9A8791,dashed]up-> produktion : erneute Freigabe
-
+skinparam rectangle {
+  BackgroundColor #E8EEF5
+  BorderColor #7890A5
+  FontColor #203040
+}
+start
+:Freigegebene Bezugsquelle\nNachvollziehbare Artefaktversion;
+:Bestehende Softwareprüfung\nHerkunft · Integrität · bekannte Risiken\nVerfügbare Signaturen prüfen;
+if (Prüfkriterien verletzt?) then (ja)
+  :Abweisen und Befund behandeln;
+  stop
+else (nein)
+endif
+:Kontrollierte Bereitstellung\nRisikogerechte Änderungstests;
+if (Erforderliche Prüfung bestanden?) then (nein)
+  :Abweisen und Befund behandeln;
+  stop
+else (ja)
+endif
+:Freigegebener Betriebsstand;
+:Bei Bedarf: zulässige Wiederherstellung\nAktuelle Rechte und Löschstände wahren;
+stop
 @enduml

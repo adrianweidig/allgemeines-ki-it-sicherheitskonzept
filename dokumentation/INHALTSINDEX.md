@@ -2,7 +2,7 @@
 
 Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlichen Sicherheitsanforderungen. Alle Pfade gelten innerhalb der jeweiligen Repository-Fassung; private Informationen werden nicht mit der öffentlichen Referenz verknüpft.
 
-**Stand:** Fachtexte von Katalog und DOCX/PDF: Version 0.1.0. A01–A08, A10 und A11 sind beschlossen, ihre fachliche Übernahme ist noch offen. A09 zur Auffindbarkeit ist umgesetzt. Die neuen Bewertungen R-01–R-09 stehen noch zur Abstimmung; R-06 berücksichtigt bereits die verbindliche Weiterarbeit ohne KI aus A11. Die ursprünglichen Empfehlungen P01–P12 sind zusammen mit den späteren Entscheidungen zu lesen; bestätigte Entscheidungen haben für die Überarbeitung Vorrang.
+**Stand:** Version 0.2.0. A01–A11 und P01–P12 sind fachlich übernommen. Die neun begründeten Planungsbewertungen liegen verbindlich im OSCAL-Katalog; DOCX/PDF und Risikomatrix werden daraus abgeleitet. Dies ist kein Nachweis einer bereits geprüften Unternehmensumsetzung. Die Praxisprüfung dokumentiert den historischen Ausgangspunkt und die beschlossenen Änderungen.
 
 ## Maßgebliche Dateien
 
@@ -10,15 +10,16 @@ Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlich
 |---|---|
 | Anforderungen, Begründung, Umsetzung, Prüfziel, Nachweise | [OSCAL-Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), `catalog.groups[].controls[]`, Auswahl über `id` |
 | Einzelner Kontrollabschnitt | `parts[].id`, beispielsweise `ki-gov-003-statement`; Zuordnung unten |
-| Beschlossene Vorgaben und offene Empfehlungen | [Praxisprüfung](PRAXISPRÜFUNG-2026-09-14.md#entscheidungen), A- und P-Kennungen |
-| Vorgeschlagene Ausgangs- und Restrisiken | [Vorbereitete Risikobewertungen](PRAXISPRÜFUNG-2026-09-14.md#risikobewertungen), R-01–R-09 |
+| Beschlüsse und historische Empfehlungen | [Praxisprüfung](PRAXISPRÜFUNG-2026-09-14.md#entscheidungen), A- und P-Kennungen |
+| Verbindliche Ausgangs- und Restrisiken | [OSCAL-Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), `ki-gov-003-risk-register`, darin `r-01` bis `r-09`; [Entscheidungshistorie](PRAXISPRÜFUNG-2026-09-14.md#risikobewertungen) |
 | Abgleich mit den normalen IT-Sicherheitsprozessen | [Zuordnung aller 38 Kontrollen](PRAXISPRÜFUNG-2026-09-14.md#basisprozesse) |
 | Derzeitige Konzeptfassung | [DOCX](../konzept/ki-it-sicherheitskonzept.docx) und [PDF](../konzept/ki-it-sicherheitskonzept.pdf); Kapitel und Kontroll-IDs verwenden |
-| Konzeptaufbau und derzeitiges Risikoregister | [Dokumentgenerator](../validierung/erzeuge_dokumente.py), `kapitel_eins_bis_acht`, `kapitel_neun`, `kapitel_zehn_bis_dreizehn` |
+| Dokumentableitung aus dem Katalog | [Dokumentgenerator](../validierung/erzeuge_dokumente.py), `kapitel_eins_bis_acht`, `kapitel_neun`, `kapitel_zehn_bis_dreizehn` |
 | Öffentliche Belege | [Quellenregister](../quellen/quellenregister.json), `quellen[].id` und `oscal_uuid`; Verknüpfung über `controls[].links[].href` und `catalog.back-matter.resources[].uuid` |
 | Architektur, Datenflüsse, Entscheidungen | [Diagrammübersicht](../diagramme/README.md) und dort verlinkte PlantUML-Quellen |
 | Bearbeitungsregeln und Gestaltung | [AGENTS.md](../AGENTS.md), [Layoutregeln](LAYOUTREGELN.md), [Übernahmeleitfaden](ÜBERNAHMELEITFADEN.md) |
 | Historie und Migration | [Änderungsprotokoll](../CHANGELOG.md) und Git-Historie |
+| Prüfstand und bekannte Prüfgrenzen | [Prüfprotokoll 0.2.0](PRÜFPROTOKOLL-0.2.0.md) |
 
 Die sechs Pflichtabschnitte jeder Kontrolle sind dauerhaft adressierbar:
 
@@ -39,23 +40,23 @@ Die native Abbildung über `id` und `links` richtet sich nach der [NIST-Referenz
 
 | ID | Beschlossener Inhalt | Umsetzung |
 |---|---|---|
-| [A01](PRAXISPRÜFUNG-2026-09-14.md#a01) | Realistische Maßnahmen und vollständig begründete Referenzrisiken | Fachliche Übernahme offen |
-| [A02](PRAXISPRÜFUNG-2026-09-14.md#a02) | Selbstständige Projektarbeit mit schneller, einfacher Wiederherstellung | Fachliche Übernahme offen |
-| [A03](PRAXISPRÜFUNG-2026-09-14.md#a03) | Bestehende Dokumenten-, Qualitäts- und Sicherheitsprozesse verwenden | Fachliche Übernahme offen |
-| [A04](PRAXISPRÜFUNG-2026-09-14.md#a04) | Unternehmensnetz und vorhandene Anmeldung integrieren | Fachliche Übernahme offen |
-| [A05](PRAXISPRÜFUNG-2026-09-14.md#a05) | Internetregeln, ausdrückliche KI-Freigabe und zulässige Ausweichziele | Fachliche Übernahme offen |
-| [A06](PRAXISPRÜFUNG-2026-09-14.md#a06) | Persönliche Speicherung und freiwillige, sichtbar aktivierte Wissensübernahme | Fachliche Übernahme offen |
-| [A07](PRAXISPRÜFUNG-2026-09-14.md#a07) | Neue Wissensbeiträge stoppen; bestehende nach geltenden Nutzungsregeln behandeln | Fachliche Übernahme offen |
-| [A08](PRAXISPRÜFUNG-2026-09-14.md#a08) | Mittlere Restrisiken im regulären Prozess begründet akzeptieren | Fachliche Übernahme offen |
+| [A01](PRAXISPRÜFUNG-2026-09-14.md#a01) | Realistische Maßnahmen und vollständig begründete Referenzrisiken | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A02](PRAXISPRÜFUNG-2026-09-14.md#a02) | Selbstständige Projektarbeit mit schneller, einfacher Wiederherstellung | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A03](PRAXISPRÜFUNG-2026-09-14.md#a03) | Bestehende Dokumenten-, Qualitäts- und Sicherheitsprozesse verwenden | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A04](PRAXISPRÜFUNG-2026-09-14.md#a04) | Unternehmensnetz und vorhandene Anmeldung integrieren | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A05](PRAXISPRÜFUNG-2026-09-14.md#a05) | Internetregeln, ausdrückliche KI-Freigabe und zulässige Ausweichziele | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A06](PRAXISPRÜFUNG-2026-09-14.md#a06) | Persönliche Speicherung und freiwillige, sichtbar aktivierte Wissensübernahme | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A07](PRAXISPRÜFUNG-2026-09-14.md#a07) | Neue Wissensbeiträge stoppen; bestehende nach geltenden Nutzungsregeln behandeln | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A08](PRAXISPRÜFUNG-2026-09-14.md#a08) | Mittlere Restrisiken im regulären Prozess begründet akzeptieren | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
 | [A09](PRAXISPRÜFUNG-2026-09-14.md#a09) | Stabile Kennungen, Index und gepflegte Querverweise | In Arbeitsregeln, Index und Katalogkennungen umgesetzt |
-| [A10](PRAXISPRÜFUNG-2026-09-14.md#a10) | Hohe Restrisiken, betroffene Funktionen und begrenzter Ausnahmebetrieb | Fachliche Übernahme offen |
-| [A11](PRAXISPRÜFUNG-2026-09-14.md#a11) | Jede Tätigkeit bleibt auch bei längerem KI-Ausfall möglich; Wiederherstellung über normalen IT-Betrieb | Fachliche Übernahme offen; Bewertung R-06 angepasst |
+| [A10](PRAXISPRÜFUNG-2026-09-14.md#a10) | Hohe Restrisiken, betroffene Funktionen und begrenzter Ausnahmebetrieb | In Katalog, Konzept und zugehörigen Diagrammen umgesetzt |
+| [A11](PRAXISPRÜFUNG-2026-09-14.md#a11) | Jede Tätigkeit bleibt auch bei längerem KI-Ausfall möglich; Wiederherstellung über normalen IT-Betrieb | In KI-GOV-002/003, KI-THR-002, KI-OPS-003 und R-06 umgesetzt |
 
 <a id="kontrollen"></a>
 
 ## Kontrollindex
 
-Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die derzeitige Konzeptfassung. Entscheidungen, Risiken und Praxisempfehlungen werden in den entsprechenden Tabellen dieses Index aufgelöst; die Verknüpfung zeigt die betroffenen Inhalte und behauptet keine bereits abgeschlossene Umsetzung.
+Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die derzeitige Konzeptfassung. Entscheidungen, Risiken und Praxisempfehlungen werden in den entsprechenden Tabellen dieses Index aufgelöst; die Verknüpfung führt zu den in Version 0.2.0 umgesetzten Festlegungen.
 
 | OSCAL-ID | Suchthema | Kapitel | Entscheidungen | Risiken | Praxisempfehlungen |
 |---|---|---|---|---|---|
@@ -92,7 +93,7 @@ Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die
 | <a id="ki-val-002"></a>`ki-val-002` | Routineänderungen und wesentliche Änderungen | 9.14 | A02, A03 | R-02, R-09 | P04 |
 | <a id="ki-ops-001"></a>`ki-ops-001` | Betriebsprotokolle und Inhaltsminimierung | 9.15 | A03, A06, A07 | R-05 | P05 |
 | <a id="ki-ops-002"></a>`ki-ops-002` | Überwachung und Vorfallbehandlung | 9.15 | A03, A08, A10, A11 | übergreifend | P02 |
-| <a id="ki-ops-003"></a>`ki-ops-003` | Sicherung, Reparatur und konsistenter Wiederanlauf | 9.15, 13 | A02, A03, A07, A11 | R-03, R-06, R-09 | P04, P05 |
+| <a id="ki-ops-003"></a>`ki-ops-003` | Sicherung, Reparatur und konsistenter Wiederanlauf | 9.15, 12 | A02, A03, A07, A11 | R-03, R-06, R-09 | P04, P05 |
 | <a id="ki-dec-001"></a>`ki-dec-001` | Außerbetriebnahme | 9.16 | A03, A07 | R-03, R-05 | P05 |
 | <a id="ki-ext-001"></a>`ki-ext-001` | Ausdrückliche Freigabe externer KI-Nutzung | 9.17, 12 | A03, A04, A05 | R-08 | P09, P11 |
 | <a id="ki-ext-002"></a>`ki-ext-002` | Freigegebene Ausweichziele | 9.17, 12 | A05, A11 | R-06, R-08 | P11 |
@@ -100,7 +101,7 @@ Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die
 
 ## Risiken
 
-Alle Links führen zu den neuen Bewertungsvorschlägen. Das noch geltende Register steht in Kapitel 8.3 des Konzepts und in `kapitel_eins_bis_acht` des Generators. Seine Ablösung ist noch offen.
+Die folgenden Links dokumentieren die Entscheidungshistorie. Verbindlich sind die gleichnamigen Risikoabschnitte `r-01` bis `r-09` im Katalog unter `ki-gov-003-risk-register` und deren Ableitung in Kapitel 8.3. Jedes Risiko enthält sechs Einstufungswerte, Kontrollverweise, Behandlung, Annahmen und Restrisikobegründung. Die Teile heißen `treatment`, `assumptions` und `residual-reasoning`; ihre IDs folgen beispielsweise `r-06-assumptions`.
 
 | ID | Szenario |
 |---|---|

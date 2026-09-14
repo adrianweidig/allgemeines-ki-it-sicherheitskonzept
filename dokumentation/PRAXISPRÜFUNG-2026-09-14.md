@@ -2,7 +2,7 @@
 
 Stand: 14.09.2026. Geprüft wurden die kommentierte PDF, das vorhandene DOCX/PDF-Paar, alle 38 OSCAL-Kontrollen und die zugehörigen Generatorpassagen. Die Seitenangaben beziehen sich auf die 64-seitige PDF der Version 0.1.0 mit fachlichem Stichtag 03.09.2026.
 
-**Die folgenden Formulierungen sind Empfehlungen zur Entscheidung. Sie wurden nicht in das Konzept oder die Anforderungen des Katalogs übernommen.** Die Prüfung bewertet die praktische Erfüllbarkeit und Nachweisbarkeit der Festlegungen. Eine tatsächliche Unternehmensumgebung wurde noch nicht bewertet.
+**Übernahmestand 14.09.2026: Die Beschlüsse A01–A11 und Empfehlungen P01–P12 sind mit Version 0.2.0 in Katalog und Konzept umgesetzt.** Die folgenden Befunde, Seitenangaben und Formulierungsvorschläge dokumentieren den damaligen Ausgangspunkt. Spätere Beschlüsse und die daraus abgeleiteten aktuellen Kontrolltexte sind maßgeblich; ursprüngliche Hinweise auf noch offene Übernahme sind historisch zu lesen. Aktuelle Fundstellen stehen im [Inhaltsindex](INHALTSINDEX.md#kontrollen). Die Prüfung bewertet die praktische Erfüllbarkeit und Nachweisbarkeit der Festlegungen. Eine tatsächliche Unternehmensumgebung wurde noch nicht bewertet.
 
 ## PDF-Kommentar
 

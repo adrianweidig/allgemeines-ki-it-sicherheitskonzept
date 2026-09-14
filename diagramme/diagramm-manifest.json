@@ -7,56 +7,56 @@
     {
       "name": "architektur",
       "quelle": "diagramme/architektur.puml",
-      "quelle_sha256": "6b7859c2de019b718205dda3f9a913e3f0e3d9b95dc6f8378003ed8fcd3fdfa2",
+      "quelle_sha256": "21bbdce3ba67c6941221e198da0b906dd9ac2ee7aa21371505908d66256aac30",
       "png": "dokumentation/medien/architektur.png",
-      "png_sha256": "2fdf20ed751132b34fd94a9823139ac08d257f5ba6d7eb812dfe4923da5ac6ab",
+      "png_sha256": "5b38cba824e744564d4aa0eee554d87759b4a5c4747106fc196ef967eafbc335",
       "svg": "dokumentation/medien/architektur.svg",
-      "svg_sha256": "57fad407ed78af21a1c1020d8e677ac30f3db50381ef4e0bec3bc569b8092eb0"
+      "svg_sha256": "3f5011eeef01932356a5f0a71a29ffe607344c4505e7fe52e9413d71e6ef4719"
     },
     {
       "name": "artefaktimport",
       "quelle": "diagramme/artefaktimport.puml",
-      "quelle_sha256": "fd1dde3e202fb311b8ca2a4c4e925f738b999092499c9cb2eed64626a374a200",
+      "quelle_sha256": "163b2ca23a4dba779b9561de94e205e5b8612adb7446fd56372b446e55d20927",
       "png": "dokumentation/medien/artefaktimport.png",
-      "png_sha256": "865b179a7572bfba85ba6f29f856afb6eaa9a18ad45fb65cb3d48639b95a31e3",
+      "png_sha256": "316fe57cf551bb0b6237014c48fc012b268d22d2eb71083ac9e5bc8f42a3df67",
       "svg": "dokumentation/medien/artefaktimport.svg",
-      "svg_sha256": "24eb8f18488be670a9216b32a9e82f95a37e855ae2353ae8302cbfcaf0956af7"
+      "svg_sha256": "cb41b7a183f627dfe6b469d277c5c5e67c17cd8d61086cd799e1780a6d18eb1b"
     },
     {
       "name": "risikobewertung",
       "quelle": "diagramme/risikobewertung.puml",
-      "quelle_sha256": "888cda3eb0441108d029cf90ea4109466f3146216863bf0dba42abd1e1d5896a",
+      "quelle_sha256": "a75d1817c34f5c7cc68b33e393c53b93640d04266708bdf24bfd7fd97e737dbb",
       "png": "dokumentation/medien/risikobewertung.png",
-      "png_sha256": "9cb4efea401e9b11b5f208ccc86728d0f298fbb8349131df770559e9e4061205",
+      "png_sha256": "dd27c8e22e57150416a40bd2d6efac5bccf7c0563bdedf1a817c17bade21ecb8",
       "svg": "dokumentation/medien/risikobewertung.svg",
-      "svg_sha256": "1d20adddb607c75380806afbb01b53ef4e83b77a98517b34f159aaa1d9dc6b02"
+      "svg_sha256": "d82d3bf6b3a56d2c805ba8805be536fcd832b463fb987897fd1208a2676e579d"
     },
     {
       "name": "risikomatrix",
       "quelle": "diagramme/risikomatrix.puml",
-      "quelle_sha256": "06ea27aa9dae28f5e028ffa90c6ab3dfdfb8273e03151bd798d447f47e1c114d",
+      "quelle_sha256": "ac69af0070fbb1804112944431e142994cf5824c409a021451d062bdeb4e8ce7",
       "png": "dokumentation/medien/risikomatrix.png",
-      "png_sha256": "21008a57e6a7f97dcda11e3e7cdfc29d1c52f7693d9ddf455428b12880b72012",
+      "png_sha256": "aeb043df83787d011f5c3fc3ab0dc9774067f3c27f994191b0fbdb75ca1cb51d",
       "svg": "dokumentation/medien/risikomatrix.svg",
-      "svg_sha256": "f92c35cc0ac7277ea0ab6d7e5e3cf2f32406634e9029b5244eccd8d9ce8cc82b"
+      "svg_sha256": "572a5ae429e54688b1840af24ddc568072d0c4d7c31bf63869038cbf61510d23"
     },
     {
       "name": "rag-datenfluss",
       "quelle": "diagramme/rag-datenfluss.puml",
-      "quelle_sha256": "9db94738a6430bcca0283b75eff2177f1f5df298cfb481329370f86f827de021",
+      "quelle_sha256": "0867d779ae1a942959eb65158e669e9f4833b2b8d56c99760e8db2c06662dcd9",
       "png": "dokumentation/medien/rag-datenfluss.png",
-      "png_sha256": "0c9ad3806beff2fccf5370a122457f4c4f67ce6694e5fe4efece56ce578cfed2",
+      "png_sha256": "19c7c7643101077c06895d4997594b464e874d19d35070c02a3e6d00d01eb21e",
       "svg": "dokumentation/medien/rag-datenfluss.svg",
-      "svg_sha256": "b0edcaa71e5d4294201c2ff939c1278bb0162a57ee131b211b053d6d2a2590cb"
+      "svg_sha256": "9716a8a57933f63bbbaf498f0a4bcb513d386aabddaab396de385cca941d251b"
     },
     {
       "name": "agentische-werkzeugnutzung",
       "quelle": "diagramme/agentische-werkzeugnutzung.puml",
-      "quelle_sha256": "cbe98792002f3a975a0038240c28d520143b5cd883d3ab1d01401142b8270d23",
+      "quelle_sha256": "07ff0c7893f58fab74ebc3f8211756495f88d300c9b441646cec8fba22f1e20d",
       "png": "dokumentation/medien/agentische-werkzeugnutzung.png",
-      "png_sha256": "186b81512b57dcc1cf56fdd728fdd6fa3745361cb1b6d1647a40c64581ece3d1",
+      "png_sha256": "3a465b4c9dbea082bea8e8ec8098b92ee03225dced6a9cd195c8736a540dc37e",
       "svg": "dokumentation/medien/agentische-werkzeugnutzung.svg",
-      "svg_sha256": "8e6cc8dc4759ee75372c3861bac0a5dbdcc295f914fc390f9bbceb0e4c5a70fb"
+      "svg_sha256": "a589bdb66d04dc7d71bb76cda1ef2a21157a8ada8d50791733331858cb571352"
     }
   ]
 }

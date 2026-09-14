@@ -1,33 +1,30 @@
 @startuml
-top to bottom direction
-
 skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
-skinparam roundCorner 14
 skinparam defaultFontName Arial
-skinparam defaultFontSize 13
+skinparam defaultFontSize 14
 skinparam ArrowColor #446B8C
-skinparam ArrowFontColor #334A5E
-skinparam ArrowFontSize 11
-skinparam rectangle {
+skinparam activity {
+  BackgroundColor #E8EEF5
   BorderColor #7890A5
-  BackgroundColor #F7F9FB
   FontColor #203040
 }
-
-rectangle "Fernzugriff über Organisations-VPN mit MFA\noder verwalteter Client im internen Netz" as zugang
-rectangle "**VERWALTETE CLIENTZONE**\nBrowser · agentische Anwendung\nlokale Git- und Entwicklungswerkzeuge\nMinimalrechte im freigegebenen Arbeitsbereich" as client
-rectangle "**KONTROLLIERTER KI-ZUGANG**\nVorgeschalteter HTTPS-Zugang\nTransportverschlüsselung · Identität · Rollen · Modell- und Werkzeugfreigaben\nAnfrage- und Kontextgrenzen · Protokollierung" as gateway #E4EDF5
-rectangle "**GETRENNTE KI-SERVERZONE**\nLokale Containerplattform\nChat-Oberfläche · lokale Inferenz · lokale Wissenssuche\nisolierte Aufbereitung · Suchvektoren · Treffer-Neusortierung\nVektor- und Fachdaten · Überwachung" as server #E8EEF5
-rectangle "**SPERRE: KEINE INTERNETVERBINDUNG**\nim Standardbetrieb" as noegress #FBEEEE
-rectangle "**GETRENNTE BETRIEBS- UND UNTERSTÜTZUNGSDIENSTE**\nLokaler Identitätsdienst / Domäne · lokale Registrierungen\nVerwaltungszugang · Sicherheitsauswertung · Prüfnachweise · Sicherungen" as support #F5F1F3
-
-zugang -down-> client : verwaltet
-client -down-> gateway : ausschließlich HTTPS
-gateway -down-> server : freigegebene Anfrage\nund Vermittlung an KI-Dienste
-server -[#9B3D3D,dashed]-> noegress : gesperrt
-server -[#9A8791,dashed]down-> support : Identität · Administration\nfreigegebene Artefakte · Prüfung
-noegress -[hidden]right-> support
-
+skinparam rectangle {
+  BackgroundColor #E8EEF5
+  BorderColor #7890A5
+  FontColor #203040
+}
+rectangle "VERWALTETE CLIENTS\nUnternehmensanmeldung\nFreigegebene Arbeitsbereiche" as client
+rectangle "KONTROLLIERTER KI-ZUGANG\nIdentität · Rechte · Profile\nKeine direkten Umgehungswege" as gateway
+rectangle "UNTERNEHMENSDIENSTE\nIdP · Daten · Entwicklung\nBestehende IT-Regeln" as support
+rectangle "LOKALE KI BEVORZUGT\nServer oder Endgerät\nWissenssuche optional" as lokal
+rectangle "OPTION: EXTERNE KI\nStandardmäßig aus\nZusätzliche KI-Freigabe" as extern #FFF2CC
+rectangle "WEITERARBEIT OHNE KI\nJede Tätigkeit bleibt möglich\nNormale Reparaturverfahren" as weiter #EAF2EA
+client -down-> gateway
+gateway -right-> support
+gateway -down-> lokal
+lokal -[hidden]right-> extern
+gateway -down-> extern : nur freigegeben
+lokal -down-> weiter : KI-Ausfall
 @enduml

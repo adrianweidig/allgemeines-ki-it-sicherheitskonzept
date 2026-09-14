@@ -33,6 +33,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
 from jsonschema import Draft7Validator, Draft202012Validator, FormatChecker, ValidationError, validators
 from pypdf import PdfReader, __version__ as PYPDF_VERSION
+from erzeuge_diagramme import HÄUFIGKEITEN, RISIKOMATRIX, risikomatrix_quelle
 
 
 WURZEL = Path(__file__).resolve().parents[1]
@@ -69,12 +70,12 @@ DIAGRAMMSTÄMME = (
 )
 PLANTUML_VERSION = "1.2026.6"
 ABBILDUNGSBESCHRIFTUNGEN = (
-    "Abbildung 1: Nur der kontrollierte KI-Zugang verbindet die Clientzone mit der abgeschotteten KI-Serverzone.",
-    "Abbildung 2: Nur geprüfte und freigegebene Artefakte erreichen die abgeschottete Produktionsumgebung.",
+    "Abbildung 1: Kontrollierte KI-Zugänge verbinden verwaltete Clients mit freigegebenen Modellen und Unternehmensdiensten.",
+    "Abbildung 2: Artefakte durchlaufen bestehende Softwareprüfungen und eine ihrem Änderungsrisiko entsprechende Freigabe.",
     "Abbildung 3: Risiken werden szenariobezogen behandelt und bis zur Freigabe erneut bewertet.",
-    "Abbildung 4: Die KI-spezifischen Maßnahmen senken alle hohen und sehr hohen Ausgangsrisiken auf höchstens mittel.",
-    "Abbildung 5: Aufnahme, berechtigte Abfrage und vollständige Löschung bleiben technisch getrennt.",
-    "Abbildung 6: Eine Werkzeugaktion benötigt Richtlinienprüfung, begrenzte Rechte und bei erhöhter Wirkung eine konkrete Bestätigung.",
+    "Abbildung 4: Ausgangs- und Restrisiken gelten unter den dokumentierten Umsetzungsannahmen.",
+    "Abbildung 5: Freigegebene Bestände und freiwillige Beiträge wahren Zweck, Rechte und geregelte Datenbehandlung.",
+    "Abbildung 6: Routineaktionen folgen dem Arbeitsprofil; nicht beherrschbare Wirkungen benötigen konkrete Genehmigung.",
 )
 
 
@@ -149,8 +150,8 @@ def prüfe_projektstatus(
     }
     if set(status) != erwartet:
         fehler.append("projektstatus.json muss exakt die sechs festgelegten Steuerfelder enthalten.")
-    if status.get("betriebsmodell") != "vollständig-lokal":
-        fehler.append("Das Betriebsmodell muss vollständig-lokal bleiben.")
+    if status.get("betriebsmodell") != "unternehmensintegriert":
+        fehler.append("Das Betriebsmodell muss unternehmensintegriert sein.")
     if status.get("modelltraining") is not False:
         fehler.append("Modelltraining ist innerhalb dieses Projekts unzulässig.")
     if status.get("feinabstimmung") is not False:
@@ -294,15 +295,64 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
     if not all(begriff in tooltext for begriff in ("Lesen", "Schreiben", "Befehlsausführung", "Netzwerkzugriff")):
         fehler.append("Die Agentenkontrolle trennt Tool- und Befehlsfähigkeiten nicht vollständig.")
     externe = [c for c in controls if c["id"].startswith("ki-ext-")]
-    if len(externe) < 2 or any(eigenschaft(c, "anwendbarkeit") != ["bedingt-externe-inferenz"] for c in externe):
-        fehler.append("Die bedingte Kontrollgruppe für externe Inferenz ist unvollständig oder falsch gekennzeichnet.")
-    if any(eigenschaft(c, "standardstatus") != ["nicht-anwendbar"] for c in externe):
-        fehler.append("Externe Inferenz muss im Standardzustand nicht anwendbar bleiben.")
+    if len(externe) != 2 or eigenschaft(nach_id.get('ki-ext-001', {}), 'anwendbarkeit') != ['Externe Inferenz']:
+        fehler.append("Die bedingte Kontrolle für externe Inferenz ist unvollständig oder falsch gekennzeichnet.")
+    if eigenschaft(nach_id.get('ki-ext-002', {}), 'anwendbarkeit') != ['Alle KI-Nutzungen'] or eigenschaft(nach_id.get('ki-ext-002', {}), 'standardstatus') != ['anwendbar']:
+        fehler.append("Der Schutz vor unzulässigen Ausweichzielen muss immer anwendbar sein.")
     metadata = katalog["catalog"]["metadata"]
     if metadata.get("oscal-version") != "1.1.3":
         fehler.append("Der Katalog muss OSCAL 1.1.3 ausweisen.")
     if eigenschaft(metadata, "modelltraining") != ["ausgeschlossen"] or eigenschaft(metadata, "feinabstimmung") != ["ausgeschlossen"]:
         fehler.append("Metadaten weisen Trainings- oder Feinabstimmungsausschluss nicht aus.")
+    return fehler
+
+
+def prüfe_risikoregister(katalog: dict[str, Any]) -> list[str]:
+    fehler = []
+    kontrollen = {c['id']: c for c in katalogkontrollen(katalog)}
+    register = [p for p in kontrollen.get('ki-gov-003', {}).get('parts', []) if p.get('name') == 'risk-register']
+    if len(register) != 1:
+        return ['Risikoregister: genau ein Register in KI-GOV-003 erforderlich.']
+    risiken = register[0].get('parts', [])
+    if {r.get('id') for r in risiken} != {f'r-{i:02d}' for i in range(1, 10)} or len(risiken) != 9:
+        fehler.append('Risikoregister: stabile Kennungen R-01 bis R-09 müssen genau einmal vorkommen.')
+    for risiko in risiken:
+        rid = risiko.get('id')
+        werte = {p['name']: p['value'] for p in risiko.get('props', [])}
+        for präfix in ('initial', 'residual'):
+            häufigkeit, schaden = werte.get(f'{präfix}-likelihood'), werte.get(f'{präfix}-impact')
+            if häufigkeit not in HÄUFIGKEITEN or schaden not in RISIKOMATRIX:
+                fehler.append(f'{rid}: gültige Häufigkeit und Schadenshöhe fehlen.')
+            elif werte.get(f'{präfix}-risk') != RISIKOMATRIX[schaden][HÄUFIGKEITEN.index(häufigkeit)]:
+                fehler.append(f'{rid}: Risikokategorie stimmt nicht mit der Matrix überein.')
+        teile = {p['name']: p.get('prose', '') for p in risiko.get('parts', [])}
+        if any(len(teile.get(n, '')) < 30 for n in ('treatment', 'assumptions', 'residual-reasoning')):
+            fehler.append(f'{rid}: Behandlung, Annahmen oder Restrisikobegründung fehlen.')
+        links = risiko.get('links', [])
+        if not links or any(l.get('href', '')[1:] not in kontrollen or not l.get('href', '').startswith('#') for l in links):
+            fehler.append(f'{rid}: verknüpfte Kontrolle fehlt.')
+    if not fehler and (DIAGRAMMQUELLEN_PFAD / 'risikomatrix.puml').read_text(encoding='utf-8') != risikomatrix_quelle(katalog):
+        fehler.append('Risikoregister: PlantUML-Matrix weicht vom Katalog ab.')
+    return fehler
+
+
+def prüfe_oscal_erweiterungen(katalog: dict[str, Any]) -> list[str]:
+    fehler, ids = [], []
+    namensraum = 'https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal'
+    def besuche(obj):
+        if isinstance(obj, dict):
+            if 'id' in obj: ids.append(obj['id'])
+            for p in obj.get('props', []):
+                if p['name'] not in {'alt-identifier', 'label', 'sort-id', 'status'} and p.get('ns') != namensraum:
+                    fehler.append(f"OSCAL: eigener Namensraum fehlt für Eigenschaft {p['name']}.")
+            for p in obj.get('parts', []):
+                if p['name'] not in {'statement', 'guidance', 'assessment-objective'} and p.get('ns') != namensraum:
+                    fehler.append(f"OSCAL: eigener Namensraum fehlt für Abschnitt {p['name']}.")
+            for v in obj.values(): besuche(v)
+        elif isinstance(obj, list):
+            for v in obj: besuche(v)
+    besuche(katalog)
+    if len(ids) != len(set(ids)): fehler.append('OSCAL: doppelte dokumentweite ID.')
     return fehler
 
 
@@ -643,6 +693,9 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
             fehler.append("Layout: frei schwebende oder verankerte Abbildungen sind unzulässig.")
         alternativtexte = []
         for inline in inline_abbildungen:
+            ausdehnung = inline.find(WP + 'extent')
+            if ausdehnung is not None and int(ausdehnung.get('cy', '0')) > 7380000:
+                fehler.append('Layout: Diagrammhöhe überschreitet 20,5 cm einschließlich Platzreserve für die Beschriftung.')
             doc_pr = inline.find(WP + "docPr")
             alternativtext = (doc_pr.get("descr") if doc_pr is not None else "") or ""
             alternativtexte.append(alternativtext.strip())
@@ -910,6 +963,7 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
             fehler.append(f"PDF enthält die Kontroll-ID {kennung} nicht.")
     norm_docx = normalisiere_text(docx_text)
     norm_pdf = normalisiere_text(pdf_text)
+    fehler.extend(prüfe_katalogableitung(katalog, docx_text))
     # Der Prosaabgleich bewertet alphabetische Wörter. Veränderliche URLs,
     # Hashes, Datumswerte und technische IDs werden separat validiert und
     # würden wegen unterschiedlicher PDF-Zeilenumbrüche nur Scheindifferenzen
@@ -933,6 +987,19 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
             f"(Tokenabdeckung {tokenabdeckung:.3f}, Wortabdeckung {wortabdeckung:.3f})."
         )
     return fehler, warnungen
+
+
+def prüfe_katalogableitung(katalog: dict[str, Any], docx_text: str) -> list[str]:
+    """Jeder fachliche Kontroll- und Risikoabschnitt muss im Master enthalten sein."""
+    fehler = []
+    text = normalisiere_text(docx_text)
+    def prüfe_teile(teile):
+        for teil in teile:
+            if teil['name'] != 'source' and normalisiere_text(teil.get('prose', '')) not in text:
+                fehler.append(f"Katalogableitung: Abschnitt {teil['id']} fehlt im DOCX oder weicht ab.")
+            prüfe_teile(teil.get('parts', []))
+    for kontrolle in katalogkontrollen(katalog): prüfe_teile(kontrolle.get('parts', []))
+    return fehler
 
 
 def _menschenlesbare_jsontexte(objekt: Any, pfad: tuple[Any, ...] = ()) -> Iterable[str]:
@@ -1139,6 +1206,8 @@ def führe_prüfungen_aus(
         (prüfe_schemata, (katalog, register)),
         (prüfe_quellenregister, (register, katalog)),
         (prüfe_katalog, (katalog,)),
+        (prüfe_risikoregister, (katalog,)),
+        (prüfe_oscal_erweiterungen, (katalog,)),
         (prüfe_inhaltsindex, (katalog,)),
         (prüfe_projektstatus, (status, katalog)),
         (prüfe_inhaltsgrenzen, (katalog, register)),

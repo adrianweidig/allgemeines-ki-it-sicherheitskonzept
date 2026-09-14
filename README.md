@@ -1,11 +1,11 @@
 # Allgemeines KI-IT-Sicherheitskonzept
 
 > [!CAUTION]
-> **ÖFFENTLICH – organisationsneutrale Referenzvorlage.** Jede Anreicherung mit organisationsspezifischen Informationen beendet diesen Status. Anpassungen dürfen ausschließlich in einer getrennten, angemessen geschützten Offline-Fassung begonnen werden. Dort ist `organisationsspezifisch` in `projektstatus.json` vor der ersten Anpassung auf `true` zu setzen; die Dokumentkennzeichnung wechselt dadurch auf **NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH**. Eine formale Einstufung darf nur die zuständige Organisation durch befugte Stellen vornehmen.
+> **ÖFFENTLICH – organisationsneutrale Referenzvorlage.** Jede Anreicherung mit organisationsspezifischen Informationen beendet diesen Status. Anpassungen dürfen ausschließlich in einer getrennten, angemessen geschützten geschützte Fassung begonnen werden. Dort ist `organisationsspezifisch` in `projektstatus.json` vor der ersten Anpassung auf `true` zu setzen; die Dokumentkennzeichnung wechselt dadurch auf **NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH**. Eine formale Einstufung darf nur die zuständige Organisation durch befugte Stellen vornehmen.
 
 ![Lokale KI-Systemarchitektur mit Vertrauenszonen](dokumentation/medien/architektur.svg)
 
-Dieses Repository entwickelt eine prüf- und zertifizierungsvorbereitende Referenz für den sicheren Betrieb vollständig lokaler KI-Infrastrukturen in einer klassischen Domäne. Es enthält keine Anwendung, Arbeitsoberfläche, Plattform oder produktive KI-Komponente. Es setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus und ergänzt dieses ausschließlich um KI-spezifische Risiken, Verschärfungen, Prüfziele und Nachweise.
+Dieses Repository entwickelt eine prüf- und zertifizierungsvorbereitende Referenz für den sicheren Betrieb unternehmensintegrierter KI mit bevorzugter lokaler Inferenz. Es enthält keine Anwendung, Arbeitsoberfläche, Plattform oder produktive KI-Komponente. Es setzt ein wirksames allgemeines IT-Sicherheitskonzept voraus und ergänzt dieses ausschließlich um KI-spezifische Risiken, Verschärfungen, Prüfziele und Nachweise.
 
 ## Kernergebnisse
 
@@ -15,29 +15,29 @@ Dieses Repository entwickelt eine prüf- und zertifizierungsvorbereitende Refere
 - `konzept/ki-it-sicherheitskonzept.pdf`: ausschließlich aus derselben DOCX-Fassung erzeugte Lesefassung.
 - [`quellen/quellenregister.json`](quellen/quellenregister.json): nachvollziehbare öffentliche Fundstellen, Prüfsummen und konkrete Belegstellen.
 
-Die erste gemeinsame fachliche Fassung trägt die Version `0.1.0`. Der OSCAL-Katalog ist für normative Anforderungen maßgeblich. Das Konzept erläutert Architektur, Anwendung und Zusammenwirken; es führt keine zusätzlichen, nur dort vorhandenen Muss-Anforderungen ein.
+Die aktuelle gemeinsame fachliche Fassung trägt die Version `0.2.0`. Alle abgestimmten Praxisänderungen sind übernommen; neun begründete Ausgangs- und Restrisiken werden direkt im Katalog geführt. Der OSCAL-Katalog ist für normative Anforderungen maßgeblich. Das Konzept erläutert Architektur, Anwendung und Zusammenwirken; es führt keine zusätzlichen, nur dort vorhandenen Muss-Anforderungen ein.
 
 ## Konzept und Übernahmeanleitung
 
 Das DOCX/PDF-Paar ist bewusst wie ein tatsächlich geltendes Sicherheitskonzept formuliert. Redaktionshinweise, Platzhalter und Arbeitsanweisungen zur Anpassung stehen nicht im Konzept. Der separate [`Leitfaden zur organisationsspezifischen Übernahme`](dokumentation/ÜBERNAHMELEITFADEN.md) beschreibt Schutzgrenze, Anpassungsreihenfolge, Statuswechsel, Diagrammpflege, Nachweise und Freigaben.
 
-Die öffentliche Fassung darf nicht direkt mit internen Angaben ergänzt werden. Jede organisationsspezifische Bearbeitung beginnt in einer getrennten, angemessen geschützten Offline-Fassung und aktiviert dort vor der ersten realen Angabe das Statusgate.
+Die öffentliche Fassung darf nicht direkt mit internen Angaben ergänzt werden. Jede organisationsspezifische Bearbeitung beginnt in einer getrennten, angemessen geschützten geschützte Fassung und aktiviert dort vor der ersten realen Angabe das Statusgate.
 
 ## Geltungsbereich
 
-Die organisationsneutrale Standardumgebung umfasst verwaltete Clients, eine sichere Domäne mit lokalem Identitätsdienst, einen internen KI-Zugang über HTTPS und eine getrennte KI-Serverzone. Dort laufen Container auf Kubernetes, Docker oder Podman mit lokaler Chat-Oberfläche, lokalem Inferenzserver, lokaler Wissenssuche (RAG), Suchvektoren, Treffer-Neusortierung, Vektor- beziehungsweise Datenbank sowie lokaler Überwachung.
+Die Standardumgebung umfasst verwaltete Clients, die vorhandene Unternehmensanmeldung und kontrollierte KI-Zugänge. Lokale Inferenz kann zentral oder mit gleichwertigem Schutz auf Endgeräten erfolgen. Container, Wissenssuche und Erweiterungen sind bedingte Funktionen. Bestehende Identitäts-, Entwicklungs-, Daten- und Betriebsdienste werden nach dem allgemeinen IT-Sicherheitskonzept integriert.
 
-Vorausgesetzt werden bereits umgesetzte Basismaßnahmen wie Mehrfaktorauthentisierung (MFA), rollenbasierte Rechte, interne Zertifikatsinfrastruktur, Segmentierung, Aktualisierungs- und Schwachstellenmanagement, Protokollierung, Datensicherung und Notfallmanagement. Ein internes Container- oder Pod-Netz ist allein keine hinreichende Sicherheitsgrenze. Nur der kontrollierte KI-Zugang darf aus dem Clientnetz erreichbar sein; interne Verwaltungs-, Messwert-, Diagnose-, Cluster-, Inferenz- und Zwischenspeicher-Schnittstellen bleiben abgeschottet.
+Vorausgesetzt werden wirksame Unternehmensprozesse für Identitäten, Endgeräte, Netze, Software, Dokumente, Qualitätssicherung, Protokollierung und Datensicherung. KI-spezifische Kontrollen verweisen auf diese Prozesse und ergänzen deren Schutz. Direkte Schnittstellen dürfen die vorgesehenen Zugriffsregeln nicht umgehen.
 
-Fernzugriff erfolgt ausschließlich über ein organisationskontrolliertes VPN mit MFA. Git, Datenablagen, Verzeichnisse, Registrierungen, Modelle, RAG-Daten, Telemetrie und Sicherungen bleiben lokal.
+Fernzugriff und zugelassene Unternehmensdienste folgen den bestehenden IT-Regeln. Jede betriebliche Tätigkeit bleibt ohne KI möglich, auch bei längerem Ausfall. Persönliche Speicherung ist im normalen Rahmen zulässig; Unternehmenswissen aus persönlicher Agentenarbeit ist freiwillig, sichtbar und standardmäßig ausgeschaltet.
 
 ## Verbindliche Architekturgrenzen
 
-- `betriebsmodell` ist `vollständig-lokal`.
+- `betriebsmodell` ist `unternehmensintegriert`.
 - `externe-inferenz` ist standardmäßig `false`.
 - `modelltraining` und `feinabstimmung` müssen `false` bleiben.
 - Vortraining, Fine-Tuning, LoRA, PEFT, RLHF, kontinuierliches Lernen und Änderungen produktiver Modellgewichte sind ausgeschlossen.
-- Domänenwissen wird ausschließlich über lokale Wissenssuche (RAG) oder kontrollierte, bedarfsgesteuerte lokale Dateiübernahmen bereitgestellt.
+- Fachwissen bleibt außerhalb der Modellgewichte; freigegebene Wissenssuche, persönliche Arbeitsunterlagen und geregelte freiwillige Beiträge sind möglich.
 - Vortrainierte Basismodelle sind austauschbare, versionierte Artefakte; Fachwissen verbleibt außerhalb des Modells.
 
 Die Erzeugung von Suchvektoren, die RAG-Indexierung, Systemanweisungen und vorübergehender Gesprächskontext sind kein Modelltraining, benötigen jedoch eigene Schutzmaßnahmen.
@@ -46,9 +46,9 @@ Die Erzeugung von Suchvektoren, die RAG-Indexierung, Systemanweisungen und vorü
 
 Externe Inferenz ist technisch möglich, aber nicht Teil der Standardarchitektur. Bei ihrer Aktivierung werden Eingaben, Systemanweisungen, Gesprächskontexte, RAG-Ausschnitte, übertragene Dateien, Metadaten und angeforderte Ausgaben außerhalb der lokalen Infrastruktur verarbeitet. Transportverschlüsselung verhindert diese Verarbeitung durch den externen Betreiber nicht.
 
-Eine Aktivierung verändert Systemgrenze, Verantwortlichkeiten, Datenflüsse, Rechtslage, Bedrohungsmodell und Nachweispflichten. Zuvor müssen mindestens Datenschutz, Datenklassifikation, Verträge und Auftragsverarbeitung, Drittlandbezug, Anbieter- und Lieferkettenprüfung, Protokollierung, Löschung, Aufbewahrung, Verschlüsselung, Schlüsselverwaltung, Verfügbarkeit, Vorfallprozesse und Ausstiegsszenario neu bewertet und freigegeben werden. Automatische Ausweichverbindungen, die automatische Erkennung externer Anbieter und Cloud-Modelle dürfen externe Inferenz nicht unbeabsichtigt einschalten.
+Eine Aktivierung verändert Systemgrenze, Verantwortlichkeiten, Datenflüsse, Rechtslage, Bedrohungsmodell und Nachweispflichten. Zuvor müssen mindestens Datenschutz, Datenklassifikation, Verträge und Auftragsverarbeitung, Drittlandbezug, Anbieter- und Lieferkettenprüfung, Protokollierung, Löschung, Aufbewahrung, Verschlüsselung, Schlüsselverwaltung, Verfügbarkeit, Vorfallprozesse und Ausstiegsszenario neu bewertet und freigegeben werden. Die ausdrückliche KI-Freigabe kann gleichartige Anfragen im genehmigten Nutzungsprofil abdecken. Automatische Wechsel sind nur innerhalb bereits freigegebener Ausweichprofile erlaubt; eine allgemeine Internetfreigabe genügt nicht.
 
-Die Kontrollgruppe `Bedingte externe Inferenz` bleibt deshalb sichtbar, ist im Standardstatus jedoch nicht anwendbar. Das Setzen von `externe-inferenz` auf `true` ohne eine organisationsspezifische, getrennte Fassung und ohne aktivierte Zusatzkontrollen schlägt in der Validierung fehl.
+`KI-EXT-001` ist nur bei externer Inferenz anwendbar; `KI-EXT-002` schützt in jeder Betriebsform vor nicht freigegebenen Zielwechseln. Das Setzen von `externe-inferenz` auf `true` ohne eine organisationsspezifische, getrennte Fassung und ohne aktivierte Zusatzkontrollen schlägt in der Validierung fehl.
 
 ## Statusmechanismus
 
@@ -58,7 +58,7 @@ Die Kontrollgruppe `Bedingte externe Inferenz` bleibt deshalb sichtbar, ist im S
 {
   "dokumentstatus": "ÖFFENTLICH",
   "organisationsspezifisch": false,
-  "betriebsmodell": "vollständig-lokal",
+  "betriebsmodell": "unternehmensintegriert",
   "externe-inferenz": false,
   "modelltraining": false,
   "feinabstimmung": false

@@ -41,14 +41,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File validierung/aktualisiere_wor
 Ist eine geprüfte JAR bereits vorhanden, kann sie ohne Download verwendet werden:
 
 ```powershell
-python validierung/erzeuge_diagramme.py --plantuml-jar C:\Werkzeuge\plantuml.jar
+python validierung/erzeuge_diagramme.py --plantuml-jar E:\Werkzeuge\plantuml.jar
 ```
 
-Nach jeder Änderung werden die Diagramme vor DOCX und PDF erzeugt. Die strenge Projektvalidierung erkennt nicht aktualisierte Quellen, SVG- oder PNG-Dateien anhand des Manifests.
+Die Risikomatrix wird beim Erzeugen aus `ki-gov-003-risk-register` und dem festgelegten Bewertungsmaßstab in `erzeuge_diagramme.py` abgeleitet; ihre `.puml`-Datei wird nicht unabhängig redigiert. Alle anderen Diagrammquellen werden direkt gepflegt. Nach jeder Änderung werden die Diagramme vor DOCX und PDF erzeugt. Die strenge Projektvalidierung erkennt nicht aktualisierte Quellen, SVG- oder PNG-Dateien anhand des Manifests.
 
 ## Organisationsspezifisch anpassen
 
-Die Anpassung erfolgt nur in der getrennten, angemessen geschützten Offline-Fassung. Dort werden Zonen, Rollen, Kommunikationsbeziehungen und Entscheidungen in den `.puml`-Dateien auf die tatsächliche Architektur abgebildet. Reale Domänen, Hostnamen, IP-Adressen, Konten oder interne Schutzbedarfe dürfen nicht in dieses öffentliche Referenzrepository zurückfließen.
+Die Anpassung erfolgt nur in der getrennten, angemessen geschützten geschützte Fassung. Dort werden Zonen, Rollen, Kommunikationsbeziehungen und Entscheidungen in den `.puml`-Dateien auf die tatsächliche Architektur abgebildet. Reale Domänen, Hostnamen, IP-Adressen, Konten oder interne Schutzbedarfe dürfen nicht in dieses öffentliche Referenzrepository zurückfließen.
 
 Die Knotennamen hinter `as` bleiben möglichst stabil. Sichtbare Bezeichnungen können direkt zwischen den Anführungszeichen geändert werden. Neue Beziehungen werden erst ergänzt, wenn sie fachlich bewertet und durch eine OSCAL-Kontrolle gedeckt sind. Farbe bleibt ergänzend; Form, Text und Pfeilbeschriftung tragen die eigentliche Aussage.
 
