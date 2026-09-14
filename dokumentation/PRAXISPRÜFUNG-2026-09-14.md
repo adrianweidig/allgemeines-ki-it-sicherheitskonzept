@@ -229,7 +229,13 @@ Lokale KI-Verarbeitung wird bevorzugt. Externe KI-Dienste können als gesonderte
 
 Fachliche Präzisierung: Die vorhandene Anmeldung soll ohne erneute Passworteingabe genutzt werden; der KI-Zugang muss den vertrauenswürdigen Anmeldekontext und die dazugehörige Berechtigung jedoch tatsächlich übernehmen können. Die reine Erreichbarkeit aus einem Unternehmensnetz stellt diesen Nachweis nicht her. Die Unterscheidung ist mit dem beschriebenen Einmalanmeldeverfahren und dem fehlenden automatischen Vertrauen allein aufgrund der Netzposition vereinbar. [Microsoft: Single Sign-on](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/what-is-single-sign-on), [NIST SP 800-207](https://csrc.nist.gov/pubs/sp/800/207/final)
 
-Offen bleibt die Regel für einen automatischen Wechsel zwischen lokaler und externer KI-Verarbeitung. Die Zulassung externer Betriebsvarianten allein erteilt noch keine Freigabe für beliebige Ausweichverbindungen oder Datenübertragungen.
+### A05 Internetnutzung, ausdrückliche KI-Freigabe und Ausweichziele
+
+Für Internetnutzung und externe Kommunikation gelten die Vorgaben des allgemeinen IT-Sicherheitskonzepts und der zugehörigen betrieblichen Richtlinien. Sie sind auch auf die KI-Umgebung anzuwenden. Eine allgemeine Freigabe des Internetzugangs beinhaltet keine Freigabe zur Nutzung externer KI-Dienste. Diese benötigen zusätzlich eine ausdrückliche Nutzungsfreigabe für den vorgesehenen Einsatz und die zulässigen Daten.
+
+Als Ausweichziele können weitere freigegebene Modelle oder KI-Umgebungen vorgesehen werden. Diese können lokal oder extern betrieben sein. Die Freigabe muss die vorgesehene Nutzung als Ausweichziel einschließen. Automatische Wechsel dürfen ausschließlich innerhalb dieses freigegebenen Rahmens erfolgen; eine erneute Einzelgenehmigung jedes abgedeckten Wechsels ist nicht erforderlich. Ein Wechsel in eine nicht freigegebene KI-Umgebung bleibt auch bei Störung oder Überlastung unzulässig.
+
+Ausweichziele sind eine optionale Betriebsfunktion. Ein automatischer Wechsel zu Cloud-KI wird weder vorausgesetzt noch pauschal aus einem vorhandenen Internetzugang abgeleitet. Die Risikobewertung darf einem nicht vorgesehenen oder nicht wirksamen Ausweichbetrieb keine risikomindernde Wirkung zuschreiben.
 
 ### Prüfung der Überschneidungen für alle 38 Kontrollen
 
@@ -248,7 +254,7 @@ Geprüft wurden die Anforderungen und Umsetzungstexte aller Kontrollen sowie Kap
 | KI-THR-001, KI-THR-002 | Bedrohungsbewertung, Kapazitätsplanung und Verfügbarkeit | KI-Angriffswege, Modellunsicherheit, lange Anfragen und Agentenschleifen in bestehende Bewertungen aufnehmen; überprüfbare Abdeckung und angemessene Betriebsgrenzen festlegen. |
 | KI-OPS-001, KI-OPS-002, KI-OPS-003, KI-DEC-001 | Protokollierung, Überwachung, Vorfallbehandlung, Sicherung, Wiederanlauf und Außerbetriebnahme | KI-Ereignisse und Dienstzusammenhänge ergänzen; Modelle, Berechtigungen, Indizes und Konfiguration konsistent behandeln. Bestehende Meldewege und Wiederanlaufverfahren verwenden. |
 | KI-TRN-001 | Genehmigter Softwareeinsatz und Schutz vor unzulässigen Änderungen | Das spezifische Verbot von Training und Gewichtsänderungen bleibt ausdrücklich im KI-Konzept; Durchsetzung über erlaubte Funktionen und Rechte statt eines pauschalen Verbots vielseitiger Bibliotheken. |
-| KI-EXT-001, KI-EXT-002 | Fremdleistungen, externe Datenübertragung, Anbieterprüfung und Datenschutz | Lokale Verarbeitung bevorzugen; externe KI gemäß A04 als gesondert freigegebene Variante behandeln. Keine erneute vollständige Vertragsprüfung für jede einzelne Anfrage; nicht zugelassene Ausweichverbindungen bleiben ausgeschlossen. |
+| KI-EXT-001, KI-EXT-002 | Fremdleistungen, externe Datenübertragung, Anbieterprüfung und Datenschutz | Lokale Verarbeitung bevorzugen; externe KI gemäß A04 und A05 ausdrücklich zur Nutzung freigeben. Internetregeln aus dem Basis-Sicherheitskonzept anwenden. Keine erneute vollständige Vertragsprüfung für jede einzelne Anfrage; optionale Ausweichziele müssen vom freigegebenen Nutzungsrahmen erfasst sein. |
 
 Besonders zu überarbeiten sind die pauschale Wiederfreigabe in KI-VAL-002 sowie die Auslegung der dauerhaften Übernahme in KI-RAG-004 als Einzelfreigabe. Der technische Schutz bei Dateiaufbereitung in KI-RAG-001 und die durchgängigen Nutzerrechte in KI-RAG-002 bleiben als Anforderungen erhalten; ihre Umsetzung wird mit den vorhandenen Basismaßnahmen abgestimmt.
 
