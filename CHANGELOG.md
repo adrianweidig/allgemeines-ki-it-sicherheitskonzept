@@ -4,6 +4,7 @@ Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vo
 
 ## Dokumentationsüberarbeitung – 14.09.2026
 
+- A11 festgehalten: Jede betriebliche Tätigkeit bleibt auch bei längerem KI-Ausfall ausführbar; Reparatur und Wiederherstellung erfolgen über reguläre IT-Verfahren. R-06 und die Kontrollzuordnung entsprechend präzisiert; eine Ausnahme nach A10 hebt diese Voraussetzung nicht auf.
 - Beschlüsse A01–A10, die noch offenen Risikobewertungen und ihre Zuordnung zu den 38 Kontrollen im Inhaltsindex erschlossen.
 - Die empfohlene Akzeptanz mittlerer Restrisiken sowie der begrenzte Ausnahmebetrieb bei hohen und sehr hohen Restrisiken als beschlossene Vorgaben dokumentiert; die fachliche Übernahme steht noch aus.
 - Alle 228 Kontrollabschnitte im OSCAL-Katalog mit stabilen IDs versehen und den redaktionellen Index aus den Katalogmetadaten verlinkt.

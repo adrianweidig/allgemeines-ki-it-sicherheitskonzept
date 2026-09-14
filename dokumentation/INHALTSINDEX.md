@@ -2,7 +2,7 @@
 
 Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlichen Sicherheitsanforderungen. Alle Pfade gelten innerhalb der jeweiligen Repository-Fassung; private Informationen werden nicht mit der öffentlichen Referenz verknüpft.
 
-**Stand:** Fachtexte von Katalog und DOCX/PDF: Version 0.1.0. A01–A08 und A10 sind beschlossen, ihre fachliche Übernahme ist noch offen. A09 zur Auffindbarkeit ist umgesetzt. Die neuen Bewertungen R-01–R-09 stehen noch zur Abstimmung. Die ursprünglichen Empfehlungen P01–P12 sind zusammen mit den späteren Entscheidungen zu lesen; bestätigte Entscheidungen haben für die Überarbeitung Vorrang.
+**Stand:** Fachtexte von Katalog und DOCX/PDF: Version 0.1.0. A01–A08, A10 und A11 sind beschlossen, ihre fachliche Übernahme ist noch offen. A09 zur Auffindbarkeit ist umgesetzt. Die neuen Bewertungen R-01–R-09 stehen noch zur Abstimmung; R-06 berücksichtigt bereits die verbindliche Weiterarbeit ohne KI aus A11. Die ursprünglichen Empfehlungen P01–P12 sind zusammen mit den späteren Entscheidungen zu lesen; bestätigte Entscheidungen haben für die Überarbeitung Vorrang.
 
 ## Maßgebliche Dateien
 
@@ -49,6 +49,7 @@ Die native Abbildung über `id` und `links` richtet sich nach der [NIST-Referenz
 | [A08](PRAXISPRÜFUNG-2026-09-14.md#a08) | Mittlere Restrisiken im regulären Prozess begründet akzeptieren | Fachliche Übernahme offen |
 | [A09](PRAXISPRÜFUNG-2026-09-14.md#a09) | Stabile Kennungen, Index und gepflegte Querverweise | In Arbeitsregeln, Index und Katalogkennungen umgesetzt |
 | [A10](PRAXISPRÜFUNG-2026-09-14.md#a10) | Hohe Restrisiken, betroffene Funktionen und begrenzter Ausnahmebetrieb | Fachliche Übernahme offen |
+| [A11](PRAXISPRÜFUNG-2026-09-14.md#a11) | Jede Tätigkeit bleibt auch bei längerem KI-Ausfall möglich; Wiederherstellung über normalen IT-Betrieb | Fachliche Übernahme offen; Bewertung R-06 angepasst |
 
 <a id="kontrollen"></a>
 
@@ -61,11 +62,11 @@ Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die
 | <a id="ki-gel-001"></a>`ki-gel-001` | Basis-Sicherheitskonzept und KI-Ergänzungen | 3, 9.1 | A03 | übergreifend | P12 |
 | <a id="ki-gel-002"></a>`ki-gel-002` | Schutzstatus und Dokumentenführung | 1, 9.1 | A03, A09 | übergreifend | P12 |
 | <a id="ki-gov-001"></a>`ki-gov-001` | Inventar und Zuständigkeiten | 7, 9.2 | A03 | übergreifend | P12 |
-| <a id="ki-gov-002"></a>`ki-gov-002` | Zugelassene Nutzung und Kompetenz | 6, 9.2 | A03, A06 | R-07 | P12 |
-| <a id="ki-gov-003"></a>`ki-gov-003` | Risikoakzeptanz und Überprüfung | 8, 9.2 | A01, A08, A10 | R-01–R-09 | P01, P02 |
+| <a id="ki-gov-002"></a>`ki-gov-002` | Zugelassene Nutzung, Kompetenz und Weiterarbeit ohne KI | 6, 9.2 | A03, A06, A11 | R-06, R-07 | P12 |
+| <a id="ki-gov-003"></a>`ki-gov-003` | Risikoakzeptanz und Überprüfung | 8, 9.2 | A01, A08, A10, A11 | R-01–R-09 | P01, P02 |
 | <a id="ki-rec-001"></a>`ki-rec-001` | Recht, Datenschutz und Verwendung | 6, 9.3 | A03, A05, A06, A07 | R-03, R-05, R-08 | P11, P12 |
 | <a id="ki-rec-002"></a>`ki-rec-002` | Schutzbedarf und besondere Freigaben | 6, 9.3 | A03, A06 | R-03, R-05, R-08 | P12 |
-| <a id="ki-arc-001"></a>`ki-arc-001` | Systemgrenzen und KI-Zugang | 4, 5, 9.4 | A04 | R-04, R-08 | P03, P09 |
+| <a id="ki-arc-001"></a>`ki-arc-001` | Systemgrenzen und KI-Zugang | 4, 5, 9.4 | A04, A11 | R-04, R-06, R-08 | P03, P09 |
 | <a id="ki-arc-002"></a>`ki-arc-002` | Unternehmensdienste und Datenflüsse | 4, 5, 9.4 | A04, A05 | R-08 | P09, P11 |
 | <a id="ki-con-001"></a>`ki-con-001` | Netz- und Containerkommunikation | 9.5 | A03, A04 | R-04, R-08 | P09 |
 | <a id="ki-con-002"></a>`ki-con-002` | Plattformrechte und Laufzeit | 9.5 | A03 | R-01, R-02 | P12 |
@@ -86,15 +87,15 @@ Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die
 | <a id="ki-tol-001"></a>`ki-tol-001` | Werkzeugaktionen und Genehmigungsgrenzen | 9.12, 11 | A02 | R-01 | P06 |
 | <a id="ki-tol-002"></a>`ki-tol-002` | Erweiterungen, MCP und Werkzeugprotokolle | 9.12, 11 | A03, A04 | R-01, R-02 | P04 |
 | <a id="ki-thr-001"></a>`ki-thr-001` | Bedrohungen und überprüfbare Testabdeckung | 8, 9.13 | A01 | R-01 | P03 |
-| <a id="ki-thr-002"></a>`ki-thr-002` | Überlastung und begrenzte Ressourcen | 9.13 | A01, A05 | R-06 | P01 |
+| <a id="ki-thr-002"></a>`ki-thr-002` | Überlastung, begrenzte Ressourcen und Schutz der übrigen IT | 9.13 | A01, A05, A11 | R-06 | P01 |
 | <a id="ki-val-001"></a>`ki-val-001` | Wiederholbare Qualitäts- und Sicherheitstests | 9.14 | A01, A03 | R-07, R-09 | P03, P08 |
 | <a id="ki-val-002"></a>`ki-val-002` | Routineänderungen und wesentliche Änderungen | 9.14 | A02, A03 | R-02, R-09 | P04 |
 | <a id="ki-ops-001"></a>`ki-ops-001` | Betriebsprotokolle und Inhaltsminimierung | 9.15 | A03, A06, A07 | R-05 | P05 |
-| <a id="ki-ops-002"></a>`ki-ops-002` | Überwachung und Vorfallbehandlung | 9.15 | A03, A08, A10 | übergreifend | P02 |
-| <a id="ki-ops-003"></a>`ki-ops-003` | Sicherung und konsistenter Wiederanlauf | 9.15 | A02, A03, A07 | R-03, R-06, R-09 | P04, P05 |
+| <a id="ki-ops-002"></a>`ki-ops-002` | Überwachung und Vorfallbehandlung | 9.15 | A03, A08, A10, A11 | übergreifend | P02 |
+| <a id="ki-ops-003"></a>`ki-ops-003` | Sicherung, Reparatur und konsistenter Wiederanlauf | 9.15, 13 | A02, A03, A07, A11 | R-03, R-06, R-09 | P04, P05 |
 | <a id="ki-dec-001"></a>`ki-dec-001` | Außerbetriebnahme | 9.16 | A03, A07 | R-03, R-05 | P05 |
 | <a id="ki-ext-001"></a>`ki-ext-001` | Ausdrückliche Freigabe externer KI-Nutzung | 9.17, 12 | A03, A04, A05 | R-08 | P09, P11 |
-| <a id="ki-ext-002"></a>`ki-ext-002` | Freigegebene Ausweichziele | 9.17, 12 | A05 | R-08 | P11 |
+| <a id="ki-ext-002"></a>`ki-ext-002` | Freigegebene Ausweichziele | 9.17, 12 | A05, A11 | R-06, R-08 | P11 |
 | <a id="ki-ass-001"></a>`ki-ass-001` | Nachweiskette und Abweichungsentscheidungen | 9.18, 13 | A01, A03, A08, A09, A10 | übergreifend | P01, P02, P12 |
 
 ## Risiken
@@ -108,7 +109,7 @@ Alle Links führen zu den neuen Bewertungsvorschlägen. Das noch geltende Regist
 | [R-03](PRAXISPRÜFUNG-2026-09-14.md#r-03) | Unberechtigte Offenlegung über Unternehmenswissen |
 | [R-04](PRAXISPRÜFUNG-2026-09-14.md#r-04) | Umgehung von Anmeldung oder Berechtigung |
 | [R-05](PRAXISPRÜFUNG-2026-09-14.md#r-05) | Unnötige geschützte Inhalte in Betriebsprotokollen |
-| [R-06](PRAXISPRÜFUNG-2026-09-14.md#r-06) | Überlastung durch Anfragen oder Agentenschleifen |
+| [R-06](PRAXISPRÜFUNG-2026-09-14.md#r-06) | Überlastung und verbindliche Weiterarbeit ohne KI |
 | [R-07](PRAXISPRÜFUNG-2026-09-14.md#r-07) | Wirksam eingesetzte fehlerhafte Ergebnisse |
 | [R-08](PRAXISPRÜFUNG-2026-09-14.md#r-08) | Übermittlung außerhalb der freigegebenen KI-Nutzung |
 | [R-09](PRAXISPRÜFUNG-2026-09-14.md#r-09) | Sicherheits- oder Qualitätsverlust nach Änderungen |
