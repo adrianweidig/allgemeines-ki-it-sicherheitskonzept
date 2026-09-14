@@ -15,6 +15,10 @@ Dieses Repository enthält ausschließlich eine öffentliche, organisationsneutr
 
 ## Fachliche Bearbeitung
 
+- Einstieg für die Recherche ist `dokumentation/INHALTSINDEX.md`. Von dort über Entscheidungs-, Risiko-, Kontroll- und Quellenkennungen zur maßgeblichen Stelle navigieren; Seiten- und Zeilennummern sind nur ergänzende Orientierung.
+- Kontrollabschnitte besitzen stabile OSCAL-IDs nach dem Muster `ki-gov-003-statement`. Fachliche Texte nur in ihrer maßgeblichen Quelle pflegen; Index und Querverweise bei jeder betroffenen Änderung mitführen und validieren.
+- Beschluss und Umsetzung getrennt kennzeichnen. Die Praxisprüfung enthält bestätigte Vorgaben und offene Empfehlungen; ein Navigationsverweis im Katalog setzt diese nicht als Anforderung in Kraft.
+
 - Der OSCAL-Katalog ist die normative Quelle. Keine zusätzliche Muss-Anforderung ausschließlich im DOCX ergänzen.
 - Das Konzept beschreibt den vorgesehenen Sollzustand wie eine reale Konzeptfassung. Anpassungs-, Redaktions- und Übernahmehinweise gehören ausschließlich in README und `dokumentation/ÜBERNAHMELEITFADEN.md`.
 - Jede Kontrolle benötigt Anforderung, Begründung, Umsetzung, Prüfziel, Nachweis, Anwendbarkeit und konkrete öffentliche Fundstelle.

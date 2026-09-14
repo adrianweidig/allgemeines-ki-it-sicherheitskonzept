@@ -2,6 +2,14 @@
 
 Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vor dem ersten fachlichen Entwurf existiert ausschließlich der Bootstrap des Repositorys.
 
+## Dokumentationsüberarbeitung – 14.09.2026
+
+- Beschlüsse A01–A10, die noch offenen Risikobewertungen und ihre Zuordnung zu den 38 Kontrollen im Inhaltsindex erschlossen.
+- Die empfohlene Akzeptanz mittlerer Restrisiken sowie der begrenzte Ausnahmebetrieb bei hohen und sehr hohen Restrisiken als beschlossene Vorgaben dokumentiert; die fachliche Übernahme steht noch aus.
+- Alle 228 Kontrollabschnitte im OSCAL-Katalog mit stabilen IDs versehen und den redaktionellen Index aus den Katalogmetadaten verlinkt.
+- Pflege und Prüfung der Kennungen, lokalen Verweise und Zielanker in Arbeitsregeln und Projektvalidierung verankert.
+- Migrationshinweis: Kontroll- und Quellenkennungen sowie fachliche Version 0.1.0 bleiben erhalten. Die zusätzlichen Abschnitts-IDs folgen `Kontroll-ID-Abschnittsname`; neue Metadatenverweise begründen keine zusätzliche Anforderung. Normative Texte und das DOCX/PDF-Paar werden durch diese Navigationsergänzung nicht verändert.
+
 ## 0.1.0 – 02.09.2026
 
 - Organisationsneutrale lokale Referenzarchitektur festgelegt.

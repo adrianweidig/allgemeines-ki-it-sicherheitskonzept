@@ -6,6 +6,7 @@ import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -31,6 +32,35 @@ class NegativeFälle(unittest.TestCase):
         katalog = copy.deepcopy(self.katalog)
         katalog["catalog"]["groups"][0]["controls"].append(copy.deepcopy(katalog["catalog"]["groups"][0]["controls"][0]))
         self.assertTrue(any("doppelte Kontroll-IDs" in f for f in vp.prüfe_katalog(katalog)))
+
+    def test_stabile_abschnittskennung_wird_erzwungen(self):
+        katalog = copy.deepcopy(self.katalog)
+        abschnitt = next(vp.katalogkontrollen(katalog))["parts"][0]
+        abschnitt["id"] = "ki-falsch-001-statement"
+        self.assertTrue(any("stabile Abschnitts-ID" in f for f in vp.prüfe_katalog(katalog)))
+
+    def test_katalog_benötigt_indexverweis(self):
+        katalog = copy.deepcopy(self.katalog)
+        katalog["catalog"]["metadata"].pop("links", None)
+        self.assertTrue(any("Katalogverweis" in f for f in vp.prüfe_inhaltsindex(katalog)))
+
+    def test_index_erkennt_unvollständige_und_falsche_ziele(self):
+        original_lesen = Path.read_text
+        indextext = vp.INDEX_PFAD.read_text(encoding="utf-8")
+        self.assertEqual([], vp.prüfe_inhaltsindex(self.katalog))
+        for alt, neu, erwartet in (
+            ('id="ki-gel-001"', 'id="ki-falsch-001"', "Kontrollanker"),
+            ("md#a08", "md#a99", "Zielanker"),
+            ("../CHANGELOG.md", "../fehlt.md", "lokales Ziel"),
+            ("../CHANGELOG.md", "../../AGENTS.md", "außerhalb"),
+            ("## Entscheidungen", '<a id="kontrollen"></a>\n## Entscheidungen', "doppelte Anker"),
+        ):
+            with self.subTest(ersatz=neu):
+                geändert = indextext.replace(alt, neu)
+                def lesen(pfad, *args, **kwargs):
+                    return geändert if pfad == vp.INDEX_PFAD else original_lesen(pfad, *args, **kwargs)
+                with patch.object(Path, "read_text", lesen):
+                    self.assertTrue(any(erwartet in f for f in vp.prüfe_inhaltsindex(self.katalog)))
 
     def test_fehlende_internetquelle_wird_abgewiesen(self):
         register = copy.deepcopy(self.register)

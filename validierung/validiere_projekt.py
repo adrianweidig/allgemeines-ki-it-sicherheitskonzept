@@ -24,6 +24,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
+from urllib.parse import unquote
 from xml.etree import ElementTree
 
 import regex
@@ -39,6 +40,7 @@ STATUS_PFAD = WURZEL / "projektstatus.json"
 REGISTER_PFAD = WURZEL / "quellen" / "quellenregister.json"
 REGISTER_SCHEMA_PFAD = WURZEL / "schemata" / "quellenregister.schema.json"
 KATALOG_PFAD = WURZEL / "katalog" / "ki-it-sicherheitskatalog.oscal.json"
+INDEX_PFAD = WURZEL / "dokumentation" / "INHALTSINDEX.md"
 OSCAL_SCHEMA_PFAD = WURZEL / "schemata" / "oscal-1.1.3" / "oscal_catalog_schema.json"
 DOCX_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.docx"
 PDF_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.pdf"
@@ -254,6 +256,12 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
         fehlend = PFLICHTTEILE - set(teile)
         if fehlend:
             fehler.append(f"{cid}: Pflichtteile fehlen: {', '.join(sorted(fehlend))}.")
+        for abschnitt in c.get("parts", []):
+            if abschnitt.get("id") != f"{cid}-{abschnitt.get('name')}":
+                fehler.append(f"{cid}: stabile Abschnitts-ID fehlt oder weicht vom Kontrollnamen ab.")
+        abschnitts_ids = [p.get("id") for p in c.get("parts", [])]
+        if len(abschnitts_ids) != len(set(abschnitts_ids)):
+            fehler.append(f"{cid}: doppelte Abschnitts-ID.")
         for name in PFLICHTTEILE & set(teile):
             if len(teile[name].strip()) < 20:
                 fehler.append(f"{cid}: Teil {name} ist nicht aussagekräftig.")
@@ -295,6 +303,46 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
         fehler.append("Der Katalog muss OSCAL 1.1.3 ausweisen.")
     if eigenschaft(metadata, "modelltraining") != ["ausgeschlossen"] or eigenschaft(metadata, "feinabstimmung") != ["ausgeschlossen"]:
         fehler.append("Metadaten weisen Trainings- oder Feinabstimmungsausschluss nicht aus.")
+    return fehler
+
+
+def prüfe_inhaltsindex(katalog: dict[str, Any]) -> list[str]:
+    """Prüft die bewusst einfachen Markdown-Verweise mit expliziten HTML-Ankern."""
+    fehler: list[str] = []
+    if not INDEX_PFAD.is_file():
+        return ["Index: Inhaltsindex fehlt."]
+    indextext = INDEX_PFAD.read_text(encoding="utf-8")
+    ankermuster = r'<a id="([a-z0-9-]+)"></a>'
+    indexanker = re.findall(ankermuster, indextext)
+    katalog_ids = {c["id"] for c in katalogkontrollen(katalog)}
+    if {a for a in indexanker if a.startswith("ki-")} != katalog_ids:
+        fehler.append("Index: Kontrollanker stimmen nicht mit dem Katalog überein.")
+    indexlinks = [l.get("href") for l in katalog["catalog"]["metadata"].get("links", []) if l.get("rel") == "index"]
+    if indexlinks != ["../dokumentation/INHALTSINDEX.md#kontrollen"] or "kontrollen" not in indexanker:
+        fehler.append("Index: Katalogverweis auf den Kontrollindex fehlt oder ist ungültig.")
+    texte = {INDEX_PFAD.resolve(): indextext}
+    for adresse in re.findall(r"\[[^\]\n]+\]\(([^)\s]+)\)", indextext):
+        if adresse.startswith(("https://", "http://")):
+            continue
+        pfad, _, anker = adresse.partition("#")
+        ziel = (INDEX_PFAD.parent / unquote(pfad)).resolve() if pfad else INDEX_PFAD.resolve()
+        if not ziel.is_relative_to(WURZEL.resolve()) or not ziel.is_file():
+            fehler.append(f"Index: lokales Ziel fehlt oder liegt außerhalb des Projekts: {adresse}")
+            continue
+        if ziel.suffix.lower() == ".md":
+            if ziel not in texte:
+                texte[ziel] = ziel.read_text(encoding="utf-8")
+            if anker and unquote(anker) not in re.findall(ankermuster, texte[ziel]):
+                fehler.append(f"Index: Zielanker fehlt: {adresse}")
+    dokumentierte_ids: set[str] = set()
+    for pfad, text in texte.items():
+        anker = re.findall(ankermuster, text)
+        if len(anker) != len(set(anker)):
+            fehler.append(f"Index: doppelte Anker in {pfad.name}.")
+        dokumentierte_ids.update(a for a in anker if re.fullmatch(r"(?:a|p)\d{2}|r-\d{2}", a))
+    referenzierte_ids = {i.lower() for i in re.findall(r"\b(?:A\d{2}|P\d{2}|R-\d{2})\b", indextext)}
+    if referenzierte_ids != dokumentierte_ids:
+        fehler.append("Index: Entscheidungs-, Risiko- oder Empfehlungskennungen sind nicht vollständig verknüpft.")
     return fehler
 
 
@@ -1091,6 +1139,7 @@ def führe_prüfungen_aus(
         (prüfe_schemata, (katalog, register)),
         (prüfe_quellenregister, (register, katalog)),
         (prüfe_katalog, (katalog,)),
+        (prüfe_inhaltsindex, (katalog,)),
         (prüfe_projektstatus, (status, katalog)),
         (prüfe_inhaltsgrenzen, (katalog, register)),
         (prüfe_git, ()),

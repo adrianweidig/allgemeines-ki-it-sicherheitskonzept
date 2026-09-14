@@ -9,6 +9,7 @@ Dieses Repository entwickelt eine prüf- und zertifizierungsvorbereitende Refere
 
 ## Kernergebnisse
 
+- [`Inhaltsindex für Menschen und KI-Agenten`](dokumentation/INHALTSINDEX.md): stabile Kennungen, Querverweise und Entscheidungsstand für Kontrollen, Risiken und Überarbeitung.
 - [`katalog/ki-it-sicherheitskatalog.oscal.json`](katalog/ki-it-sicherheitskatalog.oscal.json): normativer OSCAL-Katalog nach OSCAL 1.1.3.
 - `konzept/ki-it-sicherheitskonzept.docx`: redaktionelles Masterdokument.
 - `konzept/ki-it-sicherheitskonzept.pdf`: ausschließlich aus derselben DOCX-Fassung erzeugte Lesefassung.

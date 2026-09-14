@@ -31,6 +31,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 | Mittel, nur externe Variante | P11 Variantenfreigabe von der Prüfung jeder Anfrage trennen | S. 50, KI-EXT-001 |
 | Hoch | P12 Anwendbarkeit und MUSS-Verschärfungen einzeln begründen | Gesamtkatalog, 38 Kontrollen |
 
+<a id="p01"></a>
+
 ## P01 Restrisiken sind keine zugesicherte Maßnahmenwirkung
 
 **Fundstelle:** S. 13, Beschriftung der Abbildung 4: „Die KI-spezifischen Maßnahmen senken alle hohen und sehr hohen Ausgangsrisiken auf höchstens mittel.“ S. 14, Risikoregister, besonders R-08.
@@ -42,6 +44,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Nach Umsetzung und Prüfung der Maßnahmen werden Eintrittshäufigkeit und Schadenshöhe für jedes Szenario erneut bewertet. Eine Freigabe setzt ein nach den festgelegten Kriterien akzeptables und nachvollziehbar begründetes Restrisiko voraus. Eine niedrigere Schadenshöhe wird nur angesetzt, wenn konkrete Maßnahmen die mögliche Schadenswirkung nachweisbar begrenzen.
 
 **Erforderlicher Nachweis:** Annahmen, Messungen oder geeignete Erfahrungswerte je Szenario; gesonderte Begründung jeder geänderten Schadenshöhe. Die Zielwerte dürfen bis dahin nur als Planungsannahmen gelten. Bei Annahme der Empfehlung müssen Register, Matrix und Beschriftung gemeinsam angepasst werden.
+
+<a id="p02"></a>
 
 ## P02 Eine hohe Risikoeinstufung benötigt eine differenzierte Betriebsentscheidung
 
@@ -55,6 +59,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 
 **Erforderlicher Nachweis:** Entscheidungsbefugnisse, nicht ausnahmefähige Grenzen, betroffene Funktionen, Fristen und Abschaltkriterien. Die Organisation kann die bisherige strengere Grenze ausdrücklich beibehalten.
 
+<a id="p03"></a>
+
 ## P03 Alle real möglichen Angriffswege lassen sich nicht vollständig testen
 
 **Fundstelle:** S. 42, KI-THR-001, Prüfziel: „jeder real mögliche Daten- und Aktionspfad modelliert, mit Szenarien getestet“. Verwandte sehr absolute Prüfziele stehen in KI-API-002 und KI-PMT-001.
@@ -66,6 +72,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Das Bedrohungsmodell erfasst alle inventarisierten Schnittstellen, Vertrauensgrenzen und freigegebenen Aktionsklassen. Sicherheitskritische Grenzen werden mit risikobasierten positiven und negativen Tests geprüft. Testabdeckung, nicht geprüfte Kombinationen und verbleibende Unsicherheiten werden dokumentiert. Berechtigungen und Werkzeuggrenzen werden unabhängig vom Modell technisch durchgesetzt.
 
 **Erforderlicher Nachweis:** Abdeckungsmatrix mit Daten- und Aktionsklassen, Testsatz, Ergebnissen und benannten Grenzen. Die eigentliche Anforderung, unberechtigte Zugriffe technisch zu verhindern, bleibt bestehen.
+
+<a id="p04"></a>
 
 ## P04 Nicht jede RAG-Aktualisierung benötigt eine vollständige Wiederfreigabe
 
@@ -79,6 +87,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 
 **Erforderlicher Nachweis:** Änderungsmatrix, Kriterien für Standardänderungen, betroffene Tests, Entscheidung und regelmäßig erprobtes Wiederherstellungsverfahren. Keine Ausnahme für Änderungen der System- oder Berechtigungsgrenze allein wegen ihres geringen Umfangs.
 
+<a id="p05"></a>
+
 ## P05 Sofortige Nichtzugreifbarkeit und abgeschlossene Löschung sind verschiedene Ziele
 
 **Fundstelle:** S. 34, KI-RAG-004: „nachweislich vollständigen Löschlauf“ und Nichtzugreifbarkeit von Datei, Auszügen, Suchvektoren und Zwischenspeichern nach Sitzungsende. Ergänzend S. 33, KI-RAG-003.
@@ -90,6 +100,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Sitzungsbezogene Inhalte werden bei Beendigung oder Ablauf der Sitzung für weitere Anfragen gesperrt. Quelldateien und Ableitungen werden innerhalb der im Löschkonzept festgelegten Fristen gelöscht; fehlgeschlagene Löschaufträge werden erkannt und nachbearbeitet. Temporäre Inhalte werden grundsätzlich nicht in dauerhafte Wissensbestände oder reguläre Sicherungen übernommen. Erforderliche Ausnahmen werden ausdrücklich geregelt. Bei Wiederherstellungen werden gültige Löschmarkierungen vor Freigabe der Daten erneut angewandt.
 
 **Erforderlicher Nachweis:** Eindeutiger Sitzungsablauf, getrennte Sperr- und Löschfristen, Tests bei Absturz und Wiederherstellung, Umgang mit Sicherungen und minimalen Prüfprotokollen. Die Fristen werden anhand des tatsächlichen Schutzbedarfs festgelegt.
+
+<a id="p06"></a>
 
 ## P06 Der Fließtext verlangt mehr Bestätigungen als die normative Kontrolle
 
@@ -103,6 +115,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 
 **Erforderlicher Nachweis:** Aktionsklassen, wirksame Profile, konkrete Bestätigungsgrenzen und Negativtests. Bei Annahme müssen Katalog, Kapitel 11, PlantUML-Quelle und Alternativtext zusammengeführt werden.
 
+<a id="p07"></a>
+
 ## P07 Trainingsfähige Bibliotheken sind nicht mit freigegebenem Training gleichzusetzen
 
 **Fundstelle:** S. 30, KI-TRN-001, Umsetzung: „Trainingssoftware, Schreibpfade auf Modellgewichte und lernende Rückkopplungen werden nicht bereitgestellt.“ Das Prüfziel erfasst auch Pakete, die keine Gewichtsänderung erlauben sollen.
@@ -114,6 +128,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Training, Feinabstimmung und lernende Rückkopplungen sind im Geltungsbereich untersagt. Produktive Modellartefakte werden im Inferenzbetrieb schreibgeschützt bereitgestellt. Trainingsaufträge und Schnittstellen zur Gewichtsänderung werden weder freigegeben noch durch Dienstrechte ermöglicht. Unvermeidbare Bibliotheksfunktionen werden in der Komponentenprüfung erfasst und dürfen keinen freigegebenen Ausführungspfad erhalten.
 
 **Erforderlicher Nachweis:** Effektive Dateirechte, erreichbare Schnittstellen, Auftragsinventar, Integritätskontrolle und negative Ausführungstests. Das Trainingsverbot selbst wird nicht gelockert.
+
+<a id="p08"></a>
 
 ## P08 Wiederholbare Bewertung bedeutet nicht stets wortgleiche Antworten
 
@@ -127,6 +143,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 
 **Erforderlicher Nachweis:** Wiederholte Messungen mit vorab festgelegten Schwellen. Ein gesetzter Zufallsstartwert allein genügt nicht als Nachweis identischer Ausführung.
 
+<a id="p09"></a>
+
 ## P09 Vollständig lokaler Betrieb ist eine Architekturentscheidung
 
 **Fundstelle:** S. 7–9 und 23, KI-ARC-002: unter anderem lokale Identitäten, Git, Registrierungen, Protokolle, Telemetrie und Sicherungen; keine ausgehende Internetverbindung der KI-Komponenten im Standardbetrieb.
@@ -138,6 +156,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Die festgelegte Systemgrenze umfasst die KI-Dienste und ihre im Datenflussmodell bezeichneten Abhängigkeiten. Inferenz und KI-Inhaltsdaten werden ausschließlich innerhalb dieser lokalen Grenze verarbeitet. Abhängigkeiten zu Identität, Codeverwaltung, Überwachung und Sicherung werden je Dienst benannt und auf die freigegebenen Datenflüsse begrenzt. Direkte Internetverbindungen der KI-Komponenten bleiben gesperrt; Aktualisierungen erfolgen über den kontrollierten Importweg.
 
 **Erforderliche Entscheidung:** Welche bestehenden Unternehmensdienste liegen innerhalb der lokalen Grenze? Falls externe Dienste erforderlich sind, muss die Unternehmensfassung als gesonderte Architekturvariante bewertet werden. Eine externe Identitäts- oder Protokollierungsabhängigkeit wird nicht allein durch die Kontrollen zur externen Inferenz abgedeckt.
+
+<a id="p10"></a>
 
 ## P10 Die aktuelle Berechtigung benötigt eine messbare Widerrufsfrist
 
@@ -151,6 +171,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 
 **Erforderlicher Nachweis:** Gemessene Übernahmezeiten einschließlich Verzeichnisstörung, laufender Sitzung, Trefferzwischenspeicher und direktem Objektzugriff. Keine pauschale Frist ohne Bezug zur tatsächlichen Architektur festlegen.
 
+<a id="p11"></a>
+
 ## P11 Eine externe Variante wird freigegeben und jede Anfrage dagegen geprüft
 
 **Fundstelle:** S. 50, KI-EXT-001: „vor jeder Datenübertragung eine neue organisationsspezifische Bewertung und Freigabe“.
@@ -162,6 +184,8 @@ Die größten Probleme liegen in vorweggenommenen Wirksamkeitsaussagen, nicht be
 > Vor der ersten Datenübertragung wird die externe Betriebsvariante organisationsspezifisch bewertet und freigegeben. Die Freigabe benennt Anbieter, Endpunkte, Modelle, Datenkategorien, Zwecke und Gültigkeit. Jede Anfrage wird gegen diese Freigabe geprüft. Wesentliche Änderungen oder ihr Ablauf erfordern eine erneute Bewertung; außerhalb einer gültigen Freigabe findet keine Übertragung statt.
 
 **Erforderlicher Nachweis:** Gültige Variantenentscheidung, technische Anfrageprüfung und eindeutig definierte Änderungsanlässe. Rechts- und Vertragsprüfung werden dadurch nicht entbehrlich.
+
+<a id="p12"></a>
 
 ## P12 Einzelfallbezogene Anwendbarkeit und konkrete Verschärfungsbegründungen fehlen
 
@@ -197,9 +221,13 @@ NIST und die PyTorch-Dokumentation wurden am 14.09.2026 online eingesehen. Die d
 
 Die 22 vorhandenen Negativtests bestanden. Die strenge Projektvalidierung mit Onlineprüfung und `--ohne-lokale-eingaben` meldete keine Fehler und elf Abrufwarnungen: acht ISO-Quellen, die BMI-Fundstelle samt gesondertem PDF-Abgleich und die NIST-OSCAL-Fundstelle. Die Option war erforderlich, weil die registrierten, von Git ausgeschlossenen Eingangsdateien in diesem Checkout fehlen. Der erfolgreiche Prüflauf ersetzt die noch erforderlichen manuellen Prüfungen dieser nicht erreichbaren Quellen nicht.
 
+<a id="entscheidungen"></a>
+
 ## Festgehaltene Vorgaben aus der Abstimmung
 
-Die folgenden Vorgaben konkretisieren den Auftrag zur Überarbeitung. Sie sind noch nicht in OSCAL-Katalog, Generator oder Konzeptdokumente übernommen. Die Abstimmung läuft im Frage-Antwort-Verfahren weiter. Unternehmensbezogene Betriebsangaben gehören ausschließlich in die getrennte private Fassung.
+Die folgenden Vorgaben konkretisieren den Auftrag zur Überarbeitung. Die fachlichen Vorgaben sind noch nicht in die Anforderungstexte des OSCAL-Katalogs, den Generator oder die Konzeptdokumente übernommen. A09 zur Auffindbarkeit ist bereits in Arbeitsregeln, Index und Katalogkennungen umgesetzt. Der [Inhaltsindex](INHALTSINDEX.md) verknüpft Entscheidungen, Risiken und Kontrollen. Die Abstimmung läuft im Frage-Antwort-Verfahren weiter. Unternehmensbezogene Betriebsangaben gehören ausschließlich in die getrennte private Fassung.
+
+<a id="a01"></a>
 
 ### A01 Vollständig bewertetes, praktisch betreibbares Referenzkonzept
 
@@ -207,9 +235,13 @@ Die allgemeine Fassung soll für den beschriebenen Geltungsbereich bereits konkr
 
 Die Maßnahmen müssen einen funktionsfähigen Betrieb ermöglichen. Überzogene Vollständigkeitsnachweise und unverhältnismäßige Freigabeprozesse werden durch prüfbare, praktikable Festlegungen ersetzt. Für Unternehmen, deren Umgebung und Nutzung dem beschriebenen Geltungsbereich entsprechen, soll eine Übernahme mit wenigen Stammdaten- und Zuständigkeitsanpassungen möglich sein.
 
+<a id="a02"></a>
+
 ### A02 Selbstständige Projektarbeit und einfache Wiederherstellung
 
 Analyse, Lesen, Erzeugen, Codebearbeitung und Tests sollen innerhalb freigegebener Rechte und Arbeitsbereiche selbstständig möglich sein. Auch Änderungen, Löschungen und Übertragungen in freigegebene Projektablagen dürfen ohne Einzelgenehmigung erfolgen, wenn der Nutzer die betroffenen Daten und Zustände schnell, einfach und zuverlässig wiederherstellen kann. Sicherheitsrelevante Folgewirkungen sind einzubeziehen. Eine bestimmte Versionierungs- oder Sicherungstechnik wird nicht vorgeschrieben. Ohne diese Absicherung benötigen Löschungen und sonstige destruktive Tätigkeiten eine konkrete Genehmigung. Besondere Grenzen für kritische und privilegierte Eingriffe bleiben zu beachten.
+
+<a id="a03"></a>
 
 ### A03 Bestehende Dokumenten- und Sicherheitsprozesse anwenden
 
@@ -218,6 +250,8 @@ Dokumente unterliegen dem regulären Qualitäts-, Freigabe- und Konfigurationsma
 Die genehmigte Nutzung eines Bereichs kann auch dessen festgelegte Aufnahme in einen Wissensbestand abdecken. Dadurch entstehen keine weitergehenden Zugriffsrechte für andere Nutzer oder Zwecke. Ob ein Inhalt dauerhaft gespeichert werden darf, folgt aus der vorgesehenen Nutzung und den geltenden Ablageregeln. Eine besondere Genehmigung jedes einzelnen Dokuments ist dafür nicht erforderlich.
 
 Allgemeine Sicherheitsmaßnahmen werden durch ausdrücklichen Bezug auf das maßgebliche IT-Sicherheitskonzept und die zugehörigen betrieblichen Richtlinien angewandt. Je Thema beschreibt das KI-Konzept zusätzlich, auf welche KI-Komponenten, Daten und Vorgänge die Basismaßnahmen anzuwenden sind und welche KI-spezifischen Ergänzungen erforderlich sind. Vorhandene Zuständigkeiten, Freigaben und Nachweise werden weiterverwendet. Ein Verweis ersetzt keine tatsächlich fehlende Basismaßnahme.
+
+<a id="a04"></a>
 
 ### A04 Integration in das Unternehmensnetz und Übernahme der Anmeldung
 
@@ -229,6 +263,8 @@ Lokale KI-Verarbeitung wird bevorzugt. Externe KI-Dienste können als gesonderte
 
 Fachliche Präzisierung: Die vorhandene Anmeldung soll ohne erneute Passworteingabe genutzt werden; der KI-Zugang muss den vertrauenswürdigen Anmeldekontext und die dazugehörige Berechtigung jedoch tatsächlich übernehmen können. Die reine Erreichbarkeit aus einem Unternehmensnetz stellt diesen Nachweis nicht her. Die Unterscheidung ist mit dem beschriebenen Einmalanmeldeverfahren und dem fehlenden automatischen Vertrauen allein aufgrund der Netzposition vereinbar. [Microsoft: Single Sign-on](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/what-is-single-sign-on), [NIST SP 800-207](https://csrc.nist.gov/pubs/sp/800/207/final)
 
+<a id="a05"></a>
+
 ### A05 Internetnutzung, ausdrückliche KI-Freigabe und Ausweichziele
 
 Für Internetnutzung und externe Kommunikation gelten die Vorgaben des allgemeinen IT-Sicherheitskonzepts und der zugehörigen betrieblichen Richtlinien. Sie sind auch auf die KI-Umgebung anzuwenden. Eine allgemeine Freigabe des Internetzugangs beinhaltet keine Freigabe zur Nutzung externer KI-Dienste. Diese benötigen zusätzlich eine ausdrückliche Nutzungsfreigabe für den vorgesehenen Einsatz und die zulässigen Daten.
@@ -236,6 +272,8 @@ Für Internetnutzung und externe Kommunikation gelten die Vorgaben des allgemein
 Als Ausweichziele können weitere freigegebene Modelle oder KI-Umgebungen vorgesehen werden. Diese können lokal oder extern betrieben sein. Die Freigabe muss die vorgesehene Nutzung als Ausweichziel einschließen. Automatische Wechsel dürfen ausschließlich innerhalb dieses freigegebenen Rahmens erfolgen; eine erneute Einzelgenehmigung jedes abgedeckten Wechsels ist nicht erforderlich. Ein Wechsel in eine nicht freigegebene KI-Umgebung bleibt auch bei Störung oder Überlastung unzulässig.
 
 Ausweichziele sind eine optionale Betriebsfunktion. Ein automatischer Wechsel zu Cloud-KI wird weder vorausgesetzt noch pauschal aus einem vorhandenen Internetzugang abgeleitet. Die Risikobewertung darf einem nicht vorgesehenen oder nicht wirksamen Ausweichbetrieb keine risikomindernde Wirkung zuschreiben.
+
+<a id="a06"></a>
 
 ### A06 Persönliche Speicherung und freiwillige Unternehmenswissensbildung
 
@@ -255,11 +293,35 @@ Die Bereichsfreigabe aus A03 ist keine pauschale Zustimmung zur automatischen Zw
 
 Mit Unternehmenswissensbildung ist hier die kontrollierte Aufnahme von Informationen für spätere Wissensabfragen gemeint. Training, Feinabstimmung und selbsttätige Änderungen von Modellgewichten bleiben ausgeschlossen. Fachliche Einordnung: Die RAG-Methode ergänzt Anfragen um Informationen aus getrennten Datenbeständen und verändert dadurch keine Modellgewichte. Zugriffstrennung ist im Wissenssystem mit klassischen Rollen- und Rechteverfahren durchzusetzen. [DSK-Orientierungshilfe RAG, Abschnitte 2.1 und 3.3](https://www.datenschutzkonferenz-online.de/media/oh/DSK_OH_RAG.pdf)
 
+<a id="a07"></a>
+
 ### A07 Beenden der Wissensübernahme und Umgang mit bestehenden Beiträgen
 
 Beim Deaktivieren der Wissensübernahme werden weitere Beiträge aus dem betroffenen Projekt nicht mehr in den Unternehmenswissensbestand übernommen. Bereits übernommene Beiträge werden nach den bestehenden Nutzungs-, Aufbewahrungs- und Löschregeln behandelt; das Deaktivieren allein löst weder eine pauschale Löschung noch eine pauschale Ausblendung rechtmäßig weiter nutzbarer Beiträge aus. Diese Wirkung wird dem Nutzer vor der Zustimmung und beim Deaktivieren verständlich erklärt.
 
 Entfällt die Zulässigkeit der weiteren Nutzung oder eine Zugriffsberechtigung, muss die betroffene Nutzung unabhängig von dieser Einstellung unterbunden werden. Eine erforderliche Aufbewahrung begründet keine weitere Berechtigung zur KI-Verarbeitung. Erforderliche Berichtigungen und Löschungen erfolgen nach den geltenden Unternehmensprozessen und umfassen auch die betroffenen Ableitungen und Suchindizes.
+
+<a id="a08"></a>
+
+### A08 Begründete Akzeptanz mittlerer Restrisiken
+
+Mittlere Restrisiken dürfen innerhalb der geltenden Risikotoleranz von der zuständigen Stelle begründet akzeptiert und regelmäßig überprüft werden. Sind die erforderlichen Maßnahmen umgesetzt und keine weiteren Maßnahmen beschlossen, wird kein zusätzlicher Maßnahmenplan allein wegen der Risikokategorie „mittel“ verlangt. Eine Befristung richtet sich nach der konkreten Entscheidung und den bestehenden Unternehmensregeln. Verantwortung, Begründung und erneute Bewertungsanlässe bleiben dokumentiert; veränderte Voraussetzungen oder erkannte Schutzmängel erfordern eine erneute Entscheidung.
+
+<a id="a09"></a>
+
+### A09 Dauerhafte Auffindbarkeit für Menschen und KI-Agenten
+
+Entscheidungen, Risiken, Kontrollen und Quellen werden über stabile Kennungen und einen kompakten, vom Projekteinstieg erreichbaren Index miteinander verknüpft. Der Index benennt die maßgebliche Datei, den Abschnitt oder eine strukturierte Kennung sowie den Entscheidungs- und Umsetzungsstand. Er vervielfältigt keine normativen Anforderungstexte. Im OSCAL-Katalog erhalten auch die einzelnen Kontrollabschnitte dauerhafte Kennungen.
+
+Die Pflege dieser Verweise ist Bestandteil jeder einschlägigen Änderung. Umbenennungen und Verschiebungen dürfen keine unbemerkten veralteten Verweise hinterlassen. Beschlossene Vorgaben, offene Empfehlungen und tatsächlich umgesetzte Inhalte bleiben unterscheidbar. Der Zugriff über einen Index erweitert keine Berechtigungen; organisationsbezogene Informationen und ihre Indizes verbleiben in der dafür vorgesehenen geschützten Fassung. Die Regel wird auch in den übergeordneten Workspace-Arbeitsregeln festgehalten.
+
+<a id="a10"></a>
+
+### A10 Hohe Restrisiken und begrenzter Ausnahmebetrieb
+
+Hohe und sehr hohe Restrisiken werden an die zuständige Entscheidungsstelle eskaliert. Die betroffenen Funktionen bleiben gesperrt, sofern kein ausdrücklich genehmigter, befristeter Betrieb innerhalb der geltenden Unternehmensvorgaben mit zusätzlichen wirksamen Schutzmaßnahmen möglich ist. Die Entscheidung benennt Umfang, Verantwortung, Endtermin, Überwachung und klare Abbruchkriterien. Akute Gefahren, unzulässige Datenverarbeitung und fehlende Berechtigungen erlauben keine solche Ausnahme. Nicht betroffene Funktionen dürfen im Rahmen ihrer Freigabe weiterbetrieben werden.
+
+<a id="basisprozesse"></a>
 
 ### Prüfung der Überschneidungen für alle 38 Kontrollen
 
@@ -284,6 +346,8 @@ Besonders zu überarbeiten sind die pauschale Wiederfreigabe in KI-VAL-002 sowie
 
 Ein wiederverwendbarer Formulierungsansatz lautet: „Für diesen Regelungsbereich gelten die Maßnahmen des maßgeblichen IT-Sicherheitskonzepts und der zugehörigen betrieblichen Richtlinien. Sie sind auf die hier beschriebenen KI-Dienste, Datenbestände und Vorgänge anzuwenden. Die nachfolgenden Festlegungen ergänzen diese Maßnahmen um die KI-spezifischen Anforderungen.“ Die jeweiligen Dienste, Daten und Ergänzungen werden im betreffenden Abschnitt konkret benannt.
 
+<a id="risikobewertungen"></a>
+
 ## Vorbereitete Risikobewertungen für die weitere Abstimmung
 
 Die nachfolgenden Einstufungen sind fachliche Vorschläge auf Grundlage von A01 bis A07. Sie ersetzen noch nicht das Risikoregister in Kapitel 8. Bewertet wird jeweils das schädliche Ereignis: beispielsweise die tatsächlich unberechtigte Offenlegung, nicht bereits eine persönliche Speicherung, ein Angriffsversuch oder eine fehlerhafte Modellantwort ohne weitere Auswirkung.
@@ -294,18 +358,18 @@ Die bestehende Matrix wird für diese Gegenüberstellung beibehalten. Eine gerin
 
 | ID und konkretisiertes Schadensereignis | Ausgangsrisiko | Vorgeschlagenes Restrisiko | Umsetzbare Behandlung und verbleibende Grenze |
 |---|---|---|---|
-| R-01: Eingeschleuste Inhalte führen zu einer unzulässigen Werkzeugaktion mit erheblicher Auswirkung. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Rechte und erlaubte Aktionen außerhalb des Modells begrenzen; selbstständige Arbeit einschließlich leicht rückgängig zu machender Änderungen nach A02 zulassen. Nicht ausreichend abgesicherte destruktive Tätigkeiten erfordern Genehmigung. Wiederherstellung begrenzt reversible Projektfehler, macht aber eine Offenlegung oder andere nicht rückholbare Folgewirkungen nicht ungeschehen. |
-| R-02: Manipulierte Modelle, Pakete oder Erweiterungen werden übernommen und beeinträchtigen die Umgebung. | mittel × beträchtlich = mittel | selten × beträchtlich = mittel | Bestehende Beschaffungs-, Herkunfts-, Integritäts- und Freigabeprüfungen auf KI-Artefakte anwenden; Signaturen prüfen, soweit verfügbar. Herkunft und Prüfsumme belegen nicht allein die Unbedenklichkeit des Inhalts. Eine kompromittierte vertrauenswürdige Quelle bleibt möglich; die Schadenshöhe wird nicht pauschal herabgesetzt. |
-| R-03: Wissensabfragen oder übernommene Projektbeiträge offenbaren geschützte Informationen an Unberechtigte. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Nutzerrechte bei Aufnahme und Abruf fortführen; persönliche Verläufe und Unternehmenswissen nach A06/A07 trennen. Projektzustimmung, sichtbarer Status und technisch durchgesetzte Empfängerrechte müssen gemeinsam vorliegen. Unklare Beiträge werden nicht automatisch übernommen. Fehlzuordnungen, Rechtefehler oder unbekannte Schwachstellen bleiben ein Restrisiko; ein dennoch erfolgter Abfluss kann weiterhin beträchtlich schaden. |
-| R-04: Ein Zugriff auf die KI umgeht die vorgesehene Identitäts- oder Berechtigungsprüfung. | mittel × beträchtlich = mittel | selten × beträchtlich = mittel | Unternehmensanmeldung und zugehörige Rechte wirksam übernehmen; auch direkte Schnittstellen müssen denselben Schutz gewährleisten oder für unberechtigte Zugriffe gesperrt sein. Netzzugehörigkeit ersetzt keine Berechtigung. Fehlkonfigurationen oder kompromittierte Zugänge bleiben möglich. |
-| R-05: Betriebsprotokolle speichern unnötig geschützte Inhalte und machen sie zusätzlich zugänglich. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Im Regelfall erforderliche Betriebs- und Sicherheitsmetadaten protokollieren; Inhaltsaufzeichnungen begrenzen, zweckgebunden schützen und nach den geltenden Fristen löschen. Zulässige persönliche Verlaufsspeicherung ist davon getrennt. Wegen möglicher Personal-, Kunden- oder Geschäftsangaben wird ohne belegte Inhaltsbegrenzung keine pauschal geringe Schadenshöhe angenommen. |
-| R-06: Aufwendige Anfragen oder Agentenschleifen verursachen eine relevante Überlastung. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel; bei begrenzter Auswirkung mittel × begrenzt = gering | Angemessene Ressourcen- und Laufzeitgrenzen sowie kontrolliertes Beenden begrenzen Überlastung. Die geringere Schadenshöhe ist nur begründet, wenn andere wichtige Dienste wirksam geschützt sind und betroffene Arbeit rasch fortgeführt oder wiederhergestellt werden kann. Ein optionaler Ausweichbetrieb wird nur berücksichtigt, wenn er tatsächlich eingerichtet und geeignet ist. |
-| R-07: Fehlerhafte Ausgaben werden ohne ausreichende Qualitätssicherung wirksam eingesetzt und verursachen Fehlentscheidungen oder unsichere Software. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel | Normale fachliche Prüfung, Softwaretests und Freigaben nach der Auswirkung anwenden; keine Einzelbestätigung für jede gewöhnliche KI-Antwort oder reversible Codeänderung verlangen. Auch geprüfte Ergebnisse können Fehler enthalten. Die bisherige starke Absenkung auf „selten“ wird ohne zusätzliche Begründung nicht übernommen. Häufige Modellfehler sind nicht mit ebenso häufigen beträchtlichen Schäden gleichzusetzen. |
-| R-08: Eine KI-Verbindung oder ein Ausweichziel übermittelt geschützte Inhalte außerhalb der zugelassenen Nutzung. | mittel × existenzbedrohend = hoch | selten × existenzbedrohend = mittel | Nur ausdrücklich freigegebene KI-Ziele für die zugelassenen Zwecke und Daten verwenden; auch automatische Wechsel daran binden. Bestehende Internet- und Übertragungsregeln anwenden und unzulässige Verbindungen technisch unterbinden. Für den bereits angesetzten schweren Schadensfall bleibt die Schadenshöhe erhalten. Eine niedrigere Einstufung benötigt eine begründete Begrenzung der betroffenen Daten und Auswirkungen. |
-| R-09: Eine Änderung beeinträchtigt Sicherheit oder Ergebnisqualität im wirksamen Betrieb. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel | Bestehendes Änderungsmanagement verwenden: Routineänderungen nach genehmigtem Verfahren, wesentliche Änderungen mit passenden Wiederholungsprüfungen und Freigabe. Wiederherstellung muss entzogene Rechte und erforderliche Löschungen berücksichtigen. Tests und Rückkehrmöglichkeiten erfassen nicht jeden Fehler und machen bereits eingetretene Folgen nicht rückgängig; „selten“ wird daher nicht pauschal angesetzt. |
+| <a id="r-01"></a>R-01: Eingeschleuste Inhalte führen zu einer unzulässigen Werkzeugaktion mit erheblicher Auswirkung. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Rechte und erlaubte Aktionen außerhalb des Modells begrenzen; selbstständige Arbeit einschließlich leicht rückgängig zu machender Änderungen nach A02 zulassen. Nicht ausreichend abgesicherte destruktive Tätigkeiten erfordern Genehmigung. Wiederherstellung begrenzt reversible Projektfehler, macht aber eine Offenlegung oder andere nicht rückholbare Folgewirkungen nicht ungeschehen. |
+| <a id="r-02"></a>R-02: Manipulierte Modelle, Pakete oder Erweiterungen werden übernommen und beeinträchtigen die Umgebung. | mittel × beträchtlich = mittel | selten × beträchtlich = mittel | Bestehende Beschaffungs-, Herkunfts-, Integritäts- und Freigabeprüfungen auf KI-Artefakte anwenden; Signaturen prüfen, soweit verfügbar. Herkunft und Prüfsumme belegen nicht allein die Unbedenklichkeit des Inhalts. Eine kompromittierte vertrauenswürdige Quelle bleibt möglich; die Schadenshöhe wird nicht pauschal herabgesetzt. |
+| <a id="r-03"></a>R-03: Wissensabfragen oder übernommene Projektbeiträge offenbaren geschützte Informationen an Unberechtigte. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Nutzerrechte bei Aufnahme und Abruf fortführen; persönliche Verläufe und Unternehmenswissen nach A06/A07 trennen. Projektzustimmung, sichtbarer Status und technisch durchgesetzte Empfängerrechte müssen gemeinsam vorliegen. Unklare Beiträge werden nicht automatisch übernommen. Fehlzuordnungen, Rechtefehler oder unbekannte Schwachstellen bleiben ein Restrisiko; ein dennoch erfolgter Abfluss kann weiterhin beträchtlich schaden. |
+| <a id="r-04"></a>R-04: Ein Zugriff auf die KI umgeht die vorgesehene Identitäts- oder Berechtigungsprüfung. | mittel × beträchtlich = mittel | selten × beträchtlich = mittel | Unternehmensanmeldung und zugehörige Rechte wirksam übernehmen; auch direkte Schnittstellen müssen denselben Schutz gewährleisten oder für unberechtigte Zugriffe gesperrt sein. Netzzugehörigkeit ersetzt keine Berechtigung. Fehlkonfigurationen oder kompromittierte Zugänge bleiben möglich. |
+| <a id="r-05"></a>R-05: Betriebsprotokolle speichern unnötig geschützte Inhalte und machen sie zusätzlich zugänglich. | häufig × beträchtlich = hoch | selten × beträchtlich = mittel | Im Regelfall erforderliche Betriebs- und Sicherheitsmetadaten protokollieren; Inhaltsaufzeichnungen begrenzen, zweckgebunden schützen und nach den geltenden Fristen löschen. Zulässige persönliche Verlaufsspeicherung ist davon getrennt. Wegen möglicher Personal-, Kunden- oder Geschäftsangaben wird ohne belegte Inhaltsbegrenzung keine pauschal geringe Schadenshöhe angenommen. |
+| <a id="r-06"></a>R-06: Aufwendige Anfragen oder Agentenschleifen verursachen eine relevante Überlastung. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel; bei begrenzter Auswirkung mittel × begrenzt = gering | Angemessene Ressourcen- und Laufzeitgrenzen sowie kontrolliertes Beenden begrenzen Überlastung. Die geringere Schadenshöhe ist nur begründet, wenn andere wichtige Dienste wirksam geschützt sind und betroffene Arbeit rasch fortgeführt oder wiederhergestellt werden kann. Ein optionaler Ausweichbetrieb wird nur berücksichtigt, wenn er tatsächlich eingerichtet und geeignet ist. |
+| <a id="r-07"></a>R-07: Fehlerhafte Ausgaben werden ohne ausreichende Qualitätssicherung wirksam eingesetzt und verursachen Fehlentscheidungen oder unsichere Software. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel | Normale fachliche Prüfung, Softwaretests und Freigaben nach der Auswirkung anwenden; keine Einzelbestätigung für jede gewöhnliche KI-Antwort oder reversible Codeänderung verlangen. Auch geprüfte Ergebnisse können Fehler enthalten. Die bisherige starke Absenkung auf „selten“ wird ohne zusätzliche Begründung nicht übernommen. Häufige Modellfehler sind nicht mit ebenso häufigen beträchtlichen Schäden gleichzusetzen. |
+| <a id="r-08"></a>R-08: Eine KI-Verbindung oder ein Ausweichziel übermittelt geschützte Inhalte außerhalb der zugelassenen Nutzung. | mittel × existenzbedrohend = hoch | selten × existenzbedrohend = mittel | Nur ausdrücklich freigegebene KI-Ziele für die zugelassenen Zwecke und Daten verwenden; auch automatische Wechsel daran binden. Bestehende Internet- und Übertragungsregeln anwenden und unzulässige Verbindungen technisch unterbinden. Für den bereits angesetzten schweren Schadensfall bleibt die Schadenshöhe erhalten. Eine niedrigere Einstufung benötigt eine begründete Begrenzung der betroffenen Daten und Auswirkungen. |
+| <a id="r-09"></a>R-09: Eine Änderung beeinträchtigt Sicherheit oder Ergebnisqualität im wirksamen Betrieb. | häufig × beträchtlich = hoch | mittel × beträchtlich = mittel | Bestehendes Änderungsmanagement verwenden: Routineänderungen nach genehmigtem Verfahren, wesentliche Änderungen mit passenden Wiederholungsprüfungen und Freigabe. Wiederherstellung muss entzogene Rechte und erforderliche Löschungen berücksichtigen. Tests und Rückkehrmöglichkeiten erfassen nicht jeden Fehler und machen bereits eingetretene Folgen nicht rückgängig; „selten“ wird daher nicht pauschal angesetzt. |
 
 R-03, R-05 und R-08 behalten jeweils die Schadenshöhe der betrachteten Informationen. Bei besonders schutzbedürftigen Informationen kann auch außerhalb von R-08 eine höhere Schadenshöhe erforderlich sein; die Referenzeinstufung darf die bestehende Schutzbedarfsfeststellung nicht überschreiben. R-08 führt den bereits enthaltenen existenzbedrohenden Schadensfall fort, ohne ihn als allgemeinen Normalfall jeder externen KI-Nutzung darzustellen. Die Tabelle bewertet weder eine ordnungsgemäß freigegebene externe Verarbeitung noch eine zulässige persönliche Speicherung als Sicherheitsvorfall.
 
-Noch festzulegen ist die Akzeptanzregel für verbleibende Risiken. Empfohlen wird: Mittlere Restrisiken können innerhalb der geltenden Risikotoleranz durch die zuständige Stelle begründet akzeptiert und regelmäßig überprüft werden. Sind die erforderlichen Maßnahmen umgesetzt und keine weiteren Maßnahmen beschlossen, wird kein zusätzlicher Maßnahmenplan allein wegen der Kategorie „mittel“ verlangt. Eine Befristung richtet sich nach der Entscheidung und den bestehenden Unternehmensregeln. Hohe und sehr hohe Restrisiken werden eskaliert; ohne zulässige Entscheidung bleiben die betroffenen Funktionen gesperrt. Ein vorübergehender eingeschränkter Betrieb bedarf einer ausdrücklichen, befristeten Entscheidung mit wirksamen Schutzmaßnahmen und klaren Abbruchkriterien. Unzulässige Datenverarbeitung, fehlende Berechtigung und akute Gefahren werden dadurch nicht freigegeben.
+Die Akzeptanzregeln sind mit A08 und A10 beschlossen: Mittlere Restrisiken werden im regulären Prozess behandelt; für hohe und sehr hohe Restrisiken gelten Eskalation, Sperrung betroffener Funktionen und die eng begrenzte Ausnahmeentscheidung. Die fachliche Übernahme in Katalog und Konzept steht noch aus.
 
 Diese Akzeptanzempfehlung ist eine eigene fachliche Festlegung. Das öffentliche BSI-Beispiel RECPLAST zeigt in Abschnitt 7.6 sowohl zusätzliche Maßnahmen als auch begründete Akzeptanz bei mittleren Risiken. Daraus wird keine allgemeine Genehmigung eines konkreten Unternehmensrisikos abgeleitet. Die relevante Passage war am 14.09.2026 im Suchindex der offiziellen Quelle einsehbar; der direkte Abruf des BSI-Standards 200-3 blieb mit HTTP 403 gesperrt. [BSI: RECPLAST, Abschnitt 7.6, S. 52](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/Webkurs/Recplast_Onlinekurs2018.pdf?__blob=publicationFile&v=7)
