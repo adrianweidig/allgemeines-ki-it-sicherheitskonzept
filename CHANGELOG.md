@@ -4,6 +4,8 @@ Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vo
 
 ## 0.2.0 – 14.09.2026
 
+- Technische Korrektur am 15.09.2026: Die Statusprüfung des Veröffentlichungsartefakts verwendet das bereits festgelegte Betriebsmodell `unternehmensintegriert`.
+
 - Layoutgrenzen für Diagramme und Tabellenköpfe abgesichert; Standardpfade des Word-Exports erst im Skriptkörper aufgelöst. 29 Tests und vollständige Seitenprüfung im [Prüfprotokoll](dokumentation/PRÜFPROTOKOLL-0.2.0.md) dokumentiert.
 
 - OSCAL-Dokumentinstanzen erhalten gemäß NIST neue, voneinander getrennte UUIDs und den tatsächlichen Änderungszeitpunkt; die stabilen Kontroll-, Quellen- und Abschnittskennungen bleiben erhalten. [NIST-Dokumentstruktur und Revisionsregeln](https://pages.nist.gov/OSCAL/learn/concepts/layer/overview/)

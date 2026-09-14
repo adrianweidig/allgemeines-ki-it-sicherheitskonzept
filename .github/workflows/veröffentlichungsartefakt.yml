@@ -37,7 +37,7 @@ jobs:
           erwartet = {
               "dokumentstatus": "ÖFFENTLICH",
               "organisationsspezifisch": False,
-              "betriebsmodell": "vollständig-lokal",
+              "betriebsmodell": "unternehmensintegriert",
               "externe-inferenz": False,
               "modelltraining": False,
               "feinabstimmung": False,
