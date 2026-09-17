@@ -1,0 +1,37 @@
+@startuml
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 26
+skinparam rectangle {
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
+}
+skinparam package {
+  BackgroundColor #F7FAFC
+  BorderColor #738A9E
+}
+package "Interner Verantwortungsbereich" {
+ rectangle "<b>Chat und Projektassistent</b>\nNutzerrechte und Aktionsfreigaben" as app
+ rectangle "<b>Dokumente und Wissenssuche</b>\nInterne Aufbereitung\nAktuelle Rechteprüfung" as daten
+ rectangle "<b>Freigegebener KI-Zugang</b>\nZiel- und Datenbegrenzung\nAuch für Folgeanfragen" as zugang #E5F3F1
+ daten -right-> app : ausgewählte Ausschnitte
+ app -down-> zugang
+}
+package "Freigegebener Anbieter" {
+ rectangle "<b>Cloud-Modell</b>\nZugelassener Verarbeitungsumfang\nSpeicherzwecke und Löschung festgelegt\nKein Training mit Kundeninhalten" as model #EAF2F8
+}
+zugang <-down-> model : Freigegebene Anfrage / Ergebnis
+note bottom of model
+Kein direkter Zugriff auf interne Bestände
+Keine anbieterbetriebenen Werkzeuge
+end note
+@enduml

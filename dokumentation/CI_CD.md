@@ -7,13 +7,15 @@ Der Workflow `Projekt validieren` läuft bei Pull Requests, bei Pushes auf `main
 - Python-Tests einschließlich negativer Fehlerfälle.
 - Projektstatus und Ausschlussgrenzen.
 - JSON-Syntax, Quellenregister und OSCAL-1.1.3-Schema.
-- Kontroll-IDs, Pflichtteile, Quellenverweise und bedingte Kontrollen.
+- Kontroll-IDs, Pflichtteile, Quellenverweise und beide Szenariozuordnungen.
+- Getrennte Air-Gap- und Cloud-Bewertungen aller neun Risiken.
+- Nutzerbelehrung mit höchstens zwei Seiten und gespeicherten Formularwerten.
 - DOCX-/PDF-Öffnung, Version, Status, Kontrollbestand und Textähnlichkeit.
 - Typografie, Absatzabstände, echte Listen, Listeninterpunktion und deutsche Silbentrennung.
 - Feste Tabellengeometrie, ausreichende Zellränder, wiederholte Tabellenköpfe und fehlende exakte Zeilenhöhen.
 - Echtes, gespeichertes Word-Inhaltsverzeichnis mit Ebenen 1 und 2, Punkt-Füllzeichen und aktuellen Seitenzahlen.
 - PAGE- und NUMPAGES-Felder sowie eine korrekte Seitenführung auf jeder PDF-Seite.
-- Sechs prüfsummengebundene Fachdiagramme einschließlich Risikoprozess und Risikomatrix.
+- Acht prüfsummengebundene Fachdiagramme einschließlich Risikoprozess und Risikomatrix.
 - Ausschluss von Redaktionshinweisen, pauschalen Beratungsausschlüssen und vermeidbarem Fachjargon aus dem Sicherheitskonzept.
 - Unerwünschte Ersatzschreibweisen, Platzhalter, Geheimnismuster und unzulässige Konformitätsbehauptungen.
 - Öffentliche Quellenlinks mit differenzierter Behandlung temporärer Sperren.

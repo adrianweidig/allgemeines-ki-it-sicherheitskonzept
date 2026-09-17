@@ -1,7 +1,8 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$DocxPfad,
-    [string]$PdfPfad
+    [string]$PdfPfad,
+    [switch]$OhneInhaltsverzeichnis
 )
 
 $ErrorActionPreference = 'Stop'
@@ -9,11 +10,21 @@ if (-not $DocxPfad) { $DocxPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sich
 if (-not $PdfPfad) { $PdfPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.pdf' }
 $word = $null
 $dokument = $null
+$projektpfad = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+
+function Pruefe-Projektpfad {
+    param([Parameter(Mandatory)][string]$Pfad)
+    $aufgeloest = [System.IO.Path]::GetFullPath($Pfad)
+    if (-not $aufgeloest.StartsWith($projektpfad + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Dokumente und Exporte müssen im Projektverzeichnis bleiben.'
+    }
+    return $aufgeloest
+}
 
 function Loese-ZielpfadAuf {
     param([Parameter(Mandatory)][string]$Pfad)
 
-    $vollstaendig = [System.IO.Path]::GetFullPath($Pfad)
+    $vollstaendig = Pruefe-Projektpfad -Pfad $Pfad
     $verzeichnis = [System.IO.Path]::GetDirectoryName($vollstaendig)
     if (-not [System.IO.Directory]::Exists($verzeichnis)) {
         [System.IO.Directory]::CreateDirectory($verzeichnis) | Out-Null
@@ -46,8 +57,8 @@ function Formatiere-Inhaltsverzeichnis {
     # deutschen Word-Installation die tatsächlich vom Feld verwendeten
     # integrierten Formatvorlagen angepasst.
     $vorgaben = @(
-        @{ Kennung = -20; Groesse = 10.5; Fett = $true;  EinzugCm = 0.0; Davor = 2; Danach = 3 },
-        @{ Kennung = -21; Groesse = 10.0; Fett = $false; EinzugCm = 0.6; Davor = 0; Danach = 2 }
+        @{ Kennung = -20; Groesse = 10.5; Fett = $true;  EinzugCm = 0.0; Davor = 1; Danach = 1 },
+        @{ Kennung = -21; Groesse = 10.0; Fett = $false; EinzugCm = 0.6; Davor = 0; Danach = 0 }
     )
     foreach ($vorgabe in $vorgaben) {
         $stil = $WordDokument.Styles.Item($vorgabe.Kennung)
@@ -71,7 +82,7 @@ function Formatiere-Inhaltsverzeichnis {
 }
 
 try {
-    $docx = [System.IO.Path]::GetFullPath($DocxPfad)
+    $docx = Pruefe-Projektpfad -Pfad $DocxPfad
     if (-not [System.IO.File]::Exists($docx)) {
         throw "DOCX-Masterdokument fehlt: $docx"
     }
@@ -82,8 +93,11 @@ try {
     $word.DisplayAlerts = 0
 
     $dokument = $word.Documents.Open($docx, $false, $false)
-    if ($dokument.TablesOfContents.Count -ne 1) {
-        throw "Das Masterdokument muss genau ein Word-Inhaltsverzeichnis enthalten."
+    # Word darf den lokalen Kontonamen beim Speichern nicht als Bearbeiter eintragen.
+    $dokument.RemovePersonalInformation = $true
+    $erwarteteVerzeichnisse = if ($OhneInhaltsverzeichnis) { 0 } else { 1 }
+    if ($dokument.TablesOfContents.Count -ne $erwarteteVerzeichnisse) {
+        throw "Das Masterdokument muss $erwarteteVerzeichnisse Word-Inhaltsverzeichnis(se) enthalten."
     }
 
     # Dokumentweit geltende deutsche Silbentrennung. Word normalisiert beim
@@ -93,18 +107,23 @@ try {
     $dokument.ConsecutiveHyphensLimit = 2
     $dokument.HyphenationZone = $word.CentimetersToPoints(0.635)
 
-    $dokument.TablesOfContents.Item(1).Update()
-    Formatiere-Inhaltsverzeichnis -WordAnwendung $word -WordDokument $dokument
+    if (-not $OhneInhaltsverzeichnis) {
+        $dokument.TablesOfContents.Item(1).Update()
+        Formatiere-Inhaltsverzeichnis -WordAnwendung $word -WordDokument $dokument
+    }
     $dokument.Repaginate()
     Aktualisiere-AlleFelder -WordDokument $dokument
-    $dokument.TablesOfContents.Item(1).UpdatePageNumbers()
+    if (-not $OhneInhaltsverzeichnis) { $dokument.TablesOfContents.Item(1).UpdatePageNumbers() }
     $dokument.Repaginate()
     Aktualisiere-AlleFelder -WordDokument $dokument
     $dokument.Save()
 
     # 17 entspricht wdExportFormatPDF. Die PDF-Lesefassung wird ausschließlich
     # aus dem zuvor gespeicherten und aktualisierten DOCX-Master erzeugt.
-    $dokument.ExportAsFixedFormat($pdf, 17)
+    # Der Export behält Titel und Sachmetadaten des bereinigten Dokuments.
+    # Diese Umschaltung wird nicht in das DOCX zurückgespeichert.
+    $dokument.RemovePersonalInformation = $false
+    $dokument.ExportAsFixedFormat($pdf, 17, $false, 0, 0, 1, 1, 0, $true)
     Write-Host "Word-Felder aktualisiert und DOCX gespeichert: $docx"
     Write-Host "PDF aus diesem DOCX erzeugt: $pdf"
 }

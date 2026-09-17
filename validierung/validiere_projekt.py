@@ -51,7 +51,7 @@ DIAGRAMMAUSGABE_PFAD = WURZEL / "dokumentation" / "medien"
 
 ÖFFENTLICH = "ÖFFENTLICH – organisationsneutrale Referenzvorlage"
 NICHT_ÖFFENTLICH = "NICHT ÖFFENTLICH – EINSTUFUNG DURCH DIE ORGANISATION ERFORDERLICH"
-PFLICHTTEILE = {"statement", "rationale", "guidance", "assessment-objective", "evidence", "source"}
+PFLICHTTEILE = {"statement", "rationale", "guidance", "source"}
 WORD_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{WORD_NS}}}"
 WP_NS = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
@@ -61,7 +61,9 @@ LAYOUT_TABELLENEINZUG_DXA = 150
 LAYOUT_ZELLENRAND_VERTIKAL_DXA = 120
 LAYOUT_ZELLENRAND_HORIZONTAL_DXA = 150
 DIAGRAMMSTÄMME = (
+    "umgebungsuebersicht",
     "architektur",
+    "architektur-cloud",
     "artefaktimport",
     "risikobewertung",
     "risikomatrix",
@@ -70,12 +72,14 @@ DIAGRAMMSTÄMME = (
 )
 PLANTUML_VERSION = "1.2026.6"
 ABBILDUNGSBESCHRIFTUNGEN = (
-    "Abbildung 1: Kontrollierte KI-Zugänge verbinden verwaltete Clients mit freigegebenen Modellen und Unternehmensdiensten.",
-    "Abbildung 2: Artefakte durchlaufen bestehende Softwareprüfungen und eine ihrem Änderungsrisiko entsprechende Freigabe.",
-    "Abbildung 3: Risiken werden szenariobezogen behandelt und bis zur Freigabe erneut bewertet.",
-    "Abbildung 4: Ausgangs- und Restrisiken gelten unter den dokumentierten Umsetzungsannahmen.",
-    "Abbildung 5: Freigegebene Bestände und freiwillige Beiträge wahren Zweck, Rechte und geregelte Datenbehandlung.",
-    "Abbildung 6: Routineaktionen folgen dem Arbeitsprofil; nicht beherrschbare Wirkungen benötigen konkrete Genehmigung.",
+    "Abbildung 1: Zwei getrennte Referenzszenarien mit gemeinsamen Nutzungsregeln.",
+    "Abbildung 2: Air-Gap-Verarbeitung ohne Verbindung zu externen KI-Diensten.",
+    "Abbildung 3: Cloud-Inferenz mit begrenzter Übermittlung und intern geprüften Datenrechten.",
+    "Abbildung 4: Modellprüfung und Freigabe entsprechend dem Betriebsweg.",
+    "Abbildung 5: Szenariobezogene Bewertung und Behandlung der KI-Risiken.",
+    "Abbildung 6: Gemeinsamer Bewertungsmaßstab für beide Szenarien.",
+    "Abbildung 7: Die freigegebene Wissenssuche verarbeitet bewusst abgelegte Dokumente unter durchgängigen Quellrechten.",
+    "Abbildung 8: Agentenaktionen beginnen mit Einzelgenehmigungen. Projektfreigaben bleiben an Rechte und Wirkung gebunden.",
 )
 
 
@@ -163,7 +167,7 @@ def prüfe_projektstatus(
     if repository_modus and status.get("dokumentstatus") != "ÖFFENTLICH":
         fehler.append("Das öffentliche Referenzrepository erlaubt ausschließlich den Dokumentstatus ÖFFENTLICH.")
     if repository_modus and status.get("externe-inferenz") is not False:
-        fehler.append("Externe Inferenz ist im öffentlichen Standardmodell deaktiviert.")
+        fehler.append("Die öffentliche Referenz beschreibt Cloud-Nutzung, aktiviert jedoch keine externe Inferenz.")
     if status.get("externe-inferenz") and katalog:
         externe = [c for c in katalogkontrollen(katalog) if c["id"].startswith("ki-ext-")]
         if not externe or any("nicht-anwendbar" in eigenschaft(c, "standardstatus") for c in externe):
@@ -255,6 +259,12 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
         sichtbare.extend(alt)
         teile = {p.get("name"): p.get("prose", "") for p in c.get("parts", [])}
         fehlend = PFLICHTTEILE - set(teile)
+        if {'evidence', 'assessment-objective', 'evidence-register'} & set(teile):
+            fehler.append(f"{cid}: zusätzliche Nachweisblöcke gehören nicht in das Fachkonzept.")
+        szenarien = set(eigenschaft(c, 'szenario'))
+        erwartet = {'cloud'} if cid == 'ki-ext-001' else {'air-gap', 'cloud'}
+        if szenarien != erwartet:
+            fehler.append(f"{cid}: Szenariozuordnung fehlt oder ist widersprüchlich.")
         if fehlend:
             fehler.append(f"{cid}: Pflichtteile fehlen: {', '.join(sorted(fehlend))}.")
         for abschnitt in c.get("parts", []):
@@ -295,11 +305,13 @@ def prüfe_katalog(katalog: dict[str, Any]) -> list[str]:
     if not all(begriff in tooltext for begriff in ("Lesen", "Schreiben", "Befehlsausführung", "Netzwerkzugriff")):
         fehler.append("Die Agentenkontrolle trennt Tool- und Befehlsfähigkeiten nicht vollständig.")
     externe = [c for c in controls if c["id"].startswith("ki-ext-")]
-    if len(externe) != 2 or eigenschaft(nach_id.get('ki-ext-001', {}), 'anwendbarkeit') != ['Externe Inferenz']:
+    if len(externe) != 2 or eigenschaft(nach_id.get('ki-ext-001', {}), 'anwendbarkeit') != ['Cloud-Szenario']:
         fehler.append("Die bedingte Kontrolle für externe Inferenz ist unvollständig oder falsch gekennzeichnet.")
-    if eigenschaft(nach_id.get('ki-ext-002', {}), 'anwendbarkeit') != ['Alle KI-Nutzungen'] or eigenschaft(nach_id.get('ki-ext-002', {}), 'standardstatus') != ['anwendbar']:
+    if eigenschaft(nach_id.get('ki-ext-002', {}), 'anwendbarkeit') != ['Beide Szenarien'] or eigenschaft(nach_id.get('ki-ext-002', {}), 'standardstatus') != ['anwendbar']:
         fehler.append("Der Schutz vor unzulässigen Ausweichzielen muss immer anwendbar sein.")
     metadata = katalog["catalog"]["metadata"]
+    if set(eigenschaft(metadata, 'referenzszenario')) != {'air-gap', 'cloud'}:
+        fehler.append('Der Katalog muss beide Referenzszenarien ausweisen.')
     if metadata.get("oscal-version") != "1.1.3":
         fehler.append("Der Katalog muss OSCAL 1.1.3 ausweisen.")
     if eigenschaft(metadata, "modelltraining") != ["ausgeschlossen"] or eigenschaft(metadata, "feinabstimmung") != ["ausgeschlossen"]:
@@ -318,6 +330,21 @@ def prüfe_risikoregister(katalog: dict[str, Any]) -> list[str]:
         fehler.append('Risikoregister: stabile Kennungen R-01 bis R-09 müssen genau einmal vorkommen.')
     for risiko in risiken:
         rid = risiko.get('id')
+        cloud = [p for p in risiko.get('parts', []) if p.get('name') == 'cloud-assessment']
+        if len(cloud) != 1 or len(cloud[0].get('prose', '')) < 30:
+            fehler.append(f'{rid}: Cloud-Bewertung und Restrisikobegründung fehlen.')
+        if eigenschaft(risiko, 'szenario') != ['air-gap']:
+            fehler.append(f'{rid}: Air-Gap-Zuordnung fehlt.')
+        for bewertung in cloud:
+            if eigenschaft(bewertung, 'szenario') != ['cloud']:
+                fehler.append(f'{rid}: Cloud-Zuordnung fehlt.')
+            for präfix in ('initial', 'residual'):
+                werte = {p['name']: p['value'] for p in bewertung.get('props', [])}
+                häufigkeit, schaden = werte.get(f'{präfix}-likelihood'), werte.get(f'{präfix}-impact')
+                if häufigkeit not in HÄUFIGKEITEN or schaden not in RISIKOMATRIX:
+                    fehler.append(f'{rid}: gültige Cloud-Häufigkeit und Schadenshöhe fehlen.')
+                elif werte.get(f'{präfix}-risk') != RISIKOMATRIX[schaden][HÄUFIGKEITEN.index(häufigkeit)]:
+                    fehler.append(f'{rid}: Cloud-Risikokategorie stimmt nicht mit der Matrix überein.')
         werte = {p['name']: p['value'] for p in risiko.get('props', [])}
         for präfix in ('initial', 'residual'):
             häufigkeit, schaden = werte.get(f'{präfix}-likelihood'), werte.get(f'{präfix}-impact')
@@ -503,12 +530,10 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
             fehler.append("Layout: kurze Begriffsdefinitionen müssen einen Zeilenabstand von 1,05 verwenden.")
         if definitionsstil.paragraph_format.space_after != Pt(3):
             fehler.append("Layout: kurze Begriffsdefinitionen müssen 3 pt Absatzabstand danach verwenden.")
-    definitionsabsätze = [
-        p for p in dokument.paragraphs
-        if p.style and p.style.name == "Begriffsdefinition"
-    ]
-    if len(definitionsabsätze) != 15:
-        fehler.append("Layout: Kapitel 2.1 muss genau fünfzehn kompakte Begriffsdefinitionen enthalten.")
+    definitionsabsätze = [p for t in dokument.tables for row in t.rows for cell in row.cells
+                          for p in cell.paragraphs if p.style and p.style.name == "Begriffsdefinition"]
+    if len(definitionsabsätze) < 20:
+        fehler.append("Layout: das abschließende Glossar benötigt kompakte Begriffsdefinitionen.")
 
     if not DIAGRAMMMANIFEST_PFAD.is_file():
         fehler.append("Layout: das Prüfsummenmanifest der PlantUML-Diagramme fehlt.")
@@ -531,7 +556,7 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
                 if isinstance(eintrag, dict) and eintrag.get("name")
             }
             if set(einträge) != set(DIAGRAMMSTÄMME):
-                fehler.append("Layout: das Diagrammmanifest muss genau die sechs Fachdiagramme enthalten.")
+                fehler.append("Layout: das Diagrammmanifest muss genau die acht Fachdiagramme enthalten.")
 
             for stamm in DIAGRAMMSTÄMME:
                 eintrag = einträge.get(stamm, {})
@@ -687,7 +712,7 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
         verankerte_abbildungen = dokument_xml.findall(f".//{WP}anchor")
         if len(inline_abbildungen) != len(ABBILDUNGSBESCHRIFTUNGEN):
             fehler.append(
-                "Layout: das Masterdokument muss genau sechs inline platzierte Fachdiagramme enthalten."
+                f"Layout: das Masterdokument muss genau {len(ABBILDUNGSBESCHRIFTUNGEN)} inline platzierte Fachdiagramme enthalten."
             )
         if verankerte_abbildungen:
             fehler.append("Layout: frei schwebende oder verankerte Abbildungen sind unzulässig.")
@@ -777,15 +802,13 @@ def prüfe_docx_layout(pfad: Path) -> list[str]:
         if dokument.tables:
             abkürzungstabelle = dokument.tables[-1]
             kopf = [zelle.text.strip() for zelle in abkürzungstabelle.rows[0].cells]
-            if kopf != ["Abkürzung", "Langform", "Abkürzung", "Langform"]:
+            if kopf != ["Begriff oder Abkürzung", "Bedeutung im Konzept"]:
                 fehler.append(
-                    "Layout: das Abkürzungsverzeichnis muss als kompakte Vier-Spalten-Tabelle "
-                    "mit zwei Begriffspaaren je Zeile gesetzt sein."
+                    "Layout: das Glossar muss Begriffe und Erläuterungen in zwei Spalten enthalten."
                 )
-            if len(abkürzungstabelle.rows) > 10:
+            if len(abkürzungstabelle.rows) < 20:
                 fehler.append(
-                    "Layout: das Abkürzungsverzeichnis ist zu lang und erzeugt voraussichtlich "
-                    "eine schwach gefüllte Schlussseite."
+                    "Layout: das Glossar deckt die verwendeten Fachbegriffe nicht ausreichend ab."
                 )
 
         footer_namen = [name for name in paket.namelist() if re.fullmatch(r"word/footer\d+\.xml", name)]
@@ -912,10 +935,10 @@ def prüfe_konzepttrennung(text: str) -> list[str]:
     for begriff in unerklärter_fachjargon:
         if re.search(rf"\b{re.escape(begriff)}\b", text, re.IGNORECASE):
             fehler.append(f"Konzepttrennung: vermeidbarer oder nicht vorab erklärter Fachbegriff gefunden: {begriff}")
-    if "14 Quellenverzeichnis und Abkürzungen" not in text:
+    if "14.1 Quellenverzeichnis" not in text or "14.2 Glossar und Abkürzungen" not in text:
         fehler.append("Konzepttrennung: Kapitel 14 muss unmittelbar Quellenverzeichnis und Abkürzungen enthalten.")
-    if "2.1 Zentrale Begriffe" not in text:
-        fehler.append("Konzepttrennung: zentrale Fachbegriffe müssen vor der ersten technischen Verwendung erklärt werden.")
+    if "2.1 Zentrale Begriffe" in text:
+        fehler.append("Konzepttrennung: Begriffserklärungen gehören in das Glossar am Ende.")
     for risiko_id in (f"R-{nummer:02d}" for nummer in range(1, 10)):
         if risiko_id not in text:
             fehler.append(f"Konzepttrennung: Risikoszenario {risiko_id} fehlt im Risikoregister.")
@@ -995,7 +1018,7 @@ def prüfe_katalogableitung(katalog: dict[str, Any], docx_text: str) -> list[str
     text = normalisiere_text(docx_text)
     def prüfe_teile(teile):
         for teil in teile:
-            if teil['name'] != 'source' and normalisiere_text(teil.get('prose', '')) not in text:
+            if teil['name'] not in {'source', 'rationale'} and normalisiere_text(teil.get('prose', '')) not in text:
                 fehler.append(f"Katalogableitung: Abschnitt {teil['id']} fehlt im DOCX oder weicht ab.")
             prüfe_teile(teil.get('parts', []))
     for kontrolle in katalogkontrollen(katalog): prüfe_teile(kontrolle.get('parts', []))

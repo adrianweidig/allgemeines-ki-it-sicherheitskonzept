@@ -3,33 +3,31 @@ skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 14
-skinparam ArrowColor #446B8C
-skinparam activity {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
-}
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 26
 skinparam rectangle {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
 }
-start
-:Freigegebene Bezugsquelle\nNachvollziehbare Artefaktversion;
-:Bestehende Softwareprüfung\nHerkunft · Integrität · bekannte Risiken\nVerfügbare Signaturen prüfen;
-if (Prüfkriterien verletzt?) then (ja)
-  :Abweisen und Befund behandeln;
-  stop
-else (nein)
-endif
-:Kontrollierte Bereitstellung\nRisikogerechte Änderungstests;
-if (Erforderliche Prüfung bestanden?) then (nein)
-  :Abweisen und Befund behandeln;
-  stop
-else (ja)
-endif
-:Freigegebener Betriebsstand;
-:Bei Bedarf: zulässige Wiederherstellung\nAktuelle Rechte und Löschstände wahren;
-stop
+skinparam package {
+  BackgroundColor #F7FAFC
+  BorderColor #738A9E
+}
+rectangle "<b>Lokales Modell</b>\nBestehende Dateiübernahme\nHerkunft und Integrität prüfen" as lokal
+rectangle "<b>Cloud-Modell</b>\nZugelassenen Dienst und\nFunktionsumfang prüfen" as cloud
+rectangle "<b>Fachlich und sicherheitstechnisch erproben</b>\nErgebnisqualität · Kontext · Zugriffsgrenzen" as test #E5F3F1
+card "<b>Modellstand freigegeben?</b>" as freigabe #FFF4DC
+rectangle "<b>Bereitstellen</b>\nModell und Konfiguration zuordnen" as betrieb #E5F3F1
+rectangle "<b>Gesperrt lassen</b>\nAbweichungen behandeln" as sperre #FCECEE
+lokal -down-> test
+cloud -down-> test
+test -down-> freigabe
+freigabe -down-> betrieb : ja
+freigabe -right-> sperre : nein
 @enduml

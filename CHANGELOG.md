@@ -1,5 +1,16 @@
 # Änderungsprotokoll
 
+## 0.3.0 – 17.09.2026
+
+- KI-spezifische Ergänzung des Informationssicherheitskonzepts mit getrennten Air-Gap- und Cloud-Szenarien, produktneutraler Funktionsbeschreibung und Nutzerbelehrung.
+- 34 Kontrollen in 22 Fachgruppen. KI-ARC-001, KI-CON-001 und KI-CON-002 entfallen als allgemeine Infrastrukturregeln, KI-ASS-001 als zusätzlicher Nachweisblock. Verbleibende IDs werden nicht neu nummeriert.
+- Migration: `assessment-objective` und `evidence` entfallen. `statement`, `rationale`, `guidance` und `source` bleiben. Jede Kontrolle trägt `szenario`. KI-EXT-001 gilt für Cloud, KI-EXT-002 für beide Varianten.
+- R-01 bis R-09 behalten ihre fachliche Zuordnung. Die Wurzelwerte beziehen sich auf Air-Gap. `r-XX-cloud-assessment` enthält die separate Cloud-Bewertung. Eine betriebliche Risikoakzeptanz wird nicht pauschal übernommen.
+- Acht editierbare Diagramme, zentrales Quellenverzeichnis mit Kurzverweisen, tabellarisches Glossar und fortlaufendes Seitenlayout. Nutzerbelehrung mit Text- und digitalem Signaturfeld.
+- Word-Export entfernt persönliche Bearbeitermetadaten und erhält die Dokumenttitel. Ein Regressionstest prüft beide Dokumentpaare.
+- Historische Prüfprotokolle bleiben unverändert. Aktueller Prüfstand steht in `dokumentation/PRÜFPROTOKOLL-0.3.0.md`.
+
+
 Alle fachlichen Fassungen werden mit semantischer Versionierung dokumentiert. Vor dem ersten fachlichen Entwurf existiert ausschließlich der Bootstrap des Repositorys.
 
 ## 0.2.0 – 14.09.2026

@@ -27,7 +27,9 @@ PLANTUML_URL = (
 )
 PLANTUML_SHA256 = "89948f14c93756c7a3fb7b69078ff37e8489fd79dd430c582b931e2f65358690"
 DIAGRAMME = (
+    "umgebungsuebersicht",
     "architektur",
+    "architektur-cloud",
     "artefaktimport",
     "risikobewertung",
     "risikomatrix",
@@ -44,7 +46,6 @@ RISIKOMATRIX = {
 
 
 def risikomatrix_quelle(katalog: dict) -> str:
-    register = next(p for g in katalog['catalog']['groups'] for c in g['controls'] if c['id'] == 'ki-gov-003' for p in c['parts'] if p['name'] == 'risk-register')
     farben = {'gering': '#E2F0D9', 'mittel': '#FFF2CC', 'hoch': '#FCE4D6', 'sehr hoch': '#F4CCCC'}
     zeilen = ['@startuml', 'skinparam dpi 180', 'skinparam backgroundColor #FFFFFF',
               'skinparam shadowing false', 'skinparam defaultFontName Arial', 'skinparam defaultFontSize 12',
@@ -53,19 +54,10 @@ def risikomatrix_quelle(katalog: dict) -> str:
         zellen = [f'**{schaden}**']
         for häufigkeit, kategorie in zip(HÄUFIGKEITEN, kategorien):
             zelle = f'<{farben[kategorie]}> **{kategorie}**'
-            for präfix, label in [('initial', 'A'), ('residual', 'R')]:
-                ids = []
-                for risiko in register['parts']:
-                    werte = {p['name']: p['value'] for p in risiko['props']}
-                    if (werte[f'{präfix}-likelihood'], werte[f'{präfix}-impact']) == (häufigkeit, schaden):
-                        ids.append(risiko['title'])
-                if ids:
-                    zelle += '\\n' + '\\n'.join(f'{label}: {kennung}' for kennung in ids)
             zellen.append(zelle)
         zeilen.append('  | ' + ' | '.join(zellen) + ' |')
-    zeilen += ['', '  **A** = Ausgangsrisiko vor zusätzlichen KI-Kontrollen',
-               '  **R** = Restrisiko unter den dokumentierten Umsetzungsannahmen',
-               '  Planungsbewertung; keine allgemeine Wirksamkeitsgarantie.', 'endlegend', '@enduml']
+    zeilen += ['', '  Gemeinsamer Maßstab nach BSI-Standard 200-3',
+               '  Air-Gap und Cloud: Einzelbewertungen im Risikoregister', 'endlegend', '@enduml']
     return '\n'.join(zeilen) + '\n'
 
 
@@ -173,7 +165,7 @@ def main() -> int:
     )
     argumente = parser.parse_args()
     katalog = json.loads((WURZEL / 'katalog/ki-it-sicherheitskatalog.oscal.json').read_text(encoding='utf-8'))
-    (QUELLEN / 'risikomatrix.puml').write_text(risikomatrix_quelle(katalog), encoding='utf-8')
+    (QUELLEN / 'risikomatrix.puml').write_text(risikomatrix_quelle(katalog), encoding='utf-8', newline='\n')
 
     if argumente.plantuml_jar:
         jar = geprüfte_jar(argumente.plantuml_jar.expanduser().resolve())
@@ -186,7 +178,7 @@ def main() -> int:
     erzeuge_format(java, jar, "svg")
     erzeuge_format(java, jar, "png")
     schreibe_manifest()
-    print(f"Sechs PlantUML-Diagramme wurden mit PlantUML {PLANTUML_VERSION} erzeugt.")
+    print(f"{len(DIAGRAMME)} PlantUML-Diagramme wurden mit PlantUML {PLANTUML_VERSION} erzeugt.")
     return 0
 
 

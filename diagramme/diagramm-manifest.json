@@ -5,58 +5,76 @@
   "auflösung_png_dpi": 180,
   "diagramme": [
     {
+      "name": "umgebungsuebersicht",
+      "quelle": "diagramme/umgebungsuebersicht.puml",
+      "quelle_sha256": "97b880d1f92cf54ffbf8e1a48435c62c0a683bfb5006f9bdd3962c314c8a5e4d",
+      "png": "dokumentation/medien/umgebungsuebersicht.png",
+      "png_sha256": "099eada0b5e287a94bc2025441254eff7b72793593446fe81d1006fa98b294d2",
+      "svg": "dokumentation/medien/umgebungsuebersicht.svg",
+      "svg_sha256": "43540fd1e35f5b8b26269b2f6d899a85a280bab1e8faf1619bbfaba7a8e5fcc3"
+    },
+    {
       "name": "architektur",
       "quelle": "diagramme/architektur.puml",
-      "quelle_sha256": "21bbdce3ba67c6941221e198da0b906dd9ac2ee7aa21371505908d66256aac30",
+      "quelle_sha256": "42383742b27dc4d1b9fc292990d88cf4adcec66cc771f1d879f6843a3b989064",
       "png": "dokumentation/medien/architektur.png",
-      "png_sha256": "5b38cba824e744564d4aa0eee554d87759b4a5c4747106fc196ef967eafbc335",
+      "png_sha256": "3c75a4cdd78467bbade519ba52816d61bd23bec2e3bbbe164236d4093061d2bc",
       "svg": "dokumentation/medien/architektur.svg",
-      "svg_sha256": "3f5011eeef01932356a5f0a71a29ffe607344c4505e7fe52e9413d71e6ef4719"
+      "svg_sha256": "11e8762a890d499509859a0f0e1ed382692332d19230d5e62741edf84a7f064f"
+    },
+    {
+      "name": "architektur-cloud",
+      "quelle": "diagramme/architektur-cloud.puml",
+      "quelle_sha256": "cf6bca4877dbb8ede33696cdd3013392dd224b31cc52f75a196aef8959fdba0f",
+      "png": "dokumentation/medien/architektur-cloud.png",
+      "png_sha256": "5948980dff33ac2975da72061d1df865774217b829db8822c0e8d92eb6730d84",
+      "svg": "dokumentation/medien/architektur-cloud.svg",
+      "svg_sha256": "a97b0ddc0a7b0af198c198f107df60950700c5b2ea096db70acc50c1c1170c9b"
     },
     {
       "name": "artefaktimport",
       "quelle": "diagramme/artefaktimport.puml",
-      "quelle_sha256": "163b2ca23a4dba779b9561de94e205e5b8612adb7446fd56372b446e55d20927",
+      "quelle_sha256": "947fd7116a38b79e945ad4c1e2d17f5a8c8ade86d58df4fbce5b68f8c9f658a8",
       "png": "dokumentation/medien/artefaktimport.png",
-      "png_sha256": "316fe57cf551bb0b6237014c48fc012b268d22d2eb71083ac9e5bc8f42a3df67",
+      "png_sha256": "e4e27d073a2e67b1dacb722bb76b1b6d4d7944dc654a1a059f8a0ef5dff4c024",
       "svg": "dokumentation/medien/artefaktimport.svg",
-      "svg_sha256": "cb41b7a183f627dfe6b469d277c5c5e67c17cd8d61086cd799e1780a6d18eb1b"
+      "svg_sha256": "53afe097ae73ba0a61fd4525034152ab3f5b25acabbe48af826924fa7727ddc3"
     },
     {
       "name": "risikobewertung",
       "quelle": "diagramme/risikobewertung.puml",
-      "quelle_sha256": "a75d1817c34f5c7cc68b33e393c53b93640d04266708bdf24bfd7fd97e737dbb",
+      "quelle_sha256": "56f5e0680ba98f0d3dac136b62f3d9a38ee6946d405394b348d4ef499e636d19",
       "png": "dokumentation/medien/risikobewertung.png",
-      "png_sha256": "dd27c8e22e57150416a40bd2d6efac5bccf7c0563bdedf1a817c17bade21ecb8",
+      "png_sha256": "f7a7f57bd79a535686a70bb84c100c5aaa6dfc69d1530a1a449ebddec7fab2aa",
       "svg": "dokumentation/medien/risikobewertung.svg",
-      "svg_sha256": "d82d3bf6b3a56d2c805ba8805be536fcd832b463fb987897fd1208a2676e579d"
+      "svg_sha256": "d6bc5fb852e3cc77fd443812d0dcf19de4fcc51a7cd969562de5be8d893f9747"
     },
     {
       "name": "risikomatrix",
       "quelle": "diagramme/risikomatrix.puml",
-      "quelle_sha256": "ac69af0070fbb1804112944431e142994cf5824c409a021451d062bdeb4e8ce7",
+      "quelle_sha256": "a82c71b4b5f097d3cdc5d95d4e2aef9d2d20a27c99ffe6e9ab92333391cfefee",
       "png": "dokumentation/medien/risikomatrix.png",
-      "png_sha256": "aeb043df83787d011f5c3fc3ab0dc9774067f3c27f994191b0fbdb75ca1cb51d",
+      "png_sha256": "859b1052e1b6b325c16d22a7d5c5e4435895f6a5497e031fb87b78c39afc7ee8",
       "svg": "dokumentation/medien/risikomatrix.svg",
-      "svg_sha256": "572a5ae429e54688b1840af24ddc568072d0c4d7c31bf63869038cbf61510d23"
+      "svg_sha256": "a52f86cdd311a0af7fa345fa8af0f46ec1ea94cc17c8de8954866d9f4eb61164"
     },
     {
       "name": "rag-datenfluss",
       "quelle": "diagramme/rag-datenfluss.puml",
-      "quelle_sha256": "0867d779ae1a942959eb65158e669e9f4833b2b8d56c99760e8db2c06662dcd9",
+      "quelle_sha256": "2e740e46ff709eaec941da9c2d61a4d2293c80213117a6b289cb0ebb73154ad2",
       "png": "dokumentation/medien/rag-datenfluss.png",
-      "png_sha256": "19c7c7643101077c06895d4997594b464e874d19d35070c02a3e6d00d01eb21e",
+      "png_sha256": "28dc7ae725ebcef15d39ba9fa4bf83753cc11e1a373fa3c871038879fd727cbb",
       "svg": "dokumentation/medien/rag-datenfluss.svg",
-      "svg_sha256": "9716a8a57933f63bbbaf498f0a4bcb513d386aabddaab396de385cca941d251b"
+      "svg_sha256": "e409b291003617f83eb476f2dde06bff0d491ba17c52b800f64a6d0f866315ca"
     },
     {
       "name": "agentische-werkzeugnutzung",
       "quelle": "diagramme/agentische-werkzeugnutzung.puml",
-      "quelle_sha256": "07ff0c7893f58fab74ebc3f8211756495f88d300c9b441646cec8fba22f1e20d",
+      "quelle_sha256": "7eed3aff9611bf38aba572039682f21f0e8716fec1dc36a931d668619180cf93",
       "png": "dokumentation/medien/agentische-werkzeugnutzung.png",
-      "png_sha256": "3a465b4c9dbea082bea8e8ec8098b92ee03225dced6a9cd195c8736a540dc37e",
+      "png_sha256": "325c8b55fb9056f3c0edb19372516796dfc4514a10bfed1c3f5df874712dac9f",
       "svg": "dokumentation/medien/agentische-werkzeugnutzung.svg",
-      "svg_sha256": "a589bdb66d04dc7d71bb76cda1ef2a21157a8ada8d50791733331858cb571352"
+      "svg_sha256": "5a8fa1d727a2c3e4fa2aad76518f08ebdbcbae1fd956d962f3695f4336288549"
     }
   ]
 }

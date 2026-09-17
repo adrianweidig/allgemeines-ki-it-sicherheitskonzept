@@ -2,34 +2,32 @@
 
 Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlichen Sicherheitsanforderungen. Alle Pfade gelten innerhalb der jeweiligen Repository-Fassung; private Informationen werden nicht mit der öffentlichen Referenz verknüpft.
 
-**Stand:** Version 0.2.0. A01–A11 und P01–P12 sind fachlich übernommen. Die neun begründeten Planungsbewertungen liegen verbindlich im OSCAL-Katalog; DOCX/PDF und Risikomatrix werden daraus abgeleitet. Dies ist kein Nachweis einer bereits geprüften Unternehmensumsetzung. Die Praxisprüfung dokumentiert den historischen Ausgangspunkt und die beschlossenen Änderungen.
+**Stand:** Version 0.3.0 mit 34 Kontrollen in 22 Gruppen und neun Risiken mit je zwei Bewertungen. A01–A11 und P01–P12 bleiben Entscheidungshistorie der Version 0.2.0. Maßgeblich ist der aktuelle Katalog. Allgemeine Infrastruktur- und Nachweisblöcke sind entfallen.
 
 ## Maßgebliche Dateien
 
 | Gesuchter Inhalt | Quelle und Suchkennzeichen |
 |---|---|
-| Anforderungen, Begründung, Umsetzung, Prüfziel, Nachweise | [OSCAL-Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), `catalog.groups[].controls[]`, Auswahl über `id` |
+| Festlegung, methodische Herleitung, Anwendung und Quellen | [OSCAL-Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), `catalog.groups[].controls[]`, Auswahl über `id` |
 | Einzelner Kontrollabschnitt | `parts[].id`, beispielsweise `ki-gov-003-statement`; Zuordnung unten |
 | Beschlüsse und historische Empfehlungen | [Praxisprüfung](PRAXISPRÜFUNG-2026-09-14.md#entscheidungen), A- und P-Kennungen |
 | Verbindliche Ausgangs- und Restrisiken | [OSCAL-Katalog](../katalog/ki-it-sicherheitskatalog.oscal.json), `ki-gov-003-risk-register`, darin `r-01` bis `r-09`; [Entscheidungshistorie](PRAXISPRÜFUNG-2026-09-14.md#risikobewertungen) |
-| Abgleich mit den normalen IT-Sicherheitsprozessen | [Zuordnung aller 38 Kontrollen](PRAXISPRÜFUNG-2026-09-14.md#basisprozesse) |
+| Abgleich mit den normalen IT-Sicherheitsprozessen | [Historische Zuordnung der Version 0.2.0](PRAXISPRÜFUNG-2026-09-14.md#basisprozesse) |
 | Derzeitige Konzeptfassung | [DOCX](../konzept/ki-it-sicherheitskonzept.docx) und [PDF](../konzept/ki-it-sicherheitskonzept.pdf); Kapitel und Kontroll-IDs verwenden |
 | Dokumentableitung aus dem Katalog | [Dokumentgenerator](../validierung/erzeuge_dokumente.py), `kapitel_eins_bis_acht`, `kapitel_neun`, `kapitel_zehn_bis_dreizehn` |
 | Öffentliche Belege | [Quellenregister](../quellen/quellenregister.json), `quellen[].id` und `oscal_uuid`; Verknüpfung über `controls[].links[].href` und `catalog.back-matter.resources[].uuid` |
 | Architektur, Datenflüsse, Entscheidungen | [Diagrammübersicht](../diagramme/README.md) und dort verlinkte PlantUML-Quellen |
 | Bearbeitungsregeln und Gestaltung | [AGENTS.md](../AGENTS.md), [Layoutregeln](LAYOUTREGELN.md), [Übernahmeleitfaden](ÜBERNAHMELEITFADEN.md) |
 | Historie und Migration | [Änderungsprotokoll](../CHANGELOG.md) und Git-Historie |
-| Prüfstand und bekannte Prüfgrenzen | [Prüfprotokoll 0.2.0](PRÜFPROTOKOLL-0.2.0.md) |
+| Prüfstand und bekannte Prüfgrenzen | [Prüfprotokoll 0.3.0](PRÜFPROTOKOLL-0.3.0.md) |
 
-Die sechs Pflichtabschnitte jeder Kontrolle sind dauerhaft adressierbar:
+Die vier Pflichtabschnitte jeder Kontrolle sind dauerhaft adressierbar:
 
 | Abschnitt | OSCAL-Name | Stabile Abschnitts-ID am Beispiel KI-GOV-003 |
 |---|---|---|
 | Anforderung | `statement` | `ki-gov-003-statement` |
 | Begründung | `rationale` | `ki-gov-003-rationale` |
 | Umsetzung | `guidance` | `ki-gov-003-guidance` |
-| Prüfziel | `assessment-objective` | `ki-gov-003-assessment-objective` |
-| Nachweise | `evidence` | `ki-gov-003-evidence` |
 | Quellenangabe | `source` | `ki-gov-003-source` |
 
 Die native Abbildung über `id` und `links` richtet sich nach der [NIST-Referenz für OSCAL Catalog 1.1.3](https://pages.nist.gov/OSCAL-Reference/models/v1.1.3/catalog/json-reference/). Der Katalog verweist über `metadata.links` mit `rel: index` auf diesen Index; der Verweis hat ausschließlich redaktionelle Bedeutung.
@@ -56,52 +54,48 @@ Die native Abbildung über `id` und `links` richtet sich nach der [NIST-Referenz
 
 ## Kontrollindex
 
-Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet die derzeitige Konzeptfassung. Entscheidungen, Risiken und Praxisempfehlungen werden in den entsprechenden Tabellen dieses Index aufgelöst; die Verknüpfung führt zu den in Version 0.2.0 umgesetzten Festlegungen.
+Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet Version 0.3.0. Verbleibende Kontrollkennungen wurden nicht neu nummeriert.
 
-| OSCAL-ID | Suchthema | Kapitel | Entscheidungen | Risiken | Praxisempfehlungen |
-|---|---|---|---|---|---|
-| <a id="ki-gel-001"></a>`ki-gel-001` | Basis-Sicherheitskonzept und KI-Ergänzungen | 3, 9.1 | A03 | übergreifend | P12 |
-| <a id="ki-gel-002"></a>`ki-gel-002` | Schutzstatus und Dokumentenführung | 1, 9.1 | A03, A09 | übergreifend | P12 |
-| <a id="ki-gov-001"></a>`ki-gov-001` | Inventar und Zuständigkeiten | 7, 9.2 | A03 | übergreifend | P12 |
-| <a id="ki-gov-002"></a>`ki-gov-002` | Zugelassene Nutzung, Kompetenz und Weiterarbeit ohne KI | 6, 9.2 | A03, A06, A11 | R-06, R-07 | P12 |
-| <a id="ki-gov-003"></a>`ki-gov-003` | Risikoakzeptanz und Überprüfung | 8, 9.2 | A01, A08, A10, A11 | R-01–R-09 | P01, P02 |
-| <a id="ki-rec-001"></a>`ki-rec-001` | Recht, Datenschutz und Verwendung | 6, 9.3 | A03, A05, A06, A07 | R-03, R-05, R-08 | P11, P12 |
-| <a id="ki-rec-002"></a>`ki-rec-002` | Schutzbedarf und besondere Freigaben | 6, 9.3 | A03, A06 | R-03, R-05, R-08 | P12 |
-| <a id="ki-arc-001"></a>`ki-arc-001` | Systemgrenzen und KI-Zugang | 4, 5, 9.4 | A04, A11 | R-04, R-06, R-08 | P03, P09 |
-| <a id="ki-arc-002"></a>`ki-arc-002` | Unternehmensdienste und Datenflüsse | 4, 5, 9.4 | A04, A05 | R-08 | P09, P11 |
-| <a id="ki-con-001"></a>`ki-con-001` | Netz- und Containerkommunikation | 9.5 | A03, A04 | R-04, R-08 | P09 |
-| <a id="ki-con-002"></a>`ki-con-002` | Plattformrechte und Laufzeit | 9.5 | A03 | R-01, R-02 | P12 |
-| <a id="ki-api-001"></a>`ki-api-001` | Anmeldung und Zugriffsberechtigung | 9.5 | A04 | R-04 | P03, P09 |
-| <a id="ki-api-002"></a>`ki-api-002` | Modell-, Kontext- und Werkzeuggrenzen | 9.5 | A02, A04 | R-01, R-04, R-06 | P03, P06 |
-| <a id="ki-mod-001"></a>`ki-mod-001` | Modellimport und Herkunft | 9.6 | A03 | R-02 | P12 |
-| <a id="ki-mod-002"></a>`ki-mod-002` | Modellstände und Wiederherstellung | 9.6 | A03 | R-09 | P04, P08 |
-| <a id="ki-trn-001"></a>`ki-trn-001` | Ausschluss von Training und Gewichtsänderung | 2, 9.7 | A06 | übergreifend | P07 |
-| <a id="ki-rag-001"></a>`ki-rag-001` | Aufnahme und Aufbereitung von Dateien | 9.8, 10 | A03, A06 | R-03 | P04, P05 |
-| <a id="ki-rag-002"></a>`ki-rag-002` | Durchgängige Rechte und Empfängertrennung | 9.8, 10 | A03, A06, A07 | R-03 | P03, P10 |
-| <a id="ki-rag-003"></a>`ki-rag-003` | Aufbewahrung, Löschung und Ableitungen | 9.8, 10 | A03, A06, A07 | R-03 | P04, P05 |
-| <a id="ki-rag-004"></a>`ki-rag-004` | Persönliche Dateiübernahmen und Verläufe | 9.8, 10 | A03, A06, A07 | R-03 | P05 |
-| <a id="ki-iam-001"></a>`ki-iam-001` | Identitäten, Dienstzugänge und Geheimnisse | 9.9 | A03, A04 | R-01, R-04, R-08 | P09, P10 |
-| <a id="ki-agt-001"></a>`ki-agt-001` | Arbeitsbereiche und Wiederherstellbarkeit | 9.10, 11 | A02, A03 | R-01 | P06 |
-| <a id="ki-agt-002"></a>`ki-agt-002` | Zugelassene Modellziele für Agenten | 9.10, 11 | A04, A05 | R-08 | P09, P11 |
-| <a id="ki-pmt-001"></a>`ki-pmt-001` | Eingeschleuste Anweisungen und unzuverlässige Inhalte | 9.11, 11 | A02 | R-01 | P03, P06 |
-| <a id="ki-out-001"></a>`ki-out-001` | Ergebnisqualität und wirkungsbezogene Freigaben | 9.11 | A02, A03 | R-07 | P06, P08 |
-| <a id="ki-tol-001"></a>`ki-tol-001` | Werkzeugaktionen und Genehmigungsgrenzen | 9.12, 11 | A02 | R-01 | P06 |
-| <a id="ki-tol-002"></a>`ki-tol-002` | Erweiterungen, MCP und Werkzeugprotokolle | 9.12, 11 | A03, A04 | R-01, R-02 | P04 |
-| <a id="ki-thr-001"></a>`ki-thr-001` | Bedrohungen und überprüfbare Testabdeckung | 8, 9.13 | A01 | R-01 | P03 |
-| <a id="ki-thr-002"></a>`ki-thr-002` | Überlastung, begrenzte Ressourcen und Schutz der übrigen IT | 9.13 | A01, A05, A11 | R-06 | P01 |
-| <a id="ki-val-001"></a>`ki-val-001` | Wiederholbare Qualitäts- und Sicherheitstests | 9.14 | A01, A03 | R-07, R-09 | P03, P08 |
-| <a id="ki-val-002"></a>`ki-val-002` | Routineänderungen und wesentliche Änderungen | 9.14 | A02, A03 | R-02, R-09 | P04 |
-| <a id="ki-ops-001"></a>`ki-ops-001` | Betriebsprotokolle und Inhaltsminimierung | 9.15 | A03, A06, A07 | R-05 | P05 |
-| <a id="ki-ops-002"></a>`ki-ops-002` | Überwachung und Vorfallbehandlung | 9.15 | A03, A08, A10, A11 | übergreifend | P02 |
-| <a id="ki-ops-003"></a>`ki-ops-003` | Sicherung, Reparatur und konsistenter Wiederanlauf | 9.15, 12 | A02, A03, A07, A11 | R-03, R-06, R-09 | P04, P05 |
-| <a id="ki-dec-001"></a>`ki-dec-001` | Außerbetriebnahme | 9.16 | A03, A07 | R-03, R-05 | P05 |
-| <a id="ki-ext-001"></a>`ki-ext-001` | Ausdrückliche Freigabe externer KI-Nutzung | 9.17, 12 | A03, A04, A05 | R-08 | P09, P11 |
-| <a id="ki-ext-002"></a>`ki-ext-002` | Freigegebene Ausweichziele | 9.17, 12 | A05, A11 | R-06, R-08 | P11 |
-| <a id="ki-ass-001"></a>`ki-ass-001` | Nachweiskette und Abweichungsentscheidungen | 9.18, 13 | A01, A03, A08, A09, A10 | übergreifend | P01, P02, P12 |
+| Kontrolle | Gegenstand | Kapitel | Szenario |
+|---|---|---|---|
+| <a id="ki-gel-001"></a>`ki-gel-001` | KI-spezifische Ergänzung des Informationssicherheitskonzepts | 9.1 | Beide Szenarien |
+| <a id="ki-gel-002"></a>`ki-gel-002` | Schutzkennzeichnung und kontrollierte Dokumentenführung | 9.1 | Beide Szenarien |
+| <a id="ki-gov-001"></a>`ki-gov-001` | KI-Funktionen und Softwarezuordnung | 9.2 | Beide Szenarien |
+| <a id="ki-gov-002"></a>`ki-gov-002` | KI-Nutzung und Nutzerbelehrung | 9.2 | Beide Szenarien |
+| <a id="ki-rec-001"></a>`ki-rec-001` | Zulässige Inhalte im Modellkontext | 9.3 | Beide Szenarien |
+| <a id="ki-rec-002"></a>`ki-rec-002` | Einstufung und Freigabe von KI-Inhalten | 9.3 | Beide Szenarien |
+| <a id="ki-gov-003"></a>`ki-gov-003` | Bewertung KI-spezifischer Risiken | 9.4 | Beide Szenarien |
+| <a id="ki-thr-001"></a>`ki-thr-001` | Prüfung KI-spezifischer Fehl- und Missbrauchsszenarien | 9.4 | Beide Szenarien |
+| <a id="ki-arc-002"></a>`ki-arc-002` | Verarbeitungsgrenzen der Szenarien | 9.5 | Beide Szenarien |
+| <a id="ki-api-001"></a>`ki-api-001` | Anmeldung und KI-Zugriffsrechte | 9.6 | Beide Szenarien |
+| <a id="ki-iam-001"></a>`ki-iam-001` | Berechtigungen für KI-Nutzung und KI-Verwaltung | 9.6 | Beide Szenarien |
+| <a id="ki-api-002"></a>`ki-api-002` | Serverseitige Grenzen für Modellzugriffe | 9.7 | Beide Szenarien |
+| <a id="ki-mod-001"></a>`ki-mod-001` | Prüfung bereitgestellter Modelle | 9.8 | Beide Szenarien |
+| <a id="ki-mod-002"></a>`ki-mod-002` | Austauschbare Modellstände mit stabilen Modellaliasen | 9.8 | Beide Szenarien |
+| <a id="ki-trn-001"></a>`ki-trn-001` | Keine Änderung von Modellgewichten | 9.9 | Beide Szenarien |
+| <a id="ki-rag-001"></a>`ki-rag-001` | Aufnahme von Dokumenten in den KI-Kontext | 9.10 | Beide Szenarien |
+| <a id="ki-rag-002"></a>`ki-rag-002` | Durchgängige Berechtigungsprüfung und Indextrennung | 9.10 | Beide Szenarien |
+| <a id="ki-rag-003"></a>`ki-rag-003` | Schutz abgeleiteter Daten | 9.10 | Beide Szenarien |
+| <a id="ki-rag-004"></a>`ki-rag-004` | Persönliche Inhalte und gemeinsame Wissensbestände | 9.10 | Beide Szenarien |
+| <a id="ki-agt-001"></a>`ki-agt-001` | Agentische Projektarbeit im Nutzerkontext | 9.11 | Beide Szenarien |
+| <a id="ki-agt-002"></a>`ki-agt-002` | Freigegebene Modellziele für Agenten | 9.11 | Beide Szenarien |
+| <a id="ki-pmt-001"></a>`ki-pmt-001` | Abgrenzung von Arbeitsauftrag und Dateninhalt | 9.12 | Beide Szenarien |
+| <a id="ki-out-001"></a>`ki-out-001` | Fachliche Prüfung und Verwendung von KI-Ergebnissen | 9.13 | Beide Szenarien |
+| <a id="ki-tol-001"></a>`ki-tol-001` | Freigabe von Agentenaktionen | 9.14 | Beide Szenarien |
+| <a id="ki-tol-002"></a>`ki-tol-002` | Serverseitige KI-Werkzeuge und interne Ausführung | 9.14 | Beide Szenarien |
+| <a id="ki-thr-002"></a>`ki-thr-002` | Begrenzung von KI-Aufträgen | 9.15 | Beide Szenarien |
+| <a id="ki-val-001"></a>`ki-val-001` | Erprobung von Modellen und KI-Funktionen | 9.16 | Beide Szenarien |
+| <a id="ki-val-002"></a>`ki-val-002` | Fortschreibung bei Änderungen der KI-Nutzung | 9.17 | Beide Szenarien |
+| <a id="ki-ops-001"></a>`ki-ops-001` | Umgang mit KI-Inhalten in Protokollen | 9.18 | Beide Szenarien |
+| <a id="ki-ops-002"></a>`ki-ops-002` | Behandlung KI-spezifischer Auffälligkeiten | 9.19 | Beide Szenarien |
+| <a id="ki-ops-003"></a>`ki-ops-003` | Konsistenz nach Wiederherstellung von KI-Daten | 9.20 | Beide Szenarien |
+| <a id="ki-dec-001"></a>`ki-dec-001` | Entfernung nicht mehr benötigter KI-Bestände | 9.21 | Beide Szenarien |
+| <a id="ki-ext-001"></a>`ki-ext-001` | Freigegebene Cloud-Verarbeitung | 9.22 | Cloud-Szenario |
+| <a id="ki-ext-002"></a>`ki-ext-002` | Zulässige Ausweichziele | 9.22 | Beide Szenarien |
 
 ## Risiken
 
-Die folgenden Links dokumentieren die Entscheidungshistorie. Verbindlich sind die gleichnamigen Risikoabschnitte `r-01` bis `r-09` im Katalog unter `ki-gov-003-risk-register` und deren Ableitung in Kapitel 8.3. Jedes Risiko enthält sechs Einstufungswerte, Kontrollverweise, Behandlung, Annahmen und Restrisikobegründung. Die Teile heißen `treatment`, `assumptions` und `residual-reasoning`; ihre IDs folgen beispielsweise `r-06-assumptions`.
+Die folgenden Links dokumentieren die Entscheidungshistorie. Verbindlich sind die gleichnamigen Risikoabschnitte `r-01` bis `r-09` im Katalog unter `ki-gov-003-risk-register` und deren Ableitung in Kapitel 8.3. Jedes Risiko enthält sechs Air-Gap-Einstufungswerte und sechs weitere unter `r-XX-cloud-assessment`. Kontrollverweise, Behandlung, Annahmen und Begründungen bleiben zugeordnet. Die Teile heißen `treatment`, `assumptions` und `residual-reasoning`; ihre IDs folgen beispielsweise `r-06-assumptions`.
 
 | ID | Szenario |
 |---|---|

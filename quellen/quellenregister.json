@@ -1,10 +1,10 @@
 {
   "$schema": "../schemata/quellenregister.schema.json",
   "schema_version": "1.0.0",
-  "projektversion": "0.1.0",
+  "projektversion": "0.3.0",
   "dokumentstatus": "ÖFFENTLICH – organisationsneutrale Referenzvorlage",
   "stichtag": "2026-09-03",
-  "zitierregel": "Herausgeber: Titel, Fassung/Stand, Veröffentlichungsdatum, konkrete Seite oder Abschnitt, öffentliche URL, abgerufen am TT.MM.JJJJ.",
+  "zitierregel": "Nummerierte Kurzverweise im Fachtext. Vollständige bibliografische Angaben und öffentliche Links ausschließlich im Quellenverzeichnis. Quellen-IDs bleiben im Katalog und Register stabil.",
   "quellen": [
     {
       "id": "Q-BMI-001",
@@ -107,10 +107,7 @@
         "ki-agt-001",
         "ki-api-001",
         "ki-api-002",
-        "ki-arc-001",
         "ki-arc-002",
-        "ki-ass-001",
-        "ki-con-001",
         "ki-dec-001",
         "ki-ext-001",
         "ki-ext-002",
@@ -273,8 +270,6 @@
         }
       ],
       "abgeleitete_kontrollen": [
-        "ki-arc-001",
-        "ki-ass-001",
         "ki-dec-001",
         "ki-gov-001",
         "ki-gov-003",
@@ -441,8 +436,8 @@
       "veröffentlichungsdatum": "2024-05-06",
       "gültigkeitsdatum": null,
       "öffentliche_url": "https://www.datenschutzkonferenz-online.de/media/oh/20240506_DSK_Orientierungshilfe_KI_und_Datenschutz.pdf",
-      "abrufdatum": "2026-09-02",
-      "letzte_inhaltsprüfung": "2026-09-02",
+      "abrufdatum": "2026-09-17",
+      "letzte_inhaltsprüfung": "2026-09-17",
       "lokale_fassung": null,
       "seitenzahl": 15,
       "geltungsbereich": "Datenschutzkonformer Einsatz von KI-Anwendungen",
@@ -454,12 +449,13 @@
       "wiedervorlage_am": "2027-09-02",
       "verwendete_fundstellen": [
         {
-          "fundstelle": "Gesamtdokument, insbesondere Auswahl, Einführung, Nutzung und Beendigung",
-          "aussage": "Datenschutzrechtliche Kriterien über den KI-Lebenszyklus."
+          "fundstelle": "Abschnitte 1.7–1.11, 2.1, 2.5–2.7 und 3.1–3.3",
+          "aussage": "Auswahl geschlossener und offener Dienste, Trainingsausschluss, Verlaufsspeicherung, Löschung, Verantwortlichkeit, datensparsame Voreinstellungen und Ergebnisprüfung."
         }
       ],
       "abgeleitete_kontrollen": [
         "ki-dec-001",
+        "ki-ext-001",
         "ki-rec-001"
       ]
     },
@@ -563,7 +559,6 @@
         }
       ],
       "abgeleitete_kontrollen": [
-        "ki-ass-001",
         "ki-gov-003",
         "ki-ops-002",
         "ki-thr-002",
@@ -632,10 +627,7 @@
           "aussage": "Mehrschichtige Absicherung von KI-Komponenten, Infrastruktur und Organisation."
         }
       ],
-      "abgeleitete_kontrollen": [
-        "ki-arc-001",
-        "ki-con-002"
-      ]
+      "abgeleitete_kontrollen": []
     },
     {
       "id": "Q-NCSC-001",
@@ -667,7 +659,6 @@
       ],
       "abgeleitete_kontrollen": [
         "ki-arc-002",
-        "ki-con-002",
         "ki-mod-001",
         "ki-ops-003",
         "ki-tol-002"
@@ -772,9 +763,7 @@
           "aussage": "Selektive Begrenzung ein- und ausgehender Pod-Kommunikation."
         }
       ],
-      "abgeleitete_kontrollen": [
-        "ki-con-001"
-      ]
+      "abgeleitete_kontrollen": []
     },
     {
       "id": "Q-DOCKER-001",
@@ -804,9 +793,7 @@
           "aussage": "Betrieb von Docker-Daemon und Containern ohne Root-Rechte."
         }
       ],
-      "abgeleitete_kontrollen": [
-        "ki-con-002"
-      ]
+      "abgeleitete_kontrollen": []
     },
     {
       "id": "Q-PODMAN-001",
@@ -836,9 +823,7 @@
           "aussage": "Explizite lokale Container-Netze und Netzwerkkonfiguration."
         }
       ],
-      "abgeleitete_kontrollen": [
-        "ki-con-001"
-      ]
+      "abgeleitete_kontrollen": []
     },
     {
       "id": "Q-OLLAMA-001",

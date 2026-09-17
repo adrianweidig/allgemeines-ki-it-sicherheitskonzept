@@ -3,35 +3,47 @@ skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 14
-skinparam ArrowColor #446B8C
-skinparam activity {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
-}
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontColor #334E64
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 24
 skinparam rectangle {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
+  BorderThickness 1
 }
-start
-:Modell schlägt Aktion vor;
-if (Auftrag, Profil oder Rechte verletzt?) then (ja)
-  :Aktion blockieren;
-  stop
-else (nein)
-endif
-if (Kritisch, privilegiert, irreversibel?\nOder destruktiv / Löschung ohne\neinfache Wiederherstellung oder\nmit erheblichem Schadenspotenzial?) then (ja)
-  if (Konkrete Genehmigung erteilt?) then (nein)
-    :Aktion blockieren;
-    stop
-  else (ja)
-  endif
-else (nein)
-  :Routineaktion\nOhne Einzelgenehmigung;
-endif
-:Ausführung im genehmigten Umfang\nWiederherstellung umfasst auch Folgen;
-:Entscheidung und Ergebnis\ndatensparsam zuordnen;
-stop
+skinparam card {
+  BackgroundColor #FFF4DC
+  BorderColor #A87318
+  BorderThickness 1.3
+}
+skinparam database {
+  BackgroundColor #E5F3F1
+  BorderColor #247B76
+}
+rectangle "<color:#FFFFFF><b>01  Projektassistent schlägt eine Aktion vor</b></color>\n<color:#FFFFFF>Standard: Einzelgenehmigung auch für Lesen</color>" as vorschlag #17324D
+card "<b>Auftrag und Nutzerrechte eingehalten?</b>" as grenzen
+rectangle "<color:#9C3038><b>Aktion blockieren</b></color>" as blockieren #FCECEE
+card "<b>Konkrete Einzelentscheidung erforderlich?</b>\nWirkung und Befugnis bewerten" as wirkung
+rectangle "<b>02a  Konkrete Einzelgenehmigung</b>\nBefugte Entscheidung erforderlich" as einzeln #FFF4DC
+rectangle "<b>02b  Projektfreigabe prüfen</b>\nBewusst freigegebene Aktionsart?\nJa: Genehmigung durch Projektprofil\nNein: Einzelgenehmigung einholen" as projekt #EAF2F8
+card "<b>Erforderliche Genehmigung liegt vor?</b>" as genehmigt
+rectangle "<color:#9C3038><b>Aktion blockieren</b></color>" as ablehnen #FCECEE
+rectangle "<b>03  In der Nutzersitzung ausführen</b>\nRechte des angemeldeten Benutzers\nProjektfreigaben erweitern keine Rechte" as ausfuehren #E5F3F1
+rectangle "<color:#FFFFFF><b>04  Fachlich prüfen und übernehmen</b></color>\n<color:#FFFFFF>Verbindliche Übernahme und Freigabe</color>\n<color:#FFFFFF>durch die befugte Person</color>" as uebernahme #086B68
+vorschlag -down-> grenzen
+grenzen -right-> blockieren : nein
+grenzen -down-> wirkung : ja
+wirkung -down-> einzeln : ja
+wirkung -down-> projekt : nein
+einzeln -down-> genehmigt
+projekt -down-> genehmigt
+genehmigt -right-> ablehnen : nein
+genehmigt -down-> ausfuehren : ja
+ausfuehren -down-> uebernahme
 @enduml

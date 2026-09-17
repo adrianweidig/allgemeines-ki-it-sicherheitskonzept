@@ -162,8 +162,23 @@ class NegativeFälle(unittest.TestCase):
     def test_externe_inferenz_ohne_aktive_kontrollen_wird_abgewiesen(self):
         status = copy.deepcopy(self.status)
         status["externe-inferenz"] = True
-        fehler = vp.prüfe_projektstatus(status, self.katalog, repository_modus=False)
+        katalog = copy.deepcopy(self.katalog)
+        control = self.kontrollen(katalog)['ki-ext-001']
+        next(p for p in control['props'] if p['name']=='standardstatus')['value']='nicht-anwendbar'
+        fehler = vp.prüfe_projektstatus(status, katalog, repository_modus=False)
         self.assertTrue(any("noch nicht anwendbar" in f for f in fehler))
+
+    def test_zwei_szenarien_ohne_aktivierte_inferenz(self):
+        self.assertEqual([], vp.prüfe_projektstatus(self.status, self.katalog))
+        katalog = copy.deepcopy(self.katalog)
+        control = self.kontrollen(katalog)['ki-ext-001']
+        control['props'].append({'name':'szenario','value':'air-gap'})
+        self.assertTrue(any('Szenariozuordnung' in f for f in vp.prüfe_katalog(katalog)))
+        katalog = copy.deepcopy(self.katalog)
+        register = next(p for p in self.kontrollen(katalog)['ki-gov-003']['parts'] if p['name']=='risk-register')
+        cloud = next(p for p in register['parts'][0]['parts'] if p['name']=='cloud-assessment')
+        next(p for p in cloud['props'] if p['name']=='residual-risk')['value']='gering'
+        self.assertTrue(any('Cloud-Risikokategorie' in f for f in vp.prüfe_risikoregister(katalog)))
 
     def test_rag_ohne_berechtigungsgrenze_wird_abgewiesen(self):
         katalog = copy.deepcopy(self.katalog)

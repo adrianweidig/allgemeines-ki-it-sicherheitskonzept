@@ -1,0 +1,38 @@
+@startuml
+skinparam dpi 180
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 26
+skinparam rectangle {
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
+}
+skinparam package {
+  BackgroundColor #F7FAFC
+  BorderColor #738A9E
+}
+rectangle "<b>Gemeinsame KI-Nutzung</b>\nChat · Wissenssuche · Projektassistenz\nDatenauswahl · Rechte · Ergebnisprüfung" as nutzung #E5F3F1
+package "Air-Gap-Szenario" {
+ rectangle "<b>Interne Verarbeitung</b>\nAnwendungen, Dokumente und Modelle\nOhne Verbindung zum Internet" as intern
+}
+package "Cloud-Szenario" {
+ rectangle "<b>Interne Anwendungen</b>\nDokumente und Rechteprüfung\nAuswahl des zulässigen Kontexts" as auswahl
+ rectangle "<b>Freigegebener Anbieter</b>\nModellverarbeitung\nKein Training mit Kundeninhalten" as cloud #EAF2F8
+ auswahl <-down-> cloud : Anfrage / Ergebnis
+}
+nutzung -down-> intern
+nutzung -down-> auswahl
+intern -[hidden]right-> auswahl
+note bottom of intern
+Kein automatischer Wechsel
+zwischen den Szenarien
+end note
+@enduml

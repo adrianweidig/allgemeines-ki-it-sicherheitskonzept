@@ -16,7 +16,7 @@ Eine fachliche Ableitung darf nur verwendet werden, wenn eine öffentliche kanon
 
 ## Nachweiskette
 
-Jede Quellen-ID wird im Register mit bibliografischen Angaben, URL, Abrufdatum, Prüfsumme einer vorhandenen lokalen Fassung, konkreten Fundstellen, Wiederverwendungsstatus und Wiedervorlage gepflegt. OSCAL-Kontrollen verweisen über Back-Matter-Ressourcen auf dieselbe ID. Das Konzept verwendet identische Kennungen.
+Jede Quellen-ID wird im Register mit bibliografischen Angaben, URL, Abrufdatum, Prüfsumme einer vorhandenen lokalen Fassung, konkreten Fundstellen, Wiederverwendungsstatus und Wiedervorlage gepflegt. OSCAL-Kontrollen verweisen über Back-Matter-Ressourcen auf dieselbe ID. Im Konzept führen nummerierte Kurzverweise zum einmaligen Quellenverzeichnis. Die stabilen Quellen-IDs bleiben im Katalog und Register erhalten. Quellenketten dokumentieren die fachliche Herkunft und begründen keine zusätzlichen betrieblichen Nachweisdokumente.
 
 Die Zitierform ist:
 

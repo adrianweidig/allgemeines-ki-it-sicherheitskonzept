@@ -3,28 +3,35 @@ skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 14
-skinparam ArrowColor #446B8C
-skinparam activity {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
-}
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 26
 skinparam rectangle {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
 }
-rectangle "VERWALTETE CLIENTS\nUnternehmensanmeldung\nFreigegebene Arbeitsbereiche" as client
-rectangle "KONTROLLIERTER KI-ZUGANG\nIdentität · Rechte · Profile\nKeine direkten Umgehungswege" as gateway
-rectangle "UNTERNEHMENSDIENSTE\nIdP · Daten · Entwicklung\nBestehende IT-Regeln" as support
-rectangle "LOKALE KI BEVORZUGT\nServer oder Endgerät\nWissenssuche optional" as lokal
-rectangle "OPTION: EXTERNE KI\nStandardmäßig aus\nZusätzliche KI-Freigabe" as extern #FFF2CC
-rectangle "WEITERARBEIT OHNE KI\nJede Tätigkeit bleibt möglich\nNormale Reparaturverfahren" as weiter #EAF2EA
-client -down-> gateway
-gateway -right-> support
-gateway -down-> lokal
-lokal -[hidden]right-> extern
-gateway -down-> extern : nur freigegeben
-lokal -down-> weiter : KI-Ausfall
+skinparam package {
+  BackgroundColor #F7FAFC
+  BorderColor #738A9E
+}
+rectangle "<b>Dateien außerhalb der Umgebung</b>\nModelle und benötigte Daten" as eingang #EAF2F8
+rectangle "<b>Bestehendes Übernahmeverfahren</b>\nGeregelte Dateiübernahme" as schleuse #FFF4DC
+package "Air-Gap-Umgebung · keine Internetverbindung" {
+ rectangle "<b>KI-Anwendungen</b>\nChat und Projektassistent\nIndividuelle Nutzerrechte" as app
+ rectangle "<b>Interne Modellbereitstellung</b>\nFreigegebene Modelle\nKeine externen Ausweichziele" as model #E5F3F1
+ rectangle "<b>Interne Dokumentverarbeitung</b>\nAufbereitung und Wissenssuche\nQuellrechte bleiben wirksam" as daten
+ app -down-> model : Anfrage und Kontext
+ daten -up-> app : berechtigte Ausschnitte
+}
+eingang -down-> schleuse
+schleuse ..> daten : Dateiübernahme
+note bottom of daten
+Gestrichelt: Dateiübernahme,
+keine Netzwerkverbindung
+end note
 @enduml

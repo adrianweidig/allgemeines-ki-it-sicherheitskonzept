@@ -6,13 +6,12 @@ skinparam defaultFontName Arial
 skinparam defaultFontSize 12
 legend center
   |= Schadenshöhe /\nEintrittshäufigkeit |= selten |= mittel |= häufig |= sehr häufig |
-  | **existenzbedrohend** | <#FFF2CC> **mittel**\nR: R-08 | <#FCE4D6> **hoch**\nA: R-08 | <#F4CCCC> **sehr hoch** | <#F4CCCC> **sehr hoch** |
-  | **beträchtlich** | <#FFF2CC> **mittel**\nR: R-01\nR: R-02\nR: R-03\nR: R-04\nR: R-05 | <#FFF2CC> **mittel**\nA: R-02\nA: R-04\nR: R-07\nR: R-09 | <#FCE4D6> **hoch**\nA: R-01\nA: R-03\nA: R-05\nA: R-06\nA: R-07\nA: R-09 | <#F4CCCC> **sehr hoch** |
-  | **begrenzt** | <#E2F0D9> **gering** | <#E2F0D9> **gering**\nR: R-06 | <#FFF2CC> **mittel** | <#FCE4D6> **hoch** |
+  | **existenzbedrohend** | <#FFF2CC> **mittel** | <#FCE4D6> **hoch** | <#F4CCCC> **sehr hoch** | <#F4CCCC> **sehr hoch** |
+  | **beträchtlich** | <#FFF2CC> **mittel** | <#FFF2CC> **mittel** | <#FCE4D6> **hoch** | <#F4CCCC> **sehr hoch** |
+  | **begrenzt** | <#E2F0D9> **gering** | <#E2F0D9> **gering** | <#FFF2CC> **mittel** | <#FCE4D6> **hoch** |
   | **vernachlässigbar** | <#E2F0D9> **gering** | <#E2F0D9> **gering** | <#E2F0D9> **gering** | <#E2F0D9> **gering** |
 
-  **A** = Ausgangsrisiko vor zusätzlichen KI-Kontrollen
-  **R** = Restrisiko unter den dokumentierten Umsetzungsannahmen
-  Planungsbewertung; keine allgemeine Wirksamkeitsgarantie.
+  Gemeinsamer Maßstab nach BSI-Standard 200-3
+  Air-Gap und Cloud: Einzelbewertungen im Risikoregister
 endlegend
 @enduml

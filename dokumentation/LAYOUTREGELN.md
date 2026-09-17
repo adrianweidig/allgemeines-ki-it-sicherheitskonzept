@@ -14,7 +14,7 @@ Das Gestaltungsprofil basiert auf `standard_business_brief` und verwendet die be
 | Grundschrift | Calibri, 11 pt, 1,15-facher Zeilenabstand, 6 pt Abstand nach dem Absatz |
 | Fließtext | Blocksatz mit automatischer deutscher Silbentrennung; nicht für Listen, Tabellen, Quellen, Beschriftungen oder kurze Hinweise |
 | Begriffsdefinitionen | Calibri 10,5 pt, linksbündig, 1,05-facher Zeilenabstand, 3 pt Abstand danach |
-| Überschrift 1 | 16 pt, dunkelblau, 16 pt davor, 8 pt danach, Beginn auf neuer Seite |
+| Überschrift 1 | 16 pt, dunkelblau, 16 pt davor, 8 pt danach, fortlaufend, Seitenumbruch nur bei fachlichem Bedarf |
 | Überschrift 2 | 13 pt, blau, 12 pt davor, 6 pt danach |
 | Überschrift 3 | 12 pt, dunkelblau, 8 pt davor, 4 pt danach |
 | Inhaltsverzeichnis | Automatisches Word-Feld, Ebenen 1 und 2, rechtsbündige Seitenzahlen, Punkt-Füllzeichen, eigene Formatvorlagen `TOC 1` und `TOC 2` |
@@ -23,7 +23,7 @@ Das Gestaltungsprofil basiert auf `standard_business_brief` und verwendet die be
 | Tabellenzellen | Calibri 10,5 pt, 1,10-facher Zeilenabstand, mindestens 120 DXA oben und unten sowie 150 DXA links und rechts |
 | Tabellenköpfe | Fett, dezente blaugraue Fläche, horizontal und vertikal zentriert, auf Folgeseiten wiederholt |
 | Tabellenkörper | Vertikal zentriert, Textspalten linksbündig, kurze Kennungs- und Statusspalten gezielt zentriert |
-| Fußnoten | Calibri 8,5 pt, 1,05-facher Zeilenabstand, 2 pt Abstand danach |
+| Quellen | Nummerierte interne Kurzverweise, vollständige Angaben nur im Quellenverzeichnis |
 | Seitenführung | Schutzstatus kurz links, `Seite X von Y` rechts, getrennt durch einen Tabstopp und eine dezente obere Linie |
 | Silbentrennung | Automatisch, Sprache `de-DE`, höchstens zwei aufeinanderfolgende Trennzeilen; Zielwert der Trennzone 360 DXA |
 | Abbildungen | Inline im Textfluss, höchstens 160 mm breit, aussagekräftiger Alternativtext und direkt folgende linksbündige Beschriftung |
@@ -34,11 +34,11 @@ Die numerischen Werte werden im Dokumentgenerator gesetzt und in der Projektvali
 
 ### LAY-TYP-001 – Formatvorlagen statt Einzelformatierung
 
-Fließtext, Überschriften, Listen, Tabelleninhalt, Tabellenköpfe, Beschriftungen, Kopfzeilen, Fußzeilen und Fußnoten verwenden festgelegte Formatvorlagen. Abstände werden am Absatz und nicht durch Leerzeilen erzeugt. Überschriften bleiben mit dem folgenden Absatz verbunden. Die Absatzkontrolle gegen einzelne Anfangs- und Schlusszeilen bleibt aktiv.
+Fließtext, Überschriften, Listen, Tabelleninhalt, Tabellenköpfe, Beschriftungen, Kopfzeilen, Fußzeilen und Quellen verwenden festgelegte Formatvorlagen. Abstände werden am Absatz und nicht durch Leerzeilen erzeugt. Überschriften bleiben mit dem folgenden Absatz verbunden. Die Absatzkontrolle gegen einzelne Anfangs- und Schlusszeilen bleibt aktiv.
 
 ### LAY-TYP-002 – Ruhiger Absatzrhythmus
 
-Fließtext verwendet durchgängig 1,15-fachen Zeilenabstand und 6 pt Abstand danach. Tabellen und Fußnoten besitzen eigene, konsistente Werte. Abweichungen benötigen einen benannten, wiederverwendbaren Stil und eine Begründung in dieser Datei.
+Fließtext verwendet durchgängig 1,15-fachen Zeilenabstand und 6 pt Abstand danach. Tabellen und Quellen besitzen eigene, konsistente Werte. Abweichungen benötigen einen benannten, wiederverwendbaren Stil und eine Begründung in dieser Datei.
 
 ### LAY-TYP-003 – Selektiver Blocksatz
 
@@ -48,7 +48,7 @@ Blocksatz wird nicht in schmalen Spalten erzwungen. Die selektive Regel vermeide
 
 ### LAY-TYP-004 – Geschlossene Begriffsübersicht
 
-Kurze Definitionen verwenden die eigene Formatvorlage `Begriffsdefinition` mit Calibri 10,5 pt, linksbündiger Ausrichtung, 1,05-fachem Zeilenabstand und 3 pt Absatzabstand. Die kompakte, aber gut lesbare Gestaltung verhindert überdehnte Wortabstände und eine fast leere Fortsetzungsseite. Kapitel 2.1 enthält genau die vor der ersten technischen Verwendung benötigten fünfzehn Begriffe.
+Kurze Definitionen verwenden die eigene Formatvorlage `Begriffsdefinition` mit Calibri 10,5 pt, linksbündiger Ausrichtung, 1,05-fachem Zeilenabstand und 3 pt Absatzabstand. Die kompakte, aber gut lesbare Gestaltung verhindert überdehnte Wortabstände und eine fast leere Fortsetzungsseite. Begriffe werden ausschließlich im zweispaltigen Glossar am Ende erklärt. Abkürzungen werden bei der ersten Verwendung ausgeschrieben.
 
 ### LAY-TOC-001 – Automatisches und ruhiges Inhaltsverzeichnis
 
@@ -76,7 +76,7 @@ Zellränder, Zeilenabstand und Spaltenbreiten werden vor einer Schriftverkleiner
 
 ### LAY-TAB-004 – Keine schwach gefüllten Fortsetzungsseiten
 
-Kurze Verzeichnisse und Tabellen am Dokumentende werden so angeordnet, dass keine Fortsetzungsseite mit nur wenigen Restzeilen entsteht. Das Abkürzungsverzeichnis verwendet deshalb zwei Begriffspaare je Tabellenzeile. Beide Langformspalten behalten ausreichende Breite und die allgemeinen Zellränder. Die Validierung prüft diese Vier-Spalten-Struktur und begrenzt ihre Zeilenzahl.
+Kurze Verzeichnisse und Tabellen am Dokumentende werden so angeordnet, dass keine Fortsetzungsseite mit nur wenigen Restzeilen entsteht. Das Glossar verwendet zwei Spalten für Begriff und knappe Erläuterung. Es darf über mehrere Seiten laufen. Tabellenköpfe werden wiederholt, Zeilen nicht getrennt.
 
 ### LAY-ABB-001 – Diagramm statt Layouttabelle
 
@@ -102,11 +102,11 @@ Die Risikomatrix darf nicht dekorativ oder rein numerisch sein. Jede Position mu
 
 ### LAY-RED-001 – Sicherheitskonzept statt Redaktionsanleitung
 
-Das Sicherheitskonzept beschreibt Geltungsbereich, Sollzustand, Risiken, Maßnahmen, Zuständigkeiten, Prüfungen und Nachweise. Erläuterungen zur Dokumenterzeugung, zum Aufbau der Vorlage, zur Anpassung des Repositorys oder zur Funktion des Quellenregisters gehören in README, Layoutregeln oder Übernahmeleitfaden. Pauschale Haftungs- und Beratungsausschlüsse sowie Sätze wie `Die Matrix ist ein Prüfungseinstieg` sind im Fachkonzept unzulässig.
+Das Sicherheitskonzept beschreibt Geltungsbereich, Referenzszenarien, Risiken, Maßnahmen, Zuständigkeiten und Anwendung. Erläuterungen zur Dokumenterzeugung, zum Aufbau der Vorlage, zur Anpassung des Repositorys oder zur Funktion des Quellenregisters gehören in README, Layoutregeln oder Übernahmeleitfaden. Pauschale Haftungs- und Beratungsausschlüsse sowie Sätze wie `Die Matrix ist ein Prüfungseinstieg` sind im Fachkonzept unzulässig.
 
 ### LAY-RED-002 – Verständliche Fachsprache
 
-Bekannte deutsche Begriffe haben Vorrang vor unnötigem englischem oder fachsprachlichem Jargon. Beispielsweise werden `Herkunftsnachweis` statt `Provenienz`, `gezielte Manipulation von Modellen oder Wissensquellen` statt `Poisoning`, `Wiederholungsprüfung` statt `Regression`, `Rückkehr zur freigegebenen Vorversion` statt `Rollback`, `Nachweis` statt `Evidenz` und `Überprüfung` statt `Review` verwendet. `Bedarfsgesteuerte Dateiübernahme` ersetzt `On-Demand-Upload`; `automatische Ausweichverbindung` ersetzt `Fallback`. Unvermeidbare Abkürzungen und Fachbegriffe werden vor ihrer ersten inhaltlichen Verwendung knapp und eindeutig erklärt.
+Bekannte deutsche Begriffe haben Vorrang vor unnötigem englischem oder fachsprachlichem Jargon. Beispielsweise werden `Herkunftsnachweis` statt `Provenienz`, `gezielte Manipulation von Modellen oder Wissensquellen` statt `Poisoning`, `Wiederholungsprüfung` statt `Regression`, `Rückkehr zur freigegebenen Vorversion` statt `Rollback`, `Nachweis` statt `Evidenz` und `Überprüfung` statt `Review` verwendet. `Bedarfsgesteuerte Dateiübernahme` ersetzt `On-Demand-Upload`; `automatische Ausweichverbindung` ersetzt `Fallback`. Abkürzungen werden vor ihrer ersten inhaltlichen Verwendung ausgeschrieben. Erläuterungen stehen im Glossar am Ende.
 
 ### LAY-RED-003 – Inhalt vor Dokumentmechanik
 
@@ -122,11 +122,11 @@ Die Seitenzahl steht nicht in einer langen zentrierten Textzeile. Ab Seite 2 fü
 
 ### LAY-QA-001 – Strukturprüfung
 
-Die Projektvalidierung prüft mindestens die Seitengröße, Ränder, Grundschrift, selektiven Blocksatz, den kompakten Definitionsstil, Absatzabstand, Silbentrennung, Dokumentsprache, echte Listen, Listeninterpunktion, Tabellenbreite, Spaltenraster, Zellränder, wiederholte Kopfzeilen, fehlende feste Zeilenhöhen, eine kompakte Abkürzungstabelle, Inline-Abbildungen, Alternativtexte, Bildbeschriftungen, das aktualisierte Inhaltsverzeichnis sowie PAGE- und NUMPAGES-Felder. Zusätzlich werden verbotene Redaktionspassagen, vermeidbarer Fachjargon und der vollständige Risikobestand geprüft.
+Die Projektvalidierung prüft mindestens die Seitengröße, Ränder, Grundschrift, selektiven Blocksatz, den kompakten Definitionsstil, Absatzabstand, Silbentrennung, Dokumentsprache, echte Listen, Listeninterpunktion, Tabellenbreite, Spaltenraster, Zellränder, wiederholte Kopfzeilen, fehlende feste Zeilenhöhen, das zweispaltige Glossar, Inline-Abbildungen, Alternativtexte, Bildbeschriftungen, das aktualisierte Inhaltsverzeichnis sowie PAGE- und NUMPAGES-Felder. Zusätzlich werden verbotene Redaktionspassagen, vermeidbarer Fachjargon und der vollständige Risikobestand geprüft.
 
 ### LAY-QA-002 – Vollständige Sichtprüfung
 
-Nach jeder layoutwirksamen Änderung werden DOCX und PDF neu erzeugt. Jede PDF-Seite wird bei 100 Prozent geprüft. Die Prüfung umfasst abgeschnittene oder überlagerte Inhalte, falsche Trennungen, unruhige Umbrüche, zu dichte Tabellen, unpassende Ausrichtungen, verwaiste Überschriften, Fußnoten, Kopf- und Fußzeilen sowie die fortlaufende Seitenführung. Eine reine Text- oder XML-Prüfung ersetzt diesen Schritt nicht.
+Nach jeder layoutwirksamen Änderung werden DOCX und PDF neu erzeugt. Jede PDF-Seite wird bei 100 Prozent geprüft. Die Prüfung umfasst abgeschnittene oder überlagerte Inhalte, falsche Trennungen, unruhige Umbrüche, zu dichte Tabellen, unpassende Ausrichtungen, verwaiste Überschriften, Quellenverweise, Kopf- und Fußzeilen sowie die fortlaufende Seitenführung. Eine reine Text- oder XML-Prüfung ersetzt diesen Schritt nicht.
 
 ## Herleitung aus öffentlichen Best Practices
 
@@ -164,3 +164,9 @@ Eine Änderung an einem Gestaltungswert erfordert gleichzeitig:
 5. eine vollständige Neuerzeugung und Sichtprüfung aller Seiten
 
 Eine Dokumentdatei darf nicht manuell so verändert werden, dass sie vom Generator abweicht.
+
+## Fassung 0.3.0
+
+Kontrollen werden als Festlegung und Betrieb und Anwendung gesetzt. Methodische Herleitungen und Steuermerkmale bleiben im Katalog. Quellenfußnoten entfallen zugunsten verlinkter Nummern. Kapitel fließen fortlaufend. Nur Deckblatt, Vorwort, Dokumentenlenkung, Inhaltsverzeichnis und Beginn des Haupttexts erhalten feste Umbrüche. TOC-Ebene 1 verwendet 1 pt davor und danach, Ebene 2 jeweils 0 pt.
+
+Die Nutzerbelehrung verwendet neutrale schwarze Überschriften, keine Schutzklassifikation und keine Autorennennung. Drei Textfelder und ein digitales Signaturfeld werden nach dem Word-Export ergänzt. Formularbeschriftungen und Eingabeflächen bleiben zusammen. Die Anlage umfasst höchstens zwei Seiten.

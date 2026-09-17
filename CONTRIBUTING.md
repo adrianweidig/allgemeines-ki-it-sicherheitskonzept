@@ -2,7 +2,7 @@
 
 ## Grundsatz
 
-Beiträge sind willkommen, wenn sie die organisationsneutrale, vollständig lokale Referenzarchitektur stärken und ausschließlich öffentliche Informationen verwenden. Vor umfangreichen Änderungen sollte ein Issue die fachliche Lücke, betroffene Kontrollen und vorgesehene Quellen beschreiben.
+Beiträge verwenden ausschließlich öffentliche Informationen und berücksichtigen die getrennten Air-Gap- und Cloud-Szenarien. Fachliche Änderungen benennen betroffene Kontrollen, Szenarien und öffentliche Quellen.
 
 ## Fachliche Anforderungen
 
@@ -16,7 +16,7 @@ Beiträge sind willkommen, wenn sie die organisationsneutrale, vollständig loka
 
 ## Schutzgrenzen
 
-Beiträge dürfen keine realen Organisationsnamen, Domänen, Hostnamen, IP-Adressen, Konten, internen Schwachstellen, Geheimnisse oder eingestuften Inhalte enthalten. `quellen/lokale-eingaben/` bleibt unversioniert. Training und Feinabstimmung sind außerhalb des Projektumfangs; externe Inferenz bleibt eine bedingte, standardmäßig nicht anwendbare Variante.
+Beiträge dürfen keine realen Organisationsnamen, Domänen, Hostnamen, IP-Adressen, Konten, internen Schwachstellen, Geheimnisse oder eingestuften Inhalte enthalten. `quellen/lokale-eingaben/` bleibt unversioniert. Training und Feinabstimmung sind außerhalb des Projektumfangs. Das Cloud-Szenario umfasst ausschließlich die freigegebene Modellverarbeitung nach KI-EXT-001.
 
 ## Lokale Prüfung
 

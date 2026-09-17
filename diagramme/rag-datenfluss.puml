@@ -3,43 +3,46 @@ skinparam dpi 180
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 14
-skinparam ArrowColor #446B8C
-skinparam activity {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
-}
+skinparam defaultFontSize 15
+skinparam defaultFontColor #17324D
+skinparam ArrowColor #536D82
+skinparam ArrowFontColor #334E64
+skinparam ArrowFontSize 12
+skinparam ArrowThickness 1.5
+skinparam roundCorner 12
+skinparam nodesep 24
+skinparam ranksep 24
 skinparam rectangle {
-  BackgroundColor #E8EEF5
-  BorderColor #7890A5
-  FontColor #203040
+  BackgroundColor #F2F6FA
+  BorderColor #738A9E
+  BorderThickness 1
 }
-start
-:Freigegebener Unternehmensbestand
-oder persönliche Arbeitsunterlagen;
-:Persönliche Speicherung bleibt erlaubt
-Beiträge sind standardmäßig aus;
-if (Persönlicher Beitrag ohne
-Zustimmung bei Erstnutzung und
-je Projekt oder ohne sichtbaren Zustand?) then (ja)
-  :Keine Aufnahme
-Normale KI-Arbeit bleibt möglich;
-  stop
-else (nein)
-endif
-if (Zweck und Quellrechte geklärt?) then (nein)
-  :Keine automatische Aufnahme;
-  stop
-else (ja)
-endif
-:Kontrollierte Aufnahme und Aufbereitung
-Herkunft und Rechte an allen Ableitungen;
-:Berechtigungsprüfung bei jeder Abfrage
-Nur berechtigte Treffer an das Modell;
-:Sperren und Löschung geregelt behandeln
-Auch Ableitungen und Sicherungen;
-:Beitragsstopp beendet neue Beiträge
-Bestehende folgen den erläuterten Regeln;
-stop
+skinparam card {
+  BackgroundColor #FFF4DC
+  BorderColor #A87318
+  BorderThickness 1.3
+}
+skinparam database {
+  BackgroundColor #E5F3F1
+  BorderColor #247B76
+}
+rectangle "<color:#8A5413><b>Freigegebene Wissenssuche</b></color>\n<color:#8A5413>Geschützte Dokumentverarbeitung</color>" as freigabe #FFF4DC
+rectangle "<b>01  Bewusste Dokumentablage</b>\nNutzende: Freigegebene Dokumente\nKeine automatische Aufnahme persönlicher Chats" as ablage #EAF2F8
+card "<b>Zweck und Quellrechte geklärt?</b>" as aufnahme
+rectangle "<color:#9C3038><b>Keine Aufnahme</b></color>\n<color:#9C3038>in die Wissenssuche</color>" as ablehnen #FCECEE
+rectangle "<b>02  Dokumente aufbereiten</b>\nTextextraktion · Suchvektoren\nHerkunft und Rechte an allen Ableitungen" as aufbereitung #E5F3F1
+database "<b>03  Berechtigten Bestand abfragen</b>\nAktuelle Rechte bei jeder Abfrage prüfen" as suche
+card "<b>Berechtigte Treffer vorhanden?</b>" as treffer
+rectangle "<color:#9C3038><b>Keine Inhalte offenlegen</b></color>" as sperre #FCECEE
+rectangle "<color:#FFFFFF><b>04  Antwort bereitstellen</b></color>\n<color:#FFFFFF>Berechtigte und für das Modell freigegebene Ausschnitte</color>\n<color:#FFFFFF>Antwort mit Quellen und konkreten Fundstellen</color>" as antwort #086B68
+rectangle "<b>05  Sperren und Löschung anwenden</b>\nQuellen · Ableitungen · Sicherungen" as loeschung
+freigabe -[hidden]down-> ablage
+ablage -down-> aufnahme
+aufnahme -right-> ablehnen : nein
+aufnahme -down-> aufbereitung : ja
+aufbereitung -down-> suche
+suche -down-> treffer
+treffer -right-> sperre : nein
+treffer -down-> antwort : ja
+antwort -down-> loeschung
 @enduml
