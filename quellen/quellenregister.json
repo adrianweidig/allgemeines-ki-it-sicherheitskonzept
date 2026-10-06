@@ -244,7 +244,7 @@
         "offizielle_dateigröße_bytes_am_prüftag": 903644,
         "offizielle_sha256_am_prüftag": "e1860e6988ccbb298b5e65473880719b6a3fe90caf4c589c16395b43c9e35c63",
         "normalisierter_text_sha256_beider_fassungen": "364904361622859a13cb4c4692202db80f80f001efad13cc25030713f75a6af9",
-        "normalisierungsverfahren": "pypdf 6.16.2; Unicode NFKC; zusammenhängender Leerraum auf ein Leerzeichen reduziert",
+        "normalisierungsverfahren": "pypdf 6.19.0; Unicode NFKC; zusammenhängender Leerraum auf ein Leerzeichen reduziert",
         "vergleich": "binär-abweichend; 54 Seiten und normalisierter Text identisch"
       },
       "seitenzahl": 54,
