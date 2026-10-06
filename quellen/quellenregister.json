@@ -1,9 +1,9 @@
 {
   "$schema": "../schemata/quellenregister.schema.json",
   "schema_version": "1.0.0",
-  "projektversion": "0.3.0",
+  "projektversion": "0.4.0",
   "dokumentstatus": "ÖFFENTLICH – organisationsneutrale Referenzvorlage",
-  "stichtag": "2026-09-03",
+  "stichtag": "2026-10-06",
   "zitierregel": "Nummerierte Kurzverweise im Fachtext. Vollständige bibliografische Angaben und öffentliche Links ausschließlich im Quellenverzeichnis. Quellen-IDs bleiben im Katalog und Register stabil.",
   "quellen": [
     {
@@ -67,8 +67,8 @@
       "veröffentlichungsdatum": "2025-06-06",
       "gültigkeitsdatum": null,
       "öffentliche_url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf?__blob=publicationFile&v=3",
-      "abrufdatum": "2026-09-02",
-      "letzte_inhaltsprüfung": "2026-09-02",
+      "abrufdatum": "2026-10-06",
+      "letzte_inhaltsprüfung": "2026-10-06",
       "lokale_fassung": {
         "pfad": "quellen/lokale-eingaben/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf",
         "dateigröße_bytes": 353317,
@@ -84,7 +84,7 @@
       "aktualitätsstatus": "geprüft",
       "vorgänger": null,
       "nachfolger": null,
-      "wiedervorlage_am": "2027-09-02",
+      "wiedervorlage_am": "2027-10-06",
       "verwendete_fundstellen": [
         {
           "fundstelle": "S. 4–7",
@@ -124,6 +124,7 @@
         "ki-out-001",
         "ki-pmt-001",
         "ki-rag-002",
+        "ki-rec-001",
         "ki-thr-001",
         "ki-thr-002",
         "ki-tol-001",
@@ -505,8 +506,8 @@
       "veröffentlichungsdatum": "2025-10-17",
       "gültigkeitsdatum": null,
       "öffentliche_url": "https://www.datenschutzkonferenz-online.de/media/oh/DSK_OH_RAG.pdf",
-      "abrufdatum": "2026-09-02",
-      "letzte_inhaltsprüfung": "2026-09-02",
+      "abrufdatum": "2026-10-06",
+      "letzte_inhaltsprüfung": "2026-10-06",
       "lokale_fassung": null,
       "seitenzahl": 18,
       "geltungsbereich": "Datenschutzrechtliche Besonderheiten lokaler RAG-Verfahren",
@@ -515,11 +516,11 @@
       "aktualitätsstatus": "geprüft",
       "vorgänger": null,
       "nachfolger": null,
-      "wiedervorlage_am": "2027-09-02",
+      "wiedervorlage_am": "2027-10-06",
       "verwendete_fundstellen": [
         {
-          "fundstelle": "Kap. 2–5",
-          "aussage": "Verantwortlichkeiten, Rechtsgrundlagen, Datenminimierung, Zugriffssteuerung, Transparenz, Löschung und Risiken von RAG."
+          "fundstelle": "Kap. 3.1–3.7, S. 9–14",
+          "aussage": "Verantwortlichkeiten, Rechtsgrundlagen, Eignung und Qualität der Referenzdokumente, Zugriffssteuerung, Transparenz sowie Berichtigung und Löschung von RAG-Beständen."
         }
       ],
       "abgeleitete_kontrollen": [
@@ -541,8 +542,8 @@
       "veröffentlichungsdatum": "2024-07-26",
       "gültigkeitsdatum": null,
       "öffentliche_url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
-      "abrufdatum": "2026-09-02",
-      "letzte_inhaltsprüfung": "2026-09-02",
+      "abrufdatum": "2026-10-06",
+      "letzte_inhaltsprüfung": "2026-10-06",
       "lokale_fassung": null,
       "seitenzahl": null,
       "geltungsbereich": "Generative-KI-Risikomanagement",
@@ -551,7 +552,7 @@
       "aktualitätsstatus": "geprüft",
       "vorgänger": null,
       "nachfolger": null,
-      "wiedervorlage_am": "2026-12-01",
+      "wiedervorlage_am": "2027-01-04",
       "verwendete_fundstellen": [
         {
           "fundstelle": "Profile actions for Govern, Map, Measure and Manage",

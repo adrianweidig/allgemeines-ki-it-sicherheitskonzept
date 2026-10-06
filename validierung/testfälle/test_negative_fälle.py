@@ -10,6 +10,9 @@ from unittest.mock import patch
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from pypdf import PdfWriter
+from pypdf.generic import ArrayObject, DictionaryObject, FloatObject, NameObject
 
 
 WURZEL = Path(__file__).resolve().parents[2]
@@ -249,6 +252,45 @@ class NegativeFälle(unittest.TestCase):
 
     def test_masterdokument_erfüllt_layoutregeln(self):
         self.assertEqual([], vp.prüfe_docx_layout(vp.DOCX_PFAD))
+
+    def test_geschuetztes_docx_wird_abgewiesen(self):
+        dokument = Document(vp.DOCX_PFAD)
+        dokument.settings.element.append(OxmlElement('w:documentProtection'))
+        with TemporaryDirectory() as temp:
+            pfad = Path(temp) / 'geschützt.docx'
+            dokument.save(pfad)
+            self.assertTrue(any('gegen Bearbeitung geschützt' in f for f in vp.prüfe_docx_bearbeitbarkeit(pfad)))
+
+    def test_nicht_angenommene_docx_aenderung_wird_abgewiesen(self):
+        dokument = Document(vp.DOCX_PFAD)
+        dokument.paragraphs[0]._p.append(OxmlElement('w:ins'))
+        with TemporaryDirectory() as temp:
+            pfad = Path(temp) / 'revision.docx'
+            dokument.save(pfad)
+            self.assertTrue(any('nicht angenommene Änderungen' in f for f in vp.prüfe_docx_bearbeitbarkeit(pfad)))
+
+    def test_pdf_kommentar_wird_abgewiesen(self):
+        with TemporaryDirectory() as temp:
+            pfad = Path(temp) / 'kommentar.pdf'
+            writer = PdfWriter()
+            seite = writer.add_blank_page(width=100, height=100)
+            kommentar = writer._add_object(DictionaryObject({
+                NameObject('/Type'): NameObject('/Annot'),
+                NameObject('/Subtype'): NameObject('/Text'),
+                NameObject('/Rect'): ArrayObject([FloatObject(v) for v in (10, 10, 20, 20)]),
+            }))
+            seite[NameObject('/Annots')] = ArrayObject([kommentar])
+            writer.write(pfad)
+            self.assertTrue(any('PDF-Anmerkung' in f for f in vp.prüfe_pdf_bearbeitbarkeit(pfad)))
+
+    def test_enddokumente_sind_bearbeitbar_und_kommentarfrei(self):
+        self.assertEqual([], vp.prüfe_docx_bearbeitbarkeit(vp.DOCX_PFAD))
+        self.assertEqual([], vp.prüfe_docx_bearbeitbarkeit(vp.BELEHRUNG_DOCX_PFAD))
+        self.assertEqual([], vp.prüfe_pdf_bearbeitbarkeit(vp.PDF_PFAD))
+        self.assertEqual([], vp.prüfe_pdf_bearbeitbarkeit(
+            vp.BELEHRUNG_PDF_PFAD,
+            erwartete_formularfelder=vp.BELEHRUNG_FORMULARFELDER,
+        ))
 
 
 if __name__ == "__main__":

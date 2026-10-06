@@ -1,5 +1,16 @@
 # Änderungsprotokoll
 
+## 0.4.0 – 06.10.2026
+
+- Verantwortlichkeiten, zulässige Datenarten, Quellenprüfung, begrenzte Agentenfreigaben, Testplanung und tatsächlich ausgeführte Prüfungen klar voneinander abgegrenzt.
+- Aufbewahrung, Löschung und Außerbetriebnahme auf Quelldateien, extrahierte Texte, Textabschnitte, Suchvektoren, Indexeinträge, Gesprächskontexte, Protokolle, Zwischenspeicher und Sicherungen erweitert.
+- Nutzerbelehrung präzisiert. Die Unterschrift bestätigt Teilnahme, Verständnis und persönliche Verpflichtung, ersetzt aber keine technische Prüfung oder fachliche Freigabe.
+- DOCX und PDF werden auf Kommentare, nicht angenommene Änderungen, Bearbeitungsschutz, Signaturen, Wasserzeichen, unerwartete Formulare und unzulässige PDF-Anmerkungen geprüft.
+- Der Word-Export prüft vorhandene PDF-Ziele vor dem Start von Word und unmittelbar vor dem Ersetzen. Befüllte, signierte oder geschützte Fassungen bleiben unverändert.
+- `pypdf` auf 6.19.0 aktualisiert. Geplante Dependabot-Versionsaktualisierungen erzeugen keine weiteren Arbeitszweige; Sicherheitswarnungen bleiben unberührt.
+- Kontrollbestand, Gruppenstruktur und Risiko-IDs bleiben unverändert: 34 Kontrollen in 22 Gruppen sowie R-01 bis R-09 mit getrennten Air-Gap- und Cloud-Bewertungen.
+- Aktueller Prüfstand: `dokumentation/PRÜFPROTOKOLL-0.4.0.md`.
+
 ## 0.3.0 – 17.09.2026
 
 - KI-spezifische Ergänzung des Informationssicherheitskonzepts mit getrennten Air-Gap- und Cloud-Szenarien, produktneutraler Funktionsbeschreibung und Nutzerbelehrung.

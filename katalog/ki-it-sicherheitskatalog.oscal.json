@@ -1,12 +1,12 @@
 {
   "$schema": "../schemata/oscal-1.1.3/oscal_catalog_schema.json",
   "catalog": {
-    "uuid": "0546e38c-18ab-4a7a-9f21-141d14d42d6c",
+    "uuid": "39cd5d2b-7dbe-423e-b500-a35b636882e6",
     "metadata": {
       "title": "Allgemeiner KI-Informationssicherheitskatalog – Air-Gap und Cloud",
       "published": "2026-09-02T00:00:00+02:00",
-      "last-modified": "2026-09-17T17:13:01+00:00",
-      "version": "0.3.0",
+      "last-modified": "2026-10-06T07:55:10+00:00",
+      "version": "0.4.0",
       "oscal-version": "1.1.3",
       "props": [
         {
@@ -327,7 +327,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Leitung;KI-Verantwortliche;Systemverantwortliche;Datenschutzbeauftragte",
+                "value": "Leitung;KI-Verantwortliche;Fachverantwortliche;Datenverantwortliche;Systemverantwortliche;Testverantwortliche;Betriebsverantwortliche;Datenschutzbeauftragte",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               },
               {
@@ -342,7 +342,7 @@
               },
               {
                 "name": "verschaerfungsbegruendung",
-                "value": "Projektinterne Mindestanforderung im angegebenen Anwendungsbereich: Nicht erfasste Modelle oder Integrationen entziehen sich Risiko-, Änderungs- und Außerbetriebnahmesteuerung.",
+                "value": "Projektinterne Mindestanforderung im angegebenen Anwendungsbereich: Nicht erfasste Modelle, Integrationen, Zwecke, Daten- oder Verantwortungsgrenzen entziehen sich Risiko-, Änderungs- und Außerbetriebnahmesteuerung.",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               },
               {
@@ -402,18 +402,18 @@
               {
                 "id": "ki-gov-001-statement",
                 "name": "statement",
-                "prose": "Die eingesetzten Programme sind in der vorhandenen Softwareliste der Umgebung geführt. Dieses Konzept legt deren KI-Funktionen, Datenverarbeitung und Berechtigungsgrenzen fest. Produktwahl, Versionen und technische Betriebsparameter sind nicht Bestandteil dieser Festlegungen."
+                "prose": "Für jede KI-Funktion sind Zweck, zugelassene Anwendungsfälle und Datenarten, verantwortliche Rollen sowie Modell-, Werkzeug- und Datengrenzen festgelegt. Die eingesetzten Programme, Modellstände und Aufgabenprofile sind diesen Funktionen in der vorhandenen Softwareliste und den Dienstkonfigurationen zugeordnet. Produktwahl, Hardwareumfang und technische Betriebsparameter bleiben austauschbar, solange die festgelegten Funktionen und Schutzgrenzen erhalten bleiben."
               },
               {
                 "id": "ki-gov-001-rationale",
                 "name": "rationale",
-                "prose": "Nicht erfasste Modelle oder Integrationen entziehen sich Risiko-, Änderungs- und Außerbetriebnahmesteuerung.",
+                "prose": "Nicht erfasste Modelle, Integrationen, Zwecke, Daten- oder Verantwortungsgrenzen entziehen sich Risiko-, Änderungs- und Außerbetriebnahmesteuerung.",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               },
               {
                 "id": "ki-gov-001-guidance",
                 "name": "guidance",
-                "prose": "Die Funktionszuordnung umfasst Chatanwendung, agentischen Projektassistenten, Modellbereitstellung, Dokumentaufbereitung und Wissenssuche. Die Softwareliste und Dienstkonfigurationen ordnen Programme, Modellstände und Aufgabenprofile diesen Funktionen zu. Im Cloud-Szenario ist auch der zugelassene Dienst mit seinem Verarbeitungsumfang zugeordnet. Änderungen folgen KI-VAL-002."
+                "prose": "Die Funktionszuordnung umfasst Chatanwendung, agentischen Projektassistenten, Modellbereitstellung, Dokumentaufbereitung und Wissenssuche. Für Betrieb und Administration, Datenauswahl, fachliche Prüfung, Änderungsentscheidung, Vorfallbehandlung und Löschung sind zuständige Rollen benannt. Im Cloud-Szenario ist auch der zugelassene Dienst mit seinem Verarbeitungsumfang zugeordnet. Änderungen folgen KI-VAL-002."
               },
               {
                 "id": "ki-gov-001-source",
@@ -519,7 +519,7 @@
               {
                 "id": "ki-gov-002-statement",
                 "name": "statement",
-                "prose": "Die KI unterstützt betriebliche Aufgaben. Nutzende bestimmen den Arbeitsauftrag, wählen die zulässigen Inhalte aus und prüfen die Ergebnisse vor ihrer Verwendung. Die Nutzerbelehrung erfolgt anhand der Anlage 1. Mit ihrer Unterschrift bestätigen die Nutzenden die erfolgte Belehrung und die Einhaltung der Nutzungsregeln."
+                "prose": "Die KI unterstützt betriebliche Aufgaben. Nutzende bestimmen den Arbeitsauftrag, wählen die zulässigen Inhalte aus und prüfen die Ergebnisse vor ihrer Verwendung. Die Nutzerbelehrung erfolgt anhand der Anlage 1. Mit ihrer Unterschrift bestätigen die Nutzenden ausschließlich die Teilnahme, ihr Verständnis und ihre persönliche Verpflichtung zur Einhaltung der Nutzungsregeln."
               },
               {
                 "id": "ki-gov-002-rationale",
@@ -530,7 +530,7 @@
               {
                 "id": "ki-gov-002-guidance",
                 "name": "guidance",
-                "prose": "Die Belehrung behandelt Datenauswahl, Einstufung, Ergebnisprüfung und Agentenfreigaben. Für Cloud-Nutzung umfasst sie zusätzlich die zulässige Übermittlung von Eingaben und Kontext an den freigegebenen Anbieter. Sie ergänzt die geltenden Unterweisungen zu Informationsschutz und Datenschutz. Die betrieblichen Aufgaben bleiben auch ohne KI durchführbar."
+                "prose": "Die Belehrung behandelt Datenauswahl, Einstufung, Ergebnisprüfung und Agentenfreigaben. Für Cloud-Nutzung umfasst sie zusätzlich die zulässige Übermittlung von Eingaben und Kontext an den freigegebenen Anbieter. Die Bestätigung der Belehrung ersetzt weder technische Prüfungen noch die fachliche Freigabe oder den Nachweis der betrieblichen Wirksamkeit. Sie ergänzt die geltenden Unterweisungen zu Informationsschutz und Datenschutz. Die betrieblichen Aufgaben bleiben auch ohne KI durchführbar."
               },
               {
                 "id": "ki-gov-002-source",
@@ -568,7 +568,7 @@
               },
               {
                 "name": "rolle",
-                "value": "Rechtsstelle;Datenschutzbeauftragte;Personalvertretung;Fachverantwortliche",
+                "value": "Rechtsstelle;Datenschutzbeauftragte;Personalvertretung;Fachverantwortliche;Datenverantwortliche;Nutzende",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               },
               {
@@ -624,6 +624,11 @@
             ],
             "links": [
               {
+                "href": "#2d875bf4-6d55-554f-a746-b2613297ea71",
+                "rel": "reference",
+                "text": "[Q-BSI-001] S. 8–10"
+              },
+              {
                 "href": "#6094501b-03f0-58b0-a662-f2ea0f96ea97",
                 "rel": "reference",
                 "text": "[Q-EU-001] Art. 2–4, 26–27"
@@ -643,7 +648,7 @@
               {
                 "id": "ki-rec-001-statement",
                 "name": "statement",
-                "prose": "Nutzende wählen die für ihren betrieblichen Auftrag erforderlichen Inhalte aus. Sie prüfen vor der Eingabe, ob die Verarbeitung für diesen Zweck und innerhalb ihrer Befugnisse zulässig ist. Dies gilt auch für Dokumente, Gesprächsverläufe und automatisch einbezogenen Projektkontext."
+                "prose": "Für jeden freigegebenen Anwendungsfall sind zulässige und ausgeschlossene Datenarten sowie der erlaubte Verarbeitungsumfang festgelegt. Nutzende wählen daraus die für ihren betrieblichen Auftrag erforderlichen Inhalte aus und prüfen vor der Eingabe, ob die Verarbeitung für diesen Zweck und innerhalb ihrer Befugnisse zulässig ist. Dies gilt auch für Dokumente, Gesprächsverläufe und automatisch einbezogenen Projektkontext."
               },
               {
                 "id": "ki-rec-001-rationale",
@@ -654,12 +659,12 @@
               {
                 "id": "ki-rec-001-guidance",
                 "name": "guidance",
-                "prose": "Personenbezogene Daten werden nur im zulässigen und erforderlichen Umfang einbezogen. Nutzende berücksichtigen bei der Auswahl auch enthaltene Informationen Dritter. Die Zugriffsberechtigung auf eine Datei allein begründet keine weitergehende Verwendungsbefugnis. Für eine Weitergabe entscheiden sie über Inhalt und Empfängerkreis im Rahmen der geltenden Bestimmungen. Anlage 1 enthält die zugehörigen Nutzungsregeln."
+                "prose": "Fach- und Datenverantwortliche legen die zulässigen und ausgeschlossenen Datenarten je Anwendungsfall und Szenario fest. Personenbezogene Daten werden nur im zulässigen und erforderlichen Umfang einbezogen. Nutzende berücksichtigen bei der Auswahl auch enthaltene Informationen Dritter. Die Zugriffsberechtigung auf eine Datei allein begründet keine weitergehende Verwendungsbefugnis. Für eine Weitergabe entscheiden sie über Inhalt und Empfängerkreis im Rahmen der geltenden Bestimmungen. Anlage 1 enthält die zugehörigen Nutzungsregeln."
               },
               {
                 "id": "ki-rec-001-source",
                 "name": "source",
-                "prose": "[Q-EU-001], Art. 2–4, 26–27; [Q-BFDI-001], Kap. 1–7; [Q-DSK-001], Auswahl bis Beendigung.",
+                "prose": "[Q-BSI-001], S. 8–10; [Q-EU-001], Art. 2–4, 26–27; [Q-BFDI-001], Kap. 1–7; [Q-DSK-001], Auswahl bis Beendigung.",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               }
             ]
@@ -3113,7 +3118,7 @@
               },
               {
                 "name": "rolle",
-                "value": "RAG-Verantwortliche;Plattformverantwortliche;Informationssicherheitsbeauftragte",
+                "value": "Fachverantwortliche;Datenverantwortliche;RAG-Verantwortliche;Plattformverantwortliche;Informationssicherheitsbeauftragte",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               },
               {
@@ -3171,7 +3176,7 @@
               {
                 "href": "#69a206c9-4dc8-57e3-8562-2c023b56ef86",
                 "rel": "reference",
-                "text": "[Q-DSK-003] Kap. 2–5"
+                "text": "[Q-DSK-003] Kap. 3.1–3.7, S. 9–14"
               },
               {
                 "href": "#a9a98cae-d308-5a7f-8ceb-aa2423fb5b9f",
@@ -3188,7 +3193,7 @@
               {
                 "id": "ki-rag-001-statement",
                 "name": "statement",
-                "prose": "Nutzende wählen Dokumente aus freigegebenen Beständen innerhalb ihrer Berechtigungen und für den jeweiligen Arbeitsauftrag aus. Die Dokumentaufbereitung ist auf zulässige Formate und den erforderlichen Verarbeitungsumfang begrenzt."
+                "prose": "Nutzende wählen Dokumente aus freigegebenen Beständen innerhalb ihrer Berechtigungen und für den jeweiligen Arbeitsauftrag aus. Vor der Aufnahme und danach regelmäßig werden Herkunft, Vertrauenswürdigkeit, fachliche Eignung, Aktualität, Vollständigkeit sowie Nutzungs- und Verarbeitungsrechte durch die zuständigen Fach- und Datenverantwortlichen geprüft. Dokumente unbekannter oder nicht vertrauenswürdiger Herkunft werden nicht aufgenommen. Die Dokumentaufbereitung ist auf zulässige Formate und den erforderlichen Verarbeitungsumfang begrenzt."
               },
               {
                 "id": "ki-rag-001-rationale",
@@ -3199,12 +3204,12 @@
               {
                 "id": "ki-rag-001-guidance",
                 "name": "guidance",
-                "prose": "Für die Wissenssuche werden ausschließlich dafür ausgewählte Dokumente aufbereitet. Aktive Dateiinhalte werden nicht als Arbeitsauftrag ausgeführt. Extraktion, Texterkennung und Zerlegung in Textabschnitte verwenden begrenzte Rechte und Ressourcen. Fehlerhaft aufbereitete Dateien werden nicht in den Suchbestand übernommen. Quellrechte und Herkunft werden an die Ableitungen weitergegeben."
+                "prose": "Für die Wissenssuche werden ausschließlich fachlich freigegebene, hinreichend aktuelle und rechtlich nutzbare Dokumente aufbereitet. Prüfentscheidung, verantwortliche Stelle und nächster Prüftermin bleiben nachvollziehbar. Aktive Dateiinhalte werden nicht als Arbeitsauftrag ausgeführt. Extraktion, Texterkennung und Zerlegung in Textabschnitte verwenden begrenzte Rechte und Ressourcen. Fehlerhaft aufbereitete Dateien werden nicht in den Suchbestand übernommen. Quellrechte und Herkunft werden an die Ableitungen weitergegeben."
               },
               {
                 "id": "ki-rag-001-source",
                 "name": "source",
-                "prose": "[Q-DSK-003], Kap. 2–5; [Q-DSK-002], Kap. 2–6; [Q-OWASP-001], Prompt Injection und Ressourcenverbrauch.",
+                "prose": "[Q-DSK-003], Kap. 3.1–3.7, S. 9–14; [Q-DSK-002], Kap. 2–6; [Q-OWASP-001], Prompt Injection und Ressourcenverbrauch.",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               }
             ]
@@ -3410,7 +3415,7 @@
               {
                 "href": "#69a206c9-4dc8-57e3-8562-2c023b56ef86",
                 "rel": "reference",
-                "text": "[Q-DSK-003] Kap. 2–5"
+                "text": "[Q-DSK-003] Kap. 3.1–3.7, S. 9–14"
               },
               {
                 "href": "#a9a98cae-d308-5a7f-8ceb-aa2423fb5b9f",
@@ -3427,7 +3432,7 @@
               {
                 "id": "ki-rag-003-statement",
                 "name": "statement",
-                "prose": "Schutz, Herkunft, Aufbewahrung, Berichtigung und Löschung einer Quelle gelten auch für ihre KI-Ableitungen. Herkunft und konkrete Fundstellen bleiben nachvollziehbar. Unzulässiger Zugriff ist unabhängig von Löschfristen gesperrt. Eine Wiederherstellung wendet aktuelle Rechte, Sperren und Löschstände an."
+                "prose": "Schutz, Herkunft, Aufbewahrung, Berichtigung und Löschung einer Quelle gelten auch für Quelldatei, extrahierten Text, Textabschnitte, Suchvektoren, Indexeinträge, Zwischenspeicher, Gesprächskontext und Sicherungen. Herkunft und konkrete Fundstellen bleiben nachvollziehbar. Unzulässiger Zugriff ist unabhängig von Löschfristen gesperrt. Eine Wiederherstellung wendet aktuelle Rechte, Sperren und Löschstände an."
               },
               {
                 "id": "ki-rag-003-rationale",
@@ -3438,12 +3443,12 @@
               {
                 "id": "ki-rag-003-guidance",
                 "name": "guidance",
-                "prose": "Quellkennung, konkrete Fundstellen, Version und Rechte verbinden Dokument, extrahierten Text, Suchvektoren, Index und Ergebnis. Berichtigung und Löschung erfassen auch Zwischenspeicher und Kontextkopien. Aufbewahrte Sicherungen stehen nicht für die reguläre Suche bereit. Im Cloud-Szenario werden gespeicherte Eingaben und Ergebnisse beim Anbieter entsprechend dem freigegebenen Verarbeitungsumfang behandelt."
+                "prose": "Quellkennung, konkrete Fundstellen, Version und Rechte verbinden Dokument, extrahierten Text, Textabschnitte, Suchvektoren, Index und Ergebnis. Zweckbezogene Aufbewahrungs- und Löschregeln erfassen auch Zwischenspeicher, Gesprächskontext und Sicherungen; ihre Ausführung wird im bestehenden Löschverfahren dokumentiert. Aufbewahrte Sicherungen stehen nicht für die reguläre Suche bereit. Im Cloud-Szenario werden gespeicherte Eingaben und Ergebnisse beim Anbieter entsprechend dem freigegebenen Verarbeitungsumfang behandelt."
               },
               {
                 "id": "ki-rag-003-source",
                 "name": "source",
-                "prose": "[Q-DSK-003], Kap. 2–5; [Q-DSK-002], Kap. 2–6; [Q-BFDI-001], Kap. 4–7.",
+                "prose": "[Q-DSK-003], Kap. 3.1–3.7, S. 9–14; [Q-DSK-002], Kap. 2–6; [Q-BFDI-001], Kap. 4–7.",
                 "ns": "https://github.com/adrianweidig/allgemeines-ki-it-sicherheitskonzept/ns/oscal"
               }
             ]
@@ -4157,7 +4162,7 @@
               {
                 "id": "ki-tol-001-statement",
                 "name": "statement",
-                "prose": "Nutzende genehmigen Lesen, Schreiben, Befehlsausführung und Netzwerkzugriff zunächst einzeln. Sie können bestimmte Aktionsarten für den abgegrenzten Projektauftrag freigeben und diese Freigaben zurücknehmen. Kritische, privilegierte oder nicht beherrschbar rückgängig zu machende Aktionen benötigen eine konkrete befugte Entscheidung."
+                "prose": "Nutzende genehmigen Lesen, Schreiben, Befehlsausführung und Netzwerkzugriff zunächst einzeln. Projektfreigaben sind auf Aktionsart, Arbeitsbereich oder Pfad, zulässige Datenarten, Ziel oder Netzwerkadresse und Geltungsdauer begrenzt und jederzeit widerrufbar. Kritische, privilegierte, externe oder nicht beherrschbar rückgängig zu machende Aktionen benötigen stets eine konkrete befugte Entscheidung."
               },
               {
                 "id": "ki-tol-001-rationale",
@@ -4168,7 +4173,7 @@
               {
                 "id": "ki-tol-001-guidance",
                 "name": "guidance",
-                "prose": "Bei der Freigabe prüfen Nutzende Auftrag, betroffene Daten, Empfänger und erwartete Wirkung. Projektfreigaben gelten nur innerhalb dieses Umfangs und der bestehenden Nutzerrechte. Bei einer Änderung des Auftrags oder unerwartetem Verhalten werden die Freigaben überprüft und erforderlichenfalls zurückgenommen. Anlage 1 beschreibt diese Pflichten. Die interne Verarbeitung der Chatanwendung folgt KI-TOL-002."
+                "prose": "Bei der Freigabe prüfen Nutzende Auftrag, Aktionsart, Arbeitsbereich, betroffene Daten, Ziel, Dauer und erwartete Wirkung. Projektfreigaben gelten nur innerhalb dieses Umfangs und der bestehenden Nutzerrechte. Weder Modellantworten noch Werkzeugausgaben dürfen Freigaben erteilen, ausweiten oder verlängern. Bei einer Änderung des Auftrags oder unerwartetem Verhalten werden die Freigaben überprüft und erforderlichenfalls zurückgenommen. Anlage 1 beschreibt diese Pflichten. Die interne Verarbeitung der Chatanwendung folgt KI-TOL-002."
               },
               {
                 "id": "ki-tol-001-source",
@@ -4527,7 +4532,7 @@
               {
                 "id": "ki-val-001-statement",
                 "name": "statement",
-                "prose": "Neue Modelle und KI-Funktionen werden vor ihrer Bereitstellung anhand typischer betrieblicher Aufgaben erprobt. Die Prüfung umfasst fachliche Eignung, Ergebnisqualität und die Einhaltung der KI-Berechtigungsgrenzen."
+                "prose": "Für neue Modelle und KI-Funktionen werden vor ihrer Bereitstellung Prüfziel, Prüfumfang, Testdaten, Annahmen und Annahmekriterien festgelegt. Die ausgeführten Prüfschritte, tatsächlich erzielten Ergebnisse, Abweichungen und die Freigabeentscheidung werden getrennt davon dokumentiert. Die Prüfung umfasst fachliche Eignung, Ergebnisqualität und die Einhaltung der KI-Berechtigungsgrenzen."
               },
               {
                 "id": "ki-val-001-rationale",
@@ -4538,7 +4543,7 @@
               {
                 "id": "ki-val-001-guidance",
                 "name": "guidance",
-                "prose": "Die Testumgebung bildet den betroffenen Modellstand, die Dokumentaufbereitung, Aufgabenprofile und Werkzeugfunktionen ab. Nutzende bewerten repräsentative Ergebnisse. Gezielte Sicherheitsprüfungen erfassen Rechteentzug, direkte Schnittstellenzugriffe, Nutzertrennung und unerwartete Werkzeugaktionen nach KI-THR-001."
+                "prose": "Die Testumgebung bildet den betroffenen Modellstand, die Dokumentaufbereitung, Aufgabenprofile und Werkzeugfunktionen ab. Testverantwortliche dokumentieren die tatsächlich ausgeführten Schritte und Ergebnisse. Bewertungen und Selbstauskünfte von Nutzenden werden ausdrücklich als solche gekennzeichnet und nicht als ausgeführte technische Prüfung behandelt. Gezielte Sicherheitsprüfungen erfassen Rechteentzug, direkte Schnittstellenzugriffe, Nutzertrennung und unerwartete Werkzeugaktionen nach KI-THR-001."
               },
               {
                 "id": "ki-val-001-source",
@@ -4651,7 +4656,7 @@
               {
                 "id": "ki-val-002-statement",
                 "name": "statement",
-                "prose": "Änderungen an Modellen, Aufgabenprofilen, Kontextaufbereitung und KI-Werkzeugen werden auf ihre fachlichen und sicherheitsrelevanten Auswirkungen geprüft. Ändern sich Zweck, zulässige Daten, Berechtigungsgrenzen oder Risikobewertung, wird dieses Konzept gezielt fortgeschrieben."
+                "prose": "Vor der Bereitstellung von Änderungen an Modellen, Aufgabenprofilen, Kontextaufbereitung und KI-Werkzeugen wird ihre fachliche und sicherheitsrelevante Auswirkung bewertet und dokumentiert. Die Bewertung legt fest, welche bestehenden Prüfungen erneut auszuführen sind. Ändern sich Zweck, zulässige Daten, Berechtigungsgrenzen oder Risikobewertung, wird dieses Konzept gezielt fortgeschrieben."
               },
               {
                 "id": "ki-val-002-rationale",
@@ -4662,7 +4667,7 @@
               {
                 "id": "ki-val-002-guidance",
                 "name": "guidance",
-                "prose": "Ein Produkt- oder Versionswechsel bei unveränderten Konzeptfestlegungen erfordert keine Neufassung. Die vorhandene Softwareliste und die betroffenen Dienstkonfigurationen werden aktualisiert. Modellwechsel berücksichtigen KI-MOD-002, Funktionsänderungen KI-VAL-001. Allgemeine Infrastrukturänderungen folgen dem bestehenden Informationssicherheitskonzept."
+                "prose": "Ein Produkt- oder Versionswechsel bei unveränderten Konzeptfestlegungen erfordert keine Neufassung, aber eine dokumentierte Auswirkungsentscheidung. Die vorhandene Softwareliste und die betroffenen Dienstkonfigurationen werden aktualisiert. Modellwechsel berücksichtigen KI-MOD-002, Funktionsänderungen KI-VAL-001. Bei Cloud-Modellen werden auch vom Anbieter geändertes Modellverhalten und veränderte Funktionen bewertet. Allgemeine Infrastrukturänderungen folgen dem bestehenden Informationssicherheitskonzept."
               },
               {
                 "id": "ki-val-002-source",
@@ -4775,7 +4780,7 @@
               {
                 "id": "ki-ops-001-statement",
                 "name": "statement",
-                "prose": "Die KI-Protokollierung ist auf erforderliche Betriebs- und Sicherheitsmetadaten begrenzt. Zugangsdaten sowie nicht erforderliche Gesprächs-, Dokument- und Ergebnisinhalte werden nicht erfasst. Protokolle werden nicht automatisch in gemeinsame Wissensbestände übernommen."
+                "prose": "Die KI-Protokollierung ist auf erforderliche Betriebs- und Sicherheitsmetadaten begrenzt. Zugangsdaten sowie nicht erforderliche Gesprächs-, Dokument- und Ergebnisinhalte werden nicht erfasst. Für jede Protokollart sind Zweck, zugriffsberechtigte Rollen, Aufbewahrungsdauer und Löschzeitpunkt festgelegt. Protokolle werden nicht automatisch in gemeinsame Wissensbestände übernommen."
               },
               {
                 "id": "ki-ops-001-rationale",
@@ -4786,7 +4791,7 @@
               {
                 "id": "ki-ops-001-guidance",
                 "name": "guidance",
-                "prose": "Erfasst werden zweckgebunden etwa Zeitpunkt, KI-Funktion, Freigabeentscheidung und Fehlerstatus. Fehlertexte und Diagnoseausgaben werden auf unbeabsichtigte Inhaltsübernahme geprüft. Persönliche Gesprächsverläufe werden nach KI-RAG-004 getrennt behandelt. Für den allgemeinen Schutz und Betrieb der Protokollierung gilt KI-GEL-001."
+                "prose": "Erfasst werden zweckgebunden etwa Zeitpunkt, KI-Funktion, Freigabeentscheidung und Fehlerstatus. Fehlertexte und Diagnoseausgaben werden auf unbeabsichtigte Inhaltsübernahme geprüft. Zugriffe sowie fristgerechte Löschung werden im bestehenden Protokollierungs- und Löschverfahren umgesetzt. Persönliche Gesprächsverläufe werden nach KI-RAG-004 getrennt behandelt. Für den allgemeinen Schutz und Betrieb der Protokollierung gilt KI-GEL-001."
               },
               {
                 "id": "ki-ops-001-source",
@@ -5147,7 +5152,7 @@
               {
                 "id": "ki-dec-001-statement",
                 "name": "statement",
-                "prose": "Bei der Außerbetriebnahme einer KI-Funktion werden die zugehörigen Modellzugänge, Aufgabenprofile und Werkzeuganbindungen aufgehoben. Nicht mehr benötigte Suchindizes, Kontextkopien und Zwischenspeicher werden unter Beachtung der geltenden Aufbewahrungs- und Löschbestimmungen entfernt."
+                "prose": "Bei der Außerbetriebnahme einer KI-Funktion werden die zugehörigen Modellzugänge, Aufgabenprofile und Werkzeuganbindungen aufgehoben. Alle von der Funktion erzeugten oder gespeicherten KI-Daten werden erfasst. Nicht mehr benötigte Quelldateien, extrahierte Texte, Textabschnitte, Suchvektoren, Indexeinträge, Gesprächskontexte, Protokolle und Zwischenspeicher werden unter Beachtung der geltenden Aufbewahrungs- und Löschbestimmungen entfernt."
               },
               {
                 "id": "ki-dec-001-rationale",
@@ -5158,7 +5163,7 @@
               {
                 "id": "ki-dec-001-guidance",
                 "name": "guidance",
-                "prose": "Die Prüfung erfasst auch KI-Ableitungen ohne unmittelbar sichtbares Quelldokument. Gemeinsam genutzte Modelle oder Wissensbestände werden nur im betroffenen Umfang geändert. Für die allgemeine Außerbetriebnahme von Systemen gilt KI-GEL-001."
+                "prose": "Die Prüfung erfasst auch KI-Ableitungen ohne unmittelbar sichtbares Quelldokument. Gemeinsam genutzte Modelle, Wissensbestände und Sicherungen werden im betroffenen Umfang nach dem bestehenden Berechtigungs-, Aufbewahrungs- und Löschverfahren behandelt. Der Abschluss der Entfernung wird nachvollziehbar bestätigt. Für die allgemeine Außerbetriebnahme von Systemen gilt KI-GEL-001."
               },
               {
                 "id": "ki-dec-001-source",

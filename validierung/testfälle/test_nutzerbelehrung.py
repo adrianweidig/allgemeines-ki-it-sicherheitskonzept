@@ -1,4 +1,6 @@
 import hashlib
+import shutil
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -7,7 +9,7 @@ from unittest.mock import patch
 
 from docx import Document
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject
+from pypdf.generic import DictionaryObject, NameObject
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'validierung'))
@@ -90,6 +92,59 @@ class Nutzerbelehrung(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'ohne Formularfelder'):
                 ed.ergänze_belehrungsformular(path)
             self.assertEqual(before, hashlib.sha256(path.read_bytes()).digest())
+
+    def test_pdf_zielschutz_blockiert_befuellte_und_signierte_formulare(self):
+        vorlage = ed.BELEHRUNG_ZIEL.with_suffix('.pdf')
+        ed.prüfe_pdf_zielschutz(vorlage)
+        (ROOT / '.arbeitsdaten').mkdir(exist_ok=True)
+        with TemporaryDirectory(dir=ROOT / '.arbeitsdaten') as temp:
+            temp = Path(temp)
+            befüllt = temp / 'befüllt.pdf'
+            writer = PdfWriter(clone_from=vorlage)
+            writer.update_page_form_field_values(None, {'name': 'Prüfperson'}, auto_regenerate=False)
+            writer.write(befüllt)
+            vorher = hashlib.sha256(befüllt.read_bytes()).digest()
+            with self.assertRaisesRegex(ValueError, 'befülltes oder signiertes Formularfeld'):
+                ed.prüfe_pdf_zielschutz(befüllt)
+            self.assertEqual(vorher, hashlib.sha256(befüllt.read_bytes()).digest())
+
+            signiert = temp / 'signiert.pdf'
+            writer = PdfWriter(clone_from=vorlage)
+            signatur = next(
+                ref.get_object() for seite in writer.pages for ref in seite.get('/Annots', [])
+                if ref.get_object().get('/FT') == '/Sig'
+            )
+            signatur[NameObject('/V')] = DictionaryObject({NameObject('/Type'): NameObject('/Sig')})
+            writer.write(signiert)
+            with self.assertRaisesRegex(ValueError, 'befülltes oder signiertes Formularfeld'):
+                ed.prüfe_pdf_zielschutz(signiert)
+
+    def test_word_export_schuetzt_befuelltes_ziel_vor_com(self):
+        skript = (ROOT / 'validierung' / 'aktualisiere_word_felder.ps1').read_text(encoding='utf-8')
+        self.assertLess(skript.index('--pruefe-pdf-zielschutz'), skript.index('New-Object -ComObject Word.Application'))
+        self.assertIn('ExportAsFixedFormat($pdfTemp', skript)
+        self.assertLess(skript.rindex('--pruefe-pdf-zielschutz'), skript.index('Move-Item -LiteralPath $pdfTemp -Destination $pdf -Force'))
+        powershell = shutil.which('pwsh') or shutil.which('powershell')
+        if not powershell:
+            self.skipTest('PowerShell ist nicht verfügbar.')
+        (ROOT / '.arbeitsdaten').mkdir(exist_ok=True)
+        with TemporaryDirectory(dir=ROOT / '.arbeitsdaten') as temp:
+            pdf = Path(temp) / 'befüllt.pdf'
+            writer = PdfWriter(clone_from=ed.BELEHRUNG_ZIEL.with_suffix('.pdf'))
+            writer.update_page_form_field_values(None, {'name': 'Prüfperson'}, auto_regenerate=False)
+            writer.write(pdf)
+            docx_hash = hashlib.sha256(ed.BELEHRUNG_ZIEL.read_bytes()).digest()
+            pdf_hash = hashlib.sha256(pdf.read_bytes()).digest()
+            ergebnis = subprocess.run(
+                [powershell, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', str(ROOT / 'validierung' / 'aktualisiere_word_felder.ps1'),
+                 '-DocxPfad', str(ed.BELEHRUNG_ZIEL), '-PdfPfad', str(pdf), '-PythonPfad', sys.executable,
+                 '-OhneInhaltsverzeichnis'],
+                capture_output=True, text=True, encoding='utf-8', errors='replace', check=False,
+            )
+            self.assertNotEqual(0, ergebnis.returncode)
+            self.assertIn('PDF-Export abgebrochen', ergebnis.stdout + ergebnis.stderr)
+            self.assertEqual(docx_hash, hashlib.sha256(ed.BELEHRUNG_ZIEL.read_bytes()).digest())
+            self.assertEqual(pdf_hash, hashlib.sha256(pdf.read_bytes()).digest())
 
 
 if __name__ == '__main__':

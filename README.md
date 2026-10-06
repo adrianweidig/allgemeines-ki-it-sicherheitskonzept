@@ -1,6 +1,6 @@
 # Allgemeines KI-Informationssicherheitskonzept
 
-**ÖFFENTLICH – organisationsneutrale Referenzvorlage · Version 0.3.0**
+**ÖFFENTLICH – organisationsneutrale Referenzvorlage · Version 0.4.0**
 
 Das Konzept ergänzt ein bestehendes Informationssicherheitskonzept um KI-spezifische Funktionen, Schutzmaßnahmen und Risiken. Es beschreibt **Air-Gap** und **Cloud-Inferenz** als getrennte Szenarien. Produkte und Hardwareparameter bleiben außerhalb der fachlichen Festlegungen.
 
@@ -11,7 +11,7 @@ Das Konzept ergänzt ein bestehendes Informationssicherheitskonzept um KI-spezif
 - [Konzept als PDF](konzept/ki-it-sicherheitskonzept.pdf) und [bearbeitbares DOCX](konzept/ki-it-sicherheitskonzept.docx).
 - [Nutzerbelehrung als digital unterschreibbares PDF](konzept/anlage-1-nutzerbelehrung.pdf) und [DOCX](konzept/anlage-1-nutzerbelehrung.docx).
 - [Normativer OSCAL-Katalog](katalog/ki-it-sicherheitskatalog.oscal.json) mit 34 Kontrollen in 22 Fachgruppen.
-- [Inhaltsindex](dokumentation/INHALTSINDEX.md), [Quellenregister](quellen/quellenregister.json) und [Prüfprotokoll](dokumentation/PRÜFPROTOKOLL-0.3.0.md).
+- [Inhaltsindex](dokumentation/INHALTSINDEX.md), [Quellenregister](quellen/quellenregister.json) und [Prüfprotokoll](dokumentation/PRÜFPROTOKOLL-0.4.0.md).
 
 Der Katalog ist die normative Quelle. Das Konzept enthält Festlegungen und Anwendung ohne zusätzliche Nachweisregister oder wiederholte Grund-IT-Anforderungen. Neun Risiken besitzen jeweils eine Air-Gap- und eine Cloud-Bewertung. Vollständige Quellen stehen im Quellenverzeichnis, Begriffserklärungen im tabellarischen Glossar am Ende.
 

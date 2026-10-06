@@ -2,6 +2,7 @@
 param(
     [string]$DocxPfad,
     [string]$PdfPfad,
+    [string]$PythonPfad,
     [switch]$OhneInhaltsverzeichnis
 )
 
@@ -10,7 +11,12 @@ if (-not $DocxPfad) { $DocxPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sich
 if (-not $PdfPfad) { $PdfPfad = Join-Path $PSScriptRoot '..\konzept\ki-it-sicherheitskonzept.pdf' }
 $word = $null
 $dokument = $null
+$pdfTemp = $null
 $projektpfad = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not $PythonPfad) {
+    $projektPython = Join-Path $projektpfad '.arbeitsdaten\validierungsumgebung\Scripts\python.exe'
+    $PythonPfad = if ([System.IO.File]::Exists($projektPython)) { $projektPython } else { 'python' }
+}
 
 function Pruefe-Projektpfad {
     param([Parameter(Mandatory)][string]$Pfad)
@@ -87,6 +93,12 @@ try {
         throw "DOCX-Masterdokument fehlt: $docx"
     }
     $pdf = Loese-ZielpfadAuf -Pfad $PdfPfad
+    $pruefskript = Join-Path $PSScriptRoot 'erzeuge_dokumente.py'
+    & $PythonPfad $pruefskript --pruefe-pdf-zielschutz $pdf
+    if ($LASTEXITCODE -ne 0) {
+        throw 'PDF-Export abgebrochen: das vorhandene Ziel ist befüllt, signiert oder geschützt.'
+    }
+    $pdfTemp = Loese-ZielpfadAuf -Pfad (Join-Path ([System.IO.Path]::GetDirectoryName($pdf)) ('.' + [System.IO.Path]::GetFileNameWithoutExtension($pdf) + '.' + [guid]::NewGuid().ToString('N') + '.tmp.pdf'))
 
     $word = New-Object -ComObject Word.Application
     $word.Visible = $false
@@ -123,7 +135,13 @@ try {
     # Der Export behält Titel und Sachmetadaten des bereinigten Dokuments.
     # Diese Umschaltung wird nicht in das DOCX zurückgespeichert.
     $dokument.RemovePersonalInformation = $false
-    $dokument.ExportAsFixedFormat($pdf, 17, $false, 0, 0, 1, 1, 0, $true)
+    $dokument.ExportAsFixedFormat($pdfTemp, 17, $false, 0, 0, 1, 1, 0, $true)
+    & $PythonPfad $pruefskript --pruefe-pdf-zielschutz $pdf
+    if ($LASTEXITCODE -ne 0) {
+        throw 'PDF-Export abgebrochen: das Ziel wurde während des Exports befüllt, signiert oder geschützt.'
+    }
+    Move-Item -LiteralPath $pdfTemp -Destination $pdf -Force
+    $pdfTemp = $null
     Write-Host "Word-Felder aktualisiert und DOCX gespeichert: $docx"
     Write-Host "PDF aus diesem DOCX erzeugt: $pdf"
 }
@@ -135,6 +153,9 @@ finally {
     if ($null -ne $word) {
         $word.Quit()
         [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($word)
+    }
+    if ($null -ne $pdfTemp -and [System.IO.File]::Exists($pdfTemp)) {
+        Remove-Item -LiteralPath $pdfTemp -Force
     }
     [GC]::Collect()
     [GC]::WaitForPendingFinalizers()

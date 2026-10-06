@@ -4,7 +4,9 @@ updates:
     directory: /
     schedule:
       interval: monthly
-    open-pull-requests-limit: 5
+    # Geplante Versionsaktualisierungen erzeugen keine Arbeitszweige.
+    # Dependabot-Sicherheitswarnungen bleiben davon unberührt.
+    open-pull-requests-limit: 0
     labels:
       - abhängigkeiten
 
@@ -12,7 +14,9 @@ updates:
     directory: /validierung
     schedule:
       interval: monthly
-    open-pull-requests-limit: 5
+    # Geplante Versionsaktualisierungen erzeugen keine Arbeitszweige.
+    # Dependabot-Sicherheitswarnungen bleiben davon unberührt.
+    open-pull-requests-limit: 0
     labels:
       - abhängigkeiten
       - validierung

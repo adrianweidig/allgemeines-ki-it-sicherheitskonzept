@@ -45,6 +45,9 @@ INDEX_PFAD = WURZEL / "dokumentation" / "INHALTSINDEX.md"
 OSCAL_SCHEMA_PFAD = WURZEL / "schemata" / "oscal-1.1.3" / "oscal_catalog_schema.json"
 DOCX_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.docx"
 PDF_PFAD = WURZEL / "konzept" / "ki-it-sicherheitskonzept.pdf"
+BELEHRUNG_DOCX_PFAD = WURZEL / "konzept" / "anlage-1-nutzerbelehrung.docx"
+BELEHRUNG_PDF_PFAD = WURZEL / "konzept" / "anlage-1-nutzerbelehrung.pdf"
+BELEHRUNG_FORMULARFELDER = {"name", "organisationseinheit", "ort_datum", "unterschrift"}
 DIAGRAMMQUELLEN_PFAD = WURZEL / "diagramme"
 DIAGRAMMMANIFEST_PFAD = DIAGRAMMQUELLEN_PFAD / "diagramm-manifest.json"
 DIAGRAMMAUSGABE_PFAD = WURZEL / "dokumentation" / "medien"
@@ -444,6 +447,75 @@ def _docx_text(pfad: Path) -> str:
 def _pdf_text(pfad: Path) -> tuple[str, int]:
     leser = PdfReader(pfad)
     return "\n".join(seite.extract_text() or "" for seite in leser.pages), len(leser.pages)
+
+
+def prüfe_docx_bearbeitbarkeit(pfad: Path) -> list[str]:
+    """Weist Kommentare, Änderungsverfolgung, Schutz, Signaturen und Wasserzeichen ab."""
+    fehler: list[str] = []
+    if not zipfile.is_zipfile(pfad):
+        return [f"Bearbeitbarkeit: {pfad.name} ist kein gültiges OOXML-Paket."]
+    with zipfile.ZipFile(pfad) as paket:
+        namen = {name.casefold() for name in paket.namelist()}
+        if any(name.startswith("word/comments") or name == "word/people.xml" for name in namen):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält Kommentare oder zugehörige Personendaten.")
+        if any(name.startswith("_xmlsignatures/") for name in namen):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält eine Paketsignatur.")
+        xml = b"\n".join(
+            paket.read(name) for name in paket.namelist()
+            if name.casefold().startswith("word/") and name.casefold().endswith(".xml")
+        ).lower()
+        if any(marker in xml for marker in (b"commentrangestart", b"commentrangeend", b"commentreference")):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält Kommentarverweise.")
+        if any(marker in xml for marker in (b"documentprotection", b"writeprotection")):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} ist gegen Bearbeitung geschützt.")
+        if b"trackrevisions" in xml:
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} aktiviert die Änderungsverfolgung.")
+        if re.search(
+            rb"<w:(?:ins|del|movefrom|moveto|cellins|celldel|cellmerge|rprchange|pprchange|tblprchange|trprchange|tcprchange|sectprchange|numberingchange)(?:\s|/?>)",
+            xml,
+        ):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält nicht angenommene Änderungen.")
+        if any(marker in xml for marker in (b"watermark", b"v:textpath", b"w:background")):
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält ein Wasserzeichen oder einen Dokumenthintergrund.")
+    return fehler
+
+
+def prüfe_pdf_bearbeitbarkeit(
+    pfad: Path,
+    *,
+    erwartete_formularfelder: set[str] | None = None,
+) -> list[str]:
+    """Prüft PDF-Schutz, Signaturen, Formulare und redaktionelle Anmerkungen."""
+    fehler: list[str] = []
+    try:
+        leser = PdfReader(pfad)
+    except Exception as exc:
+        return [f"Bearbeitbarkeit: {pfad.name} kann nicht geöffnet werden: {exc}"]
+    if leser.is_encrypted:
+        return [f"Bearbeitbarkeit: {pfad.name} ist verschlüsselt oder kennwortgeschützt."]
+    wurzel = leser.trailer["/Root"].get_object()
+    if "/Perms" in wurzel:
+        fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält Signatur- oder Berechtigungsbeschränkungen.")
+    felder = leser.get_fields() or {}
+    if erwartete_formularfelder is None:
+        if "/AcroForm" in wurzel or felder:
+            fehler.append(f"Bearbeitbarkeit: {pfad.name} darf keine Formularfelder enthalten.")
+    elif set(felder) != erwartete_formularfelder:
+        fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält nicht die erwarteten Formularfelder.")
+    for name, feld in felder.items():
+        wert = feld.get("/V")
+        if wert not in (None, "", "/Off"):
+            fehler.append(f"Bearbeitbarkeit: Formularfeld {name} in {pfad.name} ist bereits befüllt oder signiert.")
+    erlaubte_annotationen = {"/Link"}
+    if erwartete_formularfelder is not None:
+        erlaubte_annotationen.add("/Widget")
+    for seite in leser.pages:
+        for referenz in seite.get("/Annots", []):
+            annotation = referenz.get_object()
+            art = str(annotation.get("/Subtype", ""))
+            if art not in erlaubte_annotationen:
+                fehler.append(f"Bearbeitbarkeit: {pfad.name} enthält eine unzulässige PDF-Anmerkung ({art or 'ohne Typ'}).")
+    return fehler
 
 
 def prüfe_aufzählungsinterpunktion(texte: Iterable[str]) -> list[str]:
@@ -950,7 +1022,7 @@ def prüfe_konzepttrennung(text: str) -> list[str]:
 def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[list[str], list[str]]:
     fehler: list[str] = []
     warnungen: list[str] = []
-    for pfad in (DOCX_PFAD, PDF_PFAD):
+    for pfad in (DOCX_PFAD, PDF_PFAD, BELEHRUNG_DOCX_PFAD, BELEHRUNG_PDF_PFAD):
         if not pfad.is_file() or pfad.stat().st_size < 1000:
             fehler.append(f"Dokument fehlt oder ist technisch leer: {pfad.relative_to(WURZEL)}")
     if fehler:
@@ -970,6 +1042,13 @@ def prüfe_dokumente(katalog: dict[str, Any], status: dict[str, Any]) -> tuple[l
         return fehler, warnungen
     if seiten < 10:
         fehler.append("Die PDF-Fassung ist für den festgelegten Fachinhalt unerwartet kurz.")
+    fehler.extend(prüfe_docx_bearbeitbarkeit(DOCX_PFAD))
+    fehler.extend(prüfe_docx_bearbeitbarkeit(BELEHRUNG_DOCX_PFAD))
+    fehler.extend(prüfe_pdf_bearbeitbarkeit(PDF_PFAD))
+    fehler.extend(prüfe_pdf_bearbeitbarkeit(
+        BELEHRUNG_PDF_PFAD,
+        erwartete_formularfelder=BELEHRUNG_FORMULARFELDER,
+    ))
     fehler.extend(prüfe_docx_layout(DOCX_PFAD))
     fehler.extend(prüfe_pdf_seitenführung(PDF_PFAD))
     version = katalog["catalog"]["metadata"]["version"]

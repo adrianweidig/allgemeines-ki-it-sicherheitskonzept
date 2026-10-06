@@ -781,12 +781,12 @@ def dokumentsteuerung(doc, version, kennzeichnung, katalog):
 
 def vorwort(doc):
     doc.add_paragraph("Vorwort", style="Vorspannüberschrift")
-    text_absatz(doc,"Dieses KI-Informationssicherheitskonzept ergänzt ein bestehendes Informationssicherheitskonzept um die Nutzung Künstlicher Intelligenz (KI). Es beschreibt zwei organisationsneutrale Referenzszenarien mit gemeinsamen Regeln für Datenauswahl, Ergebnisprüfung und agentische Aktionen.")
-    text_absatz(doc,"Im Air-Gap-Szenario arbeitet die KI vollständig innerhalb einer vom Internet getrennten Umgebung. Im Cloud-Szenario werden ausgewählte Eingaben und Kontextausschnitte an einen freigegebenen Modellanbieter übermittelt. Dokumentbestände, Rechteprüfung und Werkzeugausführung bleiben in beiden Szenarien unter betrieblicher Kontrolle.")
+    text_absatz(doc,"Dieses KI-Informationssicherheitskonzept ergänzt ein bestehendes Informationssicherheitskonzept um die Nutzung Künstlicher Intelligenz (KI). Es regelt die zulässigen KI-Funktionen, ihre Daten- und Berechtigungsgrenzen sowie die Verantwortlichkeiten für Auswahl, Prüfung, Änderung und Außerbetriebnahme.")
+    text_absatz(doc,"Im Air-Gap-Szenario arbeitet die KI vollständig innerhalb einer vom Internet getrennten Umgebung. Im Cloud-Szenario werden ausschließlich freigegebene Eingaben und Kontextausschnitte an einen zugelassenen Modellanbieter übermittelt. Dokumentbestände, Rechteprüfung und Werkzeugausführung bleiben in beiden Szenarien unter betrieblicher Kontrolle.")
     füge_abbildung_hinzu(doc,UMGEBUNGSUEBERSICHT_ABBILDUNG,
         "Abbildung 1: Zwei getrennte Referenzszenarien mit gemeinsamen Nutzungsregeln.",
         "Air-Gap und Cloud sind getrennte Betriebsvarianten. Im Air-Gap-Szenario befinden sich Anwendungen, Daten und Modelle in der abgeschlossenen Umgebung. Das Cloud-Szenario übermittelt ausschließlich freigegebene Anfragen und ausgewählten Kontext an den zugelassenen Anbieter. Zwischen den beiden Varianten besteht kein automatischer Übergang.",breite_cm=15.8)
-    text_absatz(doc,"Nutzende legen den Arbeitsauftrag und die zulässigen Inhalte fest. Sie prüfen Ergebnisse vor der Verwendung und genehmigen Agentenaktionen innerhalb ihrer Befugnisse. Die Nutzerbelehrung ist als Anlage 1 beigefügt. Die Risikobewertungen beziehen sich auf die beschriebenen Szenarien und stellen keine betriebliche Abnahme dar.")
+    text_absatz(doc,"Fach- und Datenverantwortliche bestimmen zugelassene Anwendungsfälle und Datenarten. Nutzende legen innerhalb dieses Rahmens den Arbeitsauftrag und die erforderlichen Inhalte fest, prüfen Ergebnisse vor der Verwendung und genehmigen Agentenaktionen innerhalb ihrer Befugnisse. Die Nutzerbelehrung ist als Anlage 1 beigefügt.")
 
 
 def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id, katalog):
@@ -820,12 +820,12 @@ def kapitel_eins_bis_acht(doc, kennzeichnung, quellen_nach_id, katalog):
         "Abbildung 4: Modellprüfung und Freigabe entsprechend dem Betriebsweg.",
         "Lokale Modellartefakte durchlaufen das vorhandene Übernahmeverfahren sowie Herkunfts- und Integritätsprüfung. Bei Cloud-Modellen werden der zugelassene Dienst und sein Funktionsumfang geprüft. Beide Wege führen über fachliche Erprobung und Prüfung der Zugriffsgrenzen zur Modellfreigabe. Nicht freigegebene Modelle bleiben gesperrt.",breite_cm=12.5)
     add_heading(doc,"5.2 Dokumentauswahl und Aufbereitung",2)
-    text_absatz(doc,"Nutzende wählen die für ihren Auftrag erforderlichen Dokumente innerhalb ihrer Befugnisse aus. Die interne Aufbereitung verwendet bei Bedarf Optical Character Recognition (OCR), führt Quellrechte fort und stellt nur berechtigte Ausschnitte bereit. Die zusätzliche Cloud-Freigabe gilt für alle übermittelten Inhalte, auch wenn sie automatisch aus Dateien oder Werkzeugantworten ergänzt werden (KI-RAG-001 bis KI-RAG-004, KI-EXT-001).")
+    text_absatz(doc,"Fach- und Datenverantwortliche legen je Anwendungsfall zulässige und ausgeschlossene Datenarten fest. Nutzende wählen daraus die für ihren Auftrag erforderlichen Dokumente innerhalb ihrer Befugnisse aus. Vor Aufnahme und danach regelmäßig werden Herkunft, Vertrauenswürdigkeit, fachliche Eignung, Aktualität, Vollständigkeit sowie Nutzungs- und Verarbeitungsrechte geprüft. Dokumente unbekannter oder nicht vertrauenswürdiger Herkunft werden nicht aufgenommen. Die interne Aufbereitung verwendet bei Bedarf Optical Character Recognition (OCR), führt Quellrechte fort und stellt nur berechtigte Ausschnitte bereit. Die zusätzliche Cloud-Freigabe gilt für alle übermittelten Inhalte, auch wenn sie automatisch aus Dateien oder Werkzeugantworten ergänzt werden (KI-RAG-001 bis KI-RAG-004, KI-EXT-001).")
     add_heading(doc,"6 Einstufung und Verwendung von Informationen",1)
     text_absatz(doc,"Die erstellende Person legt die Einstufung eigener Informationen im Rahmen ihrer Befugnisse fest. Vorgegebene Einstufungen verwendeter Quellen bleiben erhalten. Bei Ergebnissen wird auch der Schutzbedarf zusammengeführter Informationen berücksichtigt. Die Entscheidung über Verarbeitung und Weitergabe bleibt an Zweck, berechtigten Empfängerkreis und den zugelassenen Verarbeitungsumfang gebunden (KI-REC-001, KI-REC-002).")
     add_heading(doc,"7 Aufgaben und Nutzerbelehrung",1)
-    text_absatz(doc,"Nutzende bestimmen Inhalte, Auftrag und Aktionsfreigaben und prüfen Ergebnisse vor ihrer Verwendung. Die Administration stellt die freigegebenen KI-Funktionen bereit. Fachverantwortliche wirken an Erprobung und Änderungsbewertung mit. Die Informationssicherheitsverantwortlichen bewerten die KI-spezifischen Risiken im bestehenden Zuständigkeitsrahmen (KI-GOV-001 bis KI-GOV-003).")
-    text_absatz(doc,"Die Belehrung erfolgt anhand der Anlage 1. Nutzende bestätigen die erfolgte Belehrung und die Einhaltung der Regeln mit ihrer Unterschrift. Die Belehrung umfasst Datenauswahl, Einstufung, Ergebnisprüfung und Agentenaktionen. Bei Cloud-Nutzung behandelt sie zusätzlich den zulässigen Umfang der Übermittlung an den Anbieter (KI-GOV-002).")
+    text_absatz(doc,"Die KI-Verantwortlichen steuern die zugelassenen KI-Funktionen. Fach- und Datenverantwortliche legen Anwendungsfälle und Datenarten fest. Die Administration stellt die freigegebenen Funktionen bereit. Testverantwortliche planen Prüfungen, dokumentieren die tatsächlich ausgeführten Schritte und bewerten Ergebnisse gemeinsam mit den Fachverantwortlichen. Änderungsverantwortliche entscheiden über den erforderlichen Prüfumfang. Betriebsverantwortliche behandeln Störungen und Außerbetriebnahmen. Nutzende bestimmen innerhalb der Freigaben Inhalte, Auftrag und Aktionsumfang und prüfen Ergebnisse vor ihrer Verwendung. Die Informationssicherheitsverantwortlichen bewerten die KI-spezifischen Risiken im bestehenden Zuständigkeitsrahmen (KI-GOV-001 bis KI-GOV-003).")
+    text_absatz(doc,"Die Belehrung erfolgt anhand der Anlage 1. Die Unterschrift bestätigt ausschließlich Teilnahme, Verständnis und persönliche Verpflichtung zur Einhaltung der Regeln. Sie ersetzt weder technische Prüfungen noch die fachliche Freigabe oder den Nachweis der betrieblichen Wirksamkeit. Die Belehrung umfasst Datenauswahl, Einstufung, Ergebnisprüfung und Agentenaktionen. Bei Cloud-Nutzung behandelt sie zusätzlich den zulässigen Umfang der Übermittlung an den Anbieter (KI-GOV-002).")
     add_heading(doc,"8 Risikoanalyse",1)
     add_heading(doc,"8.1 Bewertungsverfahren",2)
     register=next(p for g in katalog['catalog']['groups'] for c in g['controls'] if c['id']=='ki-gov-003' for p in c['parts'] if p['name']=='risk-register')
@@ -950,8 +950,8 @@ def kapitel_neun(doc, katalog, quellen_nach_uuid):
 
 def kapitel_zehn_bis_dreizehn(doc, katalog):
     add_heading(doc, "10 Wissenssuche", 1)
-    text_absatz(doc, "Nutzende stellen Dokumente bewusst über die freigegebene Dokumentenablage bereit. Die Wissenssuche verarbeitet ausschließlich dafür zugelassene Inhalte. Die Aufnahme und Verarbeitung folgen KI-RAG-001 (Abbildung 7).")
-    text_absatz(doc, "Der Aufbereitungsdienst extrahiert die Dokumentinhalte, das Embedding-Modell erzeugt Suchvektoren und der Suchdienst liefert Textstellen als Kontext an das Hauptmodell. KI-RAG-001 regelt die Aufnahme. KI-RAG-002 und KI-RAG-003 führen die Quellrechte durch Textabschnitte, Suchtreffer und Antworten fort und erfassen auch Sperrung und Löschung der Ableitungen.")
+    text_absatz(doc, "Nutzende stellen Dokumente bewusst über die freigegebene Dokumentenablage bereit. Die Wissenssuche verarbeitet ausschließlich fachlich freigegebene, hinreichend aktuelle und rechtlich nutzbare Inhalte. Verantwortliche Stelle, Prüfentscheidung und nächster Prüftermin bleiben nachvollziehbar. Die Aufnahme und Verarbeitung folgen KI-RAG-001 (Abbildung 7).")
+    text_absatz(doc, "Der Aufbereitungsdienst extrahiert die Dokumentinhalte, das Embedding-Modell erzeugt Suchvektoren und der Suchdienst liefert Textstellen als Kontext an das Hauptmodell. KI-RAG-001 regelt die Aufnahme. KI-RAG-002 und KI-RAG-003 führen die Quellrechte durch Textabschnitte, Suchtreffer und Antworten fort. Aufbewahrung, Sperrung und Löschung erfassen Quelldatei, extrahierten Text, Textabschnitte, Suchvektoren, Indexeinträge, Zwischenspeicher, Gesprächskontext und Sicherungen.")
     füge_abbildung_hinzu(
         doc,
         RAG_ABBILDUNG,
@@ -961,8 +961,8 @@ def kapitel_zehn_bis_dreizehn(doc, katalog):
     )
 
     add_heading(doc, "11 Agentische Anwendungen", 1)
-    text_absatz(doc, "Der Projektassistent verwendet den für das Szenario freigegebenen Modellzugang. Freigegebene Datei- und Befehlsaktionen laufen in der regulären Nutzersitzung mit den Rechten des angemeldeten Benutzers. In der Ausgangskonfiguration benötigt jede Aktion eine Einzelgenehmigung, auch das Lesen. Nutzende können für ihr Projekt einzelne Aktionsarten freigeben. Die Nutzerbelehrung nach Anlage 1 behandelt die Prüfung von Auftrag, Freigabeumfang und erwarteter Wirkung (KI-AGT-001, Abbildung 8).")
-    text_absatz(doc, "Nutzende und Teams gestalten ihre lokale Projektarbeit mit Projektregeln und Arbeitsabläufen. Diese erweitern weder Nutzerrechte noch Befugnisse zur Änderung von Serverfunktionen. Den Rahmen für Aktionsfreigaben legt KI-TOL-001 fest. Kritische Aktionen erfordern weiterhin die konkrete befugte Entscheidung. Die verbindliche Übernahme von Ergebnissen folgt Kapitel 3.")
+    text_absatz(doc, "Der Projektassistent verwendet den für das Szenario freigegebenen Modellzugang. Freigegebene Datei- und Befehlsaktionen laufen in der regulären Nutzersitzung mit den Rechten des angemeldeten Benutzers. In der Ausgangskonfiguration benötigt jede Aktion eine Einzelgenehmigung, auch das Lesen. Projektfreigaben werden auf Aktionsart, Arbeitsbereich oder Pfad, zulässige Datenarten, Ziel und Geltungsdauer begrenzt. Die Nutzerbelehrung nach Anlage 1 behandelt die Prüfung von Auftrag, Freigabeumfang und erwarteter Wirkung (KI-AGT-001, Abbildung 8).")
+    text_absatz(doc, "Nutzende und Teams gestalten ihre lokale Projektarbeit mit Projektregeln und Arbeitsabläufen. Diese erweitern weder Nutzerrechte noch Befugnisse zur Änderung von Serverfunktionen. Modellantworten und Werkzeugausgaben dürfen keine Freigabe erteilen, ausweiten oder verlängern. Den Rahmen für Aktionsfreigaben legt KI-TOL-001 fest. Kritische, privilegierte, externe oder nicht beherrschbar rückgängig zu machende Aktionen erfordern weiterhin die konkrete befugte Entscheidung. Die verbindliche Übernahme von Ergebnissen folgt Kapitel 3.")
     text_absatz(doc, "Quellcode, Dokumente und Werkzeugausgaben können eingeschleuste Anweisungen enthalten. KI-PMT-001 behandelt deren Einfluss auf Agentenaktionen. Die Beschränkung auf freigegebene Modellziele wird nach KI-AGT-002 geprüft, einschließlich veränderter Projektkonfigurationen und Fehlerpfade.")
     füge_abbildung_hinzu(
         doc,
@@ -974,12 +974,13 @@ def kapitel_zehn_bis_dreizehn(doc, katalog):
 
     add_heading(doc, "12 Pflege der KI-Funktionen", 1)
     add_heading(doc, "12.1 Modell- und Funktionsänderungen", 2)
-    text_absatz(doc, "Modellwechsel werden mit den betroffenen Aufgabenprofilen, Werkzeugfunktionen und Dokumentbeständen erprobt. Lokale Modellaliase bleiben dem geprüften Stand zugeordnet. Für Cloud-Modelle gelten die Änderungsgrenzen nach KI-MOD-002. Änderungen an der Dokumentaufbereitung oder am Embedding-Modell berücksichtigen die Konsistenz vorhandener Suchindizes (KI-MOD-002, KI-VAL-001).")
+    text_absatz(doc, "Vor einer Erprobung werden Prüfziel, Prüfumfang, Testdaten, Annahmen und Annahmekriterien festgelegt. Testverantwortliche dokumentieren getrennt davon die tatsächlich ausgeführten Prüfschritte, Ergebnisse, Abweichungen und Freigabeentscheidung. Bewertungen oder Selbstauskünfte von Nutzenden werden als solche gekennzeichnet und nicht als ausgeführte technische Prüfung behandelt (KI-VAL-001).")
+    text_absatz(doc, "Vor der Bereitstellung einer Änderung wird ihre Auswirkung bewertet. Diese Entscheidung legt fest, welche bestehenden Prüfungen erneut auszuführen sind. Modellwechsel werden mit den betroffenen Aufgabenprofilen, Werkzeugfunktionen und Dokumentbeständen erprobt; bei Cloud-Modellen werden auch vom Anbieter geändertes Verhalten und veränderte Funktionen berücksichtigt. Lokale Modellaliase bleiben dem geprüften Stand zugeordnet. Änderungen an der Dokumentaufbereitung oder am Embedding-Modell berücksichtigen die Konsistenz vorhandener Suchindizes (KI-MOD-002, KI-VAL-001, KI-VAL-002).")
     text_absatz(doc, "Die Fortschreibung des Konzepts richtet sich nach Änderungen an Zweck, Datenverwendung, KI-Berechtigungsgrenzen und Risikobewertung. Ein Austausch von Programmen oder Betriebsmitteln bei unveränderten Konzeptfestlegungen wird in der vorhandenen Softwareliste und den betroffenen Konfigurationen gepflegt (KI-GOV-001, KI-VAL-002).")
     add_heading(doc, "12.2 Protokolle und Auffälligkeiten", 2)
-    text_absatz(doc, "Die KI-Protokollierung vermeidet die Übernahme nicht erforderlicher Gesprächs- und Dokumentinhalte. Bei einer Auffälligkeit werden der Modellstand, der betroffene Kontext und die tatsächlichen Werkzeugaktionen betrachtet. Der allgemeine Betrieb und die Vorfallbearbeitung folgen dem bestehenden Informationssicherheitskonzept (KI-OPS-001, KI-OPS-002).")
+    text_absatz(doc, "Die KI-Protokollierung vermeidet die Übernahme nicht erforderlicher Gesprächs- und Dokumentinhalte. Für jede Protokollart sind Zweck, zugriffsberechtigte Rollen, Aufbewahrungsdauer und Löschzeitpunkt festgelegt. Bei einer Auffälligkeit werden der Modellstand, der betroffene Kontext und die tatsächlichen Werkzeugaktionen betrachtet. Der allgemeine Betrieb und die Vorfallbearbeitung folgen dem bestehenden Informationssicherheitskonzept (KI-OPS-001, KI-OPS-002).")
     add_heading(doc, "12.3 Wiederaufnahme und Außerbetriebnahme", 2)
-    text_absatz(doc, "Nach einer Wiederherstellung werden zusammengehörige Modellstände, Aufgabenprofile und Suchindizes auf Konsistenz geprüft. Aktuelle Rechte und Löschstände gelten auch für wiederhergestellte KI-Ableitungen. Bei der Außerbetriebnahme einer KI-Funktion werden ihre Zugänge und verbliebenen Ableitungen behandelt (KI-OPS-003, KI-DEC-001).")
+    text_absatz(doc, "Nach einer Wiederherstellung werden zusammengehörige Modellstände, Aufgabenprofile und Suchindizes auf Konsistenz geprüft. Aktuelle Rechte und Löschstände gelten auch für wiederhergestellte KI-Ableitungen. Bei der Außerbetriebnahme werden Zugänge aufgehoben und alle gespeicherten oder abgeleiteten KI-Daten erfasst. Quelldateien, extrahierte Texte, Textabschnitte, Suchvektoren, Indexeinträge, Gesprächskontexte, Protokolle, Zwischenspeicher und Sicherungen werden nach dem bestehenden Aufbewahrungs- und Löschverfahren behandelt; der Abschluss wird nachvollziehbar bestätigt (KI-OPS-003, KI-DEC-001).")
 
     add_heading(doc, "13 BSI- und ISO-Zuordnung", 1)
     t = doc.add_table(rows=1, cols=4)
@@ -1101,15 +1102,15 @@ def nutzerbelehrung(doc):
          "im Rahmen Ihres betrieblichen Auftrags. Modelle und serverseitige Werkzeuge werden ausschließlich durch die Administration "
          "bereitgestellt. Für die Datenübernahme gelten die bestehenden Verfahren. Die Arbeit bleibt auch ohne KI durchführbar."),
         ("Informationen auswählen und freigeben",
-         "Legen Sie die Einstufung eigener Informationen im Rahmen Ihrer Befugnisse fest und entscheiden Sie entsprechend "
+         "Verwenden Sie nur Datenarten, die für den freigegebenen Anwendungsfall und das gewählte Szenario zugelassen sind. Legen Sie die Einstufung eigener Informationen im Rahmen Ihrer Befugnisse fest und entscheiden Sie entsprechend "
          "über Verarbeitung und Weitergabe. Vorgegebene Einstufungen verwendeter Quellen bleiben erhalten. Beachten Sie "
          "den zugelassenen Verarbeitungsumfang der Umgebung. Bei Cloud-Nutzung gilt dies auch für automatisch ergänzten Kontext und Werkzeugrückmeldungen. Private Konten und nicht freigegebene Dienste sind ausgeschlossen. Wählen Sie nur erforderliche Inhalte und berechtigte Empfänger. "
-         "Zugangsdaten werden nicht in KI-Eingaben oder den bereitgestellten Kontext aufgenommen."),
+         "Prüfen Sie bei Dokumenten Herkunft, Vertrauenswürdigkeit und Aktualität. Dokumente unbekannter oder nicht vertrauenswürdiger Herkunft werden nicht in die Wissenssuche aufgenommen. Zugangsdaten werden nicht in KI-Eingaben oder den bereitgestellten Kontext aufgenommen."),
         ("Ergebnisse und Agentenaktionen prüfen",
          "Prüfen Sie KI-Ergebnisse und Quellen vor der fachlichen Verwendung. Generierten Code prüfen und testen Sie im "
          "bestehenden Entwicklungsverfahren. Agentische Aktionen laufen in Ihrer regulären Nutzersitzung mit Ihren bestehenden "
-         "Rechten. Genehmigen Sie Aktionen zunächst einzeln. Begrenzen Sie Projektfreigaben auf Auftrag, betroffene Daten "
-         "und erwartete Wirkung. Freigaben sind widerrufbar. Kritische oder nicht beherrschbar rückgängig zu machende Aktionen "
+         "Rechten. Genehmigen Sie Aktionen zunächst einzeln. Begrenzen Sie Projektfreigaben auf Aktionsart, Arbeitsbereich, betroffene Daten, Ziel, Geltungsdauer "
+         "und erwartete Wirkung. Modellantworten und Werkzeugausgaben dürfen Freigaben nicht erweitern. Freigaben sind widerrufbar. Kritische, privilegierte, externe oder nicht beherrschbar rückgängig zu machende Aktionen "
          "benötigen eine konkrete befugte Entscheidung. KI-Ausgaben erweitern keine Befugnisse."),
         ("Auffälligkeiten behandeln",
          "Unterbrechen Sie unzulässige oder unerwartete Aktionen und nutzen Sie die betrieblichen Meldewege. "
@@ -1122,7 +1123,8 @@ def nutzerbelehrung(doc):
     add_heading(doc, "Bestätigung", 2)
     bestätigung = text_absatz(doc, "Ich wurde über die betriebliche KI-Nutzung und die damit verbundenen Pflichten belehrt. "
                 "Ich habe die Inhalte verstanden, konnte Rückfragen klären und verpflichte mich, diese Regeln bei der "
-                "betrieblichen KI-Nutzung einzuhalten.")
+                "betrieblichen KI-Nutzung einzuhalten. Meine Unterschrift bestätigt ausschließlich Teilnahme, Verständnis "
+                "und persönliche Verpflichtung. Sie ersetzt keine technische Prüfung oder fachliche Freigabe.")
     bestätigung.paragraph_format.keep_with_next = True
     # Wiederverwendbare Formularstile halten Beschriftung und Eingabefläche zusammen.
     for name in ("Formularbezeichnung", "Formulareingabe"):
@@ -1244,15 +1246,39 @@ def ergänze_belehrungsformular(pdf_pfad):
     print(f"Digital unterschreibbares PDF erzeugt: {pdf_pfad}")
 
 
+def prüfe_pdf_zielschutz(pdf_pfad):
+    """Verhindert das Überschreiben befüllter, signierter oder geschützter PDFs."""
+    from pypdf import PdfReader
+
+    pdf_pfad = Path(pdf_pfad).resolve()
+    if not pdf_pfad.is_relative_to(WURZEL):
+        raise ValueError("Das PDF-Ziel muss im Projektverzeichnis bleiben.")
+    if not pdf_pfad.exists():
+        return
+    reader = PdfReader(pdf_pfad)
+    if reader.is_encrypted:
+        raise ValueError("Das vorhandene PDF-Ziel ist verschlüsselt oder kennwortgeschützt und wird nicht überschrieben.")
+    if "/Perms" in reader.trailer["/Root"].get_object():
+        raise ValueError("Das vorhandene PDF-Ziel enthält Signatur- oder Berechtigungsbeschränkungen und wird nicht überschrieben.")
+    for name, feld in (reader.get_fields() or {}).items():
+        wert = feld.get("/V")
+        if wert not in (None, "", "/Off"):
+            raise ValueError(f"Das vorhandene PDF-Ziel enthält ein befülltes oder signiertes Formularfeld ({name}) und wird nicht überschrieben.")
+
+
 def main():
     befehle = argparse.ArgumentParser(description=__doc__)
     modus = befehle.add_mutually_exclusive_group()
     modus.add_argument("--belehrung", action="store_true", help="Anlage 1 als DOCX erzeugen.")
     modus.add_argument("--belehrung-formular", type=Path, metavar="PDF", help="Word-Export der Anlage um ausfüllbare Felder und Signaturfeld ergänzen.")
+    modus.add_argument("--pruefe-pdf-zielschutz", type=Path, metavar="PDF", help="Vorhandenes PDF-Ziel auf Befüllung, Signatur und Schutz prüfen.")
     befehle.add_argument("--ziel", type=Path, help="Zielpfad des DOCX-Masterdokuments.")
     argumente = befehle.parse_args()
     if argumente.belehrung_formular:
         ergänze_belehrungsformular(argumente.belehrung_formular)
+        return
+    if argumente.pruefe_pdf_zielschutz:
+        prüfe_pdf_zielschutz(argumente.pruefe_pdf_zielschutz)
         return
     ziel = argumente.ziel or (BELEHRUNG_ZIEL if argumente.belehrung else ZIEL)
     ziel = ziel if ziel.is_absolute() else WURZEL / ziel

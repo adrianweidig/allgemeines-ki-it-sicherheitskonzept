@@ -2,7 +2,7 @@
 
 Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlichen Sicherheitsanforderungen. Alle Pfade gelten innerhalb der jeweiligen Repository-Fassung; private Informationen werden nicht mit der öffentlichen Referenz verknüpft.
 
-**Stand:** Version 0.3.0 mit 34 Kontrollen in 22 Gruppen und neun Risiken mit je zwei Bewertungen. A01–A11 und P01–P12 bleiben Entscheidungshistorie der Version 0.2.0. Maßgeblich ist der aktuelle Katalog. Allgemeine Infrastruktur- und Nachweisblöcke sind entfallen.
+**Stand:** Version 0.4.0 mit 34 Kontrollen in 22 Gruppen und neun Risiken mit je zwei Bewertungen. A01–A11 und P01–P12 bleiben Entscheidungshistorie der Version 0.2.0. Maßgeblich ist der aktuelle Katalog. Allgemeine Infrastruktur- und Nachweisblöcke sind entfallen.
 
 ## Maßgebliche Dateien
 
@@ -19,7 +19,7 @@ Dieser Index führt zu den maßgeblichen Inhalten. Er enthält keine zusätzlich
 | Architektur, Datenflüsse, Entscheidungen | [Diagrammübersicht](../diagramme/README.md) und dort verlinkte PlantUML-Quellen |
 | Bearbeitungsregeln und Gestaltung | [AGENTS.md](../AGENTS.md), [Layoutregeln](LAYOUTREGELN.md), [Übernahmeleitfaden](ÜBERNAHMELEITFADEN.md) |
 | Historie und Migration | [Änderungsprotokoll](../CHANGELOG.md) und Git-Historie |
-| Prüfstand und bekannte Prüfgrenzen | [Prüfprotokoll 0.3.0](PRÜFPROTOKOLL-0.3.0.md) |
+| Prüfstand und bekannte Prüfgrenzen | [Prüfprotokoll 0.4.0](PRÜFPROTOKOLL-0.4.0.md) |
 
 Die vier Pflichtabschnitte jeder Kontrolle sind dauerhaft adressierbar:
 
@@ -54,7 +54,7 @@ Die native Abbildung über `id` und `links` richtet sich nach der [NIST-Referenz
 
 ## Kontrollindex
 
-Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet Version 0.3.0. Verbleibende Kontrollkennungen wurden nicht neu nummeriert.
+Die OSCAL-ID ist der dauerhafte Suchschlüssel. Die Kapitelangabe bezeichnet Version 0.4.0. Verbleibende Kontrollkennungen wurden nicht neu nummeriert.
 
 | Kontrolle | Gegenstand | Kapitel | Szenario |
 |---|---|---|---|
